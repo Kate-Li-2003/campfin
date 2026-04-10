@@ -1,0 +1,36 @@
+# ── External repos ───────────────────────────────────────────────────────────
+Label-Organization-Categories-NLP/
+
+# ── Large data files ──────────────────────────────────────────────────────────
+data/040726_CalAccess_BulkData/
+data/NLP_LabelOrg_TrainOrganizationsFull.tsv
+data/ContributionOpenSecretsCategories (1).csv
+
+# Raw and processed CSVs (large; keep only outputs tracked separately)
+data/01CalAccess_CampaignFinance_Data/*.csv
+data/02_CalAccess_IE_Data/
+
+# Generated figures and output CSVs
+data/02_output/
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store

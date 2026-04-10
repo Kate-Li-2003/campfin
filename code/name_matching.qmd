@@ -1,0 +1,315 @@
+---
+title: "name matching"
+format: html
+editor: visual
+---
+
+## Matching OpenSecrets names to CA campaign contributions
+
+-   Using data from PowerSearch on contributions to the gubernatorial election
+-   National Institute on Money and Politics categorizations data from Digital Democracy
+
+```{r}
+### load packages
+#here::i_am("name_matching.qmd")
+library(here)
+library(stringr)
+library(stringdist)
+library(fuzzyjoin)
+library(dplyr)
+library(readr)
+```
+
+```{r}
+### read in data
+x <- read.csv(here("../data/campaign_contribution_data/data-2026-03-20-14-51.csv")) # latest governor data
+categories <- read.csv("../data/categorization_data/ContributionOpenSecretsCategories.csv") # open secrets categorized data
+```
+
+Note: the categories data has '?' for special characters. Will need to try to address this at somep point.
+
+### Standardize names
+
+Write functions for name standardization.
+
+```{r}
+standardize_names <- function(name) {
+  name %>%
+    str_to_upper() %>%
+    str_replace_all("\\&", "AND") %>% # this may make some names weird e.g. M&D Inc -> MANDD Inc.
+    str_replace_all("\\#", "NUMBER") %>%
+    str_replace_all(" NO ", " NUMBER ") %>% # manually checked that these all should be # for this data
+    str_replace_all("\\&", "AND") %>%
+    #str_replace_all("\\ + ", " AND ") %>%
+    str_replace_all("[.',]", "") %>% # only removing these for now, because there's some punctuation i wanted to preserve, but could try removing all 
+    str_replace_all("[-]", " ") %>%
+    str_squish()
+}
+
+fix_typos <- function(name) { # fix typos found in names 
+  name %>%
+    str_to_upper() %>%
+    str_replace_all("ENTITITES", "AND") %>% # this may make some names weird e.g. M&D Inc -> MANDD Inc.
+    str_replace_all("ENTITES", "NUMBER") %>%
+    str_replace_all("COMMITTE ", "COMMITTEE ") %>% # manually checked that these all should be # for this data
+    str_replace_all("CAMMITTEE", "COMMITTEE") %>%
+    str_replace_all("VACINITY", "VICINITY") %>%
+    str_replace_all("AND AFFILIATES ENTITIES", "AND AFFILIATED ENTITIES") %>%
+    str_squish()
+}
+
+replace_business_text <- function(name){
+  name %>%
+    str_replace_all(" LTD LLLP$", "") %>%
+    str_replace_all(" AND AFFILIATED ENTITIES$", "") %>% # sometimes removing this just leaves a name, can think more about whether to remove
+    str_replace_all(" AND AFFILIATED COMPANIES$", "") %>%
+    str_replace_all(" AND AFFILIATED ENTITIES INC$", "") %>%
+    str_replace_all(" AND AFFILIATED$", "") %>%
+    str_replace_all("AND SUBSIDIARIES", "") %>%
+    str_replace_all("AND ITS SUBSIDIARIES", "") %>% # could also include 'and its subsidiaries affiliates'
+    str_replace_all(" ASSOC ", " ASSOCIATION ") %>% # think it's always association and not associated/associates
+    str_replace_all(" LTD LLC$", "") %>%
+    str_replace_all(" CORP$", "") %>% # cuts off certain phrases like 'a law corp', but can play around with it
+    str_replace_all(" INC$", "") %>%
+    str_replace_all(" INCORPORATED$", "") %>% # could include incorporation, corporation
+    str_replace_all(" LLC$", "") %>%
+    str_replace_all(" LTD$", "") %>%
+    str_replace_all(" LLP$", "") %>%
+    str_replace_all(" LP$", "") %>%
+    str_replace_all(" PA$", "") %>%
+    str_replace_all(" AND CO$", "") %>%
+    str_replace_all(" CO$", "") %>%
+    str_replace_all(" MD$", "") %>%
+    str_replace_all(" MR ", "") # sometimes included in names
+}
+
+
+replace_committee_text <- function(name){
+  name %>% 
+    str_replace_all("POLITICAL ACTION LEAGUE FOR", "") %>%
+    str_replace_all("POLITICAL ACTION LEAGUE", "") %>%
+    str_replace_all("POLITICAL ACTION COMMITTEE STATE PAC", "") %>%
+    str_replace_all("POLITICAL ACTION COMMITTEE", "") %>%
+    str_replace_all("POLITICAL ACTION CO$", "") %>%
+    str_replace_all("POLITICAL ACTION LEAGUE FOR", "") %>%
+    str_replace_all("POLITICAL FUND", "") %>%
+    str_replace_all("POLITICAL ACTION FUND", "") %>%
+    str_replace_all("PAC ALL PURPOSE", "") %>%
+    str_replace_all("PAC ALL PURPOSE ACCOUNT", "") %>%
+    str_replace_all("SCC", "") %>%
+    str_replace_all("SMALL CONTRIBUTOR COMMITTEE", "") %>%
+    str_replace_all("SMALL CONT COMMITTEE", "") %>%
+    str_replace_all("SMALL COMMITTEE", "") %>%
+    str_replace_all("PAC FED PAC", "") %>% # hoping to get some names that are missing a space e.g. 'CUMMINS INC PAC CIPAC FED PAC ID C00377952'
+    str_replace_all("STATE PAC$", "") %>% 
+    str_replace_all("STATEWIDE PAC$", "") %>% 
+    str_replace_all("FEDERAL PAC$", "") %>% 
+    str_remove("(\\s+(FED\\s+PAC|PAC))+$") %>%
+    str_replace_all("MAJOR DONOR ACCOUNT", "") %>%
+    str_replace_all("MAJOR DONOR COMMITTEE", "") %>%
+    str_replace_all("MAJOR DONOR", "") %>%
+    str_replace_all("FPPC", "") 
+}
+
+```
+
+Write functions to remove PAC / major donor ids and local unit numbers.
+
+```{r}
+remove_pac_info <- function(name){ 
+  name %>%
+  str_remove_all("\\s*\\([^)]*(ID|FPPC|FEC)[^)]*\\)") %>%
+  str_remove("\\s*(ID(?:\\s*NUMBER)?|FPPC|FEC)\\s*[A-Z0-9]+$") %>%
+  #str_remove("(\\s+(FED\\s+PAC|PAC))+$") %>%
+  str_squish()
+}
+
+remove_unit_info <- function(name) {
+  name %>%
+    str_replace_all(
+      regex("\\s+LOCAL(\\s+UNION)?(\\s+NO|\\s+NUMBER)?\\s*\\d+", ignore_case = TRUE),
+      ""
+    ) %>%
+    str_replace_all(
+      regex("\\s+NUMBER\\s*\\d+", ignore_case = TRUE),
+      ""
+    ) %>%
+    str_squish()
+}
+```
+
+Apply functions to the contributor names.
+
+```{r}
+# apply standardization functions to names (basic standardization e.g. convert to all caps, remove some punctuation, etc.)
+x$standardized_name <- standardize_names(x$Contributor.Name)
+categories$standardized_name <- standardize_names(categories$name)
+
+# fix typos
+x$standardized_name <- fix_typos(x$standardized_name)
+categories$standardized_name <- fix_typos(categories$standardized_name)
+
+# remove pac / donor id info from names
+x$processed_name <- remove_pac_info(x$standardized_name) # creating new variable to store this name
+categories$processed_name <- remove_pac_info(categories$standardized_name)
+
+# remove local unit id info from names
+x$processed_name<- remove_unit_info(x$processed_name)
+categories$processed_name<- remove_unit_info(categories$processed_name)
+
+# take out text related to pac/contributor committee/major donor, etc. (doesn't directly take out all instances of 'PAC' right now)
+x$processed_name <- replace_committee_text(x$processed_name)
+categories$processed_name <- replace_committee_text(categories$processed_name)
+
+# take out common business entity abbreviations (llc, ltd, etc.)
+x$processed_name <- replace_business_text(x$processed_name)
+categories$processed_name <- replace_business_text(categories$processed_name)
+
+# change CA to california -- need to double check this doesn't mess any names up
+x$processed_name <- str_replace_all(x$processed_name, " CA ", " CALIFORNIA ")
+categories$processed_name <- str_replace_all(categories$processed_name, " CA ", " CALIFORNIA ")
+
+# remove parentheses + stuff inside
+x$processed_name <- str_remove_all(x$processed_name, "\\s*\\(.*?\\)")
+categories$processed_name <- str_remove_all(categories$processed_name, "\\s*\\(.*?\\)")
+
+# last squish
+x$processed_name <- str_squish(x$processed_name)
+categories$processed_name <- str_squish(categories$processed_name)
+```
+
+```{r}
+#unique(x[grep("\\(", x$standardized_name),c("standardized_name","processed_name")])
+#unique(categories[grep("\\(", categories$standardized_name),c("standardized_name","processed_name","name")])
+```
+
+**Edge cases i need to address**
+
+-   Right now, I'm removing the parts in parentheses because it leads to more matches overall, but sometimes the part in parentheses is needed for a match e.g. only the part in parenthese would match, but main part of the string doesn't match
+-   SUNSET VIEW PLAZA LLC(FARSHID SHOOSHANI) -- this gets messed up b/c looks for "id" in parentheses
+-   POLITICAL ACTION COMMITTE LOS ANGELES 80-20 -- removing political action committee removes most meaningful info from this
+-   Removing corp at the end replaces "A LAW CORP" -- may want to keep this. Other examples: A professional corp; investment corp; financial corp; a pro corp; a prof law corp; management corp; a professional law corp
+-   Want to replace some '&' but not others. e.g. changing 'M&D' to "MANDD' is a little weird, but lots of other patterns to think about when replacing the '&' as well. should be consistent at least when matching?
+
+**PAC, donor, etc. related**
+
+-   'POLITICAL ACTION FUND / ALL PURPOSE ACCOUNT'
+-   STATE MAJOR DONOR - PAC
+-   SOUTHERN CALIFORNIA PIPE TRADES DISTRICT COUNCIL NO 16; the 'NO 16' didn't get removed, but meant to capture this pattern
+
+**state related**
+
+-   of the state of california -\> of california
+-   and vacinity -\> could remove
+
+**business related** Think about removing these endings
+
+-   CORPORATION
+-   INCORPORATION
+-   DBA
+-   PARTNERSHIP
+-   MD
+-   LTC
+-   ELE
+-   CRC
+-   SERVICES
+-   COMPANY
+-   RE or RE LLC
+-   GROUP
+-   BPN
+-   MANAGEMENT and MGMT
+-   ASSOCIATES
+-   MBA
+-   MGMTCORP
+-   INCLUDING AGGREGATED CONTRIBUTIONS AND INDEPENDENT EXPENDITURES; INCLUDING AGGREGATED CONTRIBUTIONS; INCLUDING AGGREGATED CONTRIBUTIONS OF ITS AFFILIATED ECONOMIC DEVELOPMENT ENTITIES; INCLUDING AGGREGATED CONTRIBUTIONS / INDEPENDENT EXPENDITURES
+
+### Use fuzzy matching to identify matches in OpenSecrets data
+
+-   I tried levenshtein distance as well, but thought jaro-winkler distance did a better job after looking at matches manually.
+
+```{r}
+# start with a subset of data
+top_contributors <- x[which(x$Amount >= 10000),] # contributions $10k and above
+top_contributors$id <- 1:nrow(top_contributors)
+nrow(top_contributors)
+```
+
+```{r}
+name_matches <- stringdist_left_join(
+  top_contributors, categories,
+  by = c("processed_name" = "processed_name"),
+  method = "jw",    # jaro-winkler distance
+  max_dist = 0.05,  # chose after looking at different thresholds -- could adjust
+  distance_col = "distance", 
+  p = 0.1 
+)
+```
+
+\^ this takes a long time, should optimize.
+
+```{r}
+#name_matches %>% group_by(id) %>% mutate(n = n_distinct(level1_category)) %>% filter(n > 1) %>% select(processed_name.x,level1_category,id)
+#name_matches[grep("DMCG", name_matches$processed_name.x),] # not sure why this one isn't matching
+```
+
+```{r}
+# prefer matches that have an assigned category as opposed to matching to an OpenSecrets name that is "uncoded"
+best_match <- name_matches %>%
+  group_by(id) %>%
+  arrange(
+    level1_category == "Uncoded", # FALSE for preferred rows
+    distance
+  ) %>% slice(1) %>% ungroup()
+nrow(best_match)
+```
+
+\^ this doesn't currently address any contradictions in the category, just looking for matches right now
+
+```{r}
+nrow(best_match)
+nrow(best_match[which(!is.na(best_match$processed_name.y)),])/ nrow(best_match)
+nrow(best_match[which(!is.na(best_match$processed_name.y) & best_match$level1_category != "Uncoded"),]) / nrow(best_match)
+```
+
+-   about 60% of names matched, but only 24% of names matched to a categorized contributor (most matched to 'uncoded' category)
+
+Look at what proportion of the total contribution amount we're capturing
+
+```{r}
+sum(best_match$Amount)
+sum(best_match[which(!is.na(best_match$processed_name.y)),]$Amount) / sum(best_match$Amount)
+sum(best_match[which(!is.na(best_match$processed_name.y) & best_match$level1_category != "Uncoded"),]$Amount) / sum(best_match$Amount)
+```
+
+-   not capturing even close to a majority of the money
+
+### manually add categories for certain cases
+
+```{r}
+best_match[which(best_match$processed_name.x == "STEYER TOM"),]$level1_category <- "Candidate Contributions" # think this is the category, but not positive
+best_match[which(best_match$processed_name.x == "UNITEMIZED CONTRIBUTIONS"),]$level1_category <- "Small donor contributions"
+
+#sum(best_match[which(best_match$processed_name.x == "STEYER TOM"),]$Amount)
+#sum(best_match[which(best_match$processed_name.x == "UNITEMIZED CONTRIBUTIONS"),]$Amount)
+#sum(best_match[which(!is.na(best_match$processed_name.y) & best_match$level1_category != "Uncoded"),]$Amount)
+```
+
+-   Tom Steyer + Unitemized contributions account for \$92,195,127 (like 70% ish of those over 10k i think)
+
+```{r}
+nrow(best_match[which(best_match$level1_category != "Uncoded"),]) / nrow(best_match)
+sum(best_match[which(best_match$level1_category != "Uncoded"),]$Amount) / sum(best_match$Amount)
+```
+
+-   When you account for Tom Steyer and the unitemized contributions, we're covering more like 84% of the top contributions and \~30% of rows match (not the same as unique names)
+
+#### names that didn't match, but do have a match
+
+This is just a list of a few I noticed, sure there are others that have matches that didn't match
+
+-   '21st Century Alliance - Silicon Valley Chapter' — the chapter part prevents match (although only coded name is '21ST CENTURY FOX AMERICA INC & AFFILIATED ENTITIES')
+-   'KK Restaurants LLC (Jagan Reddy Balasundaram)' -\> want it to match to 'BALASUNDARAM, JAGAN' — need the part in parentheses to make the match
+-   'Vinoda Basnayake and Affiliated Entities' (including Versus Equity and VS Global - LLC) -\> want it to match to 'BASNAYAKE, VINODA'
+-   'AMERICAN RESORT DEVELOPMENT ASSOCIATION RESORT OWNERS COALITION PAC (ARDA-ROC PAC)' -\> think it matches 'American Resort Development Association'
+-   'SHEET METAL, AIR, RAIL - AND TRANSPORTATION WORKERS INTERNATIONAL ASSOCIATION' and 'SHEET METAL, AIR, RAIL, TRANSPORTATION WORKERS INTERNATIONAL UNION (SMART) PAC' would match without int'l assc or intl union...
+-   'DMCG INC DBA BAIL HOTLINE BAILS BONDS INCLUDING AGGREGATED CONTRIBUTIONS' -\> should have matched, not sure why it didn't

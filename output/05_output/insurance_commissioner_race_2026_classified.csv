@@ -1,0 +1,13 @@
+employer,n_donors,amount_total,entity_kind,employer_norm,match_name,level1_category,level2_category,level3_category,naics_code,naics_label,data_source_1,data_source_2,matched_keyword,edd_match_name,edd_match_type,edd_naics_code,edd_naics_description,edd_status
+Patrick Wolff,1,500000.0,individual,PATRICK WOLFF,,,,,,,,,,,,,,no_results
+"California Environmental Voters Independent Expenditure Committee, nan",2,106000.0,organization,CALIFORNIA ENVIRONMENTAL VOTERS INDEPENDENT EXPENDITURE COMMITTEE NAN,,,,,,,,,,,,,,no_results
+"California Teachers Association Association for Better Citizenship, nan",1,19600.0,organization,CALIFORNIA TEACHERS ASSOCIATION ASSOCIATION FOR BETTER CITIZENSHIP NAN,,Labor,Public Sector Unions,Teachers unions,,,keyword match,,teachers association,,,,,
+"SEIU California State Council, nan",1,19600.0,organization,SEIU CALIFORNIA STATE COUNCIL NAN,,Labor,,,,,keyword match,,seiu,,,,,
+"United Domestic Workers of America Action Fund, nan",1,19600.0,organization,UNITED DOMESTIC WORKERS OF AMERICA ACTION FUND NAN,,,,,,,,,,,,,,no_results
+"Faculty for our University's Future, nan",1,18600.0,organization,FACULTY FOR OUR UNIVERSITY S FUTURE NAN,,,,,,,,,,,,,,no_results
+Antai Financial,1,18000.0,individual,ANTAI FINANCIAL,Antai Financial,,,,524210,Insurance Agencies and Brokerages,edd,,,Antai Financial,exact,524210,Insurance Agencies and Brokerages,ok
+"California State Association of Electrical Workers, nan",1,16800.0,organization,CALIFORNIA STATE ASSOCIATION OF ELECTRICAL WORKERS NAN,,Labor,General Trade Unions,,,,keyword match,,electrical workers,,,,,
+"California State Pipe Trades Council, nan",1,16800.0,organization,CALIFORNIA STATE PIPE TRADES COUNCIL NAN,,Labor,General Trade Unions,,,,keyword match,,trades council,,,,,
+"Disney Worldwide Services, Inc. and its Affiliated Entities, nan",1,13979.12,organization,DISNEY WORLDWIDE SERVICES INC AND ITS AFFILIATED ENTITIES NAN,,General Business,Recreation & Live Entertainment,Recreation & entertainment,,,keyword match,,disney,,,,,
+"Service Employees International Union Local 1021 Candidate PAC, nan",1,11800.0,organization,SERVICE EMPLOYEES INTERNATIONAL UNION LOCAL 1021 CANDIDATE PAC NAN,,Labor,,,,,keyword match,,international union,,,,,
+"Service Employees International Union Local 721 CTW, CLC State & Local, nan",1,11800.0,organization,SERVICE EMPLOYEES INTERNATIONAL UNION LOCAL 721 CTW CLC STATE LOCAL NAN,,Labor,,,,,keyword match,,international union,,,,,

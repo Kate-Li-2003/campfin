@@ -1,0 +1,378 @@
+employer,n_donors,employer_norm,match_name,level1_category,level2_category,level3_category,naics_code,naics_label,data_source_1,data_source_2,matched_keyword,manual_source_note
+Steyer for Governor 2026,32,STEYER FOR GOVERNOR 2026,,,,,8139,"Business, Professional, Labor, Political, and Similar Organizations",manual,,,manual: name (political campaign)
+Harvest Rock Church,13,HARVEST ROCK CHURCH,Harvest Rock Church,,,,813110,Religious Organizations,masterfile,edd,,
+Y Combinator,12,Y COMBINATOR,Y Combinator,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+Thunder Parley,8,THUNDER PARLEY,,,,,8139,"Business, Professional, Labor, Political, and Similar Organizations",manual,,,manual: snippet (political campaign)
+none,6,NONE,none,,,,311314,Cane Sugar Manufacturing,masterfile,edd,,
+Lighthouse Worldwide Solutions Inc.,6,LIGHTHOUSE WORLDWIDE SOLUTIONS INC,,,,,33,Manufacturing,manual,,,
+The Wonderful Company,6,THE WONDERFUL COMPANY,,,,,,,,,,
+The Bot Company,5,THE BOT COMPANY,,,,,5417,Scientific Research and Development Services,manual,,,manual: about (robotics R&D)
+Mosaic Real Estate Investors,5,MOSAIC REAL ESTATE INVESTORS,,"Finance, Insurance & Real Estate",Real Estate,,,,keyword match,,real estate,
+KLEINER PERKINS,5,KLEINER PERKINS,KLEINER PERKINS,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+Sean N. Parker Foundation,5,SEAN N PARKER FOUNDATION,,,,,,,,,,
+The Sobrato Organization,4,THE SOBRATO ORGANIZATION,,,,,53,Real Estate and Rental and Leasing,manual,,,
+Susa Ventures,4,SUSA VENTURES,,,,,52,Finance and Insurance,manual,,,
+CARUSO,3,CARUSO,CARUSO,,,,441110,New Car Dealers,masterfile,edd,,
+"David Mar Co, Inc.",3,DAVID MAR CO INC,,,,,56,Administrative and Support and Waste Management and Remediation Services,manual,,,"manual: snippet (CA business, no clear sector)"
+"James Chambers, Filmmaker",3,JAMES CHAMBERS FILMMAKER,,,,,5121,Motion Picture and Video Industries,manual,,,manual: snippet (filmmaker)
+DoorDash,3,DOORDASH,DoorDash,,,,492210,Local Messengers and Local Delivery,masterfile,edd,,
+Rad Fund LLC,3,RAD FUND LLC,,,,,52,Finance and Insurance,manual,,,
+Kaiser Permanente,3,KAISER PERMANENTE,Kaiser Permanente,Health,Health Services,HMOs,,,masterfile,opensecrets,,
+Thumbtack,3,THUMBTACK,,,,,5619,Other Support Services,manual,,,manual: about (home services marketplace)
+Self Employed,3,SELF EMPLOYED,,,,,,,,,,
+American Career College,3,AMERICAN CAREER COLLEGE,American Career College,Government Agencies/Education/Other,Education,"Technical, business & vocational schools and services",,,masterfile,opensecrets,,
+Sequoia Heritage,3,SEQUOIA HERITAGE,Sequoia Heritage,,,,712110,Museums,masterfile,edd,,
+GREENOAKS CAPITAL,3,GREENOAKS CAPITAL,,,,,,,,,,
+The Steve Hilton Show,3,THE STEVE HILTON SHOW,,,,,5191,Other Information Services,manual,,,manual: snippet (talk show)
+Stanford University,3,STANFORD UNIVERSITY,Stanford University,,,,721310,Rooming and Boarding Houses,masterfile,edd,,
+State of Gold,3,STATE OF GOLD,State of Gold,,,,458310,Jewelry Retailers,masterfile,edd,,
+Madison Partners,2,MADISON PARTNERS,Madison Partners,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Faces Nightclub,2,FACES NIGHTCLUB,,,,,7224,Drinking Places (Alcoholic Beverages),manual,,,manual: about (Sacramento nightclub)
+MGA Entertainment,2,MGA ENTERTAINMENT,MGA Entertainment,,,,339930,"Doll, Toy, and Game Manufacturing",masterfile,edd,,
+KORA Organics,2,KORA ORGANICS,,,,,3256,"Soap, Cleaning Compound, and Toilet Preparation Manufacturing",manual,,,manual: about (skincare manufacturer)
+Lyon Living,2,LYON LIVING,Lyon Living,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Kurt Rappaport,2,KURT RAPPAPORT,,,,,,,,,,
+Lauder Partners,2,LAUDER PARTNERS,Lauder Partners,,,,523999,Misc Financial Investment Activities,masterfile,edd,,
+LUNYA,2,LUNYA,Lunya,,,,458110,Clothing and Clothing Accessories Retailers,masterfile,edd,,
+Lunya,2,LUNYA,Lunya,,,,458110,Clothing and Clothing Accessories Retailers,masterfile,edd,,
+Law office of Jaspreet Singh,2,LAW OFFICE OF JASPREET SINGH,,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,keyword match,,law office,
+Fifth Door,2,FIFTH DOOR,,,,,51,Information,manual,,,
+"Lightspark Group, Inc.",2,LIGHTSPARK GROUP INC,LIGHTSPARK GROUP INC,,,,51,Information,masterfile,h1b,,
+Jeremy Liew,2,JEREMY LIEW,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (venture capitalist)
+Lookout,2,LOOKOUT,Lookout,,,,722410,Drinking Places (Alcoholic Beverages),masterfile,edd,,
+"KHOSLA VENTURES, LLC",2,KHOSLA VENTURES LLC,,,,,,,,,,
+"Figma, Inc.",2,FIGMA INC,FIGMA INC,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,
+Jennifer Gillespie Mason,2,JENNIFER GILLESPIE MASON,,,,,,,,,,
+James Campbell,2,JAMES CAMPBELL,James Campbell,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Future Ventures,2,FUTURE VENTURES,,,,,52,Finance and Insurance,manual,,,
+GENSTAR CAPITAL PARTNERS LLC,2,GENSTAR CAPITAL PARTNERS LLC,,,,,,,,,,
+GIVE FORWARD FOUNDATION,2,GIVE FORWARD FOUNDATION,,,,,81,Other Services (except Public Administration),manual,,,
+GOOGLE,2,GOOGLE,Google,Communications & Electronics,Computer Equipment & Services,Search Engine/Email Services,,,masterfile,opensecrets,,
+Give Forward Foundation,2,GIVE FORWARD FOUNDATION,,,,,81,Other Services (except Public Administration),manual,,,
+GlobalWide Media Causal Iq,2,GLOBALWIDE MEDIA CAUSAL IQ,,,,,54,"Professional, Scientific, and Technical Services",manual,,,
+Goat Capital,2,GOAT CAPITAL,,,,,52,Finance and Insurance,manual,,,
+Makena Capital,2,MAKENA CAPITAL,,,,,52,Finance and Insurance,manual,,,
+Govern For California,2,GOVERN FOR CALIFORNIA,Govern for California,Ideology/Single Issue,Other/Single Issue Groups,Other single-issue or ideological groups,,,masterfile,opensecrets,,
+H82W8 Productions,2,H82W8 PRODUCTIONS,,,,,5121,Motion Picture and Video Industries,manual,,,manual: snippet (production company)
+Hard Scale Eats LLC,2,HARD SCALE EATS LLC,,,,,54,"Professional, Scientific, and Technical Services",manual,,,
+Hering Foundation,2,HERING FOUNDATION,,,,,8132,Grantmaking and Giving Services,manual,,,manual: name (foundation)
+"Four Elephants Media, Inc.",2,FOUR ELEPHANTS MEDIA INC,,,,,5111,"Newspaper, Periodical, Book, and Directory Publishers",manual,,,manual: about (publishing)
+Intuit,2,INTUIT,Intuit,,,,456120,"Cosmetics, Beauty Supplies, and Perfume Retailers",masterfile,edd,,
+JM Eagle,2,JM EAGLE,JM Eagle,,,,326122,Plastics Pipe and Pipe Fitting Mfg,masterfile,edd,,
+"Housing, Inc.",2,HOUSING INC,,,,,,,,,,
+"Plastpro, Inc.",2,PLASTPRO INC,,,,,3261,Plastics Product Manufacturing,manual,,,manual: about (fiberglass doors / plastics)
+Mecury,2,MECURY,,,,,5222,Nondepository Credit Intermediation,manual,,,manual: about (Mercury business banking)
+Standard Capital,2,STANDARD CAPITAL,Standard Capital,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,
+STRIPE,2,STRIPE,STRIPE,,,,236115,New Single-Family Housing Construction,masterfile,edd,,
+Santa Clara Unified School District,2,SANTA CLARA UNIFIED SCHOOL DISTRICT,,Government Agencies/Education/Other,Education,"Public school teachers, administrators & officials",,,keyword match,,school district,
+ScifiVC,2,SCIFIVC,,,,,52,Finance and Insurance,manual,,,
+Scopely,2,SCOPELY,Scopely,,,,713120,Amusement Arcades,masterfile,edd,,
+Securin,2,SECURIN,Securin,,,,813311,Human Rights Organizations,masterfile,edd,,
+Slow Burn Collective,2,SLOW BURN COLLECTIVE,,,,,8129,Other Personal Services,manual,,,manual: about (functional nutrition specialist)
+"Snap, Inc.",2,SNAP INC,SNAP INC,,,,51,Information,masterfile,h1b,,
+South Park Commons,2,SOUTH PARK COMMONS,,,,,,,,,,
+TAO CAPITAL PARTNERS LLC,2,TAO CAPITAL PARTNERS LLC,,,,,,,,,,
+SLTC LLC,2,SLTC LLC,,,,,5311,Lessors of Real Estate,manual,,,manual: about (real estate capital + healthcare integration)
+The Azoff Co.,2,THE AZOFF CO,,,,,5121,Motion Picture and Video Industries,manual,,,manual: about (media & entertainment investment)
+The Jurvetson Foundation,2,THE JURVETSON FOUNDATION,,,,,81,Other Services (except Public Administration),manual,,,
+The Morning Star Company,2,THE MORNING STAR COMPANY,,,,,3114,Fruit and Vegetable Preserving and Specialty Food Manufacturing,manual,,,manual: about (tomato processing/food mfg)
+The Permanente Medical Group,2,THE PERMANENTE MEDICAL GROUP,,Health,,,,,keyword match,,medical group,
+The Scott Foundation,2,THE SCOTT FOUNDATION,,,,,8132,Grantmaking and Giving Services,manual,,,manual: about (foundation)
+Webflow,2,WEBFLOW,Webflow,,,,541512,Computer Systems Design Services,masterfile,edd,,
+West Haddon Hall,2,WEST HADDON HALL,,,,,5414,Specialized Design Services,manual,,,manual: about (interior design)
+"Wicklow Capital, Inc.",2,WICKLOW CAPITAL INC,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (family office investments)
+SPIEKER REALTY INVESTMENTS,2,SPIEKER REALTY INVESTMENTS,SPIEKER REALTY INVESTMENTS,"Finance, Insurance & Real Estate",Real Estate,Real estate agents & managers,,,masterfile,opensecrets,,
+SGP,2,SGP,SGP,,,,541430,Graphic Design Services,masterfile,edd,,
+Morning Star Company,2,MORNING STAR COMPANY,,,,,3114,Fruit and Vegetable Preserving and Specialty Food Manufacturing,manual,,,manual: about (tomato processing/food mfg)
+Prometheus Real Estate,2,PROMETHEUS REAL ESTATE,Prometheus Real Estate,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Natera,2,NATERA,Natera,,,,811121,Automotive Body and Interior Repair,masterfile,edd,,
+Node Foundation,2,NODE FOUNDATION,,,,,,,,,,
+Not Employed,2,NOT EMPLOYED,,,,,,,,,,
+"Oberndorf Enterprises, LLC",2,OBERNDORF ENTERPRISES LLC,,,,,,,,,,
+Permit Power,2,PERMIT POWER,,,,,8133,Social Advocacy Organizations,manual,,,manual: about (advocacy nonprofit)
+Dropbox,2,DROPBOX,Dropbox,,,,518210,Data Processing and Related Services,masterfile,edd,,
+Prado Group,2,PRADO GROUP,Prado Group,,,,237210,Land Subdivision,masterfile,edd,,
+Primavera Properties,2,PRIMAVERA PROPERTIES,,,,,5311,Lessors of Real Estate,manual,,,manual: name + about (real estate)
+QL Ventures LLC,2,QL VENTURES LLC,,,,,52,Finance and Insurance,manual,,,
+Roblox,2,ROBLOX,Roblox,,,,459120,"Hobby, Toy, and Game Retailers",masterfile,edd,,
+QUIET CAPITAL,2,QUIET CAPITAL,,,,,52,Finance and Insurance,manual,,,
+Quiet Capital,2,QUIET CAPITAL,,,,,52,Finance and Insurance,manual,,,
+"Ram Dandilaya, MD",2,RAM DANDILAYA MD,,,,,6211,Offices of Physicians,manual,,,manual: about (cardiologist practice)
+Reddit,2,REDDIT,Reddit,,,,516210,"Media streaming distribution services, social networks, and other media net",masterfile,edd,,
+Reven Capital,2,REVEN CAPITAL,Reven Capital,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Ribbit Capital,2,RIBBIT CAPITAL,,,,,,,,,,
+Riot Games,2,RIOT GAMES,Riot Games,,,,459120,"Hobby, Toy, and Game Retailers",masterfile,edd,,
+Ripple,2,RIPPLE,Ripple,,,,458110,Clothing and Clothing Accessories Retailers,masterfile,edd,,
+Eagle Equity Partners LLC,2,EAGLE EQUITY PARTNERS LLC,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (private equity / SPAC sponsor)
+Law Offices of Jeremy D. Weinstein P.C.,2,LAW OFFICES OF JEREMY D WEINSTEIN P C,,,,,5411,Legal Services,manual,,,manual: name + about (law firm)
+DraftKings,2,DRAFTKINGS,,,,,7132,Gambling Industries,manual,,,manual: about (sports betting / fantasy sports)
+"Affirm, Inc.",2,AFFIRM INC,AFFIRM INC,,,,52,Finance and Insurance,masterfile,h1b,,
+Baszucki Group,2,BASZUCKI GROUP,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (family office investing)
+"AME Cloud Ventures, LLC",2,AME CLOUD VENTURES LLC,,,,,,,,,,
+BYERS CAPITAL MANAGEMENT,2,BYERS CAPITAL MANAGEMENT,,,,,,,,,,
+"BSA Framing, Inc.",2,BSA FRAMING INC,,,,,,,,,,
+Adelanto Healthcare Ventures LLC,2,ADELANTO HEALTHCARE VENTURES LLC,,,,,5416,"Management, Scientific, and Technical Consulting Services",manual,,,manual: about (Medicaid reimbursement consulting)
+Advantage Ambulance,2,ADVANTAGE AMBULANCE,Advantage Ambulance,,,,621910,Ambulance Services,masterfile,edd,,
+CoinBase,2,COINBASE,CoinBase,,,,523210,Securities and Commodities Exchanges,masterfile,edd,,
+Descript,2,DESCRIPT,Descript,,,,513210,Software Publishers,masterfile,edd,,
+Apercen Ventures,2,APERCEN VENTURES,,,,,5412,"Accounting, Tax Preparation, Bookkeeping, and Payroll Services",manual,,,manual: about (tax consulting firm)
+Cloudkitchen,2,CLOUDKITCHEN,,,,,7225,Restaurants and Other Eating Places,manual,,,manual: about (CloudKitchens / ghost kitchens)
+CareerPuck,2,CAREERPUCK,,,,,5613,Employment Services,manual,,,manual: about (recruiting/HR tech)
+Amazon,2,AMAZON,Amazon,,,,531120,Lessors of Nonresidential Buildings,masterfile,edd,,
+Caruso Management Company,2,CARUSO MANAGEMENT COMPANY,,,,,53,Real Estate and Rental and Leasing,manual,,,
+"Alphabet, Inc.",2,ALPHABET INC,,,,,5191,Other Information Services,manual,,,manual: about (technology holding)
+"C3.ai, Inc.",2,C3 AI INC,C3 AI INC,,,,51,Information,masterfile,h1b,,
+"Alphacraft, LLC",2,ALPHACRAFT LLC,,,,,6219,Other Ambulatory Health Care Services,manual,,,manual: about (medical transportation)
+Bronze,2,BRONZE,Bronze,,,,812199,Other Personal Care Services,masterfile,edd,,
+8VC,2,8VC,8vc,,,,334413,Semiconductor and Related Devices,masterfile,edd,,
+Boris LLC,2,BORIS LLC,,,,,,,,,,
+Bling Nation,2,BLING NATION,,,,,,,,,,
+Douglas Emmett,2,DOUGLAS EMMETT,Douglas Emmett,,,,525990,Other Financial Vehicles,masterfile,edd,,
+Byers Capital,2,BYERS CAPITAL,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (family office)
+Archipelago LLC,1,ARCHIPELAGO LLC,,,,,5511,Management of Companies and Enterprises,manual,,,manual: about (holding company)
+Arcadia Development Companies,1,ARCADIA DEVELOPMENT COMPANIES,,,,,2362,Nonresidential Building Construction,manual,,,manual: about (real estate development)
+SageSure,1,SAGESURE,,,,,5242,"Agencies, Brokerages, and Other Insurance Related Activities",manual,,,manual: about (homeowners insurance / MGA)
+Sanderson J. Ray Development,1,SANDERSON J RAY DEVELOPMENT,,,,,,,,,,
+Arash Khorsandi,1,ARASH KHORSANDI,Arash Khorsandi,,,,541110,Offices of Lawyers,masterfile,edd,,
+Aperture Group LLC,1,APERTURE GROUP LLC,Aperture Group LLC,,,,611699,Miscellaneous Schools and Instruction,masterfile,edd,,
+Boucher LLP,1,BOUCHER LLP,Boucher LLP,,,,541110,Offices of Lawyers,masterfile,edd,,
+Another Planet Entertainment,1,ANOTHER PLANET ENTERTAINMENT,Another Planet Entertainment,,,,561110,Office Administrative Services,masterfile,edd,,
+Anduril Industries,1,ANDURIL INDUSTRIES,Anduril Industries,,,,334511,"Search, Detection & Navigation Instrumnt",masterfile,edd,,
+RIBBIT MANAGEMENT COMPANY LLC,1,RIBBIT MANAGEMENT COMPANY LLC,,,,,,,,,,
+Andrew Jordan,1,ANDREW JORDAN,,,,,,,,,,
+Self Employed-Mark Kolokotrones,1,SELF EMPLOYED MARK KOLOKOTRONES,,,,,5239,Other Financial Investment Activities,manual,,,"manual: snippet (finance, donor industry)"
+Primary Care Associates of California,1,PRIMARY CARE ASSOCIATES OF CALIFORNIA,,,,,6211,Offices of Physicians,manual,,,manual: about (primary care network)
+Self Employed-Michael Schwab,1,SELF EMPLOYED MICHAEL SCHWAB,,,,,,,,,,
+Self Employed-Phil Mickelson,1,SELF EMPLOYED PHIL MICKELSON,,,,,7115,"Independent Artists, Writers, and Performers",manual,,,"manual: about (Phil Mickelson, pro athlete)"
+Brandenburg Properties,1,BRANDENBURG PROPERTIES,,,,,5311,Lessors of Real Estate,manual,,,manual: about (real estate development & investment)
+Shah Capital Partners,1,SHAH CAPITAL PARTNERS,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (family investment office)
+Portrait Construction,1,PORTRAIT CONSTRUCTION,Portrait Construction,,,,236115,New Single-Family Housing Construction,masterfile,edd,,
+Shook Properties,1,SHOOK PROPERTIES,,,,,5312,Offices of Real Estate Agents and Brokers,manual,,,manual: about (real estate listings/brokerage)
+Signature Homes Inc,1,SIGNATURE HOMES INC,Signature Homes Inc,,,,236115,New Single-Family Housing Construction,masterfile,edd,,
+Silver Falcon Capital,1,SILVER FALCON CAPITAL,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (long-term capital / scaling brands)
+"Singleton & Schreiber, LLP",1,SINGLETON SCHREIBER LLP,,,,,5411,Legal Services,manual,,,manual: about (law firm)
+Brener Group,1,BRENER GROUP,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (private investment firm)
+Archipelago Companies LLC,1,ARCHIPELAGO COMPANIES LLC,,,,,5511,Management of Companies and Enterprises,manual,,,manual: about (holding company)
+SEQUOIA HERITAGE,1,SEQUOIA HERITAGE,Sequoia Heritage,,,,712110,Museums,masterfile,edd,,
+Auradine,1,AURADINE,,,,,3344,Semiconductor and Other Electronic Component Manufacturing,manual,,,manual: name (Auradine - blockchain/AI hardware)
+RPNA LLP,1,RPNA LLP,RPNA LLP,,,,541110,Offices of Lawyers,masterfile,edd,,
+BergmanKPRS,1,BERGMANKPRS,,,,,2362,Nonresidential Building Construction,manual,,,manual: about (general contractor / construction)
+REDDIT,1,REDDIT,Reddit,,,,516210,"Media streaming distribution services, social networks, and other media net",masterfile,edd,,
+Rainmaker Technology Corporation,1,RAINMAKER TECHNOLOGY CORPORATION,,,,,,,,,,
+Raleigh Enterprises,1,RALEIGH ENTERPRISES,Raleigh Enterprises,,,,423410,Photographic Goods Merchant Wholesalers,masterfile,edd,,
+Benchmark Capital,1,BENCHMARK CAPITAL,Benchmark Capital,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+Rancon Group,1,RANCON GROUP,Rancon Group,,,,237210,Land Subdivision,masterfile,edd,,
+Ranger Global Advisors LLC,1,RANGER GLOBAL ADVISORS LLC,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (family office financial services)
+Becker Law Group,1,BECKER LAW GROUP,Becker Law Group,,,,541110,Offices of Lawyers,masterfile,edd,,
+Redwing Films,1,REDWING FILMS,,,,,5121,Motion Picture and Video Industries,manual,,,manual: name (films)
+Remarkable People,1,REMARKABLE PEOPLE,,,,,3256,"Soap, Cleaning Compound, and Toilet Preparation Manufacturing",manual,,,manual: about (perfume/fragrance)
+RAINE,1,RAINE,RAINE,,,,713940,Fitness and Recreational Sports Centers,masterfile,edd,,
+Baco Properties,1,BACO PROPERTIES,,,,,,,,,,
+"Beverly Hills Spine Surgery, Inc.",1,BEVERLY HILLS SPINE SURGERY INC,,Health,,,,,keyword match,,surgery,
+Richard Robbins International Inc.,1,RICHARD ROBBINS INTERNATIONAL INC,,,,,6116,Other Schools and Instruction,manual,,,manual: about (coaching/training)
+Blackcomb Advisors LLC,1,BLACKCOMB ADVISORS LLC,,,,,5416,"Management, Scientific, and Technical Consulting Services",manual,,,manual: about (advisory: investing/health policy/M&A)
+Rippling,1,RIPPLING,Rippling,,,,513210,Software Publishers,masterfile,edd,,
+Singleton Schreiber LLP,1,SINGLETON SCHREIBER LLP,,,,,5411,Legal Services,manual,,,manual: about (law firm)
+Robinson Oil Corp.,1,ROBINSON OIL CORP,,,,,,,,,,
+"BRDBND, LLC",1,BRDBND LLC,,,,,,,,,,
+SAFETY AND RECRUITING SUPPORT INC,1,SAFETY AND RECRUITING SUPPORT INC,,,,,5613,Employment Services,manual,,,manual: about (recruiting / staffing)
+SCC Partners,1,SCC PARTNERS,,,,,,,,,,
+SELF-EMPLOYED; JEREMY LIEW,1,SELF EMPLOYED JEREMY LIEW,,,,,,,,,,
+SELF-EMPLOYED; RICHARD WOLF,1,SELF EMPLOYED RICHARD WOLF,,,,,,,,,,
+Robert Half Inc.,1,ROBERT HALF INC,ROBERT HALF INC,,,,56,Administrative and Support and Waste Management and Remediation Services,masterfile,h1b,,
+Spark Climate Solutions,1,SPARK CLIMATE SOLUTIONS,,,,,8133,Social Advocacy Organizations,manual,,,manual: about (climate science nonprofit)
+"Singleton Schreiber, LLP",1,SINGLETON SCHREIBER LLP,,,,,5411,Legal Services,manual,,,manual: about (law firm)
+SocialTrader.AI,1,SOCIALTRADER AI,,,,,5239,Other Financial Investment Activities,manual,,,manual: name (social trading AI)
+AR Asset Management,1,AR ASSET MANAGEMENT,AR Asset Management,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,
+"APERTURE GROUP, LLC",1,APERTURE GROUP LLC,Aperture Group LLC,,,,611699,Miscellaneous Schools and Instruction,masterfile,edd,,
+Throckmorton Partners,1,THROCKMORTON PARTNERS,Throckmorton Partners,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+ALPHABET (GOOGLE),1,ALPHABET GOOGLE,,Communications & Electronics,Computer Equipment & Services,Search Engine/Email Services,,,keyword match,,google,
+ACCEL PARTNERS,1,ACCEL PARTNERS,ACCEL PARTNERS,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+Trial Lawyers for Justice,1,TRIAL LAWYERS FOR JUSTICE,Trial lawyers for Justice,,,,541110,Offices of Lawyers,masterfile,edd,,
+Trial lawyers for Justice,1,TRIAL LAWYERS FOR JUSTICE,Trial lawyers for Justice,,,,541110,Offices of Lawyers,masterfile,edd,,
+TruConnect,1,TRUCONNECT,TruConnect,,,,518210,Data Processing and Related Services,masterfile,edd,,
+Tusk Holdings,1,TUSK HOLDINGS,,,,,5416,"Management, Scientific, and Technical Consulting Services",manual,,,manual: name (Tusk Strategies-style consulting)
+Twin Tree Venture LLC,1,TWIN TREE VENTURE LLC,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (alternative investment management)
+Uncommon Productions,1,UNCOMMON PRODUCTIONS,,,,,5121,Motion Picture and Video Industries,manual,,,manual: about (independent film company)
+Unicare Systems Inc.,1,UNICARE SYSTEMS INC,,,,,5241,Insurance Carriers,manual,,,manual: about (UniCare health benefits/insurance)
+VAL Property AI,1,VAL PROPERTY AI,,,,,5112,Software Publishers,manual,,,manual: about (AI software for real estate)
+Van Wagner,1,VAN WAGNER,Van Wagner,,,,517810,All Other Telecommunications,masterfile,edd,,
+WME,1,WME,WME,,,,611110,Elementary and Secondary Schools,masterfile,edd,,
+WME ENDEAVOR,1,WME ENDEAVOR,,,,,,,,,,
+Walker & Dunlop,1,WALKER DUNLOP,Walker & Dunlop,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,
+"Wareham Property Group, Inc.",1,WAREHAM PROPERTY GROUP INC,,,,,5311,Lessors of Real Estate,manual,,,manual: about (real estate development & property mgmt)
+WaveCrest WM,1,WAVECREST WM,,,,,,,,,,
+A Khmer Buddhist Foundation,1,A KHMER BUDDHIST FOUNDATION,,,,,,,,,,
+8vc,1,8VC,8vc,,,,334413,Semiconductor and Related Devices,masterfile,edd,,
+Western States Oil,1,WESTERN STATES OIL,Western States Oil,,,,457120,Other Gasoline Stations,masterfile,edd,,
+Wildfires.org,1,WILDFIRES ORG,,,,,8133,Social Advocacy Organizations,manual,,,manual: about (R&D nonprofit / wildfire policy)
+Willow Laboratories,1,WILLOW LABORATORIES,,,,,5417,Scientific Research and Development Services,manual,,,manual: about (health technology)
+Worthe Real Estate Group,1,WORTHE REAL ESTATE GROUP,Worthe Real Estate Group,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Y COMBINATOR,1,Y COMBINATOR,Y Combinator,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+"450 Attorneys, Inc",1,450 ATTORNEYS INC,,,,,5411,Legal Services,manual,,,manual: name + snippet (law corporation)
+Zynga,1,ZYNGA,Zynga,,,,513210,Software Publishers,masterfile,edd,,
+fulcrum,1,FULCRUM,fulcrum,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+"Aberdeen, Inc.",1,ABERDEEN INC,,,,,5419,"Other Professional, Scientific, and Technical Services",manual,,,manual: about (market research firm)
+The Salt and Light Council,1,THE SALT AND LIGHT COUNCIL,,,,,8131,Religious Organizations,manual,,,manual: about (Christian civic engagement)
+The Price Philanthropies Foundation,1,THE PRICE PHILANTHROPIES FOUNDATION,,,,,8132,Grantmaking and Giving Services,manual,,,manual: about (private family foundation)
+Affirmation Arts,1,AFFIRMATION ARTS,,,,,7121,"Museums, Historical Sites, and Similar Institutions",manual,,,manual: about (gallery & event space)
+Alphabet,1,ALPHABET,Alphabet,,,,518210,Data Processing and Related Services,masterfile,edd,,
+Phil Hellmuth Jr,1,PHIL HELLMUTH JR,,,,,7132,Gambling Industries,manual,,,manual: snippet (poker player)
+Spencer Enterprises,1,SPENCER ENTERPRISES,Spencer Enterprises,,,,621340,Offices of Specialty Therapists,masterfile,edd,,
+Allies For Allies,1,ALLIES FOR ALLIES,,,,,8134,Civic and Social Organizations,manual,,,manual: about (caregiver/family support nonprofit)
+Standard Communities,1,STANDARD COMMUNITIES,,,,,,,,,,
+Alcazar Capital,1,ALCAZAR CAPITAL,,,,,,,,,,
+Stanlee R. Gatti Designs,1,STANLEE R GATTI DESIGNS,,,,,7115,"Independent Artists, Writers, and Performers",manual,,,manual: name (Stanlee R. Gatti event design)
+Alabbasi Construction,1,ALABBASI CONSTRUCTION,,,,,2362,Nonresidential Building Construction,manual,,,manual: about (general contractor)
+Airbnb,1,AIRBNB,Airbnb,General Business,Lodging & Tourism,Hotels & motels,,,masterfile,opensecrets,,
+Strata Capital,1,STRATA CAPITAL,Strata Capital,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,
+Style Melody inc,1,STYLE MELODY INC,Style Melody inc,,,,812112,Beauty Salons,masterfile,edd,,
+Sunset Digital Asset Management LLC,1,SUNSET DIGITAL ASSET MANAGEMENT LLC,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (digital asset management)
+SuperSet,1,SUPERSET,,,,,,,,,,
+Susman Godfrey,1,SUSMAN GODFREY,Susman Godfrey,,,,541110,Offices of Lawyers,masterfile,edd,,
+Adelize Holdings,1,ADELIZE HOLDINGS,,,,,,,,,,
+Sutter Health,1,SUTTER HEALTH,Sutter Health,,,,541611,Administrative Management Consulting Svc,masterfile,edd,,
+Sutter Hill Ventures,1,SUTTER HILL VENTURES,Sutter Hill Ventures,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+TAV Property Holdings LLC,1,TAV PROPERTY HOLDINGS LLC,,,,,5311,Lessors of Real Estate,manual,,,manual: name (property holdings)
+THE FUNDWORKS LLC,1,THE FUNDWORKS LLC,,,,,,,,,,
+"TKO Group Holdings, Inc.",1,TKO GROUP HOLDINGS INC,,,,,,,,,,
+TL4J.com,1,TL4J COM,,,,,5411,Legal Services,manual,,,manual: about (Trial Lawyers for Justice)
+Tao Capital Partners LLC,1,TAO CAPITAL PARTNERS LLC,,,,,,,,,,
+Tawani Enterprises Inc.,1,TAWANI ENTERPRISES INC,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (private investments holding)
+"Afero, Inc.",1,AFERO INC,,,,,5415,Computer Systems Design and Related Services,manual,,,manual: about (IoT platform)
+Adventist Health,1,ADVENTIST HEALTH,Adventist Health,,,,541611,Administrative Management Consulting Svc,masterfile,edd,,
+The Derf Co. Inc.,1,THE DERF CO INC,,,,,,,,,,
+The Haggard Law Firm,1,THE HAGGARD LAW FIRM,,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,keyword match,,law firm,
+The Los Angeles Sentinel,1,THE LOS ANGELES SENTINEL,,,,,5111,"Newspaper, Periodical, Book, and Directory Publishers",manual,,,manual: about (weekly newspaper)
+Phils BBQ,1,PHILS BBQ,Phils BBQ,,,,722511,Full-Service Restaurants,masterfile,edd,,
+One World Beef,1,ONE WORLD BEEF,One World Beef,,,,445240,Meat Retailers,masterfile,edd,,
+Brewery X,1,BREWERY X,Brewery X,,,,312120,Breweries,masterfile,edd,,
+"H&S Ventures, LLC",1,H S VENTURES LLC,,,,,,,,,,
+"Habbas, Nasseri, & Associates",1,HABBAS NASSERI ASSOCIATES,,,,,5411,Legal Services,manual,,,manual: about (personal injury law firm)
+"Haley, Purchio & Smith",1,HALEY PURCHIO SMITH,,,,,,,,,,
+Creative Artists Agency,1,CREATIVE ARTISTS AGENCY,Creative Artists Agency,Communications & Electronics,TV & Movie Production/Distribution,Motion picture production & distribution,,,masterfile,opensecrets,,
+Harper Collins,1,HARPER COLLINS,,,,,5111,"Newspaper, Periodical, Book, and Directory Publishers",manual,,,manual: about (book publisher)
+CraigRealty Group,1,CRAIGREALTY GROUP,,,,,,,,,,
+"Hawk Hill Management Co, LLC",1,HAWK HILL MANAGEMENT CO LLC,,,,,5311,Lessors of Real Estate,manual,,,manual: about (real estate management co)
+"Cool Effect, Inc.",1,COOL EFFECT INC,,,,,8133,Social Advocacy Organizations,manual,,,manual: about (carbon offset nonprofit)
+High Tide Foundation,1,HIGH TIDE FOUNDATION,,,,,8132,Grantmaking and Giving Services,manual,,,manual: name (foundation)
+Consero Group,1,CONSERO GROUP,,,,,,,,,,
+Hunco Development,1,HUNCO DEVELOPMENT,Hunco Development,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+INTUIT,1,INTUIT,Intuit,,,,456120,"Cosmetics, Beauty Supplies, and Perfume Retailers",masterfile,edd,,
+Iconiq,1,ICONIQ,Iconiq,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,
+IntraFi,1,INTRAFI,,,,,5223,Activities Related to Credit Intermediation,manual,,,manual: about (financial services/network)
+Column,1,COLUMN,Column,,,,423390,Other Construction Supply Merchant Whsle,masterfile,edd,,
+Irell & Manella LLP,1,IRELL MANELLA LLP,Irell & Manella LLP,,,,541110,Offices of Lawyers,masterfile,edd,,
+JERICHO CAPITAL ASSET MANAGEMENT L.P.,1,JERICHO CAPITAL ASSET MANAGEMENT L P,,,,,,,,,,
+Coldwell Banker,1,COLDWELL BANKER,Coldwell Banker,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Coastal Construction,1,COASTAL CONSTRUCTION,Coastal Construction,,,,236115,New Single-Family Housing Construction,masterfile,edd,,
+James D. Jameson,1,JAMES D JAMESON,,,,,5511,Management of Companies and Enterprises,manual,,,manual: about (chairman/major shareholder of multi-industry cos)
+Jana Simpson,1,JANA SIMPSON,,,,,6211,Offices of Physicians,manual,,,manual: snippet (MD)
+Jeff Unger,1,JEFF UNGER,,,,,5416,"Management, Scientific, and Technical Consulting Services",manual,,,manual: about (advisory services)
+Clyde Is Hungry Films Inc,1,CLYDE IS HUNGRY FILMS INC,,,,,,,,,,
+Joe Green,1,JOE GREEN,Joe Green,,,,112990,All Other Animal Production,masterfile,edd,,
+John Vidovich,1,JOHN VIDOVICH,,,,,1112,Vegetable and Melon Farming,manual,,,manual: about (large farming operations)
+"Jp DiNapoli Companies, Inc.",1,JP DINAPOLI COMPANIES INC,,,,,,,,,,
+"Jules and Associates, Inc.",1,JULES AND ASSOCIATES INC,,,,,,,,,,
+KEVIN MORRIS PC,1,KEVIN MORRIS PC,,,,,5411,Legal Services,manual,,,manual: about (PC = law firm)
+Cloobeck Companies,1,CLOOBECK COMPANIES,,,,,,,,,,
+Charm Industrial,1,CHARM INDUSTRIAL,,,,,5417,Scientific Research and Development Services,manual,,,manual: about (carbon removal R&D)
+Croke Fairchild Duarte & Beres,1,CROKE FAIRCHILD DUARTE BERES,,,,,5411,Legal Services,manual,,,manual: about (multi-office law firm)
+Greylock,1,GREYLOCK,Greylock,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+Pariah,1,PARIAH,Pariah,,,,456120,"Cosmetics, Beauty Supplies, and Perfume Retailers",masterfile,edd,,
+Grewal Hospitality,1,GREWAL HOSPITALITY,,,,,7211,Traveler Accommodation,manual,,,manual: name + snippet (hospitality group)
+Echo45 Advisors LLC,1,ECHO45 ADVISORS LLC,,,,,,,,,,
+Edward Norton,1,EDWARD NORTON,,,,,7115,"Independent Artists, Writers, and Performers",manual,,,manual: about (actor and filmmaker)
+Eglet Law,1,EGLET LAW,,,,,5411,Legal Services,manual,,,manual: about (personal injury law firm)
+"Elizabeth Naftali, Investor",1,ELIZABETH NAFTALI INVESTOR,,,,,5311,Lessors of Real Estate,manual,,,manual: about (commercial real estate entrepreneur)
+Ellis Partners,1,ELLIS PARTNERS,Ellis Partners,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Epic Level,1,EPIC LEVEL,,,,,,,,,,
+"Eric Newman, Producer",1,ERIC NEWMAN PRODUCER,,,,,5121,Motion Picture and Video Industries,manual,,,manual: about (film & TV producer)
+Executive,1,EXECUTIVE,Executive,,,,485320,Limosine Service,masterfile,edd,,
+FOUNDERS FUND,1,FOUNDERS FUND,,,,,,,,,,
+Dordick Law Corporation,1,DORDICK LAW CORPORATION,,,,,,,,,,
+Diane B. Greene,1,DIANE B GREENE,,,,,,,,,,
+Flynn Properties Inc.,1,FLYNN PROPERTIES INC,,,,,,,,,,
+"Devcon Construction, Inc.",1,DEVCON CONSTRUCTION INC,,,,,,,,,,
+Fox Corporation,1,FOX CORPORATION,,Communications & Electronics,TV & Movie Production/Distribution,Broadcasting & motion pictures,,,keyword match,,fox corporation,
+Desert Redi Mix,1,DESERT REDI MIX,,,,,,,,,,
+GH Palmer Associates,1,GH PALMER ASSOCIATES,,,,,5311,Lessors of Real Estate,manual,,,manual: about (multifamily real estate)
+GHS,1,GHS,GHS,,,,457120,Other Gasoline Stations,masterfile,edd,,
+DeHeng Law Offices,1,DEHENG LAW OFFICES,DEHENG LAW OFFICES,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,
+De Anza Properties,1,DE ANZA PROPERTIES,De Anza Properties,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+GPR Ventures,1,GPR VENTURES,GPR Ventures,,,,237210,Land Subdivision,masterfile,edd,,
+De Anza Building & Maintenance Inc.,1,DE ANZA BUILDING MAINTENANCE INC,,,,,5311,Lessors of Real Estate,manual,,,manual: about (apartment communities)
+"Gary Karlin Michelson, M.D.",1,GARY KARLIN MICHELSON M D,,,,,6211,Offices of Physicians,manual,,,manual: about (orthopedic surgeon)
+Generation Tux,1,GENERATION TUX,,,,,5322,Consumer Goods Rental,manual,,,manual: about (formalwear rental)
+Gilbert and Jacki Foundation,1,GILBERT AND JACKI FOUNDATION,,,,,,,,,,
+Gilder Gagnon Howe & Co LLC,1,GILDER GAGNON HOWE CO LLC,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (long-term growth investing)
+DOORDASH,1,DOORDASH,DoorDash,,,,492210,Local Messengers and Local Delivery,masterfile,edd,,
+"DEVCON CONSTRUCTION, INC.",1,DEVCON CONSTRUCTION INC,,,,,,,,,,
+Crown Island Insurance,1,CROWN ISLAND INSURANCE,Crown Island Insurance,,,,524210,Insurance Agencies and Brokerages,masterfile,edd,,
+Crop Organization,1,CROP ORGANIZATION,,,,,8133,Social Advocacy Organizations,manual,,,manual: about (reentry support nonprofit)
+"Chalet Run Capital Management, LLC",1,CHALET RUN CAPITAL MANAGEMENT LLC,,,,,5239,Other Financial Investment Activities,manual,,,manual: name (capital management)
+KXLA-TV,1,KXLA TV,,,,,5151,Radio and Television Broadcasting,manual,,,manual: about (broadcast TV station)
+Certain Inc.,1,CERTAIN INC,,,,,5112,Software Publishers,manual,,,manual: name (Certain - event mgmt SaaS)
+Kampack Inc.,1,KAMPACK INC,,,,,3222,Converted Paper Product Manufacturing,manual,,,manual: about (corrugated packaging mfg)
+Matrix Partners,1,MATRIX PARTNERS,Matrix Partners,,,,523910,Miscellaneous Intermediation,masterfile,edd,,
+Maureen K.C. Pritzker,1,MAUREEN K C PRITZKER,,,,,,,,,,
+Maxim Integrated,1,MAXIM INTEGRATED,,,,,3344,Semiconductor and Other Electronic Component Manufacturing,manual,,,manual: about (analog/mixed-signal semiconductor)
+Mayer Capital Partners,1,MAYER CAPITAL PARTNERS,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (real estate investment banking)
+McCarthy Family Farms,1,MCCARTHY FAMILY FARMS,McCarthy Family Farms,,,,111998,All Other Miscellaneous Crop Farming,masterfile,edd,,
+McEntee Group,1,MCENTEE GROUP,,,,,,,,,,
+COINBASE,1,COINBASE,CoinBase,,,,523210,Securities and Commodities Exchanges,masterfile,edd,,
+Medley Partners,1,MEDLEY PARTNERS,Medley Partners,,,,561110,Office Administrative Services,masterfile,edd,,
+Mercury Aviation Companies,1,MERCURY AVIATION COMPANIES,,,,,,,,,,
+Meritage Group LP,1,MERITAGE GROUP LP,Meritage Group LP,,,,541110,Offices of Lawyers,masterfile,edd,,
+Meta,1,META,Meta,,,,238220,Plumbing and HVAC Contractors,masterfile,edd,,
+Meyer Properties,1,MEYER PROPERTIES,Meyer Properties,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Millennials Trucking,1,MILLENNIALS TRUCKING,,Transportation,Trucking,,,,keyword match,,trucking,
+CARGO SOLUTION EXPRESS INC,1,CARGO SOLUTION EXPRESS INC,CARGO SOLUTION EXPRESS INC,,,,321920,Wood Container and Pallet Manufacturing,masterfile,edd,,
+CARG,1,CARG,CARG,,,,488320,Marine Cargo Handling,masterfile,edd,,
+NVIDIA,1,NVIDIA,NVIDIA,,,,541511,Custom Computer Programming Services,masterfile,edd,,
+New Castle Properties Group,1,NEW CASTLE PROPERTIES GROUP,,,,,5312,Offices of Real Estate Agents and Brokers,manual,,,manual: about (commercial real estate brokerage)
+New Pacific Realty Corp.,1,NEW PACIFIC REALTY CORP,,"Finance, Insurance & Real Estate",,,,,keyword match,,realty,
+NewMark Merrill Companies,1,NEWMARK MERRILL COMPANIES,,,,,5311,Lessors of Real Estate,manual,,,manual: name (NewMark Merrill - real estate)
+Newchem21 Inc.,1,NEWCHEM21 INC,,,,,,,,,,
+Nexad Systems Inc.,1,NEXAD SYSTEMS INC,,,,,,,,,,
+Nguyen Lawyers ALC,1,NGUYEN LAWYERS ALC,Nguyen Lawyers ALC,,,,541110,Offices of Lawyers,masterfile,edd,,
+Build Group,1,BUILD GROUP,Build Group,,,,531120,Lessors of Nonresidential Buildings,masterfile,edd,,
+"O'Melveny, LLP",1,O MELVENY LLP,,,,,5411,Legal Services,manual,,,manual: about (international law firm)
+OBERNDORF ENTERPRISES,1,OBERNDORF ENTERPRISES,,,,,,,,,,
+OPCO,1,OPCO,OPCO,,,,333132,Oil and Gas Field Machinery & Equipment,masterfile,edd,,
+"Downey Brand, LLP",1,DOWNEY BRAND LLP,,,,,,,,,,
+Owner/Founder,1,OWNER FOUNDER,,,,,,,,,,
+PRIME GROUP,1,PRIME GROUP,PRIME GROUP,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Martinian Lawyers,1,MARTINIAN LAWYERS,Martinian Lawyers,,,,541110,Offices of Lawyers,masterfile,edd,,
+CSBio,1,CSBIO,CSBio,,,,541714,Research and Development in Biotechnology (except Nanobiotechnology),masterfile,edd,,
+CT Partners,1,CT PARTNERS,CT Partners,,,,541512,Computer Systems Design Services,masterfile,edd,,
+CapitalG,1,CAPITALG,,,,,5239,Other Financial Investment Activities,manual,,,manual: about (Google's growth-stage VC arm)
+Karla Jurvetson,1,KARLA JURVETSON,,,,,,,,,,
+Kristin Mirek Consulting LLC,1,KRISTIN MIREK CONSULTING LLC,,,,,5418,"Advertising, Public Relations, and Related Services",manual,,,manual: about (social media/content consulting)
+Catherine Paige,1,CATHERINE PAIGE,,,,,,,,,,
+LAMONICAs NY-PIZZA,1,LAMONICAS NY PIZZA,,,,,7225,Restaurants and Other Eating Places,manual,,,manual: about (NY-style pizza restaurant)
+LEGACY PARTNERS,1,LEGACY PARTNERS,LEGACY PARTNERS,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Casino M8Trix,1,CASINO M8TRIX,Casino M8trix,General Business,Gambling & Casinos,"Casinos, racetracks & gambling",,,masterfile,opensecrets,,
+La Mamba,1,LA MAMBA,La Mamba,,,,722511,Full-Service Restaurants,masterfile,edd,,
+LaPolt Law PC,1,LAPOLT LAW PC,,,,,,,,,,
+Lanikai Management,1,LANIKAI MANAGEMENT,Lanikai Management,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+1P Advocacy,1,1P ADVOCACY,,,,,8133,Social Advocacy Organizations,manual,,,manual: about (social impact nonprofit)
+"Carleton Management, Inc.",1,CARLETON MANAGEMENT INC,,,,,5311,Lessors of Real Estate,manual,,,manual: about (real estate investment & development)
+Leesfield & Partners,1,LEESFIELD PARTNERS,,,,,5411,Legal Services,manual,,,manual: about (Miami personal injury law firm)
+Legacy Partners,1,LEGACY PARTNERS,LEGACY PARTNERS,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+Lincoln Dynamic Group,1,LINCOLN DYNAMIC GROUP,,,,,5239,Other Financial Investment Activities,manual,,,"manual: about (private office, multi-asset investments)"
+Maco Equipement,1,MACO EQUIPEMENT,,,,,,,,,,
+LinkedIn,1,LINKEDIN,LinkedIn,,,,516210,"Media streaming distribution services, social networks, and other media net",masterfile,edd,,
+Lionel Foundation,1,LIONEL FOUNDATION,,,,,8132,Grantmaking and Giving Services,manual,,,manual: about (Clara Lionel Foundation)
+Long Journey Ventures,1,LONG JOURNEY VENTURES,,,,,,,,,,
+Cantu Construction,1,CANTU CONSTRUCTION,,,,,2362,Nonresidential Building Construction,manual,,,manual: about (steel construction company)
+Lorena Guerrero,1,LORENA GUERRERO,,,,,,,,,,
+Candidate,1,CANDIDATE,Candidate,,,,922160,Fire Protection,masterfile,edd,,
+California Resources Corporation,1,CALIFORNIA RESOURCES CORPORATION,,,,,,,,,,
+M medical group,1,M MEDICAL GROUP,M medical group,,,,621111,"Offices of Physicians, ex. Mental Health",masterfile,edd,,
+MAIN STREET ADVISORS INC,1,MAIN STREET ADVISORS INC,,,,,,,,,,
+CTR Partners,1,CTR PARTNERS,CTR Partners,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,
+MTLT Holdings,1,MTLT HOLDINGS,,,,,5511,Management of Companies and Enterprises,manual,,,"manual: name (holdings, no further info)"
+MWWPR,1,MWWPR,,,,,5418,"Advertising, Public Relations, and Related Services",manual,,,manual: about (PR / communications agency)
+Mackenzie Capital,1,MACKENZIE CAPITAL,,,,,,,,,,
+"1334 Partners, LP",1,1334 PARTNERS LP,,,,,,,,,,

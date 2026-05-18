@@ -1,0 +1,25 @@
+employer,n_donors,amount_total,entity_kind,employer_norm,match_name,level1_category,level2_category,level3_category,naics_code,naics_label,data_source_1,data_source_2,matched_keyword,edd_match_name,edd_match_type,edd_naics_code,edd_naics_description,edd_status
+STEVE PHILLIPS,2,2000000.0,individual,STEVE PHILLIPS,,,,,,,,,,,,,,no_results
+SNAP INC.,1,1000000.0,individual,SNAP INC,SNAP INC,,,,51,Information,masterfile,h1b,,,,,,
+Stephanie Robinson,1,250000.0,individual,STEPHANIE ROBINSON,,,,,,,,,,,,,,no_results
+Preservation Services LLC,1,250000.0,individual,PRESERVATION SERVICES LLC,,,,,,,,,,,,,,no_results
+"SEIU CALIFORNIA STATE COUNCIL (NONPROFIT 501 (C)(5)), nan",1,150000.0,organization,SEIU CALIFORNIA STATE COUNCIL NONPROFIT 501 C 5 NAN,,Labor,,,,,keyword match,,seiu,,,,,
+KARLA JURVETSON,1,100000.0,individual,KARLA JURVETSON,,,,,,,,,,,,,,no_results
+"Stifel, Nicolaus & Company, Inc., nan",1,92746.82,organization,STIFEL NICOLAUS COMPANY INC NAN,,,,,,,,,,,,,,no_results
+"Thomas J. Coates Revocable Trust, nan",1,25000.0,organization,THOMAS J COATES REVOCABLE TRUST NAN,,,,,,,,,,,,,,no_results
+Self-Employed - No Separate Business Name,1,25000.0,individual,SELF EMPLOYED NO SEPARATE BUSINESS NAME,,,,,,,,,,,,,,no_results
+"Service Employees International Union Local 721, CTW, CLC State & Local, nan",2,22700.0,organization,SERVICE EMPLOYEES INTERNATIONAL UNION LOCAL 721 CTW CLC STATE LOCAL NAN,,Labor,,,,,keyword match,,international union,,,,,
+"CA State Council of Service Employees, nan",1,19600.0,organization,CA STATE COUNCIL OF SERVICE EMPLOYEES NAN,,,,,,,,,,,,,,no_results
+"Southern CA Pipe Trades District Council #16, nan",1,19600.0,organization,SOUTHERN CA PIPE TRADES DISTRICT COUNCIL 16 NAN,,Labor,,,,,keyword match,,district council,,,,,
+"Building a Stronger Future for CA PAC, Sponsored by Western States Regional Council of Carpenters, nan",1,19600.0,organization,BUILDING A STRONGER FUTURE FOR CA PAC SPONSORED BY WESTERN STATES REGIONAL COUNCIL OF CARPENTERS NAN,,,,,,,,,,,,,,no_results
+"SEIU Local 2015 State PAC, nan",1,19600.0,organization,SEIU LOCAL 2015 STATE PAC NAN,,Labor,,,,,keyword match,,seiu,,,,,
+"PACE of California School Employees Association Local, State, Federal Candidates, nan",1,19600.0,organization,PACE OF CALIFORNIA SCHOOL EMPLOYEES ASSOCIATION LOCAL STATE FEDERAL CANDIDATES NAN,,,,,,,,,,,,,,no_results
+"Operating Engineers 3 Statewide PAC SCC, nan",1,19600.0,organization,OPERATING ENGINEERS 3 STATEWIDE PAC SCC NAN,,Labor,General Trade Unions,,,,keyword match,,operating engineers,,,,,
+"California Teachers Association for Better Citizenship SCC, nan",1,19600.0,organization,CALIFORNIA TEACHERS ASSOCIATION FOR BETTER CITIZENSHIP SCC NAN,,Labor,Public Sector Unions,Teachers unions,,,keyword match,,teachers association,,,,,
+"United Domestic Workers of America Action Fund, nan",1,19600.0,organization,UNITED DOMESTIC WORKERS OF AMERICA ACTION FUND NAN,,,,,,,,,,,,,,no_results
+"Mosaic PAC (Public Affairs & Campaigns), nan",1,13000.0,organization,MOSAIC PAC PUBLIC AFFAIRS CAMPAIGNS NAN,,,,,,,,,,,,,,no_results
+"State Building & Construction Trades Council of CA PAC, nan",1,12600.0,organization,STATE BUILDING CONSTRUCTION TRADES COUNCIL OF CA PAC NAN,,Labor,General Trade Unions,,,,keyword match,,trades council,,,,,
+"California Teachers Association Association for Better Citizenship, nan",1,11800.0,organization,CALIFORNIA TEACHERS ASSOCIATION ASSOCIATION FOR BETTER CITIZENSHIP NAN,,Labor,Public Sector Unions,Teachers unions,,,keyword match,,teachers association,,,,,
+"STATE BUILDING & CONSTRUCTION TRADES COUNCIL OF CALIFORNIA PAC, nan",1,10900.0,organization,STATE BUILDING CONSTRUCTION TRADES COUNCIL OF CALIFORNIA PAC NAN,,Labor,General Trade Unions,,,,keyword match,,trades council,,,,,
+"Corn Next Holdings, Inc., nan",1,10200.0,organization,CORN NEXT HOLDINGS INC NAN,,,,,,,,,,,,,,no_results
+"Service Employees International Union Local 1000 Candidate PAC, nan",1,10100.0,organization,SERVICE EMPLOYEES INTERNATIONAL UNION LOCAL 1000 CANDIDATE PAC NAN,,Labor,,,,,keyword match,,international union,,,,,

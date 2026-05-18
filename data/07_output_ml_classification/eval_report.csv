@@ -1,0 +1,37 @@
+block,target,n_with_truth,n_in_classifier_vocab,top1,top3
+train(all),level1_category,39810,39807,0.29831436681990603,0.5873087647901123
+train(all),level2_category,39810,39780,0.23217697335344395,0.41103569632981396
+train(all),naics_code,22373,22270,0.6504265828468793,0.8651998203861697
+ood:donors_classified_with_manual,level1_category,10,10,0.8,1.0
+ood:donors_classified_with_manual,level2_category,7,7,0.5714285714285714,0.7142857142857143
+ood:donors_classified_with_manual,naics_code,154,24,0.3333333333333333,0.7083333333333334
+ood:donors_classified_with_manual|keyword match,level1_category,10,10,0.8,1.0
+ood:donors_classified_with_manual|keyword match,level2_category,7,7,0.5714285714285714,0.7142857142857143
+ood:donors_classified_with_manual|keyword match,naics_code,0,0,,
+ood:donors_classified_with_manual|manual,level1_category,0,0,,
+ood:donors_classified_with_manual|manual,level2_category,0,0,,
+ood:donors_classified_with_manual|manual,naics_code,147,18,0.3888888888888889,0.7222222222222222
+ood:donors_classified_with_manual|masterfile,level1_category,0,0,,
+ood:donors_classified_with_manual|masterfile,level2_category,0,0,,
+ood:donors_classified_with_manual|masterfile,naics_code,7,6,0.16666666666666666,0.6666666666666666
+ood:lt_governor_race_2026_over_10k_classified,level1_category,10,10,0.9,1.0
+ood:lt_governor_race_2026_over_10k_classified,level2_category,5,5,1.0,1.0
+ood:lt_governor_race_2026_over_10k_classified,naics_code,1,1,0.0,1.0
+ood:lt_governor_race_2026_over_10k_classified|keyword match,level1_category,10,10,0.9,1.0
+ood:lt_governor_race_2026_over_10k_classified|keyword match,level2_category,5,5,1.0,1.0
+ood:lt_governor_race_2026_over_10k_classified|keyword match,naics_code,0,0,,
+ood:lt_governor_race_2026_over_10k_classified|masterfile,level1_category,0,0,,
+ood:lt_governor_race_2026_over_10k_classified|masterfile,level2_category,0,0,,
+ood:lt_governor_race_2026_over_10k_classified|masterfile,naics_code,1,1,0.0,1.0
+ood:insurance_commissioner_race_2026_over_10k_classified,level1_category,7,7,0.8571428571428571,1.0
+ood:insurance_commissioner_race_2026_over_10k_classified,level2_category,4,4,0.75,0.75
+ood:insurance_commissioner_race_2026_over_10k_classified,naics_code,1,0,,
+ood:insurance_commissioner_race_2026_over_10k_classified|edd,level1_category,0,0,,
+ood:insurance_commissioner_race_2026_over_10k_classified|edd,level2_category,0,0,,
+ood:insurance_commissioner_race_2026_over_10k_classified|edd,naics_code,1,0,,
+ood:insurance_commissioner_race_2026_over_10k_classified|keyword match,level1_category,7,7,0.8571428571428571,1.0
+ood:insurance_commissioner_race_2026_over_10k_classified|keyword match,level2_category,4,4,0.75,0.75
+ood:insurance_commissioner_race_2026_over_10k_classified|keyword match,naics_code,0,0,,
+ood:pooled,level1_category,27,27,0.8518518518518519,1.0
+ood:pooled,level2_category,16,16,0.75,0.8125
+ood:pooled,naics_code,156,25,0.32,0.72

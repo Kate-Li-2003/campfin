@@ -1,0 +1,95 @@
+employer,n_donors,script_data_source_1,script_data_source_2,script_match_name,script_level1_category,script_naics_code,script_naics_label,manual_naics_code,manual_naics_label,manual_source_note
+Harvest Rock Church,13,masterfile,edd,Harvest Rock Church,,813110,Religious Organizations,81,Other Services (except Public Administration),
+Y Combinator,12,masterfile,edd,Y Combinator,,523910,Miscellaneous Intermediation,52,Finance and Insurance,
+Mosaic Real Estate Investors,5,keyword match,,,"Finance, Insurance & Real Estate",,,53,Real Estate and Rental and Leasing,
+DoorDash,3,masterfile,edd,DoorDash,,492210,Local Messengers and Local Delivery,51,Information,
+Kaiser Permanente,3,masterfile,opensecrets,Kaiser Permanente,Health,,,6221,General Medical and Surgical Hospitals,manual: about (integrated managed care / hospitals)
+Sequoia Heritage,3,masterfile,edd,Sequoia Heritage,,712110,Museums,5239,Other Financial Investment Activities,manual: about (Sequoia Heritage capital partner)
+Stanford University,3,masterfile,edd,Stanford University,,721310,Rooming and Boarding Houses,6113,"Colleges, Universities, and Professional Schools",manual: about (private research university)
+State of Gold,3,masterfile,edd,State of Gold,,458310,Jewelry Retailers,5191,Other Information Services,manual: snippet (podcast)
+Madison Partners,2,masterfile,edd,Madison Partners,,531210,Offices of Real Estate Agents & Brokers,52,Finance and Insurance,
+Lyon Living,2,masterfile,edd,Lyon Living,,531210,Offices of Real Estate Agents & Brokers,5311,Lessors of Real Estate,manual: about (apartment communities operations)
+Lauder Partners,2,masterfile,edd,Lauder Partners,,523999,Misc Financial Investment Activities,52,Finance and Insurance,
+LUNYA,2,masterfile,edd,Lunya,,458110,Clothing and Clothing Accessories Retailers,4541,Electronic Shopping and Mail-Order Houses,manual: about (online sleepwear retail)
+Lunya,2,masterfile,edd,Lunya,,458110,Clothing and Clothing Accessories Retailers,4541,Electronic Shopping and Mail-Order Houses,manual: about (online sleepwear retail)
+Lookout,2,masterfile,edd,Lookout,,722410,Drinking Places (Alcoholic Beverages),5415,Computer Systems Design and Related Services,manual: about (cybersecurity platform)
+"Figma, Inc.",2,masterfile,h1b,FIGMA INC,,54,"Professional, Scientific, and Technical Services",54,"Professional, Scientific, and Technical Services",
+James Campbell,2,masterfile,edd,James Campbell,,531210,Offices of Real Estate Agents & Brokers,5311,Lessors of Real Estate,manual: about (real estate company)
+JM Eagle,2,masterfile,edd,JM Eagle,,326122,Plastics Pipe and Pipe Fitting Mfg,3261,Plastics Product Manufacturing,manual: about (plastic pipe manufacturer)
+Standard Capital,2,masterfile,edd,Standard Capital,,523940,Portfolio Management and Investment Advice,52,Finance and Insurance,
+Santa Clara Unified School District,2,keyword match,,,Government Agencies/Education/Other,,,6111,Elementary and Secondary Schools,manual: about (K-12 school district)
+Scopely,2,masterfile,edd,Scopely,,713120,Amusement Arcades,5112,Software Publishers,manual: about (video game developer/publisher)
+Securin,2,masterfile,edd,Securin,,813311,Human Rights Organizations,5415,Computer Systems Design and Related Services,manual: about (cybersecurity / vulnerability intelligence)
+"Snap, Inc.",2,masterfile,h1b,SNAP INC,,51,Information,54,"Professional, Scientific, and Technical Services",
+The Permanente Medical Group,2,keyword match,,,Health,,,6211,Offices of Physicians,manual: about (largest medical group)
+Natera,2,masterfile,edd,Natera,,811121,Automotive Body and Interior Repair,6215,Medical and Diagnostic Laboratories,manual: about (clinical genetic testing labs)
+Dropbox,2,masterfile,edd,Dropbox,,518210,Data Processing and Related Services,54,"Professional, Scientific, and Technical Services",
+Prado Group,2,masterfile,edd,Prado Group,,237210,Land Subdivision,53,Real Estate and Rental and Leasing,
+Roblox,2,masterfile,edd,Roblox,,459120,"Hobby, Toy, and Game Retailers",5112,Software Publishers,manual: about (gaming platform)
+Reddit,2,masterfile,edd,Reddit,,516210,"Media streaming distribution services, social networks, and other media net",51,Information,
+Reven Capital,2,masterfile,edd,Reven Capital,,531210,Offices of Real Estate Agents & Brokers,5239,Other Financial Investment Activities,manual: about (real estate investment management)
+Riot Games,2,masterfile,edd,Riot Games,,459120,"Hobby, Toy, and Game Retailers",51,Information,
+Ripple,2,masterfile,edd,Ripple,,458110,Clothing and Clothing Accessories Retailers,52,Finance and Insurance,
+"Affirm, Inc.",2,masterfile,h1b,AFFIRM INC,,52,Finance and Insurance,5222,Nondepository Credit Intermediation,manual: about (BNPL fintech)
+Advantage Ambulance,2,masterfile,edd,Advantage Ambulance,,621910,Ambulance Services,6219,Other Ambulatory Health Care Services,manual: about (ambulance/event medical services)
+Descript,2,masterfile,edd,Descript,,513210,Software Publishers,5112,Software Publishers,manual: name (Descript audio/video software)
+Amazon,2,masterfile,edd,Amazon,,531120,Lessors of Nonresidential Buildings,4541,Electronic Shopping and Mail-Order Houses,manual: about (e-commerce)
+8VC,2,masterfile,edd,8vc,,334413,Semiconductor and Related Devices,52,Finance and Insurance,
+Arash Khorsandi,1,masterfile,edd,Arash Khorsandi,,541110,Offices of Lawyers,5411,Legal Services,manual: about (founder of injury law firm)
+Boucher LLP,1,masterfile,edd,Boucher LLP,,541110,Offices of Lawyers,5411,Legal Services,"manual: name (LLP, law firm)"
+Another Planet Entertainment,1,masterfile,edd,Another Planet Entertainment,,561110,Office Administrative Services,7113,"Promoters of Performing Arts, Sports, and Similar Events",manual: about (independent concert promoter)
+Anduril Industries,1,masterfile,edd,Anduril Industries,,334511,"Search, Detection & Navigation Instrumnt",3364,Aerospace Product and Parts Manufacturing,manual: about (defense aerospace tech)
+SEQUOIA HERITAGE,1,masterfile,edd,Sequoia Heritage,,712110,Museums,5239,Other Financial Investment Activities,manual: about (Sequoia Heritage capital partner)
+REDDIT,1,masterfile,edd,Reddit,,516210,"Media streaming distribution services, social networks, and other media net",51,Information,
+Rancon Group,1,masterfile,edd,Rancon Group,,237210,Land Subdivision,5413,"Architectural, Engineering, and Related Services",manual: about (land due diligence services)
+Becker Law Group,1,masterfile,edd,Becker Law Group,,541110,Offices of Lawyers,5411,Legal Services,manual: about (CA personal injury law firm)
+"Beverly Hills Spine Surgery, Inc.",1,keyword match,,,Health,,,6211,Offices of Physicians,manual: about (spine surgery practice)
+Rippling,1,masterfile,edd,Rippling,,513210,Software Publishers,5112,Software Publishers,manual: about (HR/IT/Finance SaaS)
+Robert Half Inc.,1,masterfile,h1b,ROBERT HALF INC,,56,Administrative and Support and Waste Management and Remediation Services,5613,Employment Services,manual: about (staffing/recruitment)
+AR Asset Management,1,masterfile,edd,AR Asset Management,,523940,Portfolio Management and Investment Advice,5239,Other Financial Investment Activities,manual: about (SEC-registered investment adviser)
+Throckmorton Partners,1,masterfile,edd,Throckmorton Partners,,531210,Offices of Real Estate Agents & Brokers,5239,Other Financial Investment Activities,manual: about (multifamily housing investment platform)
+Trial Lawyers for Justice,1,masterfile,edd,Trial lawyers for Justice,,541110,Offices of Lawyers,5411,Legal Services,manual: about (national personal injury law firm)
+Trial lawyers for Justice,1,masterfile,edd,Trial lawyers for Justice,,541110,Offices of Lawyers,5411,Legal Services,manual: about (national personal injury law firm)
+TruConnect,1,masterfile,edd,TruConnect,,518210,Data Processing and Related Services,5172,Wireless Telecommunications Carriers,manual: about (mobile virtual network operator)
+Van Wagner,1,masterfile,edd,Van Wagner,,517810,All Other Telecommunications,5418,"Advertising, Public Relations, and Related Services",manual: about (sports advertising agency)
+WME,1,masterfile,edd,WME,,611110,Elementary and Secondary Schools,7114,"Agents and Managers for Artists, Athletes, Entertainers, and Other Public Figures",manual: about (talent agency)
+Walker & Dunlop,1,masterfile,edd,Walker & Dunlop,,523940,Portfolio Management and Investment Advice,5239,Other Financial Investment Activities,manual: about (commercial real estate finance & advisory)
+8vc,1,masterfile,edd,8vc,,334413,Semiconductor and Related Devices,52,Finance and Insurance,
+Y COMBINATOR,1,masterfile,edd,Y Combinator,,523910,Miscellaneous Intermediation,52,Finance and Insurance,
+Alphabet,1,masterfile,edd,Alphabet,,518210,Data Processing and Related Services,5191,Other Information Services,manual: about (Alphabet / Google holding)
+Spencer Enterprises,1,masterfile,edd,Spencer Enterprises,,621340,Offices of Specialty Therapists,2361,Residential Building Construction,"manual: about (homebuilder, multi-family, office)"
+Strata Capital,1,masterfile,edd,Strata Capital,,523940,Portfolio Management and Investment Advice,5239,Other Financial Investment Activities,manual: about (financial advisory)
+Style Melody inc,1,masterfile,edd,Style Melody inc,,812112,Beauty Salons,4541,Electronic Shopping and Mail-Order Houses,manual: name (apparel/lifestyle brand)
+Susman Godfrey,1,masterfile,edd,Susman Godfrey,,541110,Offices of Lawyers,5411,Legal Services,manual: about (litigation law firm)
+Sutter Hill Ventures,1,masterfile,edd,Sutter Hill Ventures,,523910,Miscellaneous Intermediation,5239,Other Financial Investment Activities,manual: about (venture capital)
+The Haggard Law Firm,1,keyword match,,,Lawyers & Lobbyists,,,5411,Legal Services,manual: about (law firm)
+Phils BBQ,1,masterfile,edd,Phils BBQ,,722511,Full-Service Restaurants,7225,Restaurants and Other Eating Places,manual: about (BBQ restaurant)
+One World Beef,1,masterfile,edd,One World Beef,,445240,Meat Retailers,3116,Animal Slaughtering and Processing,manual: about (beef processing)
+Hunco Development,1,masterfile,edd,Hunco Development,,531210,Offices of Real Estate Agents & Brokers,5312,Offices of Real Estate Agents and Brokers,manual: about (commercial real estate brokerage)
+Coastal Construction,1,masterfile,edd,Coastal Construction,,236115,New Single-Family Housing Construction,2362,Nonresidential Building Construction,manual: about (West Palm Beach construction)
+Joe Green,1,masterfile,edd,Joe Green,,112990,All Other Animal Production,5239,Other Financial Investment Activities,manual: about (entrepreneur/investor)
+Greylock,1,masterfile,edd,Greylock,,523910,Miscellaneous Intermediation,5239,Other Financial Investment Activities,manual: about (venture capital)
+Ellis Partners,1,masterfile,edd,Ellis Partners,,531210,Offices of Real Estate Agents & Brokers,5311,Lessors of Real Estate,manual: about (commercial real estate investor/dev)
+Fox Corporation,1,keyword match,,,Communications & Electronics,,,5151,Radio and Television Broadcasting,manual: about (mass media broadcasting)
+GHS,1,masterfile,edd,GHS,,457120,Other Gasoline Stations,6221,General Medical and Surgical Hospitals,manual: about (Geisinger Health System)
+DeHeng Law Offices,1,masterfile,h1b,DEHENG LAW OFFICES,,54,"Professional, Scientific, and Technical Services",5411,Legal Services,manual: about (international law firm)
+De Anza Properties,1,masterfile,edd,De Anza Properties,,531210,Offices of Real Estate Agents & Brokers,5311,Lessors of Real Estate,manual: about (apartment communities)
+GPR Ventures,1,masterfile,edd,GPR Ventures,,237210,Land Subdivision,5239,Other Financial Investment Activities,manual: about (real estate investment firm)
+DOORDASH,1,masterfile,edd,DoorDash,,492210,Local Messengers and Local Delivery,51,Information,
+Crown Island Insurance,1,masterfile,edd,Crown Island Insurance,,524210,Insurance Agencies and Brokerages,5242,"Agencies, Brokerages, and Other Insurance Related Activities",manual: about (independent insurance agency)
+Matrix Partners,1,masterfile,edd,Matrix Partners,,523910,Miscellaneous Intermediation,5239,Other Financial Investment Activities,manual: about (early-stage venture capital)
+McCarthy Family Farms,1,masterfile,edd,McCarthy Family Farms,,111998,All Other Miscellaneous Crop Farming,1121,Cattle Ranching and Farming,manual: about (dairy farm)
+Medley Partners,1,masterfile,edd,Medley Partners,,561110,Office Administrative Services,5239,Other Financial Investment Activities,manual: name (Medley Partners - investments)
+Meritage Group LP,1,masterfile,edd,Meritage Group LP,,541110,Offices of Lawyers,5239,Other Financial Investment Activities,manual: about (investment advisor)
+Meta,1,masterfile,edd,Meta,,238220,Plumbing and HVAC Contractors,5191,Other Information Services,manual: about (Meta Platforms)
+Millennials Trucking,1,keyword match,,,Transportation,,,4841,General Freight Trucking,manual: about (trucking/fleet services)
+NVIDIA,1,masterfile,edd,NVIDIA,,541511,Custom Computer Programming Services,3344,Semiconductor and Other Electronic Component Manufacturing,manual: about (semiconductors / GPU mfg)
+New Pacific Realty Corp.,1,keyword match,,,"Finance, Insurance & Real Estate",,,5311,Lessors of Real Estate,manual: about (real estate investment & development)
+Build Group,1,masterfile,edd,Build Group,,531120,Lessors of Nonresidential Buildings,2362,Nonresidential Building Construction,manual: about (top commercial contractor)
+OPCO,1,masterfile,edd,OPCO,,333132,Oil and Gas Field Machinery & Equipment,5239,Other Financial Investment Activities,manual: about (Oppenheimer investment bank)
+Martinian Lawyers,1,masterfile,edd,Martinian Lawyers,,541110,Offices of Lawyers,5411,Legal Services,manual: about (personal injury law firm)
+CSBio,1,masterfile,edd,CSBio,,541714,Research and Development in Biotechnology (except Nanobiotechnology),3345,"Navigational, Measuring, Electromedical, and Control Instruments Manufacturing",manual: name (CSBio - peptide synthesizers)
+CT Partners,1,masterfile,edd,CT Partners,,541512,Computer Systems Design Services,6211,Offices of Physicians,manual: about (patient-centered healthcare)
+Lanikai Management,1,masterfile,edd,Lanikai Management,,531210,Offices of Real Estate Agents & Brokers,5313,Activities Related to Real Estate,manual: about (real estate activities)
+M medical group,1,masterfile,edd,M medical group,,621111,"Offices of Physicians, ex. Mental Health",6231,Nursing Care Facilities (Skilled Nursing Facilities),manual: about (post-acute care medical group)
+CTR Partners,1,masterfile,edd,CTR Partners,,531210,Offices of Real Estate Agents & Brokers,5312,Offices of Real Estate Agents and Brokers,manual: about (commercial real estate brokers/tenant rep)

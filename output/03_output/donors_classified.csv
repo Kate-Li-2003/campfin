@@ -1,0 +1,397 @@
+employer,n_donors,employer_norm,match_name,level1_category,level2_category,level3_category,naics_code,naics_label,match_running_list_source,match_source,edd_match_name,edd_match_type,edd_naics_code,edd_naics_description,edd_status
+Steyer for Governor 2026,25,STEYER FOR GOVERNOR 2026,,,,,,,,,,,,,no_results
+Candidate,1,CANDIDATE,Firefighter Candidate Testing,,,,922160,Fire Protection,,edd,Firefighter Candidate Testing,largest,922160,Fire Protection,ok
+State of Gold,4,STATE OF GOLD,State of Gold,,,,458310,Jewelry Retailers,,edd,State of Gold,exact,458310,Jewelry Retailers,ok
+Y Combinator,12,Y COMBINATOR,Y Combinator,,,,523910,Miscellaneous Intermediation,,edd,Y Combinator,exact,523910,Miscellaneous Intermediation,ok
+Harvest Rock Church,13,HARVEST ROCK CHURCH,Harvest Rock Church,,,,813110,Religious Organizations,,edd,Harvest Rock Church,exact,813110,Religious Organizations,ok
+Mosaic Real Estate Investors,6,MOSAIC REAL ESTATE INVESTORS,,,,,,,,,,,,,no_results
+The Steve Hilton Show,3,THE STEVE HILTON SHOW,,,,,,,,,,,,,no_results
+Lighthouse Worldwide Solutions Inc.,5,LIGHTHOUSE WORLDWIDE SOLUTIONS INC,,,,,,,,,,,,,no_results
+Susa Ventures,4,SUSA VENTURES,,,,,,,,,,,,,no_results
+DoorDash,3,DOORDASH,Doordash,,,,492210,Local Messengers and Local Delivery,,edd,Doordash,exact,492210,Local Messengers and Local Delivery,ok
+8vc,3,8VC,8VC,,,,334413,Semiconductor and Related Devices,,edd,8VC,exact,334413,Semiconductor and Related Devices,ok
+Thunder Parley,6,THUNDER PARLEY,,,,,,,,,,,,,no_results
+Self Employed,6,SELF EMPLOYED,,,,,,,,,,,,,no_results
+Cloudkitchen,2,CLOUDKITCHEN,,,,,,,,,,,,,no_results
+Future Ventures,2,FUTURE VENTURES,J L Future Ventures LLC,,,,999990,Unknown,,edd,J L Future Ventures LLC,largest,999990,Unknown,ok
+Caruso Management Company,2,CARUSO MANAGEMENT COMPANY,,,,,,,,,,,,,no_results
+GlobalWide Media Causal Iq,2,GLOBALWIDE MEDIA CAUSAL IQ,,,,,,,,,,,,,no_results
+Ripple,2,RIPPLE,Ripple,,,,458110,Clothing and Clothing Accessories Retailers,,edd,Ripple,exact,458110,Clothing and Clothing Accessories Retailers,ok
+Give Forward Foundation,2,GIVE FORWARD FOUNDATION,,,,,,,,,,,,,no_results
+The Jurvetson Foundation,2,THE JURVETSON FOUNDATION,,,,,,,,,,,,,no_results
+Prado Group,2,PRADO GROUP,Prado Group,,,,237210,Land Subdivision,,edd,Prado Group,exact,237210,Land Subdivision,ok
+Reddit,2,REDDIT,Reddit Inc,,,,516210,"Media streaming distribution services, social networks, and other media net",,edd,Reddit Inc,starts_with,516210,"Media streaming distribution services, social networks, and other media net",ok
+Fifth Door,2,FIFTH DOOR,,,,,,,,,,,,,no_results
+"Figma, Inc.",2,FIGMA INC,FIGMA INC,,,,54,"Professional, Scientific, and Technical Services",h1b_employer,running_list,,,,,
+ScifiVC,2,SCIFIVC,,,,,,,,,,,,,no_results
+H82W8 Productions,2,H82W8 PRODUCTIONS,,,,,,,,,,,,,no_results
+The Sobrato Organization,2,THE SOBRATO ORGANIZATION,,,,,,,,,,,,,no_results
+Riot Games,2,RIOT GAMES,Riot Games Inc,,,,459120,"Hobby, Toy, and Game Retailers",,edd,Riot Games Inc,starts_with,459120,"Hobby, Toy, and Game Retailers",ok
+Dropbox,2,DROPBOX,Dropbox,,,,518210,Data Processing and Related Services,,edd,Dropbox,exact,518210,Data Processing and Related Services,ok
+Descript,2,DESCRIPT,Descript,,,,513210,Software Publishers,,edd,Descript,exact,513210,Software Publishers,ok
+Goat Capital,2,GOAT CAPITAL,Old Goat Capital,,,,999990,Unknown,,edd,Old Goat Capital,largest,999990,Unknown,ok
+The Azoff Co.,2,THE AZOFF CO,,,,,,,,,,,,,no_results
+Hard Scale Eats LLC,2,HARD SCALE EATS LLC,,,,,,,,,,,,,no_results
+The Bot Company,2,THE BOT COMPANY,,,,,,,,,,,,,no_results
+Permit Power,2,PERMIT POWER,,,,,,,,,,,,,no_results
+Sequoia Heritage,2,SEQUOIA HERITAGE,Sequoia Heritage,,,,712110,Museums,,edd,Sequoia Heritage,exact,712110,Museums,ok
+Slow Burn Collective,2,SLOW BURN COLLECTIVE,,,,,,,,,,,,,no_results
+"Snap, Inc.",2,SNAP INC,SNAP INC,,,,51,Information,h1b_employer,running_list,,,,,
+Standard Capital,2,STANDARD CAPITAL,Standard Capital Financial,,,,523940,Portfolio Management and Investment Advice,,edd,Standard Capital Financial,starts_with,523940,Portfolio Management and Investment Advice,ok
+Makena Capital,2,MAKENA CAPITAL,,,,,,,,,,,,,no_results
+Madison Partners,2,MADISON PARTNERS,Madison Partners,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Madison Partners,exact,531210,Offices of Real Estate Agents & Brokers,ok
+Lunya,2,LUNYA,Lunya & Lahgo,,,,458110,Clothing and Clothing Accessories Retailers,,edd,Lunya & Lahgo,starts_with,458110,Clothing and Clothing Accessories Retailers,ok
+QL Ventures LLC,2,QL VENTURES LLC,,,,,,,,,,,,,no_results
+Lookout,2,LOOKOUT,Lookout,,,,722410,Drinking Places (Alcoholic Beverages),,edd,Lookout,exact,722410,Drinking Places (Alcoholic Beverages),ok
+Quiet Capital,2,QUIET CAPITAL,,,,,,,,,,,,,no_results
+Lauder Partners,2,LAUDER PARTNERS,Lauder Partners LLC,,,,523999,Misc Financial Investment Activities,,edd,Lauder Partners LLC,starts_with,523999,Misc Financial Investment Activities,ok
+Rad Fund LLC,3,RAD FUND LLC,,,,,,,,,,,,,no_results
+KORA Organics,2,KORA ORGANICS,,,,,,,,,,,,,no_results
+Jeremy Liew,2,JEREMY LIEW,,,,,,,,,,,,,no_results
+JM Eagle,2,JM EAGLE,JM Eagle Co,,,,326122,Plastics Pipe and Pipe Fitting Mfg,,edd,JM Eagle Co,starts_with,326122,Plastics Pipe and Pipe Fitting Mfg,ok
+Scopely,2,SCOPELY,Scopely Inc,,,,713120,Amusement Arcades,,edd,Scopely Inc,starts_with,713120,Amusement Arcades,ok
+Iron Fish,2,IRON FISH,,,,,,,,,,,,,no_results
+Hering Foundation,2,HERING FOUNDATION,,,,,,,,,,,,,no_results
+CareerPuck,2,CAREERPUCK,,,,,,,,,,,,,no_results
+"Plastpro, Inc.",2,PLASTPRO INC,,,,,,,,,,,,,no_results
+"Affirm, Inc.",2,AFFIRM INC,AFFIRM INC,,,,52,Finance and Insurance,h1b_employer,running_list,,,,,
+Byers Capital,2,BYERS CAPITAL,,,,,,,,,,,,,no_results
+"Wicklow Capital, Inc.",2,WICKLOW CAPITAL INC,,,,,,,,,,,,,no_results
+Baszucki Group,2,BASZUCKI GROUP,,,,,,,,,,,,,no_results
+Amazon,2,AMAZON,Amazon,,,,531120,Lessors of Nonresidential Buildings,,edd,Amazon,exact,531120,Lessors of Nonresidential Buildings,ok
+West Haddon Hall,2,WEST HADDON HALL,,,,,,,,,,,,,no_results
+"Alphacraft, LLC",2,ALPHACRAFT LLC,,,,,,,,,,,,,no_results
+"Alphabet, Inc.",2,ALPHABET INC,,,,,,,,,,,,,no_results
+Bronze,2,BRONZE,Bronze,,,,812199,Other Personal Care Services,,edd,Bronze,exact,812199,Other Personal Care Services,ok
+ANMLY,2,ANMLY,,,,,,,,,,,,,no_results
+Roblox,2,ROBLOX,Roblox,,,,459120,"Hobby, Toy, and Game Retailers",,edd,Roblox,exact,459120,"Hobby, Toy, and Game Retailers",ok
+Santa Clara Unified School District,2,SANTA CLARA UNIFIED SCHOOL DISTRICT,,,,,,,,,,,,,no_results
+7X,2,7X,7X Livestock Inc,,,,424520,Livestock Merchant Wholesalers,,edd,7X Livestock Inc,starts_with,424520,Livestock Merchant Wholesalers,ok
+Thumbtack,3,THUMBTACK,Thumbtack,,,,999990,Unknown,,edd,Thumbtack,exact,999990,Unknown,ok
+"David Mar Co, Inc.",3,DAVID MAR CO INC,,,,,,,,,,,,,no_results
+James Campbell,3,JAMES CAMPBELL,James Campbell Co LLC,,,,531210,Offices of Real Estate Agents & Brokers,,edd,James Campbell Co LLC,starts_with,531210,Offices of Real Estate Agents & Brokers,ok
+Susman Godfrey,3,SUSMAN GODFREY,Susman Godfrey,,,,541110,Offices of Lawyers,,edd,Susman Godfrey,exact,541110,Offices of Lawyers,ok
+"James Chambers, Filmmaker",2,JAMES CHAMBERS FILMMAKER,,,,,,,,,,,,,no_results
+"Four Elephants Media, Inc.",2,FOUR ELEPHANTS MEDIA INC,,,,,,,,,,,,,no_results
+Apercen Ventures,2,APERCEN VENTURES,,,,,,,,,,,,,no_results
+Eagle Equity Partners LLC,2,EAGLE EQUITY PARTNERS LLC,,,,,,,,,,,,,no_results
+Primavera Properties,2,PRIMAVERA PROPERTIES,,,,,,,,,,,,,no_results
+Mecury,2,MECURY,,,,,,,,,,,,,no_results
+Natera,2,NATERA,Natera's Auto Body,,,,811121,Automotive Body and Interior Repair,,edd,Natera's Auto Body,starts_with,811121,Automotive Body and Interior Repair,ok
+Hawktail,2,HAWKTAIL,,,,,,,,,,,,,no_results
+Anduril Industries,2,ANDURIL INDUSTRIES,Anduril Industries Inc,,,,334511,"Search, Detection & Navigation Instrumnt",,edd,Anduril Industries Inc,starts_with,334511,"Search, Detection & Navigation Instrumnt",ok
+DraftKings,2,DRAFTKINGS,,,,,,,,,,,,,no_results
+Kaiser Permanente,3,KAISER PERMANENTE,Kaiser Permanente,Health,Health Services,HMOs,,,opensecrets,running_list,,,,,
+KEVIN MORRIS PC,2,KEVIN MORRIS PC,,,,,,,,,,,,,no_results
+Self Employed-Phil Mickelson,1,SELF EMPLOYED PHIL MICKELSON,,,,,,,,,,,,,no_results
+Sutter Hill Ventures,1,SUTTER HILL VENTURES,Sutter Hill Ventures,,,,523910,Miscellaneous Intermediation,,edd,Sutter Hill Ventures,exact,523910,Miscellaneous Intermediation,ok
+Fox Corporation,1,FOX CORPORATION,,,,,,,,,,,,,no_results
+Redwing Films,1,REDWING FILMS,,,,,,,,,,,,,no_results
+The Morning Star Company,1,THE MORNING STAR COMPANY,,,,,,,,,,,,,no_results
+TAV Property Holdings LLC,1,TAV PROPERTY HOLDINGS LLC,,,,,,,,,,,,,no_results
+TL4J.com,1,TL4J COM,,,,,,,,,,,,,no_results
+Rippling,1,RIPPLING,Rippling People Ctr Inc,,,,513210,Software Publishers,,edd,Rippling People Ctr Inc,starts_with,513210,Software Publishers,ok
+BergmanKPRS,1,BERGMANKPRS,,,,,,,,,,,,,no_results
+Kampack Inc.,1,KAMPACK INC,,,,,,,,,,,,,no_results
+Remarkable People,1,REMARKABLE PEOPLE,,,,,,,,,,,,,no_results
+One World Beef,1,ONE WORLD BEEF,One World Beef LLC,,,,445240,Meat Retailers,,edd,One World Beef LLC,starts_with,445240,Meat Retailers,ok
+GH Palmer Associates,1,GH PALMER ASSOCIATES,,,,,,,,,,,,,no_results
+Ranger Global Advisors LLC,1,RANGER GLOBAL ADVISORS LLC,,,,,,,,,,,,,no_results
+IntraFi,1,INTRAFI,,,,,,,,,,,,,no_results
+Arcadia Development Companies,1,ARCADIA DEVELOPMENT COMPANIES,,,,,,,,,,,,,no_results
+CT Partners,1,CT PARTNERS,Project Partners LLC,,,,541512,Computer Systems Design Services,,edd,Project Partners LLC,largest,541512,Computer Systems Design Services,ok
+Another Planet Entertainment,1,ANOTHER PLANET ENTERTAINMENT,Another Planet Entertainment,,,,561110,Office Administrative Services,,edd,Another Planet Entertainment,exact,561110,Office Administrative Services,ok
+Tawani Enterprises Inc.,1,TAWANI ENTERPRISES INC,,,,,,,,,,,,,no_results
+Greylock,1,GREYLOCK,Greylock Ventures LP,,,,523910,Miscellaneous Intermediation,,edd,Greylock Ventures LP,starts_with,523910,Miscellaneous Intermediation,ok
+James D. Jameson,1,JAMES D JAMESON,,,,,,,,,,,,,no_results
+SageSure,1,SAGESURE,,,,,,,,,,,,,no_results
+Phils BBQ,1,PHILS BBQ,Phils BBQ,,,,722511,Full-Service Restaurants,,edd,Phils BBQ,exact,722511,Full-Service Restaurants,ok
+Jeff Unger,1,JEFF UNGER,,,,,,,,,,,,,no_results
+Willow Laboratories,1,WILLOW LABORATORIES,,,,,,,,,,,,,no_results
+Joe Green,1,JOE GREEN,Joe Green Ranch,,,,112990,All Other Animal Production,,edd,Joe Green Ranch,starts_with,112990,All Other Animal Production,ok
+John Vidovich,1,JOHN VIDOVICH,,,,,,,,,,,,,no_results
+Executive,1,EXECUTIVE,AAAA Executive Touch Limo,,,,485320,Limosine Service,,edd,AAAA Executive Touch Limo,largest,485320,Limosine Service,ok
+"Gary Karlin Michelson, M.D.",1,GARY KARLIN MICHELSON M D,,,,,,,,,,,,,no_results
+Wildfires.org,1,WILDFIRES ORG,,,,,,,,,,,,,no_results
+Robert Half Inc.,1,ROBERT HALF INC,ROBERT HALF INC,,,,56,Administrative and Support and Waste Management and Remediation Services,h1b_employer,running_list,,,,,
+Trial lawyers for Justice,1,TRIAL LAWYERS FOR JUSTICE,Trial Lawyers For Justice,,,,541110,Offices of Lawyers,,edd,Trial Lawyers For Justice,exact,541110,Offices of Lawyers,ok
+McCarthy Family Farms,1,MCCARTHY FAMILY FARMS,Mccarthy Family Farms,,,,111998,All Other Miscellaneous Crop Farming,,edd,Mccarthy Family Farms,exact,111998,All Other Miscellaneous Crop Farming,ok
+Stanford University,1,STANFORD UNIVERSITY,Stanford University Housing,,,,721310,Rooming and Boarding Houses,,edd,Stanford University Housing,starts_with,721310,Rooming and Boarding Houses,ok
+Meritage Group LP,1,MERITAGE GROUP LP,Meritage Group LP,,,,541110,Offices of Lawyers,,edd,Meritage Group LP,exact,541110,Offices of Lawyers,ok
+Spark Climate Solutions,1,SPARK CLIMATE SOLUTIONS,,,,,,,,,,,,,no_results
+Tusk Holdings,1,TUSK HOLDINGS,,,,,,,,,,,,,no_results
+Morning Star Company,2,MORNING STAR COMPANY,,,,,,,,,,,,,no_results
+AR Asset Management,1,AR ASSET MANAGEMENT,10 Star Asset Management,,,,523940,Portfolio Management and Investment Advice,,edd,10 Star Asset Management,largest,523940,Portfolio Management and Investment Advice,ok
+Coalinga Medical Center,1,COALINGA MEDICAL CENTER,,,,,,,,,,,,,no_results
+Pariah,1,PARIAH,Pariah Color Cosmetics LLC,,,,456120,"Cosmetics, Beauty Supplies, and Perfume Retailers",,edd,Pariah Color Cosmetics LLC,starts_with,456120,"Cosmetics, Beauty Supplies, and Perfume Retailers",ok
+Richard Robbins International Inc.,1,RICHARD ROBBINS INTERNATIONAL INC,,,,,,,,,,,,,no_results
+Charm Industrial,1,CHARM INDUSTRIAL,,,,,,,,,,,,,no_results
+NVIDIA,1,NVIDIA,NVIDIA Corp,,,,541511,Custom Computer Programming Services,,edd,NVIDIA Corp,starts_with,541511,Custom Computer Programming Services,ok
+New Pacific Realty Corp.,1,NEW PACIFIC REALTY CORP,,,,,,,,,,,,,no_results
+"Singleton & Schreiber, LLP",2,SINGLETON SCHREIBER LLP,,,,,,,,,,,,,no_results
+OPCO,1,OPCO,Atlas Copco Inc,,,,333132,Oil and Gas Field Machinery & Equipment,,edd,Atlas Copco Inc,largest,333132,Oil and Gas Field Machinery & Equipment,ok
+Mayer Capital Partners,1,MAYER CAPITAL PARTNERS,,,,,,,,,,,,,no_results
+Maxim Integrated,1,MAXIM INTEGRATED,,,,,,,,,,,,,no_results
+Lanikai Management,1,LANIKAI MANAGEMENT,Lanikai Management Corp,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Lanikai Management Corp,starts_with,531210,Offices of Real Estate Agents & Brokers,ok
+De Anza Building & Maintenance Inc.,1,DE ANZA BUILDING MAINTENANCE INC,,,,,,,,,,,,,no_results
+"Eric Newman, Producer",1,ERIC NEWMAN PRODUCER,,,,,,,,,,,,,no_results
+Cantu Construction,1,CANTU CONSTRUCTION,,,,,,,,,,,,,no_results
+Build Group,1,BUILD GROUP,Build Group,,,,531120,Lessors of Nonresidential Buildings,,edd,Build Group,exact,531120,Lessors of Nonresidential Buildings,ok
+Strata Capital,1,STRATA CAPITAL,Strata Capital Advisors,,,,523940,Portfolio Management and Investment Advice,,edd,Strata Capital Advisors,starts_with,523940,Portfolio Management and Investment Advice,ok
+Alphabet,1,ALPHABET,Alphabet Inc,,,,518210,Data Processing and Related Services,,edd,Alphabet Inc,starts_with,518210,Data Processing and Related Services,ok
+1P Advocacy,1,1P ADVOCACY,,,,,,,,,,,,,no_results
+Affirmation Arts,1,AFFIRMATION ARTS,,,,,,,,,,,,,no_results
+Advantage Ambulance,2,ADVANTAGE AMBULANCE,Advantage Ambulance Inc,,,,621910,Ambulance Services,,edd,Advantage Ambulance Inc,starts_with,621910,Ambulance Services,ok
+Brandenburg Properties,1,BRANDENBURG PROPERTIES,,,,,,,,,,,,,no_results
+Lyon Living,1,LYON LIVING,Lyon Living,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Lyon Living,exact,531210,Offices of Real Estate Agents & Brokers,ok
+Diane B. Greene,1,DIANE B GREENE,,,,,,,,,,,,,no_results
+"Wareham Property Group, Inc.",1,WAREHAM PROPERTY GROUP INC,,,,,,,,,,,,,no_results
+Maureen K.C. Pritzker,1,MAUREEN K C PRITZKER,,,,,,,,,,,,,no_results
+De Anza Properties,1,DE ANZA PROPERTIES,De Anza Properties,,,,531210,Offices of Real Estate Agents & Brokers,,edd,De Anza Properties,exact,531210,Offices of Real Estate Agents & Brokers,ok
+Style Melody inc,1,STYLE MELODY INC,Style Melody Inc,,,,812112,Beauty Salons,,edd,Style Melody Inc,exact,812112,Beauty Salons,ok
+Adelanto Healthcare Ventures LLC,1,ADELANTO HEALTHCARE VENTURES LLC,,,,,,,,,,,,,no_results
+GPR Ventures,1,GPR VENTURES,GPR Ventures,,,,237210,Land Subdivision,,edd,GPR Ventures,exact,237210,Land Subdivision,ok
+"Chalet Run Capital Management, LLC",1,CHALET RUN CAPITAL MANAGEMENT LLC,,,,,,,,,,,,,no_results
+"Elizabeth Naftali, Investor",1,ELIZABETH NAFTALI INVESTOR,,,,,,,,,,,,,no_results
+Gilder Gagnon Howe & Co LLC,1,GILDER GAGNON HOWE CO LLC,,,,,,,,,,,,,no_results
+Jana Simpson,1,JANA SIMPSON,,,,,,,,,,,,,no_results
+Securin,2,SECURIN,Securing Help In Economic-Life,,,,813311,Human Rights Organizations,,edd,Securing Help In Economic-Life,largest,813311,Human Rights Organizations,ok
+Singleton Schreiber LLP,1,SINGLETON SCHREIBER LLP,,,,,,,,,,,,,no_results
+Shook Properties,1,SHOOK PROPERTIES,,,,,,,,,,,,,no_results
+Grewal Hospitality,2,GREWAL HOSPITALITY,,,,,,,,,,,,,no_results
+MTLT Holdings,2,MTLT HOLDINGS,,,,,,,,,,,,,no_results
+Lincoln Dynamic Group,1,LINCOLN DYNAMIC GROUP,,,,,,,,,,,,,no_results
+Leesfield & Partners,2,LEESFIELD PARTNERS,,,,,,,,,,,,,no_results
+Self Employed-Mark Kolokotrones,1,SELF EMPLOYED MARK KOLOKOTRONES,,,,,,,,,,,,,no_results
+Meta,2,META,A & A A C Htg & Sheet Metal,,,,238220,Plumbing and HVAC Contractors,,edd,A & A A C Htg & Sheet Metal,largest,238220,Plumbing and HVAC Contractors,ok
+Blackcomb Advisors LLC,2,BLACKCOMB ADVISORS LLC,,,,,,,,,,,,,no_results
+"Habbas, Nasseri, & Associates",1,HABBAS NASSERI ASSOCIATES,,,,,,,,,,,,,no_results
+Spencer Enterprises,2,SPENCER ENTERPRISES,Ellis John Spencer Enterprises,,,,621340,Offices of Specialty Therapists,,edd,Ellis John Spencer Enterprises,largest,621340,Offices of Specialty Therapists,ok
+Law Offices of Jeremy D. Weinstein P.C.,2,LAW OFFICES OF JEREMY D WEINSTEIN P C,,,,,,,,,,,,,no_results
+Millennials Trucking,1,MILLENNIALS TRUCKING,,,,,,,,,,,,,no_results
+The Permanente Medical Group,2,THE PERMANENTE MEDICAL GROUP,,,,,,,,,,,,,no_results
+Unicare Systems Inc.,1,UNICARE SYSTEMS INC,,,,,,,,,,,,,no_results
+MWWPR,1,MWWPR,,,,,,,,,,,,,no_results
+TruConnect,2,TRUCONNECT,Truconnect,,,,518210,Data Processing and Related Services,,edd,Truconnect,exact,518210,Data Processing and Related Services,ok
+Crop Organization,1,CROP ORGANIZATION,,,,,,,,,,,,,no_results
+Primary Care Associates of California,1,PRIMARY CARE ASSOCIATES OF CALIFORNIA,,,,,,,,,,,,,no_results
+Requested,1,REQUESTED,,,,,,,,,,,,,no_results
+The Salt and Light Council,1,THE SALT AND LIGHT COUNCIL,,,,,,,,,,,,,no_results
+"O'Melveny, LLP",1,O MELVENY LLP,,,,,,,,,,,,,no_results
+SLTC LLC,1,SLTC LLC,,,,,,,,,,,,,no_results
+Bronson Point Management,1,BRONSON POINT MANAGEMENT,,,,,,,,,,,,,no_results
+Croke Fairchild Duarte & Beres,1,CROKE FAIRCHILD DUARTE BERES,,,,,,,,,,,,,no_results
+DeHeng Law Offices,1,DEHENG LAW OFFICES,DEHENG LAW OFFICES,,,,54,"Professional, Scientific, and Technical Services",h1b_employer,running_list,,,,,
+Arash Khorsandi,1,ARASH KHORSANDI,Law Office-Arash Khorsandi APC,,,,541110,Offices of Lawyers,,edd,Law Office-Arash Khorsandi APC,largest,541110,Offices of Lawyers,ok
+Eglet Law,1,EGLET LAW,,,,,,,,,,,,,no_results
+"Aberdeen, Inc.",1,ABERDEEN INC,,,,,,,,,,,,,no_results
+"Hawk Hill Management Co, LLC",2,HAWK HILL MANAGEMENT CO LLC,,,,,,,,,,,,,no_results
+"Beverly Hills Spine Surgery, Inc.",2,BEVERLY HILLS SPINE SURGERY INC,,,,,,,,,,,,,no_results
+Silver Falcon Capital,1,SILVER FALCON CAPITAL,,,,,,,,,,,,,no_results
+CTR Partners,1,CTR PARTNERS,Spectrum Business Ctr Partners,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Spectrum Business Ctr Partners,largest,531210,Offices of Real Estate Agents & Brokers,ok
+"450 Attorneys, Inc",1,450 ATTORNEYS INC,,,,,,,,,,,,,no_results
+Walker & Dunlop,1,WALKER DUNLOP,Walker & Dunlop,,,,523940,Portfolio Management and Investment Advice,,edd,Walker & Dunlop,exact,523940,Portfolio Management and Investment Advice,ok
+The Haggard Law Firm,1,THE HAGGARD LAW FIRM,,,,,,,,,,,,,no_results
+High Tide Foundation,1,HIGH TIDE FOUNDATION,,,,,,,,,,,,,no_results
+Twin Tree Venture LLC,1,TWIN TREE VENTURE LLC,,,,,,,,,,,,,no_results
+Reven Capital,1,REVEN CAPITAL,Reven Capital LLC,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Reven Capital LLC,starts_with,531210,Offices of Real Estate Agents & Brokers,ok
+Faces Nightclub,2,FACES NIGHTCLUB,,,,,,,,,,,,,no_results
+"Cool Effect, Inc.",1,COOL EFFECT INC,,,,,,,,,,,,,no_results
+GHS,1,GHS,GHS Brothers Inc,,,,457120,Other Gasoline Stations,,edd,GHS Brothers Inc,starts_with,457120,Other Gasoline Stations,ok
+Becker Law Group,1,BECKER LAW GROUP,Becker Law Group,,,,541110,Offices of Lawyers,,edd,Becker Law Group,exact,541110,Offices of Lawyers,ok
+Van Wagner,1,VAN WAGNER,Van Wagner Outdoor,,,,517810,All Other Telecommunications,,edd,Van Wagner Outdoor,starts_with,517810,All Other Telecommunications,ok
+CapitalG,1,CAPITALG,,,,,,,,,,,,,no_results
+"Afero, Inc.",1,AFERO INC,,,,,,,,,,,,,no_results
+Edward Norton,1,EDWARD NORTON,,,,,,,,,,,,,no_results
+"Ram Dandilaya, MD",2,RAM DANDILAYA MD,,,,,,,,,,,,,no_results
+LAMONICAs NY-PIZZA,2,LAMONICAS NY PIZZA,,,,,,,,,,,,,no_results
+Arcadia Development Co.,2,ARCADIA DEVELOPMENT CO,ARCADIA DEVELOPMENT CO,"Finance, Insurance & Real Estate",Real Estate,Real estate developers & subdividers,,,opensecrets,running_list,,,,,
+LW Lacrosse LLC,2,LW LACROSSE LLC,,,,,,,,,,,,,no_results
+Rancon Group,1,RANCON GROUP,Rancon Group,,,,237210,Land Subdivision,,edd,Rancon Group,exact,237210,Land Subdivision,ok
+Archipelago Companies LLC,1,ARCHIPELAGO COMPANIES LLC,,,,,,,,,,,,,no_results
+The Jewelry Exchange,2,THE JEWELRY EXCHANGE,,,,,,,,,,,,,no_results
+Mozart Investments,2,MOZART INVESTMENTS,,,,,,,,,,,,,no_results
+Peninsula Land & Capital,2,PENINSULA LAND CAPITAL,,,,,,,,,,,,,no_results
+WME,1,WME,Alliance High Sch Endowment,,,,611110,Elementary and Secondary Schools,,edd,Alliance High Sch Endowment,largest,611110,Elementary and Secondary Schools,ok
+Wexford Capital,2,WEXFORD CAPITAL,,,,,,,,,,,,,no_results
+KXLA-TV,1,KXLA TV,,,,,,,,,,,,,no_results
+Fulcrum development,1,FULCRUM DEVELOPMENT,,,,,,,,,,,,,no_results
+Kristin Mirek Consulting LLC,1,KRISTIN MIREK CONSULTING LLC,,,,,,,,,,,,,no_results
+Merrill Lynch,2,MERRILL LYNCH,Merrill Lynch,"Finance, Insurance & Real Estate",Securities & Investment,"Securities, commodities & investment",,,opensecrets,running_list,,,,,
+Sunset Digital Asset Management LLC,2,SUNSET DIGITAL ASSET MANAGEMENT LLC,,,,,,,,,,,,,no_results
+Seven Mile Casino,1,SEVEN MILE CASINO,Seven Mile Casino,,,,713210,Casinos (except Casino Hotels),,edd,Seven Mile Casino,exact,713210,Casinos (except Casino Hotels),ok
+Crown Island Insurance,1,CROWN ISLAND INSURANCE,Crown Island Insurance Agency,,,,524210,Insurance Agencies and Brokerages,,edd,Crown Island Insurance Agency,starts_with,524210,Insurance Agencies and Brokerages,ok
+Epic Level,1,EPIC LEVEL,,,,,,,,,,,,,no_results
+Ellis Partners,1,ELLIS PARTNERS,Ellis Partners,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Ellis Partners,exact,531210,Offices of Real Estate Agents & Brokers,ok
+New Castle Properties Group,1,NEW CASTLE PROPERTIES GROUP,,,,,,,,,,,,,no_results
+Allies for Allies,1,ALLIES FOR ALLIES,,,,,,,,,,,,,no_results
+Martinian Lawyers,1,MARTINIAN LAWYERS,Martinian Lawyers,,,,541110,Offices of Lawyers,,edd,Martinian Lawyers,exact,541110,Offices of Lawyers,ok
+VAL Property AI,1,VAL PROPERTY AI,,,,,,,,,,,,,no_results
+Royal Corporation,2,ROYAL CORPORATION,,,,,,,,,,,,,no_results
+Throckmorton Partners,1,THROCKMORTON PARTNERS,Throckmorton Partners LLC,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Throckmorton Partners LLC,starts_with,531210,Offices of Real Estate Agents & Brokers,ok
+Lighthouse Public Affairs LLC,2,LIGHTHOUSE PUBLIC AFFAIRS LLC,,,,,,,,,,,,,no_results
+Harper Collins,1,HARPER COLLINS,,,,,,,,,,,,,no_results
+Shah Capital Partners,1,SHAH CAPITAL PARTNERS,,,,,,,,,,,,,no_results
+Owner/Founder,1,OWNER FOUNDER,,,,,,,,,,,,,no_results
+Hunco Development,1,HUNCO DEVELOPMENT,Hunco Development,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Hunco Development,exact,531210,Offices of Real Estate Agents & Brokers,ok
+Matrix Partners,1,MATRIX PARTNERS,Matrix Partners,,,,523910,Miscellaneous Intermediation,,edd,Matrix Partners,exact,523910,Miscellaneous Intermediation,ok
+"Carleton Management, Inc.",1,CARLETON MANAGEMENT INC,,,,,,,,,,,,,no_results
+Brener Group,1,BRENER GROUP,,,,,,,,,,,,,no_results
+SAFETY AND RECRUITING SUPPORT INC,1,SAFETY AND RECRUITING SUPPORT INC,,,,,,,,,,,,,no_results
+Lionel Foundation,1,LIONEL FOUNDATION,,,,,,,,,,,,,no_results
+Archipelago LLC,1,ARCHIPELAGO LLC,Archipelago LLC,,,,999990,Unknown,,edd,Archipelago LLC,exact,999990,Unknown,ok
+Auradine,1,AURADINE,Auradine Inc,,,,999990,Unknown,,edd,Auradine Inc,starts_with,999990,Unknown,ok
+Generation Tux,1,GENERATION TUX,,,,,,,,,,,,,no_results
+The Price Philanthropies Foundation,1,THE PRICE PHILANTHROPIES FOUNDATION,,,,,,,,,,,,,no_results
+La Mamba,1,LA MAMBA,La Mamba LLC,,,,722511,Full-Service Restaurants,,edd,La Mamba LLC,starts_with,722511,Full-Service Restaurants,ok
+The Scott Foundation,1,THE SCOTT FOUNDATION,,,,,,,,,,,,,no_results
+Uncommon Productions,1,UNCOMMON PRODUCTIONS,,,,,,,,,,,,,no_results
+Alabbasi Construction,1,ALABBASI CONSTRUCTION,,,,,,,,,,,,,no_results
+M medical group,1,M MEDICAL GROUP,Gem Medical Group Corp,,,,621111,"Offices of Physicians, ex. Mental Health",,edd,Gem Medical Group Corp,largest,621111,"Offices of Physicians, ex. Mental Health",ok
+Coastal Construction,1,COASTAL CONSTRUCTION,Coastal Construction,,,,236115,New Single-Family Housing Construction,,edd,Coastal Construction,exact,236115,New Single-Family Housing Construction,ok
+SocialTrader.AI,1,SOCIALTRADER AI,,,,,,,,,,,,,no_results
+The Los Angeles Sentinel,1,THE LOS ANGELES SENTINEL,,,,,,,,,,,,,no_results
+Certain Inc.,1,CERTAIN INC,,,,,,,,,,,,,no_results
+CSBio,1,CSBIO,Csbio,,,,541714,Research and Development in Biotechnology (except Nanobiotechnology),,edd,Csbio,exact,541714,Research and Development in Biotechnology (except Nanobiotechnology),ok
+Newchem21 Inc.,1,NEWCHEM21 INC,,,,,,,,,,,,,no_results
+Boucher LLP,1,BOUCHER LLP,Boucher LLP,,,,541110,Offices of Lawyers,,edd,Boucher LLP,exact,541110,Offices of Lawyers,ok
+Stanlee R. Gatti Designs,1,STANLEE R GATTI DESIGNS,,,,,,,,,,,,,no_results
+Phil Hellmuth Jr,1,PHIL HELLMUTH JR,,,,,,,,,,,,,no_results
+"BRDBND, LLC",1,BRDBND LLC,,,,,,,,,,,,,no_results
+Self Employed - Kelly Day,1,SELF EMPLOYED KELLY DAY,,,,,,,,,,,,,no_results
+Seaside Auto Group,1,SEASIDE AUTO GROUP,,,,,,,,,,,,,no_results
+The Change Company CDFI LLC,1,THE CHANGE COMPANY CDFI LLC,,,,,,,,,,,,,no_results
+Self Employed-Daryl Nelson,1,SELF EMPLOYED DARYL NELSON,,,,,,,,,,,,,no_results
+"The Oppenheim Group, Inc.",1,THE OPPENHEIM GROUP INC,,,,,,,,,,,,,no_results
+Xyz Venture Capital,1,XYZ VENTURE CAPITAL,,,,,,,,,,,,,no_results
+Wolff Urban Mgmt,1,WOLFF URBAN MGMT,,,,,,,,,,,,,no_results
+Wintec,1,WINTEC,Wintec Industries Inc,,,,334413,Semiconductor and Related Devices,,edd,Wintec Industries Inc,starts_with,334413,Semiconductor and Related Devices,ok
+Wild Fox Foods,1,WILD FOX FOODS,,,,,,,,,,,,,no_results
+Wachtell Lipton,1,WACHTELL LIPTON,,,,,,,,,,,,,no_results
+"WSCG, Inc.",1,WSCG INC,,,,,,,,,,,,,no_results
+"Vikram Lakireddy, Cardiologist",1,VIKRAM LAKIREDDY CARDIOLOGIST,,,,,,,,,,,,,no_results
+VETERAN,1,VETERAN,Air National Guard,,,,813410,Civic and Social Organizations,,edd,Air National Guard,largest,813410,Civic and Social Organizations,ok
+Untitled Entertainment,1,UNTITLED ENTERTAINMENT,Untitled Entertainment,,,,711190,Other Performing Arts Companies,,edd,Untitled Entertainment,exact,711190,Other Performing Arts Companies,ok
+US Dept of Commerce,1,US DEPT OF COMMERCE,,,,,,,,,,,,,no_results
+Tuttle-Click Automotive Group,1,TUTTLE CLICK AUTOMOTIVE GROUP,Tuttle-Click Automotive Group,Transportation,Automotive,"Auto dealers, new & used",,,opensecrets,running_list,,,,,
+Tumanjan Homes,1,TUMANJAN HOMES,Tumanjan Homes Corp,,,,236115,New Single-Family Housing Construction,,edd,Tumanjan Homes Corp,starts_with,236115,New Single-Family Housing Construction,ok
+The Range,1,THE RANGE,Home On the Range,,,,722511,Full-Service Restaurants,,edd,Home On the Range,largest,722511,Full-Service Restaurants,ok
+The Oppenheim Group,1,THE OPPENHEIM GROUP,,,,,,,,,,,,,no_results
+Signum Global,1,SIGNUM GLOBAL,,,,,,,,,,,,,no_results
+The Lawrence & Junko Cushman Foundation,1,THE LAWRENCE JUNKO CUSHMAN FOUNDATION,,,,,,,,,,,,,no_results
+The Ginn Family Trust,1,THE GINN FAMILY TRUST,,,,,,,,,,,,,no_results
+The Corky McMillin Companies,1,THE CORKY MCMILLIN COMPANIES,,,,,,,,,,,,,no_results
+Temple Park,1,TEMPLE PARK,Temple Park Convalescent Hosp,,,,623110,Nursing Care Facilities,,edd,Temple Park Convalescent Hosp,starts_with,623110,Nursing Care Facilities,ok
+Tampa Bay Buccaneers,1,TAMPA BAY BUCCANEERS,,,,,,,,,,,,,no_results
+Tai eng,1,TAI ENG,,,,,,,,,,,,,no_results
+"Tahir Rana, Physician",1,TAHIR RANA PHYSICIAN,,,,,,,,,,,,,no_results
+Taglyan Complex,1,TAGLYAN COMPLEX,Taglyan Complex,,,,711310,Promoters with Facilities,,edd,Taglyan Complex,exact,711310,Promoters with Facilities,ok
+"Stephen Breskin, Real Estate",1,STEPHEN BRESKIN REAL ESTATE,,,,,,,,,,,,,no_results
+Steinberghart,1,STEINBERGHART,,,,,,,,,,,,,no_results
+State Farm,1,STATE FARM,Anne Lintz-State Farm Ins Agnt,,,,523940,Portfolio Management and Investment Advice,,edd,Anne Lintz-State Farm Ins Agnt,largest,523940,Portfolio Management and Investment Advice,ok
+Starlight Industries LLC,1,STARLIGHT INDUSTRIES LLC,,,,,,,,,,,,,no_results
+Southeastern Printing,1,SOUTHEASTERN PRINTING,,,,,,,,,,,,,no_results
+"Sabra Healthcare REIT, Inc.",1,SABRA HEALTHCARE REIT INC,,,,,,,,,,,,,no_results
+128 Collective,1,128 COLLECTIVE,,,,,,,,,,,,,no_results
+"SDHP, Inc.",1,SDHP INC,,,,,,,,,,,,,no_results
+Evolution,1,EVOLUTION,Acoustic Evolution,,,,238210,Electrical Contractors,,edd,Acoustic Evolution,largest,238210,Electrical Contractors,ok
+DBA Joyce Gonzales,1,DBA JOYCE GONZALES,,,,,,,,,,,,,no_results
+Dake Wilson Architects,1,DAKE WILSON ARCHITECTS,Dake Wilson Architects,,,,541310,Architectural Services,,edd,Dake Wilson Architects,exact,541310,Architectural Services,ok
+"Daniel Fass, Photographer",1,DANIEL FASS PHOTOGRAPHER,,,,,,,,,,,,,no_results
+Danny Hoady,1,DANNY HOADY,,,,,,,,,,,,,no_results
+DignityMoves,1,DIGNITYMOVES,,,,,,,,,,,,,no_results
+"Donna Friedman, Psychologist",1,DONNA FRIEDMAN PSYCHOLOGIST,,,,,,,,,,,,,no_results
+Economic Security Project,1,ECONOMIC SECURITY PROJECT,,,,,,,,,,,,,no_results
+Eisendrath Finance Group Inc,1,EISENDRATH FINANCE GROUP INC,Eisendrath Finance Group Inc,,,,522291,Consumer Lending,,edd,Eisendrath Finance Group Inc,exact,522291,Consumer Lending,ok
+"Emergent Coast Technologies, Inc.",1,EMERGENT COAST TECHNOLOGIES INC,,,,,,,,,,,,,no_results
+Ethica Strategies LLC,1,ETHICA STRATEGIES LLC,,,,,,,,,,,,,no_results
+Fade In Entertainment,1,FADE IN ENTERTAINMENT,,,,,,,,,,,,,no_results
+"Commerce Construction Co., L.P.",1,COMMERCE CONSTRUCTION CO L P,,,,,,,,,,,,,no_results
+Falcon AI LLC,1,FALCON AI LLC,,,,,,,,,,,,,no_results
+Farzad Hoorizadeh,1,FARZAD HOORIZADEH,,,,,,,,,,,,,no_results
+"Fitzgerald, Monroe & Flynn, PC.",1,FITZGERALD MONROE FLYNN PC,,,,,,,,,,,,,no_results
+Fox Law,1,FOX LAW,Fox Law,,,,541110,Offices of Lawyers,,edd,Fox Law,exact,541110,Offices of Lawyers,ok
+Fresco Community Markets,1,FRESCO COMMUNITY MARKETS,,,,,,,,,,,,,no_results
+"GDML Holdings, Inc.",1,GDML HOLDINGS INC,,,,,,,,,,,,,no_results
+"Garrett Kirk, Jr.",1,GARRETT KIRK JR,,,,,,,,,,,,,no_results
+Gibson Dunn,1,GIBSON DUNN,Gibson Dunn & Crutcher LLP,,,,541110,Offices of Lawyers,,edd,Gibson Dunn & Crutcher LLP,starts_with,541110,Offices of Lawyers,ok
+Gilder Gagnon Howe & Co,1,GILDER GAGNON HOWE CO,,,,,,,,,,,,,no_results
+GonLED,1,GONLED,Gonled,,,,238220,Plumbing and HVAC Contractors,,edd,Gonled,exact,238220,Plumbing and HVAC Contractors,ok
+Commercial Concrete Constructors,1,COMMERCIAL CONCRETE CONSTRUCTORS,,,,,,,,,,,,,no_results
+Clay Kenan Kirk,1,CLAY KENAN KIRK,,,,,,,,,,,,,no_results
+Royal Ambulance,1,ROYAL AMBULANCE,Royal Ambulance Inc,,,,621910,Ambulance Services,,edd,Royal Ambulance Inc,starts_with,621910,Ambulance Services,ok
+Broadcom,1,BROADCOM,Broadcom Corp,,,,334413,Semiconductor and Related Devices,,edd,Broadcom Corp,starts_with,334413,Semiconductor and Related Devices,ok
+@Properties and Christie's International Real Estate,1,PROPERTIES AND CHRISTIE S INTERNATIONAL REAL ESTATE,,,,,,,,,,,,,no_results
+@properties,1,PROPERTIES,,,,,,,,,,,,,no_results
+Aberythmic LLC,1,ABERYTHMIC LLC,,,,,,,,,,,,,no_results
+Amira Learning,1,AMIRA LEARNING,Amira Learning Inc,,,,611710,Educational Support Services,,edd,Amira Learning Inc,starts_with,611710,Educational Support Services,ok
+Anderson Seafood,1,ANDERSON SEAFOOD,Anderson Seafoods,,,,424460,Fish and Seafood Merchant Wholesalers,,edd,Anderson Seafoods,largest,424460,Fish and Seafood Merchant Wholesalers,ok
+"Anthony Barkett, Real Estate",1,ANTHONY BARKETT REAL ESTATE,,,,,,,,,,,,,no_results
+Applied Medical,1,APPLIED MEDICAL,Applied Medical Resources Corp,,,,339112,Surgical and Medical Instrument Mfg,,edd,Applied Medical Resources Corp,starts_with,339112,Surgical and Medical Instrument Mfg,ok
+"Auxbrain, Inc.",1,AUXBRAIN INC,,,,,,,,,,,,,no_results
+Baroda Ventures LLC,1,BARODA VENTURES LLC,Baroda Ventures LLC,,,,523910,Miscellaneous Intermediation,,edd,Baroda Ventures LLC,exact,523910,Miscellaneous Intermediation,ok
+Benchmark,1,BENCHMARK,Benchmark,,,,339112,Surgical and Medical Instrument Mfg,,edd,Benchmark,exact,339112,Surgical and Medical Instrument Mfg,ok
+"Browne George Ross, LLP",1,BROWNE GEORGE ROSS LLP,Browne George Ross LLP,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,opensecrets,running_list,,,,,
+City of San Clemente,1,CITY OF SAN CLEMENTE,City of San Clemente,,,,921110,Executive Offices,,edd,City of San Clemente,exact,921110,Executive Offices,ok
+CLAUG Creative Studio,1,CLAUG CREATIVE STUDIO,,,,,,,,,,,,,no_results
+CMAX Inc,1,CMAX INC,Ocmax Inc,,,,999990,Unknown,,edd,Ocmax Inc,largest,999990,Unknown,ok
+California Safety Agency,1,CALIFORNIA SAFETY AGENCY,California Safety Agency,,,,541612,Human Resource Consulting Services,,edd,California Safety Agency,exact,541612,Human Resource Consulting Services,ok
+Cambas Inc.,1,CAMBAS INC,,,,,,,,,,,,,no_results
+Canal Productions,1,CANAL PRODUCTIONS,,,,,,,,,,,,,no_results
+Cedars Towers Surgical Medical group Inc,1,CEDARS TOWERS SURGICAL MEDICAL GROUP INC,,,,,,,,,,,,,no_results
+"Celmol, Inc.",1,CELMOL INC,,,,,,,,,,,,,no_results
+"Certain, Inc.",1,CERTAIN INC,,,,,,,,,,,,,no_results
+Champions Group,1,CHAMPIONS GROUP,Champions Group Holdings,,,,238220,Plumbing and HVAC Contractors,,edd,Champions Group Holdings,starts_with,238220,Plumbing and HVAC Contractors,ok
+Chandler Residential Inc,1,CHANDLER RESIDENTIAL INC,,,,,,,,,,,,,no_results
+Gurvinder S Aujla Construction,1,GURVINDER S AUJLA CONSTRUCTION,,,,,,,,,,,,,no_results
+Hafez,1,HAFEZ,Hafez & Ghoneim Dental Corp,,,,621210,Offices of Dentists,,edd,Hafez & Ghoneim Dental Corp,starts_with,621210,Offices of Dentists,ok
+Harper Construction,1,HARPER CONSTRUCTION,Harper Construction,,,,238210,Electrical Contractors,,edd,Harper Construction,exact,238210,Electrical Contractors,ok
+Pacfic Farm Management,1,PACFIC FARM MANAGEMENT,,,,,,,,,,,,,no_results
+Motus Insurance Services,1,MOTUS INSURANCE SERVICES,,,,,,,,,,,,,no_results
+Murrieta Unified School District,1,MURRIETA UNIFIED SCHOOL DISTRICT,,,,,,,,,,,,,no_results
+NTS Capital,1,NTS CAPITAL,Saints Capital LLC,,,,523910,Miscellaneous Intermediation,,edd,Saints Capital LLC,largest,523910,Miscellaneous Intermediation,ok
+Neuberger Berman,1,NEUBERGER BERMAN,Neuberger Berman,,,,523940,Portfolio Management and Investment Advice,,edd,Neuberger Berman,exact,523940,Portfolio Management and Investment Advice,ok
+NewMark Merrill  Companies,1,NEWMARK MERRILL COMPANIES,,,,,,,,,,,,,no_results
+Newco Distributors Inc,1,NEWCO DISTRIBUTORS INC,Newco Distributors Inc,,,,311119,Other Animal Food Manufacturing,,edd,Newco Distributors Inc,exact,311119,Other Animal Food Manufacturing,ok
+Newmark Grubb Knight Frank,1,NEWMARK GRUBB KNIGHT FRANK,Newmark Grubb Knight Frank,,,,531210,Offices of Real Estate Agents & Brokers,,edd,Newmark Grubb Knight Frank,exact,531210,Offices of Real Estate Agents & Brokers,ok
+OVO Fund,1,OVO FUND,,,,,,,,,,,,,no_results
+"Old Durham Wood, Inc.",1,OLD DURHAM WOOD INC,OLD DURHAM WOOD INC,Construction,Building Materials & Equipment,Building materials,,,opensecrets,running_list,,,,,
+Outreach Strategists LLC,1,OUTREACH STRATEGISTS LLC,,,,,,,,,,,,,no_results
+Pear VC,1,PEAR VC,,,,,,,,,,,,,no_results
+Hunting Lane,1,HUNTING LANE,Hunting Lane Films,,,,326199,All Other Plastics Product Manufacturing,,edd,Hunting Lane Films,starts_with,326199,All Other Plastics Product Manufacturing,ok
+Pedram Salimpour,1,PEDRAM SALIMPOUR,,,,,,,,,,,,,no_results
+Pinnacle Intelligence,1,PINNACLE INTELLIGENCE,,,,,,,,,,,,,no_results
+Plc Investment Group,1,PLC INVESTMENT GROUP,,,,,,,,,,,,,no_results
+Q Oil Advisors,1,Q OIL ADVISORS,,,,,,,,,,,,,no_results
+R & E Managements,1,R E MANAGEMENTS,,,,,,,,,,,,,no_results
+Radian,1,RADIAN,Hydronic Heat Pumps,,,,238220,Plumbing and HVAC Contractors,,edd,Hydronic Heat Pumps,largest,238220,Plumbing and HVAC Contractors,ok
+Radical ventures,1,RADICAL VENTURES,,,,,,,,,,,,,no_results
+Ramp Business Corp.,1,RAMP BUSINESS CORP,,,,,,,,,,,,,no_results
+Renaissance Inc.,1,RENAISSANCE INC,,,,,,,,,,,,,no_results
+Robert Half International,1,ROBERT HALF INTERNATIONAL,,,,,,,,,,,,,no_results
+Monarch Group,1,MONARCH GROUP,Monarch Group,,,,999990,Unknown,,edd,Monarch Group,exact,999990,Unknown,ok
+MikeWorldWide,1,MIKEWORLDWIDE,,,,,,,,,,,,,no_results
+Medley Partners,1,MEDLEY PARTNERS,Medley Partners Management LLC,,,,561110,Office Administrative Services,,edd,Medley Partners Management LLC,starts_with,561110,Office Administrative Services,ok
+"McNeil Capital, LLC",1,MCNEIL CAPITAL LLC,,,,,,,,,,,,,no_results
+JC2 Ventures,1,JC2 VENTURES,,,,,,,,,,,,,no_results
+JCC Tahoe LLC,1,JCC TAHOE LLC,,,,,,,,,,,,,no_results
+Jackson Hole Group LLC,1,JACKSON HOLE GROUP LLC,Jackson Hole Group LLC,,,,541614,Process & Logistics Consulting Services,,edd,Jackson Hole Group LLC,exact,541614,Process & Logistics Consulting Services,ok
+James Dickey Inc.,1,JAMES DICKEY INC,,,,,,,,,,,,,no_results
+"Jon Cryer, Producer",1,JON CRYER PRODUCER,,,,,,,,,,,,,no_results
+"Kathy Griffin, Comedian",1,KATHY GRIFFIN COMEDIAN,,,,,,,,,,,,,no_results
+"Keker, Van Nest & Peters",1,KEKER VAN NEST PETERS,,,,,,,,,,,,,no_results
+Keyes Motors,1,KEYES MOTORS,,,,,,,,,,,,,no_results
+L Styles LLC,1,L STYLES LLC,Nashional Styles LLC,,,,812112,Beauty Salons,,edd,Nashional Styles LLC,largest,812112,Beauty Salons,ok
+"LATV Networks, LLC",1,LATV NETWORKS LLC,,,,,,,,,,,,,no_results
+LIFEwest,1,LIFEWEST,Lifewest,,,,999990,Unknown,,edd,Lifewest,exact,999990,Unknown,ok
+"LJL Farming, LLC",1,LJL FARMING LLC,,,,,,,,,,,,,no_results
+"Laura Holmes, Real Estate Investor",1,LAURA HOLMES REAL ESTATE INVESTOR,,,,,,,,,,,,,no_results
+Law Office of Alexandra Kazarian,1,LAW OFFICE OF ALEXANDRA KAZARIAN,,,,,,,,,,,,,no_results
+LegalSphere LLC,1,LEGALSPHERE LLC,,,,,,,,,,,,,no_results
+Libertana Home Care,1,LIBERTANA HOME CARE,,,,,,,,,,,,,no_results
+Linea Solutions,1,LINEA SOLUTIONS,Linea Solutions Inc,,,,812112,Beauty Salons,,edd,Linea Solutions Inc,starts_with,812112,Beauty Salons,ok
+Litigation Services,1,LITIGATION SERVICES,Litigation Services,,,,561611,Investigation Services,,edd,Litigation Services,exact,561611,Investigation Services,ok
+"Lucy Stutz, Talent Manager",1,LUCY STUTZ TALENT MANAGER,,,,,,,,,,,,,no_results
+Mark IV Capital,1,MARK IV CAPITAL,Mark IV Capital Inc,,,,523910,Miscellaneous Intermediation,,edd,Mark IV Capital Inc,starts_with,523910,Miscellaneous Intermediation,ok
+McNeil Capital,1,MCNEIL CAPITAL,,,,,,,,,,,,,no_results
+double d,1,DOUBLE D,Double D Pipeline Inc,,,,237110,Water and Sewer System Construction,,edd,Double D Pipeline Inc,starts_with,237110,Water and Sewer System Construction,ok

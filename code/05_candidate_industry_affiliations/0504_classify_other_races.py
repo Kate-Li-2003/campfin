@@ -54,7 +54,7 @@ DEFAULT_INPUTS = [
 DEFAULT_RUNNING_LIST = REPO_ROOT / "data/03_input/masterfile/running_list.csv"
 DEFAULT_KEYWORDS = (
     REPO_ROOT
-    / "data/03_input/training data (manual classifications)/Keywords_Manually_Collected.xlsx"
+    / "data/03_input/training data (manual classifications)/Keywords_Manually_Collected.csv"
 )
 DEFAULT_OUT_DIR = REPO_ROOT / "output/05_output"
 

@@ -39,7 +39,7 @@ DEFAULT_INPUT = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026
 DEFAULT_RUNNING_LIST = REPO_ROOT / "data/03_input/masterfile/running_list.csv"
 DEFAULT_KEYWORDS = (
     REPO_ROOT
-    / "data/03_input/training data (manual classifications)/Keywords_Manually_Collected.xlsx"
+    / "data/03_input/training data (manual classifications)/Keywords_Manually_Collected.csv"
 )
 DEFAULT_OUT = REPO_ROOT / "output/05_output/donors_classified_masterfile_then_keywords.csv"
 
@@ -200,22 +200,34 @@ def match_masterfile(employers: pd.DataFrame, running_list_path: Path) -> pd.Dat
 # ---------- part 2: keyword fallback ----------
 
 def load_keywords(path: Path) -> pd.DataFrame:
-    """Load `employer_keywords` + `company_keywords` sheets, expand
-    comma/slash-separated rows into one keyword each, dedupe, and sort
-    by descending length so longer (more specific) matches are tried
-    first when scanning an employer name.
+    """Load the combined keywords table, expand comma/slash-separated
+    rows into one keyword each, dedupe, and sort by descending length so
+    longer (more specific) matches are tried first when scanning an
+    employer name.
+
+    Accepts either:
+      - .csv: a single table (columns: keywords, level1_category,
+        level2_category, level3_category, optional source_sheet) — the
+        pre-combined export of employer_keywords + company_keywords.
+      - .xlsx: legacy workbook with `employer_keywords` and
+        `company_keywords` sheets; concatenated here for backward compat.
 
     Eliminated_* sheets are intentionally skipped — those are the
     keywords the curator deemed unsafe to substring-match.
     """
     cols = ["keywords", "level1_category", "level2_category", "level3_category"]
 
-    emp = pd.read_excel(path, sheet_name="employer_keywords")
-    com = pd.read_excel(path, sheet_name="company_keywords")
-    if "level3_category" not in com.columns:
-        com["level3_category"] = pd.NA
-
-    df = pd.concat([emp[cols], com[cols]], ignore_index=True).dropna(subset=["keywords"])
+    if Path(path).suffix.lower() == ".csv":
+        df = pd.read_csv(path)
+        if "level3_category" not in df.columns:
+            df["level3_category"] = pd.NA
+        df = df[cols].dropna(subset=["keywords"])
+    else:
+        emp = pd.read_excel(path, sheet_name="employer_keywords")
+        com = pd.read_excel(path, sheet_name="company_keywords")
+        if "level3_category" not in com.columns:
+            com["level3_category"] = pd.NA
+        df = pd.concat([emp[cols], com[cols]], ignore_index=True).dropna(subset=["keywords"])
 
     rows: list[dict] = []
     for _, r in df.iterrows():

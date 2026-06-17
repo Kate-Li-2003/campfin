@@ -7,12 +7,10 @@ After cloning into this repository (`git clone ...`, `cd ... `, `python3 -m venv
 ## Data Pulling from Cal-Access
 
 To pull **all donations** for a race, run: 
-- `.venv/bin/python code/04_donations_data_pull/pull_calaccess.py`
+- `.venv/bin/python code/04_donations_data_pull/pull_calaccess.py --races [GOV/LTG/IC]`
 - Pulled data will be stored at `data/01CalAccess_CampaignFinance_Data/governor_race_2026.csv` 
 To pull all data for the governor's race _above_ a specific donation amount (e.g., 5K), run:
--  `.venv/bin/python code/04_donations_data_pull/0401_filter_10k_donations.py \
--  --inputs “data/01CalAccess_CampaignFinance_Data/governor_race_2026-04-27.csv” \
--  --amount-min 5000`
+-  `.venv/bin/python code/04_donations_data_pull/0401_filter_10k_donations.py \ --inputs “data/01CalAccess_CampaignFinance_Data/governor_race_2026-04-27.csv” \ --amount-min 5000`
 -  Filtered contributions data will be stored at `data/04_output_latest_data_pulls/0401_races_5kfilters/governor_race_2026_over_5k.csv`
 
 ## Classifications (Static) 

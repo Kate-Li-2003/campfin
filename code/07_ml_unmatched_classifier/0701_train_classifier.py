@@ -35,10 +35,27 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, top_k_accuracy_score
 from sklearn.model_selection import train_test_split
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import text_features as tf  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_TRAIN = REPO_ROOT / "data/03_input/masterfile/running_list.csv"
 DEFAULT_OUT_DIR = REPO_ROOT / "data/07_output_ml_classification/models"
 DEFAULT_ENCODER = "sentence-transformers/all-MiniLM-L6-v2"
+# Occupation -> NAICS seed examples, embedded as "occupation: {occ}" so the
+# model learns the exact serving-side format 0702 uses for individuals
+# (fixes the train/serve mismatch: models used to see bare company names
+# only, so occupation text carried almost no weight at predict time).
+DEFAULT_AUG_OCCUPATIONS = (
+    REPO_ROOT
+    / "data/03_input/training data (manual classifications)/occupation_naics_seed.csv"
+)
+# 05-output files to harvest non-ML-labeled individuals from (employer +
+# occupation + naics assigned by masterfile/keyword/EDD/manual sources).
+DEFAULT_AUG_LABELED = [
+    REPO_ROOT / "output/05_output/donors_classified_with_manual.csv",
+]
+AUG_ELIGIBLE_SOURCES = {"masterfile", "keyword match", "manual", "edd", "custom rule"}
 TARGETS = ["level1_category", "level2_category", "naics_code"]
 MIN_CLASS_SUPPORT = 5  # drop classes with fewer than this many examples
 
@@ -119,11 +136,79 @@ def train_one(emb: np.ndarray, y: pd.Series, target: str) -> LogisticRegression 
     return final
 
 
+def _augmentation_frames(
+    occupations_path: Path | None, labeled_paths: list[Path]
+) -> list[pd.DataFrame]:
+    """Extra training rows in serving-side text format (see text_features).
+
+    1. Occupation seeds: "occupation: {occ}" -> naics_code. Covers the
+       custom codes (79, 92, 99) and occupation-heavy sectors the bare
+       company-name training set can't teach.
+    2. Labeled individuals from 05 outputs: real (employer, occupation)
+       pairs whose naics came from a non-ML source, rendered with
+       tf.build_embed_text so they match 0702's v2 prediction text.
+    """
+    frames = []
+
+    if occupations_path and occupations_path.exists():
+        occ = pd.read_csv(occupations_path, dtype=str).dropna(
+            subset=["occupation", "naics_code"]
+        )
+        frames.append(
+            pd.DataFrame(
+                {
+                    "name": occ["occupation"].map(tf.occupation_train_text),
+                    "naics_code": occ["naics_code"].str.strip(),
+                }
+            )
+        )
+        print(f"  augmentation: {len(occ):,} occupation seeds ({occupations_path.name})")
+
+    for path in labeled_paths:
+        if not path.exists():
+            print(f"  augmentation: skip (not found): {path}")
+            continue
+        d = pd.read_csv(path)
+        need = {"employer", "naics_code", "data_source_1"}
+        if not need.issubset(d.columns):
+            print(f"  augmentation: skip (missing cols): {path.name}")
+            continue
+        d = d[
+            d["data_source_1"].isin(AUG_ELIGIBLE_SOURCES)
+            & d["naics_code"].notna()
+            & (d.get("entity_kind", "individual") == "individual")
+        ].copy()
+        occ_col = (
+            d["occupation_norm"]
+            if "occupation_norm" in d.columns
+            else pd.Series([""] * len(d), index=d.index)
+        )
+        d["name"] = [
+            tf.build_embed_text(e, o, entity_kind="individual")
+            for e, o in zip(d["employer"], occ_col)
+        ]
+        d = d[d["name"] != ""]
+        keep = ["name", "naics_code"] + [
+            t for t in ("level1_category", "level2_category") if t in d.columns
+        ]
+        frames.append(d[keep].drop_duplicates(subset=["name"]))
+        print(f"  augmentation: {len(d):,} labeled individuals ({path.name})")
+
+    return frames
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     p.add_argument("--train", type=Path, default=DEFAULT_TRAIN)
     p.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     p.add_argument("--encoder", type=str, default=DEFAULT_ENCODER)
+    p.add_argument("--aug-occupations", type=Path, default=DEFAULT_AUG_OCCUPATIONS)
+    p.add_argument("--aug-labeled", type=Path, nargs="*", default=DEFAULT_AUG_LABELED)
+    p.add_argument(
+        "--no-aug",
+        action="store_true",
+        help="train on running_list only (legacy v1 text format)",
+    )
     args = p.parse_args(argv)
 
     print(f"Training data: {args.train}")
@@ -131,6 +216,14 @@ def main(argv: list[str] | None = None) -> None:
     df = df[df["name"].notna()].copy()
     df["name"] = df["name"].astype(str).str.strip()
     df = df[df["name"] != ""]
+
+    text_format = "v1"
+    if not args.no_aug:
+        frames = _augmentation_frames(args.aug_occupations, list(args.aug_labeled))
+        if frames:
+            df = pd.concat([df] + frames, ignore_index=True)
+            df = df.drop_duplicates(subset=["name"], keep="first")
+            text_format = tf.FORMAT_VERSION
 
     # NAICS may come in as float (e.g. 524210.0) or string ("44-45");
     # normalize to a clean categorical string label.
@@ -152,6 +245,9 @@ def main(argv: list[str] | None = None) -> None:
     emb = encode_names(names, args.encoder, cache_path)
 
     (args.out_dir / "encoder_name.txt").write_text(args.encoder)
+    # Record the embed-text format so 0702 builds prediction text the same
+    # way these models were trained (see text_features.py / CUSTOM_CODES.md).
+    (args.out_dir / "text_format.txt").write_text(text_format)
 
     for target in TARGETS:
         if target not in df.columns:

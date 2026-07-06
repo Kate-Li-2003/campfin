@@ -35,12 +35,16 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-DEFAULT_INPUT = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026-04-27.csv"
+DEFAULT_INPUT = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026.csv"
 DEFAULT_RUNNING_LIST = REPO_ROOT / "data/03_input/masterfile/running_list.csv"
 DEFAULT_KEYWORDS = (
     REPO_ROOT
     / "data/03_input/training data (manual classifications)/Keywords_Manually_Collected.csv"
 )
+# Custom (non-NAICS) label overrides, e.g. PAC/committee -> "88". Both the
+# label AND the name-matching rule live in this data file so the taxonomy is
+# editable without touching code.
+DEFAULT_CUSTOM_LABELS = REPO_ROOT / "data/03_input/masterfile/custom_naics_labels.csv"
 DEFAULT_OUT = REPO_ROOT / "output/05_output/donors_classified_masterfile_then_keywords.csv"
 
 AMOUNT_MIN = 10000
@@ -94,8 +98,15 @@ def normalize_name(s: pd.Series) -> pd.Series:
 
 def _load_input(path: Path) -> pd.DataFrame:
     if path.suffix.lower() in (".xlsx", ".xls"):
-        return pd.read_excel(path)
-    return pd.read_csv(path)
+        df = pd.read_excel(path)
+    else:
+        df = pd.read_csv(path)
+    # Raw PowerSearch exports use dot-separated headers ("Contributor.Employer");
+    # the pipeline references space-separated names ("Contributor Employer").
+    # Normalize dots to spaces so either export format loads. No-op on files
+    # that are already space-separated.
+    df.columns = [re.sub(r"\s+", " ", str(c).replace(".", " ")).strip() for c in df.columns]
+    return df
 
 
 # ---------- step 0: filter + aggregate (same logic as 0302) ----------
@@ -106,7 +117,7 @@ def filter_and_aggregate(df: pd.DataFrame, amount_min: float) -> pd.DataFrame:
     occ = df["Contributor Occupation"].fillna("").str.lower().str.strip()
     employer = df["Contributor Employer"].astype(str).str.strip()
     qual = (
-        (df["Amount"] > amount_min)
+        (df["Amount"] >= amount_min)
         & df["Contributor ID"].isna()
         & ~occ.isin(NON_COMPANY_OCCUPATIONS)
         & df["Contributor Employer"].notna()
@@ -120,7 +131,7 @@ def filter_and_aggregate(df: pd.DataFrame, amount_min: float) -> pd.DataFrame:
     print("=" * 70)
     print(f"  Total donations:                   {n_total:>9,}   ${total_amount:>15,.0f}")
     print(
-        f"  Qualifying (>${int(amount_min):,}, no PAC ID, "
+        f"  Qualifying (>=${int(amount_min):,}, no PAC ID, "
         f"company-affiliated occupation, non-blank employer):"
     )
     print(
@@ -290,6 +301,60 @@ def match_keywords(merged: pd.DataFrame, keywords_df: pd.DataFrame) -> pd.DataFr
     return merged
 
 
+# ---------- custom (non-NAICS) label overrides ----------
+
+def apply_custom_label_overrides(
+    merged: pd.DataFrame, custom_labels_path: Path = DEFAULT_CUSTOM_LABELS
+) -> pd.DataFrame:
+    """Final, authoritative override pass driven by custom_naics_labels.csv.
+
+    Each row in that file may carry a `name_regex`; any entity whose
+    `employer` (the aggregated entity name) matches it is stamped with that
+    row's label — overriding whatever masterfile / keyword / EDD / ML had
+    assigned. This is how PAC/committee entities get the non-NAICS code
+    "88": the matching rule and the label both live in the data file, so
+    the taxonomy is editable without code changes.
+
+    Runs LAST on purpose: "all PACs -> 88" must win over industry labels
+    (e.g. a union's PAC is recorded as 88, not Labor/81).
+    """
+    if not Path(custom_labels_path).exists():
+        return merged
+    rules = pd.read_csv(custom_labels_path, dtype=str)
+    rules = rules[rules.get("name_regex").notna()] if "name_regex" in rules else rules.iloc[0:0]
+    if rules.empty:
+        return merged
+
+    print()
+    print("=" * 70)
+    print("CUSTOM LABEL OVERRIDES (custom_naics_labels.csv)")
+    print("=" * 70)
+
+    emp = merged["employer"].astype(str)
+    for r in rules.itertuples(index=False):
+        pat = re.compile(r.name_regex, re.IGNORECASE)
+        hit = emp.str.contains(pat)
+        n = int(hit.sum())
+        for col in (
+            "level1_category",
+            "level2_category",
+            "level3_category",
+            "naics_code",
+            "naics_label",
+        ):
+            val = getattr(r, col, None)
+            if col in merged.columns and pd.notna(val):
+                merged.loc[hit, col] = val
+        merged.loc[hit, "data_source_1"] = "custom rule"
+        if "data_source_2" in merged.columns:
+            merged.loc[hit, "data_source_2"] = pd.NA
+        print(
+            f"  naics {str(r.naics_code):>4s} ({r.naics_label}): "
+            f"{n:,} entities matched /{r.name_regex}/"
+        )
+    return merged
+
+
 # ---------- summary ----------
 
 def print_summary(merged: pd.DataFrame) -> None:
@@ -331,6 +396,7 @@ def main(argv: list[str] | None = None) -> None:
     p.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     p.add_argument("--running-list", type=Path, default=DEFAULT_RUNNING_LIST)
     p.add_argument("--keywords", type=Path, default=DEFAULT_KEYWORDS)
+    p.add_argument("--custom-labels", type=Path, default=DEFAULT_CUSTOM_LABELS)
     p.add_argument("--out", type=Path, default=DEFAULT_OUT)
     p.add_argument("--amount-min", type=float, default=AMOUNT_MIN)
     args = p.parse_args(argv)
@@ -341,6 +407,7 @@ def main(argv: list[str] | None = None) -> None:
     merged = match_masterfile(employers, args.running_list)
     keywords = load_keywords(args.keywords)
     merged = match_keywords(merged, keywords)
+    merged = apply_custom_label_overrides(merged, args.custom_labels)
     print_summary(merged)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)

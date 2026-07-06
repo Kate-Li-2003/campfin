@@ -31,7 +31,7 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-DEFAULT_INPUT = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026-04-27.csv"
+DEFAULT_INPUT = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026.csv"
 DEFAULT_RUNNING_LIST = REPO_ROOT / "data/03_input/masterfile/running_list.csv"
 DEFAULT_KEYWORDS = (
     REPO_ROOT

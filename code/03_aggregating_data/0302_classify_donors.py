@@ -20,7 +20,7 @@ Usage
 
     # transactional input — step 1 runs, then 2 + 3
     python 0302_classify_donors.py \\
-        --input ../../data/01CalAccess_CampaignFinance_Data/governor_race_2026-04-27.csv
+        --input ../../data/01CalAccess_CampaignFinance_Data/governor_race_2026.csv
 
 Options:
     --input PATH        Donor file (csv or xlsx). Default: the demo file.
@@ -47,7 +47,7 @@ from edd_naics_lookup import EDDClient  # noqa: E402
 
 # Default to the latest transactional gov-race pull. Update the filename
 # below when a newer CalAccess pull lands in data/04_output_latest_data_pulls/.
-DEFAULT_INPUT = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026-04-27.csv"
+DEFAULT_INPUT = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026.csv"
 DEFAULT_RUNNING_LIST = REPO_ROOT / "data/03_input/masterfile/running_list.csv"
 DEFAULT_OUT = REPO_ROOT / "output/03_output/masterfile_classified_donors.csv"
 

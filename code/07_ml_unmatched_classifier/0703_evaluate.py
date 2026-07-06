@@ -52,6 +52,25 @@ def _clean_naics(v):
     return s if s else pd.NA
 
 
+# NAICS combined-sector ranges: single-sector labels (e.g. manual "33")
+# and range labels (classifier "31-33") refer to the same 2-digit sector.
+_RANGE_MAP = {"31": "31-33", "32": "31-33", "33": "31-33",
+              "44": "44-45", "45": "44-45", "48": "48-49", "49": "48-49"}
+
+
+def normalize_naics_2digit(v):
+    """Truncate 3+ digit codes to their 2-digit sector and collapse the
+    combined sectors (31/32/33 -> 31-33 etc.) so a manual '33' scores as a
+    match against a predicted '31-33'."""
+    s = _clean_naics(v)
+    if pd.isna(s):
+        return s
+    if s in ("31-33", "44-45", "48-49"):
+        return s
+    p = s[:2]
+    return _RANGE_MAP.get(p, p)
+
+
 def _normalize_str(s: pd.Series) -> pd.Series:
     return s.astype(object).where(s.notna(), pd.NA).astype("string").str.strip()
 
@@ -72,12 +91,18 @@ def _load_classifiers(model_dir: Path) -> dict:
     return out
 
 
-def _topk_correct(clf, X: np.ndarray, y_true: np.ndarray, k: int) -> np.ndarray:
+def _topk_correct(
+    clf, X: np.ndarray, y_true: np.ndarray, k: int, normalizer=None
+) -> np.ndarray:
     proba = clf.predict_proba(X)
     # Indices of the top-k predicted class per row, in descending probability.
     topk_idx = np.argsort(-proba, axis=1)[:, :k]
     topk_labels = np.asarray(clf.classes_, dtype=object)[topk_idx]
     y_true_arr = np.asarray(y_true, dtype=object).reshape(-1, 1)
+    if normalizer is not None:
+        vec = np.vectorize(normalizer, otypes=[object])
+        topk_labels = vec(topk_labels)
+        y_true_arr = vec(y_true_arr)
     return (topk_labels == y_true_arr).any(axis=1)
 
 
@@ -126,8 +151,11 @@ def evaluate_block(
             continue
         y_true = truth[mask].astype(str).to_numpy(dtype=object)
         X = emb[mask.values]
-        k1 = _topk_correct(clf, X, y_true, k=1)
-        k3 = _topk_correct(clf, X, y_true, k=min(3, len(clf.classes_)))
+        # For NAICS, score at the normalized 2-digit sector level so manual
+        # "33" counts as a hit against predicted "31-33" (and vice versa).
+        norm = normalize_naics_2digit if t == "naics_code" else None
+        k1 = _topk_correct(clf, X, y_true, k=1, normalizer=norm)
+        k3 = _topk_correct(clf, X, y_true, k=min(3, len(clf.classes_)), normalizer=norm)
         rows.append({
             "block": label_prefix, "target": t,
             "n_with_truth": n_total, "n_in_classifier_vocab": n_in_vocab,

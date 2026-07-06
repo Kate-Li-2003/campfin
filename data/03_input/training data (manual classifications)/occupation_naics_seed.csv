@@ -1,0 +1,126 @@
+occupation,naics_code
+farmer,11
+rancher,11
+grower,11
+winegrape grower,11
+farm manager,11
+farming,11
+agricultural operations,11
+dairy farmer,11
+petroleum engineer,21
+oil and gas executive,21
+oil producer,21
+drilling contractor,21
+energy executive,22
+utility manager,22
+solar developer,22
+general contractor,23
+building contractor,23
+construction manager,23
+construction,23
+homebuilder,23
+electrician,23
+plumber,23
+manufacturer,31-33
+manufacturing executive,31-33
+plant manager,31-33
+factory owner,31-33
+winemaker,31-33
+wholesaler,42
+distributor,42
+retailer,44-45
+store owner,44-45
+car dealer,44-45
+trucking company owner,48-49
+airline pilot,48-49
+logistics manager,48-49
+broadcaster,51
+journalist,51
+film producer,51
+tv producer,51
+filmmaker,51
+publisher,51
+media executive,51
+banker,52
+investor,52
+private investor,52
+trader,52
+quantitative trader,52
+venture capitalist,52
+private equity,52
+financial advisor,52
+fund manager,52
+insurance broker,52
+finance,52
+hedge fund manager,52
+real estate,53
+real estate developer,53
+real estate investor,53
+real estate broker,53
+realtor,53
+property manager,53
+re dev,53
+landlord,53
+attorney,54
+lawyer,54
+accountant,54
+cpa,54
+architect,54
+engineer,54
+consultant,54
+lobbyist,54
+scientist,54
+graphic designer,54
+business executive,55
+holding company executive,55
+staffing agency owner,56
+recruiter,56
+landscaper,56
+teacher,61
+professor,61
+educator,61
+school administrator,61
+physician,62
+doctor,62
+dentist,62
+nurse,62
+surgeon,62
+chiropractor,62
+veterinarian,62
+psychologist,62
+therapist,62
+pharmacist,62
+healthcare executive,62
+artist,71
+actor,71
+musician,71
+professional golfer,71
+athlete,71
+screenwriter,71
+entertainer,71
+restaurant owner,72
+restaurateur,72
+hotel operator,72
+caterer,72
+barber,81
+minister,81
+nonprofit director,81
+software engineer,79
+software developer,79
+data scientist,79
+tech executive,79
+startup founder,79
+programmer,79
+government employee,92
+civil servant,92
+city administrator,92
+county supervisor,92
+state employee,92
+federal employee,92
+public official,92
+retired,99
+not employed,99
+unemployed,99
+homemaker,99
+refunded,99
+unknown,99

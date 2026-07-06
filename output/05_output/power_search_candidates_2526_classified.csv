@@ -1,0 +1,64 @@
+employer,n_donors,amount_total,entity_kind,occupation_norm,employer_norm,match_name,level1_category,level2_category,level3_category,naics_code,naics_label,data_source_1,data_source_2,matched_keyword,edd_match_name,edd_match_type,edd_naics_code,edd_naics_description,edd_status
+Candidate,1,10000000.0,individual,candidate,CANDIDATE,Candidate,,,,922160,Fire Protection,masterfile,edd,,,,,,
+Juan Alanis for Assembly 2024,1,360944.76,organization,,JUAN ALANIS FOR ASSEMBLY 2024,,,,,,,,,,,,,,no_results
+California Republican Party,9,260680.33000000002,organization,,CALIFORNIA REPUBLICAN PARTY,California Republican Party,Party,Party Committees,Republican Party committees,,,masterfile,opensecrets,,,,,,
+none,1,100000.0,individual,businessman/farmer,NONE,none,,,,311314,Cane Sugar Manufacturing,masterfile,edd,,,,,,
+Steyer for Governor 2026,1,75000.0,individual,candidate,STEYER FOR GOVERNOR 2026,,,,,,,,,,,,,,no_results
+Association of California School Administrators PAC Small Contributor Committee,4,47200.0,organization,,ASSOCIATION OF CALIFORNIA SCHOOL ADMINISTRATORS PAC SMALL CONTRIBUTOR COMMITTEE,,,,,,,,,,,,,,no_results
+Palladium Music,1,42000.0,individual,producer,PALLADIUM MUSIC,,,,,,,,,,,,,,no_results
+American Civil Liberties Union of Southern California,2,40000.0,individual,lawyer,AMERICAN CIVIL LIBERTIES UNION OF SOUTHERN CALIFORNIA,,Ideology/Single Issue,Other/Single Issue Groups,Other single-issue or ideological groups,,,keyword match,,american civil liberties union,,,,,
+"Friese, Andrea",1,39200.0,non_company_individual,retired,FRIESE ANDREA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Friese, Donald",1,39200.0,non_company_individual,retired,FRIESE DONALD,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Highland Fairview Operating Co. & Affiliated,1,39200.0,organization,,HIGHLAND FAIRVIEW OPERATING CO AFFILIATED,,,,,,,,,,,,,,no_results
+AMERICAN RESORT DEVELOPMENT ASSOCIATION RESORT OWNERS COALITION PAC (ARDA-ROC PAC),1,39200.0,organization,,AMERICAN RESORT DEVELOPMENT ASSOCIATION RESORT OWNERS COALITION PAC ARDA ROC PAC,,,,,,,,,,,,,,no_results
+Lanikai Management,1,39200.0,individual,real estate investor,LANIKAI MANAGEMENT,Lanikai Management,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,,,,,
+"Duro, Chris",1,39200.0,non_company_individual,not employed,DURO CHRIS,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"PSC Renaissance, LLC",1,39200.0,organization,,PSC RENAISSANCE LLC,,,,,,,,,,,,,,no_results
+TAV Property Holdings LLC,1,39200.0,individual,principal,TAV PROPERTY HOLDINGS LLC,,,,,,,,,,,,,,no_results
+Fox Corporation,1,39200.0,individual,chairman emeritus,FOX CORPORATION,,Communications & Electronics,TV & Movie Production/Distribution,Broadcasting & motion pictures,,,keyword match,,fox corporation,,,,,
+A Khmer Buddhist Foundation,1,39200.0,individual,executive director,A KHMER BUDDHIST FOUNDATION,,,,,,,,,,,,,,no_results
+Associated General Contractors PAC,1,39200.0,organization,,ASSOCIATED GENERAL CONTRACTORS PAC,,,,,,,,,,,,,,no_results
+Camisassa Law Group,1,39200.0,organization,,CAMISASSA LAW GROUP,,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,keyword match,,law group,,,,,
+"Downey Brand, LLP",1,34200.0,individual,attorney,DOWNEY BRAND LLP,,,,,,,,,,,,,,no_results
+Santa Barbara County Deputy Sheriffs' Association,1,30000.0,organization,,SANTA BARBARA COUNTY DEPUTY SHERIFFS ASSOCIATION,,Labor,Public Sector Unions,,,,keyword match,,deputy sheriffs,,,,,
+"Foley, Lawrence",1,25000.0,non_company_individual,self employed,FOLEY LAWRENCE,,Non-company individual,Self Employed,,,,non-company individual,,,,,,,
+R. J. Noble Company,1,25000.0,organization,,R J NOBLE COMPANY,,,,,,,,,,,,,,no_results
+SLTC LLC,1,25000.0,individual,partner,SLTC LLC,,,,,,,,,,,,,,no_results
+"Universe Properties, LLC",1,25000.0,individual,real estate broker,UNIVERSE PROPERTIES LLC,,,,,,,,,,,,,,no_results
+"Pilcher, Brian",1,25000.0,non_company_individual,retired,PILCHER BRIAN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+The Salt and Light Council,1,25000.0,individual,president,THE SALT AND LIGHT COUNCIL,,,,,,,,,,,,,,no_results
+Deputy Sheriffs' Association of San Diego County PAC,1,25000.0,organization,,DEPUTY SHERIFFS ASSOCIATION OF SAN DIEGO COUNTY PAC,,Labor,Public Sector Unions,,,,keyword match,,deputy sheriffs,,,,,
+Laborers Pacific Southwest Regional Organizing Coalition PAC,2,22800.0,organization,,LABORERS PACIFIC SOUTHWEST REGIONAL ORGANIZING COALITION PAC,,Labor,,,,,keyword match,,laborers,,,,,
+Harvest Rock Church,2,20833.96,individual,pastor,HARVEST ROCK CHURCH,Harvest Rock Church,,,,813110,Religious Organizations,masterfile,edd,,,,,,
+KXLA-TV,1,20000.0,individual,broadcaster,KXLA TV,,,,,,,,,,,,,,no_results
+VAL Property AI,1,20000.0,individual,founder & ceo,VAL PROPERTY AI,,,,,,,,,,,,,,no_results
+Martinian Lawyers,1,20000.0,individual,attorney,MARTINIAN LAWYERS,Martinian Lawyers,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+"Greer, Michael",1,20000.0,non_company_individual,retired,GREER MICHAEL,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Carsey, Marcy",1,20000.0,non_company_individual,not employed,CARSEY MARCY,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Union of American Physicians and Dentists Medical Action Committee,1,20000.0,organization,,UNION OF AMERICAN PHYSICIANS AND DENTISTS MEDICAL ACTION COMMITTEE,,,,,,,,,,,,,,no_results
+Thumbtack,1,20000.0,individual,chief executive officer,THUMBTACK,,,,,,,,,,Thumbtack,exact,999990,Unknown,ok
+Kaiser Permanente,1,20000.0,individual,executive,KAISER PERMANENTE,Kaiser Permanente,Health,Health Services,HMOs,,,masterfile,opensecrets,,,,,,
+Mosaic Real Estate Investors,1,17244.68,individual,chief executive officer,MOSAIC REAL ESTATE INVESTORS,,"Finance, Insurance & Real Estate",Real Estate,,,,keyword match,,real estate,,,,,
+Democratic Lieutenant Governors Association Supporting Eleni Kounalakis for Governor 2026,1,17210.0,organization,,DEMOCRATIC LIEUTENANT GOVERNORS ASSOCIATION SUPPORTING ELENI KOUNALAKIS FOR GOVERNOR 2026,,,,,,,,,,,,,,no_results
+The Scott Foundation,1,15000.0,individual,president,THE SCOTT FOUNDATION,,,,,,,,,,,,,,no_results
+Nguyen Lawyers ALC,1,15000.0,individual,attorney,NGUYEN LAWYERS ALC,Nguyen Lawyers ALC,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+The Permanente Medical Group,1,13755.04,individual,physician,THE PERMANENTE MEDICAL GROUP,,Health,,,,,keyword match,,medical group,,,,,
+"White, Cedric",1,13000.0,non_company_individual,retired,WHITE CEDRIC,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+United Domestic Workers of America Action Fund Small Contributor Committee,1,11800.0,organization,,UNITED DOMESTIC WORKERS OF AMERICA ACTION FUND SMALL CONTRIBUTOR COMMITTEE,,,,,,,,,,,,,,no_results
+Steamfitters & Refrigeration U.A. Local 250 PAC Small Contributor Committee,1,11800.0,organization,,STEAMFITTERS REFRIGERATION U A LOCAL 250 PAC SMALL CONTRIBUTOR COMMITTEE,,,,,,,,,,,,,,no_results
+"American Federation of State, County and Municipal Employees, AFL-CIO (MPO) Small Contributor Committee",1,11800.0,organization,,AMERICAN FEDERATION OF STATE COUNTY AND MUNICIPAL EMPLOYEES AFL CIO MPO SMALL CONTRIBUTOR COMMITTEE,,,,,,,,,,,,,,no_results
+Steamfitters & Refrigeration UA Local 250 PAC Small Contributor Committee,1,11800.0,organization,,STEAMFITTERS REFRIGERATION UA LOCAL 250 PAC SMALL CONTRIBUTOR COMMITTEE,,,,,,,,,,,,,,no_results
+Professional Engineers in California Government PAC,1,11800.0,organization,,PROFESSIONAL ENGINEERS IN CALIFORNIA GOVERNMENT PAC,,,,,,,,,,,,,,no_results
+Southern California Pipe Trades District Council No. 16 PAC Small Contributor Committee,1,11800.0,organization,,SOUTHERN CALIFORNIA PIPE TRADES DISTRICT COUNCIL NO 16 PAC SMALL CONTRIBUTOR COMMITTEE,,Labor,,,,,keyword match,,district council,,,,,
+Southern California Pipe Trades District Council #16 PAC Small Contributor Committee,1,11800.0,organization,,SOUTHERN CALIFORNIA PIPE TRADES DISTRICT COUNCIL 16 PAC SMALL CONTRIBUTOR COMMITTEE,,Labor,,,,,keyword match,,district council,,,,,
+Southern CA Pipe Trades District Council 16 PAC,1,11800.0,organization,,SOUTHERN CA PIPE TRADES DISTRICT COUNCIL 16 PAC,,Labor,,,,,keyword match,,district council,,,,,
+Service Employees International Union Local 1000 Candidate PAC Small Contributor Committee,1,11800.0,organization,,SERVICE EMPLOYEES INTERNATIONAL UNION LOCAL 1000 CANDIDATE PAC SMALL CONTRIBUTOR COMMITTEE,,Labor,,,,,keyword match,,international union,,,,,
+Service Employees International Union Local 1000 Candidate PAC,1,11800.0,organization,,SERVICE EMPLOYEES INTERNATIONAL UNION LOCAL 1000 CANDIDATE PAC,,Labor,,,,,keyword match,,international union,,,,,
+Professional Engineers in California Government,1,11800.0,organization,,PROFESSIONAL ENGINEERS IN CALIFORNIA GOVERNMENT,Professional Engineers In California Government,Labor,General Trade Unions,Other unions,,,masterfile,opensecrets,,,,,,
+Cal Fire Local 2881 Small Contributor PAC,1,11800.0,organization,,CAL FIRE LOCAL 2881 SMALL CONTRIBUTOR PAC,,,,,,,,,,,,,,no_results
+Northern California Carpenters Regional Council POWER PAC Small Contributor Committee,1,11800.0,organization,,NORTHERN CALIFORNIA CARPENTERS REGIONAL COUNCIL POWER PAC SMALL CONTRIBUTOR COMMITTEE,,,,,,,,,,,,,,no_results
+California Real Estate PAC (CREPAC),1,11800.0,organization,,CALIFORNIA REAL ESTATE PAC CREPAC,,"Finance, Insurance & Real Estate",Real Estate,,,,keyword match,,real estate,,,,,
+California State Council of Service Employees Small Contributor Committee,1,11800.0,organization,,CALIFORNIA STATE COUNCIL OF SERVICE EMPLOYEES SMALL CONTRIBUTOR COMMITTEE,,,,,,,,,,,,,,no_results
+California State Retirees PAC,1,11800.0,organization,,CALIFORNIA STATE RETIREES PAC,,,,,,,,,,,,,,no_results
+Los Angeles/Orange Counties Building and Construction Trades Council,1,11800.0,organization,,LOS ANGELES ORANGE COUNTIES BUILDING AND CONSTRUCTION TRADES COUNCIL,,Labor,General Trade Unions,,,,keyword match,,building and construction trades,,,,,
+"BRDBND, LLC",1,10350.25,individual,president,BRDBND LLC,,,,,,,,,,,,,,no_results

@@ -54,7 +54,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent   # campaign finance categoriz
 DATA_DIR = BASE_DIR / "data"
 
 GOV_RACE_PATH = (
-    DATA_DIR / "01CalAccess_CampaignFinance_Data" / "governor_race_2026-03-20.csv"
+    DATA_DIR / "01CalAccess_CampaignFinance_Data" / "governor_race_2026.csv"
 )
 OPENSECRETS_PATH = DATA_DIR / "ContributionOpenSecretsCategories (1).csv"
 

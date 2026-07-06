@@ -113,7 +113,7 @@ warnings.filterwarnings("ignore")
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 
-GOV_RACE_PATH    = DATA_DIR / "01CalAccess_CampaignFinance_Data" / "governor_race_2026-03-20.csv"
+GOV_RACE_PATH    = DATA_DIR / "01CalAccess_CampaignFinance_Data" / "governor_race_2026.csv"
 OPENSECRETS_PATH = DATA_DIR / "ContributionOpenSecretsCategories (1).csv"
 OUTPUT_DIR       = DATA_DIR / "03_output"
 DEFAULT_OUTPUT   = OUTPUT_DIR / "employer_descriptions.csv"

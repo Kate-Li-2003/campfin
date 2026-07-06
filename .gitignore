@@ -10,6 +10,9 @@ data/ContributionOpenSecretsCategories (1).csv
 data/01CalAccess_CampaignFinance_Data/*.csv
 data/02_CalAccess_IE_Data/
 
+# CalAccess walkthrough notebook cache (re-downloadable raw TSVs)
+code/04_donations_data_pull/.calaccess_cache/
+
 # Generated figures and output CSVs
 data/02_output/
 

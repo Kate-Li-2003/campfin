@@ -1,0 +1,771 @@
+employer,n_donors,amount_total,entity_kind,occupation_norm,employer_norm,match_name,level1_category,level2_category,level3_category,naics_code,naics_label,data_source_1,data_source_2,matched_keyword,edd_match_name,edd_match_type,edd_naics_code,edd_naics_description,edd_status
+Unitemized Contributions,8,4256942.46,organization,,UNITEMIZED CONTRIBUTIONS,,,,,,,,,,,,,,no_results
+Self Employed,55,565600.0,individual,physician,SELF EMPLOYED,Self Employed,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Lighthouse Worldwide Solutions Inc.,12,381499.0,individual,engineer,LIGHTHOUSE WORLDWIDE SOLUTIONS INC,,,,,,,,,,,,,,no_results
+Anthropic,13,338600.0,individual,analyst,ANTHROPIC,A Pat Moore Foundation,,,,541720,Social Science/Humanities Research,edd,,,A Pat Moore Foundation,largest,541720,Social Science/Humanities Research,ok
+The Steve Hilton Show,3,190099.95,individual,owner,THE STEVE HILTON SHOW,,,,,,,,,,,,,,no_results
+"Anthropic, PBC",4,131800.0,individual,manager,ANTHROPIC PBC,ANTHROPIC PBC,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,,,,,
+Kaiser Permanente,5,88400.0,individual,executive,KAISER PERMANENTE,Kaiser Permanente,Health,Health Services,HMOs,62,Health Care and Social Assistance,masterfile,opensecrets,,,,,,
+Yuhaaviatam of San Manuel Nation,3,78400.0,organization,,YUHAAVIATAM OF SAN MANUEL NATION,,,,,,,,,,,,,,no_results
+Hotwire Communications,2,78400.0,individual,ceo,HOTWIRE COMMUNICATIONS,Hotwire Communications,Communications & Electronics,Telecom Services & Equipment,,51,Information,masterfile,manual,,,,,,
+Local 770 United Food and Commercial Workers PAC,2,78400.0,organization,,LOCAL 770 UNITED FOOD AND COMMERCIAL WORKERS PAC,Local 770 United Food and Commercial Workers PAC,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,
+"Schaeffer, Leonard",2,78400.0,non_company_individual,retired,SCHAEFFER LEONARD,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Boris LLC,2,78400.0,individual,owner,BORIS LLC,Boris LLC,"Finance, Insurance & Real Estate",Real Estate,,52,Finance and Insurance,masterfile,manual,,,,,,
+Altamed Health Network Inc.,3,78400.0,organization,,ALTAMED HEALTH NETWORK INC,,,,,,,,,,,,,,no_results
+"Friese, Andrea",2,78400.0,non_company_individual,retired,FRIESE ANDREA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+California State Pipe Trades Council Political Action Committee,3,78400.0,organization,,CALIFORNIA STATE PIPE TRADES COUNCIL POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,trades council,,,,,
+The Wonderful Company,4,78400.0,individual,vice chairman,THE WONDERFUL COMPANY,,,,,,,,,,,,,,no_results
+"Friese, Donald",2,78400.0,non_company_individual,retired,FRIESE DONALD,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Wasserstein & Co,3,78200.0,individual,finance,WASSERSTEIN CO,,,,,,,,,,,,,,no_results
+Lighthouse Worldwide Solutions,3,78200.0,individual,marketing special projects,LIGHTHOUSE WORLDWIDE SOLUTIONS,Lighthouse Worldwide Solutions,,,,334512,Automatic Environmental Control Mfg,edd,,,Lighthouse Worldwide Solutions,exact,334512,Automatic Environmental Control Mfg,ok
+"Genentech, Inc.",2,73400.0,organization,,GENENTECH INC,"Genentech, Inc.",,,,32,,masterfile,manual,,,,,,
+"David Mar Co, Inc.",3,63000.0,individual,attorney-real estate development,DAVID MAR CO INC,,,,,,,,,,,,,,no_results
+Meruelo Group,3,61000.0,individual,executive vice president,MERUELO GROUP,Meruelo Group,,,,523910,Miscellaneous Intermediation,edd,,,Meruelo Group,exact,523910,Miscellaneous Intermediation,ok
+"Underdog Sports Holdings, Inc.",2,50000.0,organization,,UNDERDOG SPORTS HOLDINGS INC,,,,,,,,,,,,,,no_results
+"Robinhood Markets, Inc.",3,49728.49,individual,ceo,ROBINHOOD MARKETS INC,ROBINHOOD MARKETS INC,,,,52,Finance and Insurance,masterfile,h1b,,,,,,
+Anton DevCo,3,49200.0,individual,founder,ANTON DEVCO,Anton Devco Inc,,,,531210,Offices of Real Estate Agents & Brokers,edd,,,Anton Devco Inc,starts_with,531210,Offices of Real Estate Agents & Brokers,ok
+Adventist Health,3,48900.0,individual,manager,ADVENTIST HEALTH,Adventist Health,,,,541611,Administrative Management Consulting Svc,masterfile,edd,,,,,,
+California Ambulance Association PAC,2,45000.0,organization,,CALIFORNIA AMBULANCE ASSOCIATION PAC,,PAC,Political Action Committee,Health care services,88,PAC / Political Committee,custom rule,,ambulance,,,,,
+Spencer Enterprises,4,40198.09,individual,owner,SPENCER ENTERPRISES,Spencer Enterprises,,,,621340,Offices of Specialty Therapists,masterfile,edd,,,,,,
+Siman Enterprises,2,40026.0,individual,ceo,SIMAN ENTERPRISES,,,,,,,,,,,,,,no_results
+Shingle Springs Band of Miwok Indians,1,39200.0,organization,,SHINGLE SPRINGS BAND OF MIWOK INDIANS,Shingle Springs Band Of Miwok Indians,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,92,Public Administration,masterfile,opensecrets,,,,,,
+Service Employees International Union SEIU Local 2015 State PAC,1,39200.0,organization,,SERVICE EMPLOYEES INTERNATIONAL UNION SEIU LOCAL 2015 STATE PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,international union,,,,,
+"Faculty For Our University's Future, A Committee Sponsored By The California Faculty Association",2,39200.0,organization,,FACULTY FOR OUR UNIVERSITY S FUTURE A COMMITTEE SPONSORED BY THE CALIFORNIA FACULTY ASSOCIATION,"Faculty For Our University's Future, A Committee Sponsored By The California Faculty Association",PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,
+"Freedom Financial Network Funding, LLC",1,39200.0,organization,,FREEDOM FINANCIAL NETWORK FUNDING LLC,,,,,,,,,,,,,,no_results
+Smartwash Solutions LLC,1,39200.0,organization,,SMARTWASH SOLUTIONS LLC,,,,,,,,,,,,,,no_results
+Fox Corporation,1,39200.0,individual,chairman emeritus,FOX CORPORATION,,Communications & Electronics,TV & Movie Production/Distribution,Broadcasting & motion pictures,,,keyword match,,fox corporation,,,,,
+Elevance Health Inc.,1,39200.0,organization,,ELEVANCE HEALTH INC,ELEVANCE HEALTH INC,,,,52,Finance and Insurance,masterfile,h1b,,,,,,
+Eighty Eight Place,1,39200.0,individual,principal,EIGHTY EIGHT PLACE,,,,,,,,,,,,,,no_results
+"E-W Services, Inc.",1,39200.0,organization,,E W SERVICES INC,,,,,,,,,,,,,,no_results
+"Shalunova, Arina",1,39200.0,non_company_individual,not employed,SHALUNOVA ARINA,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Self Employed-Phil Mickelson,1,39200.0,individual,golfer,SELF EMPLOYED PHIL MICKELSON,,,,,,,,,,,,,,no_results
+Self Employed-Mark Kolokotrones,2,39200.0,individual,investor,SELF EMPLOYED MARK KOLOKOTRONES,,,,,,,,,,,,,,no_results
+GH Palmer Associates,1,39200.0,individual,owner,GH PALMER ASSOCIATES,,,,,,,,,,,,,,no_results
+Morongo Band of Mission Indians,2,39200.0,organization,,MORONGO BAND OF MISSION INDIANS,,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,,,keyword match,,band of,,,,,
+"Foster, Lauren",1,39200.0,non_company_individual,not employed,FOSTER LAUREN,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Southern California District Council of Laborers PAC,1,39200.0,organization,,SOUTHERN CALIFORNIA DISTRICT COUNCIL OF LABORERS PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,district council,,,,,
+Southern California District Council of Laborers PAC Small Contributor Committee,2,39200.0,organization,,SOUTHERN CALIFORNIA DISTRICT COUNCIL OF LABORERS PAC SMALL CONTRIBUTOR COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,district council,,,,,
+"Chernick, Aubrey",1,39200.0,non_company_individual,retired,CHERNICK AUBREY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Chernick, Joyce",1,39200.0,non_company_individual,retired,CHERNICK JOYCE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Chevron USA Inc.,1,39200.0,organization,,CHEVRON USA INC,CHEVRON USA INC,,,,21,"Mining, Quarrying, and Oil and Gas Extraction",masterfile,h1b,,,,,,
+"Taylor Fresh Foods, Inc.",1,39200.0,organization,,TAYLOR FRESH FOODS INC,,Agriculture,,,,,keyword match,,foods,,,,,
+Tavaco Properties LLC,1,39200.0,individual,ceo,TAVACO PROPERTIES LLC,Tavaco Properties LLC,,,,531210,Offices of Real Estate Agents & Brokers,edd,,,Tavaco Properties LLC,exact,531210,Offices of Real Estate Agents & Brokers,ok
+Cordoba Corporation,1,39200.0,individual,president,CORDOBA CORPORATION,,,,,,,,,,,,,,no_results
+Sutter Medical Group Inc.,1,39200.0,organization,,SUTTER MEDICAL GROUP INC,,Health,,,,,keyword match,,medical group,,,,,
+Cowboy Space Corporation,1,39200.0,individual,founder and ceo,COWBOY SPACE CORPORATION,,,,,,,,,,,,,,no_results
+CraigRealty Group,1,39200.0,individual,real estate development,CRAIGREALTY GROUP,,,,,,,,,,,,,,no_results
+"Suryan, Tami",1,39200.0,non_company_individual,retired,SURYAN TAMI,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"DWO Enterprises, Inc.",1,39200.0,organization,,DWO ENTERPRISES INC,"DWO Enterprises, Inc.","Finance, Insurance & Real Estate",Real Estate,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+"DaVita, Inc.",1,39200.0,organization,,DAVITA INC,Davita Inc,Health,Hospitals & Nursing Homes,Health care institutions,62,Health Care and Social Assistance,masterfile,opensecrets,,,,,,
+Strata Capital,1,39200.0,individual,real estate developer,STRATA CAPITAL,Strata Capital,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,,,,,
+"Sterling, Rochelle",1,39200.0,non_company_individual,retired,STERLING ROCHELLE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Steamfitters Local 342 Political Action Committee,1,39200.0,organization,,STEAMFITTERS LOCAL 342 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Steamfitters & Refrigeration U.A. Local 250 PAC Small Contributor Committee,1,39200.0,organization,,STEAMFITTERS REFRIGERATION U A LOCAL 250 PAC SMALL CONTRIBUTOR COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Stanford University,3,39200.0,individual,visiting fellow,STANFORD UNIVERSITY,Stanford University,,,,721310,Rooming and Boarding Houses,masterfile,edd,,,,,,
+"Dickson, Julie",2,39200.0,non_company_individual,retired,DICKSON JULIE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Dimension Energy,1,39200.0,organization,,DIMENSION ENERGY,,,,,,,,,,,,,,no_results
+Dimension Energy LLC (Brandon Smithwood),1,39200.0,organization,,DIMENSION ENERGY LLC BRANDON SMITHWOOD,Dimension Energy LLC (Brandon Smithwood),Energy & Natural Resources,Miscellaneous Energy,,22,Utilities,masterfile,manual,,,,,,
+"Spencer, Karen",2,39200.0,non_company_individual,homemaker,SPENCER KAREN,,Non-company individual,Homemaker,,,,non-company individual,,,,,,,
+"Gainwell Technologies, LLC",1,39200.0,individual,senior manager,GAINWELL TECHNOLOGIES LLC,GAINWELL TECHNOLOGIES LLC,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,,,,,
+Southern California Pipe Trades District Council No. 16 Political Action Committee,2,39200.0,organization,,SOUTHERN CALIFORNIA PIPE TRADES DISTRICT COUNCIL NO 16 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,district council,,,,,
+Dollinger Properties,1,39200.0,individual,real estate,DOLLINGER PROPERTIES,Dollinger Properties,,,,531210,Offices of Real Estate Agents & Brokers,edd,,,Dollinger Properties,exact,531210,Offices of Real Estate Agents & Brokers,ok
+"Groff, Susan",2,39200.0,non_company_individual,retired,GROFF SUSAN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Self Employed - John Hering,1,39200.0,individual,private investor,SELF EMPLOYED JOHN HERING,Self Employed - John Hering,"Finance, Insurance & Real Estate",Real Estate,,52,Finance and Insurance,masterfile,manual,,,,,,
+OpenAI,1,39200.0,individual,researcher,OPENAI,Openai LP,,,,541714,Research and Development in Biotechnology (except Nanobiotechnology),edd,,,Openai LP,starts_with,541714,Research and Development in Biotechnology (except Nanobiotechnology),ok
+Phils BBQ,1,39200.0,individual,owner,PHILS BBQ,Phils BBQ,,,,722511,Full-Service Restaurants,masterfile,edd,,,,,,
+Laborers Pacific Southwest Regional Organizing Coalition PAC,1,39200.0,organization,,LABORERS PACIFIC SOUTHWEST REGIONAL ORGANIZING COALITION PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+Laborers' International Union of North America Local 1309 PAC,1,39200.0,organization,,LABORERS INTERNATIONAL UNION OF NORTH AMERICA LOCAL 1309 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,international union,,,,,
+Laborers' Local 300 Small Contributor Committee,1,39200.0,organization,,LABORERS LOCAL 300 SMALL CONTRIBUTOR COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+"Landucci, Al",1,39200.0,non_company_individual,retired,LANDUCCI AL,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Lanikai Management,1,39200.0,individual,real estate investor,LANIKAI MANAGEMENT,Lanikai Management,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,,,,,
+Le Seul LLC,1,39200.0,individual,ceo & founder,LE SEUL LLC,Le Seul LLC,,,,31,,masterfile,manual,,,,,,
+Pechanga Band of Luiseno Indians,1,39200.0,organization,,PECHANGA BAND OF LUISENO INDIANS,,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,,,keyword match,,band of,,,,,
+Palo Alto Foundation Medical Group,1,39200.0,organization,,PALO ALTO FOUNDATION MEDICAL GROUP,,Health,,,,,keyword match,,medical group,,,,,
+Pacific Coast Companies Inc.,1,39200.0,organization,,PACIFIC COAST COMPANIES INC,,,,,,,,,,,,,,no_results
+Los Angeles County Firefighters Local 1014 Legislative Fund Committee,1,39200.0,organization,,LOS ANGELES COUNTY FIREFIGHTERS LOCAL 1014 LEGISLATIVE FUND COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,firefighters,,,,,
+Laborer's International Union of North America Local 89 Political Action Fund,1,39200.0,organization,,LABORER S INTERNATIONAL UNION OF NORTH AMERICA LOCAL 89 POLITICAL ACTION FUND,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,international union,,,,,
+One World Beef,1,39200.0,individual,president and ceo,ONE WORLD BEEF,One World Beef,,,,445240,Meat Retailers,masterfile,edd,,,,,,
+"Lucchetti, Christine",1,39200.0,non_company_individual,retired,LUCCHETTI CHRISTINE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Lyon Living,1,39200.0,individual,chairman and ceo,LYON LIVING,Lyon Living,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,,,,,
+Lytton Rancheria,1,39200.0,organization,,LYTTON RANCHERIA,Lytton Rancheria Tribal Office,,,,624190,Other Individual and Family Services,edd,,,Lytton Rancheria Tribal Office,starts_with,624190,Other Individual and Family Services,ok
+Northern California District Council of Laborers PAC,1,39200.0,organization,,NORTHERN CALIFORNIA DISTRICT COUNCIL OF LABORERS PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,district council,,,,,
+"NextEra Energy Resources, LLC",1,39200.0,organization,,NEXTERA ENERGY RESOURCES LLC,NEXTERA ENERGY RESOURCES LLC,,,,55,Management of Companies and Enterprises,masterfile,h1b,,,,,,
+"Masset, Judy",1,39200.0,non_company_individual,retired,MASSET JUDY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+McEntee Group,1,39200.0,individual,business owner,MCENTEE GROUP,McEntee Group,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+New Pacific Realty,1,39200.0,individual,real estate executive,NEW PACIFIC REALTY,,"Finance, Insurance & Real Estate",,,,,keyword match,,realty,,,,,
+"Mcmillin, Scott",1,39200.0,non_company_individual,retired,MCMILLIN SCOTT,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Laborers Local 652 PAC,1,39200.0,organization,,LABORERS LOCAL 652 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+LSN Partners LLC (Alex Heckler),1,39200.0,organization,,LSN PARTNERS LLC ALEX HECKLER,,,,,,,,,,,,,,no_results
+Gianrand LLC (Gian Singh Randhawa),1,39200.0,organization,,GIANRAND LLC GIAN SINGH RANDHAWA,,,,,,,,,,,,,,no_results
+Irell & Manella LLP,1,39200.0,individual,attorney,IRELL MANELLA LLP,Irell & Manella LLP,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+Google DeepMind,1,39200.0,individual,software engineer,GOOGLE DEEPMIND,,Communications & Electronics,Computer Equipment & Services,Search Engine/Email Services,,,keyword match,,google,,,,,
+"Schwartzberg, Jaime",1,39200.0,non_company_individual,not employed,SCHWARTZBERG JAIME,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Schwartzberg, Andrew",1,39200.0,non_company_individual,not employed,SCHWARTZBERG ANDREW,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Greater Anesthesia Service and PAC,1,39200.0,organization,,GREATER ANESTHESIA SERVICE AND PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Trajectory Labs PBC,2,39200.0,individual,cto,TRAJECTORY LABS PBC,,,,,,,,,,,,,,no_results
+"Hastings, Reed",1,39200.0,non_company_individual,retired,HASTINGS REED,"HASTINGS, REED",Communications & Electronics,TV & Movie Production/Distribution,Motion picture production & distribution,51,Information,masterfile,opensecrets,,,,,,
+SJN Properties,1,39200.0,individual,real estate,SJN PROPERTIES,,,,,,,,,,,,,,no_results
+"Horn, Cindy",1,39200.0,non_company_individual,homemaker,HORN CINDY,,Non-company individual,Homemaker,,,,non-company individual,,,,,,,
+SEIU California State Council Small Contributor Committee,1,39200.0,organization,,SEIU CALIFORNIA STATE COUNCIL SMALL CONTRIBUTOR COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,seiu,,,,,
+Intersect,1,39200.0,individual,founder,INTERSECT,Intersect ENT,,,,444180,Other Building Material Dealers,edd,,,Intersect ENT,starts_with,444180,Other Building Material Dealers,ok
+Ripple,1,39200.0,individual,exec chair,RIPPLE,Ripple,,,,458110,Clothing and Clothing Accessories Retailers,masterfile,edd,,,,,,
+Physician Association of California Political Action Committee,1,39200.0,organization,,PHYSICIAN ASSOCIATION OF CALIFORNIA POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+James D. Jameson,1,39200.0,individual,owner,JAMES D JAMESON,James D. Jameson,Lawyers & Lobbyists,Lawyers & Lobbyists,,99,,masterfile,manual,,,,,,
+Revenue Based Finance Coalition Nonprofit 501(c)(6),1,39200.0,organization,,REVENUE BASED FINANCE COALITION NONPROFIT 501 C 6,,,,,,,,,,,,,,no_results
+Jericho Capital Asset Management LP,1,39200.0,individual,"founder, managing partner",JERICHO CAPITAL ASSET MANAGEMENT LP,,,,,,,,,,,,,,no_results
+Redwing Films,1,39200.0,individual,screenwriter,REDWING FILMS,,,,,,,,,,,,,,no_results
+"Jules and Associates, Inc.",1,39200.0,individual,ceo,JULES AND ASSOCIATES INC,,,,,,,,,,,,,,no_results
+"Protective Equipment, Inc.",1,39200.0,individual,executive,PROTECTIVE EQUIPMENT INC,,,,,,,,,,,,,,no_results
+Kalshi Inc.,1,39200.0,organization,,KALSHI INC,,,,,,,,,,,,,,no_results
+"Kang, Dan",1,39200.0,non_company_individual,not employed,KANG DAN,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+LCCC PAC,1,39200.0,organization,,LCCC PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Pipe Trades District Council #36 PAC,1,39200.0,organization,,PIPE TRADES DISTRICT COUNCIL 36 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,district council,,,,,
+Centene Management Company LLC (Katie Phillips),1,39200.0,organization,,CENTENE MANAGEMENT COMPANY LLC KATIE PHILLIPS,,,,,,,,,,,,,,no_results
+Morning Star Company,2,39200.0,individual,farmer,MORNING STAR COMPANY,Morning Star Company,,,,31,,masterfile,manual,,,,,,
+California Association of Health Facilities Southern Region PAC,1,39200.0,organization,,CALIFORNIA ASSOCIATION OF HEALTH FACILITIES SOUTHERN REGION PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Airbnb, Inc.",1,39200.0,organization,,AIRBNB INC,AIRBNB INC,,,,56,Administrative and Support and Waste Management and Remediation Services,masterfile,h1b,,,,,,
+"Turtletaub, Marc",1,39200.0,non_company_individual,not employed,TURTLETAUB MARC,"TURTLETAUB, MARC",Communications & Electronics,TV & Movie Production/Distribution,Broadcasting & motion pictures,51,Information,masterfile,opensecrets,,,,,,
+"Bloomfield, Bill",1,39200.0,non_company_individual,not employed,BLOOMFIELD BILL,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Yocha Dehe Wintun Nation,1,39200.0,organization,,YOCHA DEHE WINTUN NATION,Yocha Dehe Wintun Nation,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,92,Public Administration,masterfile,opensecrets,,,,,,
+Adobe,2,39200.0,individual,research scientist,ADOBE,,Communications & Electronics,Computer Equipment & Services,Computer software,,,keyword match,,adobe,,,,,
+California Pacific Physicians Medical Group Inc.,1,39200.0,organization,,CALIFORNIA PACIFIC PHYSICIANS MEDICAL GROUP INC,,Health,,,,,keyword match,,medical group,,,,,
+"Turtletaub, Maureen",1,39200.0,non_company_individual,not employed,TURTLETAUB MAUREEN,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Bodenstedt, James",1,39200.0,non_company_individual,retired,BODENSTEDT JAMES,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+California New Car Dealers Association PAC,1,39200.0,organization,,CALIFORNIA NEW CAR DEALERS ASSOCIATION PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,new car,,,,,
+California Medical Association PAC,1,39200.0,organization,,CALIFORNIA MEDICAL ASSOCIATION PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"California Hospital Association PAC, Sponsored by CA Assn of Hospitals & Health Systems (CAHHS)",1,39200.0,organization,,CALIFORNIA HOSPITAL ASSOCIATION PAC SPONSORED BY CA ASSN OF HOSPITALS HEALTH SYSTEMS CAHHS,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,hospital,,,,,
+Border Health Federal PAC,1,39200.0,organization,,BORDER HEALTH FEDERAL PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+California Dental Association Political Action Committee (CDA PAC),1,39200.0,organization,,CALIFORNIA DENTAL ASSOCIATION POLITICAL ACTION COMMITTEE CDA PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Alphabet,1,39200.0,individual,co-founder,ALPHABET,Alphabet,,,,518210,Data Processing and Related Services,masterfile,edd,,,,,,
+California Real Estate PAC,1,39200.0,organization,,CALIFORNIA REAL ESTATE PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,real estate,,,,,
+Association of California School Administrators PAC,2,39200.0,organization,,ASSOCIATION OF CALIFORNIA SCHOOL ADMINISTRATORS PAC,Association of California School Administrators PAC,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,
+"Twenty Holdings, Inc.",1,39200.0,organization,,TWENTY HOLDINGS INC,,,,,,,,,,,,,,no_results
+California Automotive Group,1,39200.0,individual,lawyer/car dealer,CALIFORNIA AUTOMOTIVE GROUP,,Transportation,Automotive,,,,keyword match,,automotive,,,,,
+Associated General Contractors Political Action Committee of CA,1,39200.0,organization,,ASSOCIATED GENERAL CONTRACTORS POLITICAL ACTION COMMITTEE OF CA,Associated General Contractors Political Action Committee of CA,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,
+California Association of Health Facilities PAC,1,39200.0,organization,,CALIFORNIA ASSOCIATION OF HEALTH FACILITIES PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+California Association of Health Facilities Northern Region PAC,1,39200.0,organization,,CALIFORNIA ASSOCIATION OF HEALTH FACILITIES NORTHERN REGION PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+American Medical Response Inc.,1,39200.0,organization,,AMERICAN MEDICAL RESPONSE INC,,,,,,,,,,,,,,no_results
+California Association of Health Facilities Los Angeles Region PAC,1,39200.0,organization,,CALIFORNIA ASSOCIATION OF HEALTH FACILITIES LOS ANGELES REGION PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Western States Oil,3,39200.0,individual,chief executive officer,WESTERN STATES OIL,Western States Oil,,,,457120,Other Gasoline Stations,masterfile,edd,,,,,,
+"Uber Technologies, Inc.",1,39200.0,organization,,UBER TECHNOLOGIES INC,UBER TECHNOLOGIES INC,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,,,,,
+Asian Business Association Candidate PAC,2,39200.0,organization,,ASIAN BUSINESS ASSOCIATION CANDIDATE PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"West Coast University, Inc.",1,39200.0,organization,,WEST COAST UNIVERSITY INC,,,,,,,,,,,,,,no_results
+California Professional Firefighters PAC,2,39200.0,organization,,CALIFORNIA PROFESSIONAL FIREFIGHTERS PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,firefighters,,,,,
+Blue Shield of California,1,39200.0,organization,,BLUE SHIELD OF CALIFORNIA,,"Finance, Insurance & Real Estate",Insurance,Accident & health insurance,,,keyword match,,blue shield,,,,,
+"Anduril Industries, Inc.",1,39200.0,individual,founder,ANDURIL INDUSTRIES INC,,,,,,,,,,,,,,no_results
+United Association Political Action Fund,1,39200.0,organization,,UNITED ASSOCIATION POLITICAL ACTION FUND,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+ZIP,1,39200.0,individual,software engineer,ZIP,Catame Inc,,,,424310,Piece Goods Merchant Wholesalers,edd,,,Catame Inc,largest,424310,Piece Goods Merchant Wholesalers,ok
+BergmanKPRS,1,39200.0,individual,construction management,BERGMANKPRS,BergmanKPRS,,,,23,Construction,masterfile,manual,,,,,,
+Cantu Construction,1,39200.0,individual,developer,CANTU CONSTRUCTION,Cantu Construction,Construction,General Contractors,,23,Construction,masterfile,manual,,,,,,
+AI Futures Project,2,39200.0,individual,co-founder,AI FUTURES PROJECT,,,,,,,,,,,,,,no_results
+"80,000 Hours",2,39200.0,individual,producer,80 000 HOURS,,,,,,,,,,,,,,no_results
+United Food and Commercial Workers Western States Council Candidates PAC,1,39200.0,organization,,UNITED FOOD AND COMMERCIAL WORKERS WESTERN STATES COUNCIL CANDIDATES PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+California's Best,1,39200.0,organization,,CALIFORNIA S BEST,California's Best Catering,,,,722320,Caterers,edd,,,California's Best Catering,starts_with,722320,Caterers,ok
+California State Council of Laborers PAC,1,39200.0,organization,,CALIFORNIA STATE COUNCIL OF LABORERS PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+Union of American Physicians and Dentists Medical Action Committee,2,39200.0,organization,,UNION OF AMERICAN PHYSICIANS AND DENTISTS MEDICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+California State Association of Electrical Workers,2,39200.0,organization,,CALIFORNIA STATE ASSOCIATION OF ELECTRICAL WORKERS,California State Association Of Electrical Workers,Labor,General Trade Unions,Electrical workers/IBEW,81,Other Services (except Public Administration),masterfile,opensecrets,,,,,,
+AI Lab Watch,1,39200.0,individual,founder,AI LAB WATCH,,,,,,,,,,,,,,no_results
+United Nurses Association of California/Union of Health Care Professionals PAC (UNAC PAC),2,39200.0,organization,,UNITED NURSES ASSOCIATION OF CALIFORNIA UNION OF HEALTH CARE PROFESSIONALS PAC UNAC PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+AR Asset Management,1,39200.0,individual,investment advisor,AR ASSET MANAGEMENT,AR Asset Management,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,,,,,
+Turo Inc.,1,39200.0,organization,,TURO INC,TURO INC,,,,53,Real Estate and Rental and Leasing,masterfile,h1b,,,,,,
+"Meruelo, Liset",1,39000.0,non_company_individual,not employed,MERUELO LISET,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+The Permanente Medical Group,3,36926.350000000006,individual,physician,THE PERMANENTE MEDICAL GROUP,,Health,,,,,keyword match,,medical group,,,,,
+Agua Caliente Band of Cahuilla Indians,1,36500.0,organization,,AGUA CALIENTE BAND OF CAHUILLA INDIANS,Agua Caliente Band Of Cahuilla Indians,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,92,Public Administration,masterfile,opensecrets,,,,,,
+"Molina, Joseph",1,35500.0,non_company_individual,retired,MOLINA JOSEPH,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+SuperSet,2,35000.0,individual,ceo,SUPERSET,,,,,,,,,,,,,,no_results
+Effective Ventures US,3,35000.0,individual,specialist,EFFECTIVE VENTURES US,,,,,,,,,,,,,,no_results
+California Partnership for Health PAC,2,35000.0,organization,,CALIFORNIA PARTNERSHIP FOR HEALTH PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Medic Ambulance Service Inc.,1,35000.0,organization,,MEDIC AMBULANCE SERVICE INC,,Health,Health Services,Health care services,,,keyword match,,ambulance,,,,,
+Academia.edu,2,34500.0,individual,software engineer,ACADEMIA EDU,,,,,,,,,,,,,,no_results
+International Brotherhood of Electrical Workers Political Action Committee,1,34200.0,organization,,INTERNATIONAL BROTHERHOOD OF ELECTRICAL WORKERS POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,electrical workers,,,,,
+Fairmont Schools,3,34200.0,individual,educator,FAIRMONT SCHOOLS,Fairmont Schools Inc,,,,611110,Elementary and Secondary Schools,edd,,,Fairmont Schools Inc,starts_with,611110,Elementary and Secondary Schools,ok
+"Rosenthal, Robert",2,33000.0,non_company_individual,retired,ROSENTHAL ROBERT,"ROSENTHAL, ROBERT",Government Agencies/Education/Other,Retired,Retired,81,Other Services (except Public Administration),masterfile,opensecrets,,,,,,
+"JW Howard/Attorneys, Ltd.",1,32713.04,organization,,JW HOWARD ATTORNEYS LTD,,,,,,,,,,,,,,no_results
+"Kelly, Maria",4,32500.0,non_company_individual,retired,KELLY MARIA,"KELLY, MARIA",General Business,"Beer, Wine & Liquor",Liquor stores,44-45,Retail Trade,masterfile,opensecrets,,,,,,
+Walker & Dunlop,2,30000.0,individual,mortgage banker,WALKER DUNLOP,Walker & Dunlop,,,,523940,Portfolio Management and Investment Advice,masterfile,edd,,,,,,
+Martinian Lawyers,3,30000.0,individual,attorney,MARTINIAN LAWYERS,Martinian Lawyers,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+California Association of Sheet Metal and Air Conditioning Contractors PAC,1,30000.0,organization,,CALIFORNIA ASSOCIATION OF SHEET METAL AND AIR CONDITIONING CONTRACTORS PAC,California Association of Sheet Metal and Air Conditioning Contractors PAC,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,
+Grewal RE Holdings,1,30000.0,individual,president,GREWAL RE HOLDINGS,,"Finance, Insurance & Real Estate",Real Estate,Real estate agents & managers,,,keyword match,,re,,,,,
+"Hawks, Jennifer",3,30000.0,non_company_individual,retired,HAWKS JENNIFER,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Jane Street,1,30000.0,individual,quantitative trader,JANE STREET,,,,,,,,,,,,,,no_results
+Blackcomb Advisors LLC,2,30000.0,individual,investor,BLACKCOMB ADVISORS LLC,,,,,,,,,,,,,,no_results
+Doong Ji Inc.,1,30000.0,organization,,DOONG JI INC,,,,,,,,,,,,,,no_results
+"ESC Local 20 IFPTE Lou Lucivero Legislative Education & Action Program (LEAP), Sponsored by Engineers & Scientists of California Local 20",2,30000.0,organization,,ESC LOCAL 20 IFPTE LOU LUCIVERO LEGISLATIVE EDUCATION ACTION PROGRAM LEAP SPONSORED BY ENGINEERS SCIENTISTS OF CALIFORNIA LOCAL 20,,,,,,,,,,,,,,no_results
+Marathon Construction,3,30000.0,individual,contractor and developer,MARATHON CONSTRUCTION,Marathon Construction,,,,236115,New Single-Family Housing Construction,edd,,,Marathon Construction,exact,236115,New Single-Family Housing Construction,ok
+Starlight Industries LLC,4,30000.0,individual,chief executive officer,STARLIGHT INDUSTRIES LLC,Starlight Industries LLC,,,,42,Wholesale Trade,masterfile,manual,,,,,,
+Twenty-Nine Palms Band of Mission Indians,1,30000.0,organization,,TWENTY NINE PALMS BAND OF MISSION INDIANS,Twenty-Nine Palms Band Of Mission Indians,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,92,Public Administration,masterfile,opensecrets,,,,,,
+Santa Ynez Band of Mission Indians,1,29200.0,organization,,SANTA YNEZ BAND OF MISSION INDIANS,,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,,,keyword match,,band of,,,,,
+Meyer Properties,1,29200.0,individual,owner,MEYER PROPERTIES,Meyer Properties,,,,531210,Offices of Real Estate Agents & Brokers,masterfile,edd,,,,,,
+United Food and Commercial Workers International Union Active Ballot Club,1,29200.0,organization,,UNITED FOOD AND COMMERCIAL WORKERS INTERNATIONAL UNION ACTIVE BALLOT CLUB,,Labor,,,,,keyword match,,international union,,,,,
+"McMillin, Scott",1,28200.0,non_company_individual,retired,MCMILLIN SCOTT,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+CA Primary Care Association Advocates PAC,3,27500.0,organization,,CA PRIMARY CARE ASSOCIATION ADVOCATES PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,advocates,,,,,
+Primary Care Associates of California,1,26000.0,individual,ceo,PRIMARY CARE ASSOCIATES OF CALIFORNIA,,,,,,,,,,,,,,no_results
+"Setton Pistachio of Terra Bella, Inc.",1,25000.0,organization,,SETTON PISTACHIO OF TERRA BELLA INC,,Agriculture,Crop Production & Basic Processing,,,,keyword match,,pistachio,,,,,
+Jamul Indian Village,1,25000.0,organization,,JAMUL INDIAN VILLAGE,Jamul Indian Village,,,,713210,Casinos (except Casino Hotels),edd,,,Jamul Indian Village,exact,713210,Casinos (except Casino Hotels),ok
+"Grazer, Veronica",1,25000.0,non_company_individual,retired,GRAZER VERONICA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+VAL Property AI,2,25000.0,individual,founder & ceo,VAL PROPERTY AI,,,,,,,,,,,,,,no_results
+"H&S Retail Management Services, Inc.",1,25000.0,individual,retailer,H S RETAIL MANAGEMENT SERVICES INC,,,,,,,,,,,,,,no_results
+Fulcrum Property Group,1,25000.0,individual,realtor,FULCRUM PROPERTY GROUP,,,,,,,,,,,,,,no_results
+"Singh, Amit",1,25000.0,non_company_individual,retired,SINGH AMIT,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Zeta Global Holdings Corp.,1,25000.0,organization,,ZETA GLOBAL HOLDINGS CORP,,,,,,,,,,,,,,no_results
+Lighthouse Public Affairs,1,25000.0,individual,consultant,LIGHTHOUSE PUBLIC AFFAIRS,Lighthouse Public Affairs,,,,921120,Legislative Bodies,edd,,,Lighthouse Public Affairs,exact,921120,Legislative Bodies,ok
+"Perkins-Leone, Patricia",1,25000.0,non_company_individual,retired,PERKINS LEONE PATRICIA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+8vc,1,25000.0,individual,managing director,8VC,8vc,,,,334413,Semiconductor and Related Devices,masterfile,edd,,,,,,
+North Star Emergency Services Inc.,1,25000.0,organization,,NORTH STAR EMERGENCY SERVICES INC,,,,,,,,,,,,,,no_results
+"O'Melveny, LLP",1,25000.0,individual,attorney,O MELVENY LLP,O'Melveny LLP,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Sutter North Medical Group Inc.,1,25000.0,organization,,SUTTER NORTH MEDICAL GROUP INC,,Health,,,,,keyword match,,medical group,,,,,
+Pacaso Inc.,1,25000.0,organization,,PACASO INC,Pacaso Inc.,,,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+"450 Attorneys, Inc",1,25000.0,individual,attorney,450 ATTORNEYS INC,,,,,,,,,,,,,,no_results
+"Lighthouse Public Affairs, LLC",1,25000.0,individual,consultant,LIGHTHOUSE PUBLIC AFFAIRS LLC,,,,,,,,,,,,,,no_results
+Cal Pacific Supply,1,25000.0,organization,,CAL PACIFIC SUPPLY,,,,,,,,,,,,,,no_results
+United Association of Journeymen & Apprentices of the U.S. & Canada Local 447 Federal PAC (Fed PAC ID # C00320218),1,25000.0,organization,,UNITED ASSOCIATION OF JOURNEYMEN APPRENTICES OF THE U S CANADA LOCAL 447 FEDERAL PAC FED PAC ID C00320218,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+South Cord Management LLC,2,25000.0,organization,,SOUTH CORD MANAGEMENT LLC,,,,,,,,,,,,,,no_results
+"Kolchins, Cheryl",2,24999.0,non_company_individual,retired,KOLCHINS CHERYL,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+AMG Outdoor Advertising Inc.,1,24000.0,organization,,AMG OUTDOOR ADVERTISING INC,,,,,,,,,,,,,,no_results
+Wexford Capital,2,20000.0,individual,chairman,WEXFORD CAPITAL,,,,,,,,,,,,,,no_results
+Mozart Investments,2,20000.0,individual,real estate investor,MOZART INVESTMENTS,,,,,,,,,,,,,,no_results
+Golden Bear Insurance Company,1,20000.0,organization,,GOLDEN BEAR INSURANCE COMPANY,,"Finance, Insurance & Real Estate",,,,,keyword match,,insurance,,,,,
+"Middleton, Carole",1,20000.0,non_company_individual,retired,MIDDLETON CAROLE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Mid-Valley Disposal, LLC, Mid Valley Recycling LLC and their Affiliated Entities",1,20000.0,organization,,MID VALLEY DISPOSAL LLC MID VALLEY RECYCLING LLC AND THEIR AFFILIATED ENTITIES,,,,,,,,,,,,,,no_results
+Merrill Lynch,2,20000.0,individual,financial advisor,MERRILL LYNCH,Merrill Lynch,"Finance, Insurance & Real Estate",Securities & Investment,"Securities, commodities & investment",52,Finance and Insurance,masterfile,opensecrets,,,,,,
+KXLA-TV,1,20000.0,individual,broadcaster,KXLA TV,KXLA-TV,,,,51,Information,masterfile,manual,,,,,,
+"Marshall, Barbara Grimm",1,20000.0,non_company_individual,retired,MARSHALL BARBARA GRIMM,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Providence Administrative Consulting Services, Inc.",1,20000.0,organization,,PROVIDENCE ADMINISTRATIVE CONSULTING SERVICES INC,,,,,,,,,,,,,,no_results
+Not Employed,1,20000.0,individual,philanthropist,NOT EMPLOYED,,,,,,,,,,,,,,no_results
+"Hargrove, Karen",1,20000.0,non_company_individual,retired,HARGROVE KAREN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Archipelago Companies LLC,1,20000.0,individual,executive,ARCHIPELAGO COMPANIES LLC,Archipelago Companies LLC,"Finance, Insurance & Real Estate",Real Estate,,55,Management of Companies and Enterprises,masterfile,manual,,,,,,
+Optimum Seismic,1,20000.0,individual,coo,OPTIMUM SEISMIC,Optimum Seismic,,,,541360,Geophysical Surveying & Mapping Services,edd,,,Optimum Seismic,exact,541360,Geophysical Surveying & Mapping Services,ok
+Plumbers and Steamfitters Local Union No. 761 Political Action Committee,1,20000.0,organization,,PLUMBERS AND STEAMFITTERS LOCAL UNION NO 761 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Gilbert and Jacki Foundation,1,20000.0,individual,president,GILBERT AND JACKI FOUNDATION,,,,,,,,,,,,,,no_results
+Plumbers and Steamfitters Local Union No. 582 Political Action Committee,1,20000.0,organization,,PLUMBERS AND STEAMFITTERS LOCAL UNION NO 582 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"STC-QST, LLC",1,20000.0,organization,,STC QST LLC,,,,,,,,,,,,,,no_results
+Plumbers and Steamfitters Local 460 PAC,1,20000.0,organization,,PLUMBERS AND STEAMFITTERS LOCAL 460 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Womens Major League Softball,3,20000.0,individual,vice president,WOMENS MAJOR LEAGUE SOFTBALL,,,,,,,,,,,,,,no_results
+Royal Corporation,2,20000.0,individual,business executive,ROYAL CORPORATION,Royal Corporation,"Finance, Insurance & Real Estate",Real Estate,,42,Wholesale Trade,masterfile,manual,,,,,,
+Plumbers and Pipefitters Local 364 PAC,1,20000.0,organization,,PLUMBERS AND PIPEFITTERS LOCAL 364 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Law Offices of Alicia Minana,1,20000.0,individual,attorney,LAW OFFICES OF ALICIA MINANA,Law Offices of Alicia Minana,Lawyers & Lobbyists,Lawyers & Lobbyists,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Whip Media,1,20000.0,individual,ceo,WHIP MEDIA,,,,,,,,,,,,,,no_results
+AlphaOne Ambulance Medical Services Inc.,1,20000.0,organization,,ALPHAONE AMBULANCE MEDICAL SERVICES INC,,Health,Health Services,Health care services,,,keyword match,,ambulance,,,,,
+Laborer's Union Local No. 777 PAC,1,20000.0,organization,,LABORER S UNION LOCAL NO 777 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,union local,,,,,
+"Prime Healthcare Services, Inc.",1,20000.0,organization,,PRIME HEALTHCARE SERVICES INC,PRIME HEALTHCARE SERVICES INC,,,,62,Health Care and Social Assistance,masterfile,h1b,,,,,,
+Hughes Investments,1,20000.0,organization,,HUGHES INVESTMENTS,Hughes Investments,,,,237210,Land Subdivision,edd,,,Hughes Investments,exact,237210,Land Subdivision,ok
+Dordick Law Corporation,1,20000.0,individual,attorney,DORDICK LAW CORPORATION,,,,,,,,,,,,,,no_results
+"Underhill, Roland",1,20000.0,non_company_individual,retired,UNDERHILL ROLAND,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Flagstone Healthcare Central LLC and Affiliated Entities,1,20000.0,organization,,FLAGSTONE HEALTHCARE CENTRAL LLC AND AFFILIATED ENTITIES,,,,,,,,,,,,,,no_results
+"Campisi, Barbara",4,20000.0,non_company_individual,retired,CAMPISI BARBARA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Tiodize,3,20000.0,individual,president,TIODIZE,Tiodize Co Inc,,,,332813,Electroplating/Anodizing/Coloring Metal,edd,,,Tiodize Co Inc,starts_with,332813,Electroplating/Anodizing/Coloring Metal,ok
+Self Employed-Michael Schwab,1,20000.0,individual,investor and real estate developer,SELF EMPLOYED MICHAEL SCHWAB,,,,,,,,,,,,,,no_results
+The Jewelry Exchange,2,20000.0,individual,chief executive officer,THE JEWELRY EXCHANGE,,,,,,,,,,,,,,no_results
+State of California,3,20000.0,individual,attorney,STATE OF CALIFORNIA,State of California,Government Agencies/Education/Other,Civil Servants/Public Officials,Civil servant/public employee,92,Public Administration,masterfile,opensecrets,,,,,,
+Self Employed - Kelly Day,2,20000.0,individual,investor,SELF EMPLOYED KELLY DAY,Self Employed - Kelly Day,"Finance, Insurance & Real Estate",General Trade Unions,,52,Finance and Insurance,masterfile,manual,,,,,,
+Constellation Bio,1,20000.0,individual,chief of staff,CONSTELLATION BIO,,,,,,,,,,,,,,no_results
+Brewery X,2,20000.0,individual,owner,BREWERY X,Brewery X,,,,312120,Breweries,masterfile,edd,,,,,,
+Dake Wilson Architects,2,20000.0,individual,architect,DAKE WILSON ARCHITECTS,Dake Wilson Architects,,,,541310,Architectural Services,masterfile,edd,,,,,,
+Service Employees International Union Local 1000 Candidate PAC,1,19600.0,organization,,SERVICE EMPLOYEES INTERNATIONAL UNION LOCAL 1000 CANDIDATE PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,international union,,,,,
+Laborers Local 220 PAC,1,19600.0,organization,,LABORERS LOCAL 220 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+"Laufer, Marsha",1,19600.0,non_company_individual,retired,LAUFER MARSHA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Laufer, Henry",1,19600.0,non_company_individual,retired,LAUFER HENRY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Everlaw,1,19200.0,individual,software engineer,EVERLAW,Everlaw Inc,,,,518210,Data Processing and Related Services,edd,,,Everlaw Inc,starts_with,518210,Data Processing and Related Services,ok
+Laborers Local 185 PAC,1,19000.0,organization,,LABORERS LOCAL 185 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+"LATV Networks, LLC",2,16229.01,individual,executive,LATV NETWORKS LLC,"LATV Networks, LLC",Communications & Electronics,Lawyers & Lobbyists,,51,Information,masterfile,manual,,,,,,
+Wilshire Law Firm,2,15500.0,individual,attorney,WILSHIRE LAW FIRM,,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,keyword match,,law firm,,,,,
+Davis Guest Home,2,15000.0,individual,businessman,DAVIS GUEST HOME,Davis Guest Home,,,,623312,Homes for the Elderly,edd,,,Davis Guest Home,exact,623312,Homes for the Elderly,ok
+Q Oil Advisors,2,15000.0,individual,ceo,Q OIL ADVISORS,,,,,,,,,,,,,,no_results
+Mercury Aviation Companies,3,15000.0,individual,chief executive officer,MERCURY AVIATION COMPANIES,Mercury Aviation Companies,Transportation,Construction Services,,48,,masterfile,manual,,,,,,
+Ascendant Entertainment,2,15000.0,individual,president,ASCENDANT ENTERTAINMENT,Ascendant Entertainment,,,,51,Information,masterfile,manual,,,,,,
+Refined Management,2,15000.0,individual,ceo,REFINED MANAGEMENT,Refined Management,,,,561110,Office Administrative Services,edd,,,Refined Management,exact,561110,Office Administrative Services,ok
+Archipelago LLC,1,15000.0,individual,managing partner,ARCHIPELAGO LLC,Archipelago LLC,"Finance, Insurance & Real Estate",Real Estate,,55,Management of Companies and Enterprises,masterfile,manual,,,,,,
+"McCauley, Jack",1,15000.0,non_company_individual,retired,MCCAULEY JACK,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Silberman, Karen",1,15000.0,non_company_individual,not employed,SILBERMAN KAREN,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Kiesel Law LLP,2,15000.0,individual,attorney,KIESEL LAW LLP,,,,,,,,,,,,,,no_results
+California Academy of Family Physicians Political Action Committee,1,15000.0,organization,,CALIFORNIA ACADEMY OF FAMILY PHYSICIANS POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Plc Investment Group,2,15000.0,individual,real estate developer,PLC INVESTMENT GROUP,Plc Investment Group,"Finance, Insurance & Real Estate",Real Estate,,23,Construction,masterfile,manual,,,,,,
+The Price Philanthropies Foundation,1,15000.0,individual,philanthropist,THE PRICE PHILANTHROPIES FOUNDATION,,,,,,,,,,,,,,no_results
+Nguyen Lawyers ALC,1,15000.0,individual,attorney,NGUYEN LAWYERS ALC,Nguyen Lawyers ALC,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+Manchester Financial Group,2,15000.0,individual,chairman,MANCHESTER FINANCIAL GROUP,,,,,,,,,,,,,,no_results
+Aberythmic LLC,2,15000.0,individual,ceo,ABERYTHMIC LLC,,,,,,,,,,,,,,no_results
+"Flex Partners, Inc",3,15000.0,individual,engineer,FLEX PARTNERS INC,,,,,,,,,,,,,,no_results
+Gibson Dunn,2,15000.0,individual,attorney,GIBSON DUNN,Gibson Dunn,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+United Association No. 159 Consumer Protection Fund Sponsored by Plumbers & Steamfitters Local 159,1,15000.0,organization,,UNITED ASSOCIATION NO 159 CONSUMER PROTECTION FUND SPONSORED BY PLUMBERS STEAMFITTERS LOCAL 159,,,,,,,,,,,,,,no_results
+"Carleton Management, Inc.",1,15000.0,individual,ceo,CARLETON MANAGEMENT INC,,,,,,,,,,,,,,no_results
+"Senyei, Andrew",2,15000.0,non_company_individual,retired,SENYEI ANDREW,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Self,2,14999.0,individual,farmer,SELF,1 Plus Warehouse,,,,493110,General Warehousing and Storage,edd,,,1 Plus Warehouse,largest,493110,General Warehousing and Storage,ok
+Llorente & Heckler PA,1,13000.0,organization,,LLORENTE HECKLER PA,,,,,,,,,,,,,,no_results
+Liner Freedman Taitelman LLP,1,12500.0,individual,partner,LINER FREEDMAN TAITELMAN LLP,Liner Freedman Taitelman LLP,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+International Longshore and Warehouse Union Local 13 PAC (ILWU),1,12000.0,organization,,INTERNATIONAL LONGSHORE AND WAREHOUSE UNION LOCAL 13 PAC ILWU,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,union local,,,,,
+Stephanie Nguyen for Assembly 2026,2,11800.0,organization,,STEPHANIE NGUYEN FOR ASSEMBLY 2026,,,,,,,,,,,,,,no_results
+Newchem21 Inc.,1,11492.0,individual,executive,NEWCHEM21 INC,,,,,,,,,,,,,,no_results
+Royal Ambulance,1,11000.0,individual,ceo,ROYAL AMBULANCE,Royal Ambulance,,,,621910,Ambulance Services,masterfile,edd,,,,,,
+"Jameson, Daphne",1,10800.0,non_company_individual,retired,JAMESON DAPHNE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+O'Melveny LLP,1,10500.0,individual,attorney,O MELVENY LLP,O'Melveny LLP,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Self Employed-Kimberly Brooks,2,10410.16,individual,artist,SELF EMPLOYED KIMBERLY BROOKS,,,,,,,,,,,,,,no_results
+"Commerce Construction Co., L.P.",1,10000.0,individual,construction manager,COMMERCE CONSTRUCTION CO L P,"Commerce Construction Co., L.P.",Construction,General Contractors,,23,Construction,masterfile,manual,,,,,,
+"Manley, Dwight",1,10000.0,non_company_individual,self employed,MANLEY DWIGHT,"MANLEY, DWIGHT",General Business,Recreation & Live Entertainment,"Professional sports, arenas & related equipment and services",71,"Arts, Entertainment, and Recreation",masterfile,opensecrets,,,,,,
+Oakland Police Officer's Association - Political Action Committee,1,10000.0,organization,,OAKLAND POLICE OFFICER S ASSOCIATION POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Old Durham Wood, Inc.",1,10000.0,individual,president,OLD DURHAM WOOD INC,OLD DURHAM WOOD INC,Construction,Building Materials & Equipment,Building materials,31-33,Manufacturing,masterfile,opensecrets,,,,,,
+Tampa Bay Buccaneers,1,10000.0,individual,co-chairman,TAMPA BAY BUCCANEERS,,,,,,,,,,,,,,no_results
+TRES DAC Inc Price Self Storage,1,10000.0,individual,chairman,TRES DAC INC PRICE SELF STORAGE,,,,,,,,,,,,,,no_results
+"Groff, Howard",2,10000.0,non_company_individual,retired,GROFF HOWARD,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Self Employed-Daryl Nelson,1,10000.0,individual,real estate investments,SELF EMPLOYED DARYL NELSON,Self Employed-Daryl Nelson,"Finance, Insurance & Real Estate",Real Estate,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+GCEC,1,10000.0,organization,,GCEC,,,,,,,,,,,,,,no_results
+California State Assembly,1,10000.0,individual,assemblyman,CALIFORNIA STATE ASSEMBLY,California State Assembly,,,,921120,Legislative Bodies,edd,,,California State Assembly,exact,921120,Legislative Bodies,ok
+Oportun Inc.,1,10000.0,organization,,OPORTUN INC,OPORTUN INC,,,,52,Finance and Insurance,masterfile,h1b,,,,,,
+"GDML Holdings, Inc.",1,10000.0,individual,architect,GDML HOLDINGS INC,,,,,,,,,,,,,,no_results
+"Crabb, Tony",2,10000.0,non_company_individual,retired,CRABB TONY,"CRABB, TONY",General Business,"Beer, Wine & Liquor",Wine & distilled spirits manufacturing,31-33,Manufacturing,masterfile,opensecrets,,,,,,
+Youth Save Democracy PAC,1,10000.0,organization,,YOUTH SAVE DEMOCRACY PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Peninsula Land & Capital,1,10000.0,individual,private equity commercial real estate,PENINSULA LAND CAPITAL,,,,,,,,,,,,,,no_results
+Hansen Ranch,1,10000.0,individual,farmer,HANSEN RANCH,Hansen Ranches,,,,111998,All Other Miscellaneous Crop Farming,edd,,,Hansen Ranches,largest,111998,All Other Miscellaneous Crop Farming,ok
+Pacfic Farm Management,1,10000.0,individual,operations manager,PACFIC FARM MANAGEMENT,,,,,,,,,,,,,,no_results
+Links Healthcare Group LLC,1,10000.0,organization,,LINKS HEALTHCARE GROUP LLC,Links Healthcare Group LLC,,,,621999,Miscellaneous Ambulatory Health Care Svc,edd,,,Links Healthcare Group LLC,exact,621999,Miscellaneous Ambulatory Health Care Svc,ok
+Tusk Holdings,1,10000.0,individual,ceo,TUSK HOLDINGS,,,,,,,,,,,,,,no_results
+Crown Point Vineyards,1,10000.0,individual,proprietor,CROWN POINT VINEYARDS,Crown Point Vineyards,,,,312130,Wineries,edd,,,Crown Point Vineyards,exact,312130,Wineries,ok
+Ted Lieu for Congress,1,10000.0,organization,,TED LIEU FOR CONGRESS,,,,,,,,,,,,,,no_results
+Cummins and White Whitaker Prof Corp.,2,10000.0,individual,owner executive attorney,CUMMINS AND WHITE WHITAKER PROF CORP,,,,,,,,,,,,,,no_results
+Hager Pacific,2,10000.0,individual,real estate,HAGER PACIFIC,Hager Pacific,,,,531210,Offices of Real Estate Agents & Brokers,edd,,,Hager Pacific,exact,531210,Offices of Real Estate Agents & Brokers,ok
+"Lindenbaum, Cynthia",2,10000.0,non_company_individual,retired,LINDENBAUM CYNTHIA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Wood AG Management Inc,1,10000.0,individual,owner,WOOD AG MANAGEMENT INC,Wood AG Management Inc,Agriculture,Real Estate,,11,"Agriculture, Forestry, Fishing, Hunting",masterfile,manual,,,,,,
+Cyrees Escrow & Settlement,1,10000.0,individual,executive,CYREES ESCROW SETTLEMENT,,,,,,,,,,,,,,no_results
+Sun Mar Management Services Inc,1,10000.0,organization,,SUN MAR MANAGEMENT SERVICES INC,,,,,,,,,,,,,,no_results
+"Dahlgren, William",1,10000.0,non_company_individual,retired,DAHLGREN WILLIAM,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Life West Ambulance,1,10000.0,individual,ceo,LIFE WEST AMBULANCE,,Health,Health Services,Health care services,,,keyword match,,ambulance,,,,,
+Susan Quinlan Doll & Teddy Bear Museum & Library,1,10000.0,individual,director,SUSAN QUINLAN DOLL TEDDY BEAR MUSEUM LIBRARY,Susan Quinlan Doll & Teddy Bear Museum & Library,,,,71,"Arts, Entertainment, and Recreation",masterfile,manual,,,,,,
+IBEW Local 6 Political Account,1,10000.0,organization,,IBEW LOCAL 6 POLITICAL ACCOUNT,,Labor,General Trade Unions,Electrical workers/IBEW,,,keyword match,,ibew,,,,,
+The Almond Company,1,10000.0,individual,sales,THE ALMOND COMPANY,,Agriculture,Crop Production & Basic Processing,,,,keyword match,,almond,,,,,
+NTB Strategies LLC,1,10000.0,organization,,NTB STRATEGIES LLC,,,,,,,,,,,,,,no_results
+"Certain, Inc.",1,10000.0,individual,publisher,CERTAIN INC,"Certain, Inc.",,,,51,Information,masterfile,manual,,,,,,
+"Merritt, James",1,10000.0,non_company_individual,not employed,MERRITT JAMES,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Meruelo Enterprises Inc. (Alex Meruelo),1,10000.0,organization,,MERUELO ENTERPRISES INC ALEX MERUELO,,,,,,,,,,,,,,no_results
+Town & Country Event Rentals,1,10000.0,individual,owner,TOWN COUNTRY EVENT RENTALS,Town & Country Event Rentals,,,,532310,General Rental Centers,edd,,,Town & Country Event Rentals,exact,532310,General Rental Centers,ok
+Cencal Services Inc.,1,10000.0,organization,,CENCAL SERVICES INC,,,,,,,,,,,,,,no_results
+Cedars Towers Surgical Medical group Inc,1,10000.0,individual,physician,CEDARS TOWERS SURGICAL MEDICAL GROUP INC,,Health,,,,,keyword match,,medical group,,,,,
+Cbiz,1,10000.0,individual,executive,CBIZ,CBIZ,,,,525110,Pension Funds,edd,,,CBIZ,exact,525110,Pension Funds,ok
+"Goldman, Lisa",1,10000.0,non_company_individual,not employed,GOLDMAN LISA,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Mutchnik, Nicole",1,10000.0,non_company_individual,not employed,MUTCHNIK NICOLE,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Tribull Investment, LLC",1,10000.0,individual,investor,TRIBULL INVESTMENT LLC,,,,,,,,,,,,,,no_results
+Mike's Grillhouse,1,10000.0,individual,restaurant owner,MIKE S GRILLHOUSE,Mike's Grillhouse,,,,722511,Full-Service Restaurants,edd,,,Mike's Grillhouse,exact,722511,Full-Service Restaurants,ok
+Carrillo Law Firm,1,10000.0,individual,attorney,CARRILLO LAW FIRM,,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,keyword match,,law firm,,,,,
+Trial Lawyers for Justice,1,10000.0,individual,attorney,TRIAL LAWYERS FOR JUSTICE,Trial lawyers for Justice,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+Monterey Bay Aquarium,1,10000.0,individual,director,MONTEREY BAY AQUARIUM,Monterey Bay Aquarium Rstrnt,,,,813319,Other Social Advocacy Organizations,edd,,,Monterey Bay Aquarium Rstrnt,starts_with,813319,Other Social Advocacy Organizations,ok
+Mendez & Sanvhez,1,10000.0,individual,attorney,MENDEZ SANVHEZ,Mendez & Sanvhez,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+801 Properties,1,10000.0,individual,business owner,801 PROPERTIES,801 Properties,"Finance, Insurance & Real Estate",Real Estate,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+The Corky McMillin Companies,1,10000.0,individual,real estate,THE CORKY MCMILLIN COMPANIES,The Corky McMillin Companies,,,,23,Construction,masterfile,manual,,,,,,
+Cambridge Healthcare Services LLC,1,10000.0,organization,,CAMBRIDGE HEALTHCARE SERVICES LLC,,,,,,,,,,,,,,no_results
+Stay Green Inc,1,10000.0,organization,,STAY GREEN INC,Stay Green Inc,,,,56,Administrative and Support and Waste Management and Remediation Services,masterfile,manual,,,,,,
+"Nguyen Lawyers, ALC",1,10000.0,individual,attorney,NGUYEN LAWYERS ALC,Nguyen Lawyers ALC,,,,541110,Offices of Lawyers,masterfile,edd,,,,,,
+Balaciano Group,1,10000.0,individual,ceo,BALACIANO GROUP,,,,,,,,,,,,,,no_results
+Martinian & Associates Inc.,1,10000.0,individual,accountant,MARTINIAN ASSOCIATES INC,,,,,,,,,,,,,,no_results
+United Food and Commercial Workers Active Ballot Club (California) (Fed PAC ID# C00002766),1,10000.0,organization,,UNITED FOOD AND COMMERCIAL WORKERS ACTIVE BALLOT CLUB CALIFORNIA FED PAC ID C00002766,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+AHMC Healthcare,2,10000.0,individual,vice president,AHMC HEALTHCARE,AHMC Healthcare,,,,621999,Miscellaneous Ambulatory Health Care Svc,edd,,,AHMC Healthcare,exact,621999,Miscellaneous Ambulatory Health Care Svc,ok
+"Matson, Henry",2,10000.0,non_company_individual,retired,MATSON HENRY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"McNeil Capital, LLC",1,10000.0,individual,real estate investor,MCNEIL CAPITAL LLC,,,,,,,,,,,,,,no_results
+NewGen Administrative Services,1,10000.0,individual,ceo,NEWGEN ADMINISTRATIVE SERVICES,,,,,,,,,,,,,,no_results
+"United Association of the Journeymen and Apprentices of the Plumbing and Pipefitting Industry, Local #343 PAC",1,10000.0,organization,,UNITED ASSOCIATION OF THE JOURNEYMEN AND APPRENTICES OF THE PLUMBING AND PIPEFITTING INDUSTRY LOCAL 343 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+A & J Programming,1,10000.0,individual,president,A J PROGRAMMING,A & J Programming,,,,423610,Wiring & Equipment Merchant Wholesalers,edd,,,A & J Programming,exact,423610,Wiring & Equipment Merchant Wholesalers,ok
+Gomez Trial Attorneys LLP,1,10000.0,individual,attorney,GOMEZ TRIAL ATTORNEYS LLP,Gomez Trial Attorneys LLP,Lawyers & Lobbyists,Lawyers & Lobbyists,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Tumanjan Homes,1,10000.0,individual,real estate,TUMANJAN HOMES,Tumanjan Homes,,,,236115,New Single-Family Housing Construction,masterfile,edd,,,,,,
+McNeil Capital,1,10000.0,individual,real estate investor,MCNEIL CAPITAL,McNeil Capital,"Finance, Insurance & Real Estate",Lawyers & Lobbyists,,52,Finance and Insurance,masterfile,manual,,,,,,
+"Boeman, Carl",1,10000.0,non_company_individual,retired,BOEMAN CARL,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Lansing Companies,2,10000.0,individual,real estate,LANSING COMPANIES,,,,,,,,,,,,,,no_results
+Alexander Morrison and Fehr LLP,1,10000.0,individual,attorney,ALEXANDER MORRISON AND FEHR LLP,,,,,,,,,,,,,,no_results
+Radian,1,10000.0,individual,chief executive officer,RADIAN,Radian,,,,238220,Plumbing and HVAC Contractors,masterfile,edd,,,,,,
+Vaquero Energy Inc.,1,10000.0,individual,president,VAQUERO ENERGY INC,,,,,,,,,,,,,,no_results
+Sierra Pacific Industries Inc.,1,10000.0,organization,,SIERRA PACIFIC INDUSTRIES INC,,,,,,,,,,,,,,no_results
+Reflection Window and Wall,1,10000.0,individual,president,REFLECTION WINDOW AND WALL,,,,,,,,,,,,,,no_results
+"Valov Brothers Farms, LP",1,10000.0,organization,,VALOV BROTHERS FARMS LP,,,,,,,,,,,,,,no_results
+SFA Law,2,10000.0,individual,attorney,SFA LAW,Sfa Law-Car Accident-Personal,,,,541110,Offices of Lawyers,edd,,,Sfa Law-Car Accident-Personal,starts_with,541110,Offices of Lawyers,ok
+Redding Rancheria Tribe,1,10000.0,organization,,REDDING RANCHERIA TRIBE,,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,,,keyword match,,tribe,,,,,
+Apple Inc,1,10000.0,individual,executive,APPLE INC,APPLE INC,,,,31-33,Manufacturing,masterfile,h1b,,,,,,
+"Prima Waste Management, Inc. (Fernando Vasquez)",1,10000.0,organization,,PRIMA WASTE MANAGEMENT INC FERNANDO VASQUEZ,,Energy & Natural Resources,Waste Management,Waste management,,,keyword match,,waste management,,,,,
+"Silverman, Karen",1,10000.0,non_company_individual,not employed,SILVERMAN KAREN,"SILVERMAN, KAREN",Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,54,"Professional, Scientific, and Technical Services",masterfile,opensecrets,,,,,,
+"Kang, Baldev",1,10000.0,non_company_individual,not employed,KANG BALDEV,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Anderson Seafood,1,10000.0,individual,president,ANDERSON SEAFOOD,Anderson Seafood,,,,424460,Fish and Seafood Merchant Wholesalers,masterfile,edd,,,,,,
+Lakeview Village Corp.,1,10000.0,individual,real estate/ owner,LAKEVIEW VILLAGE CORP,,,,,,,,,,,,,,no_results
+"Smittcamp Ag Enterprises Series D, LLC",1,10000.0,organization,,SMITTCAMP AG ENTERPRISES SERIES D LLC,,,,,,,,,,,,,,no_results
+Elect Dems Now PAC Fed ID# C00880062,1,10000.0,organization,,ELECT DEMS NOW PAC FED ID C00880062,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Jennings, Mona",1,10000.0,non_company_individual,not employed,JENNINGS MONA,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Siebel, Tom",1,10000.0,non_company_individual,retired,SIEBEL TOM,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Siebel, Stacey",1,10000.0,non_company_individual,retired,SIEBEL STACEY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"SDHP, Inc.",1,10000.0,individual,re dev,SDHP INC,"SDHP, Inc.",,,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+Jaguar Ventures,2,10000.0,individual,chairman,JAGUAR VENTURES,,,,,,,,,,,,,,no_results
+Jacobs Engineering Group Inc.,1,10000.0,organization,,JACOBS ENGINEERING GROUP INC,JACOBS ENGINEERING GROUP INC,,,,23,Construction,masterfile,h1b,,,,,,
+Jackson Family Wines,1,10000.0,individual,chairman,JACKSON FAMILY WINES,Jackson Family Wines,,,,312130,Wineries,edd,,,Jackson Family Wines,exact,312130,Wineries,ok
+"Fiore Legal, Inc.",1,10000.0,individual,attorney,FIORE LEGAL INC,,,,,,,,,,,,,,no_results
+Robert E. Cendejas and Associates (Robert E. Cendejas),1,10000.0,organization,,ROBERT E CENDEJAS AND ASSOCIATES ROBERT E CENDEJAS,,,,,,,,,,,,,,no_results
+Robert Zarnegan and Probity International Corporation,1,10000.0,organization,,ROBERT ZARNEGAN AND PROBITY INTERNATIONAL CORPORATION,Robert Zarnegan and Probity International Corporation,,,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+Aspen Skilled Healthcare Inc.,1,10000.0,organization,,ASPEN SKILLED HEALTHCARE INC,,,,,,,,,,,,,,no_results
+Roblox,1,10000.0,individual,founder and ceo,ROBLOX,Roblox,,,,459120,"Hobby, Toy, and Game Retailers",masterfile,edd,,,,,,
+J & L Capital Resources,1,10000.0,organization,,J L CAPITAL RESOURCES,J & L Capital Resources,,,,532310,General Rental Centers,edd,,,J & L Capital Resources,exact,532310,General Rental Centers,ok
+"Rock, Michelle",2,10000.0,non_company_individual,retired,ROCK MICHELLE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Shepherd, Danny",1,10000.0,non_company_individual,retired,SHEPHERD DANNY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Russell, James",2,10000.0,non_company_individual,retired,RUSSELL JAMES,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Broad, Kenneth",1,10000.0,non_company_individual,retired,BROAD KENNETH,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+El Sur Ranch,1,10000.0,organization,,EL SUR RANCH,Del Sur Ranch Dental/Family,,,,621210,Offices of Dentists,edd,,,Del Sur Ranch Dental/Family,largest,621210,Offices of Dentists,ok
+Cargo Solution,1,10000.0,individual,business,CARGO SOLUTION,Cargo Solution Express Inc,,,,321920,Wood Container and Pallet Manufacturing,edd,,,Cargo Solution Express Inc,starts_with,321920,Wood Container and Pallet Manufacturing,ok
+San Luis Rey Indian Water Authority,1,10000.0,organization,,SAN LUIS REY INDIAN WATER AUTHORITY,San Luis Rey Indian Water Authority,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,92,Public Administration,masterfile,opensecrets,,,,,,
+"LJL Farming, Inc.",1,10000.0,individual,farming,LJL FARMING INC,,Agriculture,,,,,keyword match,,farming,,,,,
+"Samuelian, Stephen",1,10000.0,non_company_individual,retired,SAMUELIAN STEPHEN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Plumbers Local No. 78 Political Action Committee,1,10000.0,organization,,PLUMBERS LOCAL NO 78 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Heil, Barbara",1,10000.0,non_company_individual,retired,HEIL BARBARA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Price Self Storage,1,10000.0,individual,ceo,PRICE SELF STORAGE,Price Self Storage,,,,531130,Miniwarehouses and Self-Storage Unit,edd,,,Price Self Storage,exact,531130,Miniwarehouses and Self-Storage Unit,ok
+Dr. Angelo Farooq for Riverside County Supervisor 2028,1,10000.0,organization,,DR ANGELO FAROOQ FOR RIVERSIDE COUNTY SUPERVISOR 2028,,,,,,,,,,,,,,no_results
+Western United Dairies PAC,1,10000.0,organization,,WESTERN UNITED DAIRIES PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,dairies,,,,,
+Allred Maroko & Goldberg,1,10000.0,individual,attorney,ALLRED MAROKO GOLDBERG,Allred Maroko & Goldberg,,,,541110,Offices of Lawyers,edd,,,Allred Maroko & Goldberg,exact,541110,Offices of Lawyers,ok
+Blackcomb Advisors,2,10000.0,individual,founder,BLACKCOMB ADVISORS,Blackcomb Advisors,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+"LJL Farming, LLC",1,10000.0,individual,farming/ agri-business,LJL FARMING LLC,,Agriculture,,,,,keyword match,,farming,,,,,
+California Defense Counsel PAC,1,10000.0,organization,,CALIFORNIA DEFENSE COUNSEL PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+LSMA Management Inc.,1,10000.0,organization,,LSMA MANAGEMENT INC,,,,,,,,,,,,,,no_results
+Altura Credit Union,2,10000.0,individual,attorney,ALTURA CREDIT UNION,,"Finance, Insurance & Real Estate",Credit Unions,Credit unions,,,keyword match,,credit union,,,,,
+Specialty Equipment Market Association,1,10000.0,organization,,SPECIALTY EQUIPMENT MARKET ASSOCIATION,Specialty Equipment Market Association,Transportation,Automotive,Truck & automotive parts and accessories,31-33,Manufacturing,masterfile,opensecrets,,,,,,
+Santa Ynez Band Of Mission Indians,2,10000.0,organization,,SANTA YNEZ BAND OF MISSION INDIANS,,Government Agencies/Education/Other,Tribal Governments,Native American tribes & governing units,,,keyword match,,band of,,,,,
+"Caldwell, Kim",1,10000.0,non_company_individual,retired,CALDWELL KIM,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Plumbers and Steamfitters Local No. 467 State Political Action Fund,1,10000.0,organization,,PLUMBERS AND STEAMFITTERS LOCAL NO 467 STATE POLITICAL ACTION FUND,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+EB Landscape Construction,1,10000.0,individual,contractor,EB LANDSCAPE CONSTRUCTION,,Construction,Special Trade Contractors,Landscaping & excavation services,,,keyword match,,landscape,,,,,
+South Cord Management LLC (Elliot Lewis),1,10000.0,organization,,SOUTH CORD MANAGEMENT LLC ELLIOT LEWIS,,,,,,,,,,,,,,no_results
+"Samuelian, Kristin",1,10000.0,non_company_individual,retired,SAMUELIAN KRISTIN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Wild Fox Foods,1,10000.0,individual,founder,WILD FOX FOODS,,Agriculture,,,,,keyword match,,foods,,,,,
+"Plumbers, Steamfitters & Refrigeration Fitters Local 393 Political Action Fund",1,10000.0,organization,,PLUMBERS STEAMFITTERS REFRIGERATION FITTERS LOCAL 393 POLITICAL ACTION FUND,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Laborers' Local 1184 Political Campaign Fund,1,10000.0,organization,,LABORERS LOCAL 1184 POLITICAL CAMPAIGN FUND,,Labor,,,,,keyword match,,laborers,,,,,
+U.A. Local 38 COPE Fund,1,10000.0,organization,,U A LOCAL 38 COPE FUND,,,,,,,,,,,,,,no_results
+Plumbers and Steamfitters Local Union No. 484 Political Action Committee,1,10000.0,organization,,PLUMBERS AND STEAMFITTERS LOCAL UNION NO 484 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Klein Financial Corporation,1,10000.0,individual,chairman,KLEIN FINANCIAL CORPORATION,Klein Financial Corporation,"Finance, Insurance & Real Estate",Real Estate,,52,Finance and Insurance,masterfile,manual,,,,,,
+Harper Construction,1,10000.0,individual,general contractor,HARPER CONSTRUCTION,Harper Construction,,,,238210,Electrical Contractors,masterfile,edd,,,,,,
+"Stambaugh, Sherry",1,10000.0,non_company_individual,retired,STAMBAUGH SHERRY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Professional Compounding Centers of America,1,9999.0,organization,,PROFESSIONAL COMPOUNDING CENTERS OF AMERICA,,,,,,,,,,,,,,no_results
+Avila Farias for State Assembly 2026,1,9852.27,organization,,AVILA FARIAS FOR STATE ASSEMBLY 2026,,,,,,,,,,,,,,no_results
+CAPA21- State,1,9800.0,organization,,CAPA21 STATE,,,,,,,,,,,,,,no_results
+"Teeter, Mary Ellen",1,9800.0,non_company_individual,homemaker,TEETER MARY ELLEN,,Non-company individual,Homemaker,,,,non-company individual,,,,,,,
+"Rosenthal, Nina",1,9500.0,non_company_individual,retired,ROSENTHAL NINA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Martinian & Associates, Inc.",1,9200.0,individual,attorney,MARTINIAN ASSOCIATES INC,,,,,,,,,,,,,,no_results
+BakerHostetler,1,9170.6,individual,attorney,BAKERHOSTETLER,BakerHostetler,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+"Maben, Meri",1,8403.85,non_company_individual,not employed,MABEN MERI,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Astrana Health Management, Inc.",1,8376.0,organization,,ASTRANA HEALTH MANAGEMENT INC,ASTRANA HEALTH MANAGEMENT INC,,,,62,Health Care and Social Assistance,masterfile,h1b,,,,,,
+"Pacific Personnel Management, Inc.",1,8000.0,organization,,PACIFIC PERSONNEL MANAGEMENT INC,"Pacific Personnel Management, Inc.",,,,56,Administrative and Support and Waste Management and Remediation Services,masterfile,manual,,,,,,
+US Dept of Commerce,1,8000.0,individual,attorney,US DEPT OF COMMERCE,,,,,,,,,,,,,,no_results
+"Miller, Lori",1,8000.0,non_company_individual,retired,MILLER LORI,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Sage AI Labs LLC,1,8000.0,individual,chief executive officer,SAGE AI LABS LLC,SAGE AI LABS LLC,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,,,,,
+AN Farming Company,1,8000.0,organization,,AN FARMING COMPANY,,Agriculture,,,,,keyword match,,farming,,,,,
+One Putt Broadcasting,1,7785.0,organization,,ONE PUTT BROADCASTING,,,,,,,,,,,,,,no_results
+Self Employed - John Emerson,1,7500.0,individual,stock market investor,SELF EMPLOYED JOHN EMERSON,,,,,,,,,,,,,,no_results
+Stark Legal,1,7500.0,individual,attorney,STARK LEGAL,,,,,,,,,,,,,,no_results
+"Mostov, Charles",1,7500.0,non_company_individual,retired,MOSTOV CHARLES,"MOSTOV, CHARLES",Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,54,"Professional, Scientific, and Technical Services",masterfile,opensecrets,,,,,,
+Prochorus LLC,1,7500.0,individual,manager,PROCHORUS LLC,,,,,,,,,,,,,,no_results
+Liner Freedman Taitelman + Cooley LLP,1,7500.0,individual,attorney,LINER FREEDMAN TAITELMAN COOLEY LLP,Liner Freedman Taitelman + Cooley LLP,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Elevation Entertainment Group,1,7500.0,individual,real estate/gaming,ELEVATION ENTERTAINMENT GROUP,Elevation Entertainment Group,"Finance, Insurance & Real Estate",Real Estate,Real estate developers & subdividers,53,Real Estate and Rental and Leasing,masterfile,opensecrets,,,,,,
+"BBG Communications, Inc",1,7500.0,individual,president,BBG COMMUNICATIONS INC,"BBG Communications, Inc",,,,51,Information,masterfile,manual,,,,,,
+"Emerson, Rita Rae",1,7500.0,non_company_individual,retired,EMERSON RITA RAE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Self Employed - Physician,1,7000.0,individual,physician,SELF EMPLOYED PHYSICIAN,,,,,,,,,,,,,,no_results
+"Deng, Jie",1,7000.0,non_company_individual,retired,DENG JIE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Hueston Hennigan,1,7000.0,individual,attorney,HUESTON HENNIGAN,,,,,,,,,,,,,,no_results
+Fog Cutter Holdings LLC,1,7000.0,individual,executive,FOG CUTTER HOLDINGS LLC,Fog Cutter Holdings LLC,,,,72,Accommodation and Food Services,masterfile,manual,,,,,,
+"Marshall, John",1,7000.0,non_company_individual,retired,MARSHALL JOHN,"MARSHALL, JOHN",Communications & Electronics,Computer Equipment & Services,Computer software,51,Information,masterfile,opensecrets,,,,,,
+"Schlotterbeck, David",1,6000.0,non_company_individual,retired,SCHLOTTERBECK DAVID,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Brian Watte Farms,1,6000.0,organization,,BRIAN WATTE FARMS,,,,,,,,,,,,,,no_results
+Christopher Sabourin DDS MSD Inc.,1,6000.0,organization,,CHRISTOPHER SABOURIN DDS MSD INC,,Health,Health Professionals,,,,keyword match,,dds,,,,,
+David Alvarez for Assembly 2026,1,5900.0,organization,,DAVID ALVAREZ FOR ASSEMBLY 2026,,,,,,,,,,,,,,no_results
+California Assembly,1,5900.0,individual,assemblymember,CALIFORNIA ASSEMBLY,Fremont California Assembly,,,,813110,Religious Organizations,edd,,,Fremont California Assembly,largest,813110,Religious Organizations,ok
+Dario Frommer for Controller 2026,1,5900.0,organization,,DARIO FROMMER FOR CONTROLLER 2026,,,,,,,,,,,,,,no_results
+Sabrina Cervantes for Secretary of State 2030,1,5900.0,organization,,SABRINA CERVANTES FOR SECRETARY OF STATE 2030,,,,,,,,,,,,,,no_results
+Mark Gonzalez for Assembly 2026,1,5900.0,organization,,MARK GONZALEZ FOR ASSEMBLY 2026,,,,,,,,,,,,,,no_results
+Rhodesia Ransom for State Assembly,1,5900.0,organization,,RHODESIA RANSOM FOR STATE ASSEMBLY,,,,,,,,,,,,,,no_results
+"McMillin, Susan",1,5700.0,non_company_individual,retired,MCMILLIN SUSAN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Jeremy Hughes Farms,1,5500.0,individual,farmer,JEREMY HUGHES FARMS,,,,,,,,,,,,,,no_results
+"Constance, Marcia",1,5205.08,non_company_individual,retired,CONSTANCE MARCIA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Kidango,1,5100.0,individual,educator,KIDANGO,Kidango,,,,624410,Child Day Care Services,edd,,,Kidango,exact,624410,Child Day Care Services,ok
+Liberty Mutual,1,5005.0,individual,attorney,LIBERTY MUTUAL,,"Finance, Insurance & Real Estate",Insurance,"Insurance companies, general",,,keyword match,,liberty mutual,,,,,
+Dash Investments,1,5000.0,individual,investments,DASH INVESTMENTS,Dash Investments,,,,523940,Portfolio Management and Investment Advice,edd,,,Dash Investments,exact,523940,Portfolio Management and Investment Advice,ok
+Davis Guest Homes,1,5000.0,individual,businessman,DAVIS GUEST HOMES,Davis Guest Homes,,,,623312,Homes for the Elderly,edd,,,Davis Guest Homes,exact,623312,Homes for the Elderly,ok
+"Crail, Sharon",1,5000.0,non_company_individual,retired,CRAIL SHARON,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Davidson Communities,1,5000.0,organization,,DAVIDSON COMMUNITIES,Davidson Communities,,,,236115,New Single-Family Housing Construction,edd,,,Davidson Communities,exact,236115,New Single-Family Housing Construction,ok
+"Crary, John",1,5000.0,non_company_individual,retired,CRARY JOHN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Crosby, Tom",1,5000.0,non_company_individual,retired,CROSBY TOM,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"DMF Properties, LLC",1,5000.0,individual,rentals,DMF PROPERTIES LLC,,,,,,,,,,,,,,no_results
+"Strickler, Thomas",1,5000.0,non_company_individual,retired,STRICKLER THOMAS,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Susman Godfrey LLP,1,5000.0,individual,attorney,SUSMAN GODFREY LLP,Susman Godfrey LLP,Lawyers & Lobbyists,Lawyers & Lobbyists,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+"Swan, Janet",1,5000.0,non_company_individual,retired,SWAN JANET,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Cotchett, Pitre & McCarthy, LLP",1,5000.0,individual,attorney,COTCHETT PITRE MCCARTHY LLP,,,,,,,,,,,,,,no_results
+"Corporate Enterprises,Inc.",1,5000.0,individual,ceo,CORPORATE ENTERPRISES INC,"Corporate Enterprises,Inc.","Finance, Insurance & Real Estate",Real Estate,,33,,masterfile,manual,,,,,,
+Church of the Messiah,1,5000.0,individual,priest,CHURCH OF THE MESSIAH,,Religious Organizations,Other Services (81),,,,keyword match,,church,,,,,
+City of San Diego,1,5000.0,individual,councilmember,CITY OF SAN DIEGO,,Government Agencies/Education/Other,Civil Servants/Public Officials,,,,keyword match,,city of,,,,,
+"Clyde, Hunter",1,5000.0,non_company_individual,retired,CLYDE HUNTER,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+The Angeles Clinic and Research Institute,1,5000.0,individual,ceo,THE ANGELES CLINIC AND RESEARCH INSTITUTE,The Angeles Clinic and Research Institute,Health,Health Professionals,,62,Health Care and Social Assistance,masterfile,manual,,,,,,
+Cognex,1,5000.0,individual,founder,COGNEX,Cognex Corp,,,,423610,Wiring & Equipment Merchant Wholesalers,edd,,,Cognex Corp,starts_with,423610,Wiring & Equipment Merchant Wholesalers,ok
+"Cohen, Larry",1,5000.0,non_company_individual,retired,COHEN LARRY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Collins Electrical Company Inc.,1,5000.0,organization,,COLLINS ELECTRICAL COMPANY INC,,,,,,,,,,,,,,no_results
+"Taylor, Margaretta",1,5000.0,non_company_individual,retired,TAYLOR MARGARETTA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Collins, Francis",1,5000.0,non_company_individual,retired,COLLINS FRANCIS,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Common Energy LLC,1,5000.0,organization,,COMMON ENERGY LLC,COMMON ENERGY LLC,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,,,,,
+"Taube, Dianne",1,5000.0,non_company_individual,self employed,TAUBE DIANNE,,Non-company individual,Self Employed,,,,non-company individual,,,,,,,
+Taube Investments,1,5000.0,individual,president,TAUBE INVESTMENTS,,,,,,,,,,,,,,no_results
+Tara Trucking,1,5000.0,individual,business owner,TARA TRUCKING,,Transportation,Trucking,,,,keyword match,,trucking,,,,,
+Community Clinic Association of Los Angeles County,1,5000.0,individual,president,COMMUNITY CLINIC ASSOCIATION OF LOS ANGELES COUNTY,,,,,,,,,,,,,,no_results
+Dawn Davidson Design,1,5000.0,organization,,DAWN DAVIDSON DESIGN,,,,,,,,,,,,,,no_results
+"Davis, Gina",1,5000.0,non_company_individual,retired,DAVIS GINA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Moore, Patricia",1,5000.0,non_company_individual,not employed,MOORE PATRICIA,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Daybreak,1,5000.0,individual,co-founder,DAYBREAK,Daybreak,,,,561311,Employment Placement Agencies,edd,,,Daybreak,exact,561311,Employment Placement Agencies,ok
+Daybreak (Van Morgan),1,5000.0,organization,,DAYBREAK VAN MORGAN,,,,,,,,,,,,,,no_results
+"Sonic Air Systems, Inc.",1,5000.0,individual,president,SONIC AIR SYSTEMS INC,,,,,,,,,,,,,,no_results
+Socure,1,5000.0,individual,ceo,SOCURE,,,,,,,,,,,,,,no_results
+"Smith Meyer, Wendy",1,5000.0,non_company_individual,retired,SMITH MEYER WENDY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Eloise Reyes for Senate 2024,1,5000.0,organization,,ELOISE REYES FOR SENATE 2024,,,,,,,,,,,,,,no_results
+"Skidmore, Ruth",1,5000.0,non_company_individual,retired,SKIDMORE RUTH,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Skelton Strategies,1,5000.0,individual,ceo,SKELTON STRATEGIES,,,,,,,,,,,,,,no_results
+"Singh, Gene",1,5000.0,non_company_individual,retired,SINGH GENE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Entravision Communications,1,5000.0,individual,executive,ENTRAVISION COMMUNICATIONS,ENTRAVISION COMMUNICATIONS,Communications & Electronics,TV & Movie Production/Distribution,Commercial television & radio stations,51,Information,masterfile,opensecrets,,,,,,
+Environmental Progress,1,5000.0,individual,manager,ENVIRONMENTAL PROGRESS,Arizona Environmental Progress,,,,541714,Research and Development in Biotechnology (except Nanobiotechnology),edd,,,Arizona Environmental Progress,largest,541714,Research and Development in Biotechnology (except Nanobiotechnology),ok
+"Fain, Donnie",1,5000.0,non_company_individual,retired,FAIN DONNIE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Silberman, Jeffrey",1,5000.0,non_company_individual,not employed,SILBERMAN JEFFREY,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Signature Resolution,1,5000.0,individual,mediator,SIGNATURE RESOLUTION,Signature Resolution Group,,,,541199,All Other Legal Services,edd,,,Signature Resolution Group,starts_with,541199,All Other Legal Services,ok
+"Fallon, Shannon",1,5000.0,non_company_individual,retired,FALLON SHANNON,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Faria Land & Cattle Company LLC,1,5000.0,organization,,FARIA LAND CATTLE COMPANY LLC,,Agriculture,Livestock,,,,keyword match,,cattle,,,,,
+Fielding School of Public Health,1,5000.0,individual,professor,FIELDING SCHOOL OF PUBLIC HEALTH,Fielding School of Public Health,Health,Health Professionals,,61,Educational Services,masterfile,manual,,,,,,
+Edwards Partners,1,5000.0,individual,finance,EDWARDS PARTNERS,Edwards Partners,,,,523910,Miscellaneous Intermediation,edd,,,Edwards Partners,exact,523910,Miscellaneous Intermediation,ok
+"Eckstein, James",1,5000.0,non_company_individual,self employed,ECKSTEIN JAMES,,Non-company individual,Self Employed,,,,non-company individual,,,,,,,
+South Texas Gastroenterology,1,5000.0,individual,physician,SOUTH TEXAS GASTROENTEROLOGY,South Texas Gastroenterology,Health,Health Professionals,,62,Health Care and Social Assistance,masterfile,manual,,,,,,
+Sprinkler Fitters United Association 709 P.A.C,1,5000.0,organization,,SPRINKLER FITTERS UNITED ASSOCIATION 709 P A C,,,,,,,,,,,,,,no_results
+"Stanislaus Food Products, LLC",1,5000.0,organization,,STANISLAUS FOOD PRODUCTS LLC,,,,,,,,,,,,,,no_results
+Chula Vista Firefighters Local 2180 PAC,1,5000.0,organization,,CHULA VISTA FIREFIGHTERS LOCAL 2180 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,firefighters,,,,,
+Del Mar Thoroughbred Club,1,5000.0,individual,president,DEL MAR THOROUGHBRED CLUB,Del Mar Thoroughbred Club,General Business,Gambling & Casinos,"Casinos, racetracks & gambling",71,"Arts, Entertainment, and Recreation",masterfile,opensecrets,,,,,,
+St. Jude Enterprises,1,5000.0,individual,president,ST JUDE ENTERPRISES,St. Jude Enterprises,"Finance, Insurance & Real Estate",Real Estate,,99,,masterfile,manual,,,,,,
+St John's Community Health,1,5000.0,individual,ceo,ST JOHN S COMMUNITY HEALTH,St John's Community Health,,,,621111,"Offices of Physicians, ex. Mental Health",edd,,,St John's Community Health,exact,621111,"Offices of Physicians, ex. Mental Health",ok
+Square Mile Energy,1,5000.0,individual,ceo,SQUARE MILE ENERGY,,,,,,,,,,,,,,no_results
+Sprinkler Fitters & Apprentices Local 483 Statewide PAC,1,5000.0,organization,,SPRINKLER FITTERS APPRENTICES LOCAL 483 STATEWIDE PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Dynamic Energy Solutions, LLC",1,5000.0,individual,controller,DYNAMIC ENERGY SOLUTIONS LLC,,,,,,,,,,,,,,no_results
+"Spilo, Marc",1,5000.0,non_company_individual,retired,SPILO MARC,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Diversified Properties L.P.,1,5000.0,organization,,DIVERSIFIED PROPERTIES L P,,,,,,,,,,,,,,no_results
+Doctors Company Political Action Committee AKA Docpac; The,1,5000.0,organization,,DOCTORS COMPANY POLITICAL ACTION COMMITTEE AKA DOCPAC THE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Dominguez Holding Inc,1,5000.0,individual,executive,DOMINGUEZ HOLDING INC,,,,,,,,,,,,,,no_results
+Double J Farms,1,5000.0,organization,,DOUBLE J FARMS,Double J Farms,,,,111998,All Other Miscellaneous Crop Farming,edd,,,Double J Farms,exact,111998,All Other Miscellaneous Crop Farming,ok
+"Driltek, Inc.",1,5000.0,individual,petroleum engineer,DRILTEK INC,,,,,,,,,,,,,,no_results
+Stanislaus Food Products Company,1,5000.0,organization,,STANISLAUS FOOD PRODUCTS COMPANY,,,,,,,,,,,,,,no_results
+"Tinsley, Suzanne",1,5000.0,non_company_individual,homemaker,TINSLEY SUZANNE,,Non-company individual,Homemaker,,,,non-company individual,,,,,,,
+The Valero Law Group APC,1,5000.0,individual,attorney,THE VALERO LAW GROUP APC,,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,keyword match,,law group,,,,,
+Arns Davis Law,1,5000.0,individual,attorney,ARNS DAVIS LAW,Arns Davis Law,Lawyers & Lobbyists,Lawyers & Lobbyists,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+"Weghorn, Barbara",1,5000.0,non_company_individual,retired,WEGHORN BARBARA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Weber, Peter",1,5000.0,non_company_individual,retired,WEBER PETER,"WEBER, PETER",General Business,Business Services,Management consultants & services,54,"Professional, Scientific, and Technical Services",masterfile,opensecrets,,,,,,
+Apple,1,5000.0,individual,engineer,APPLE,,Communications & Electronics,Computer Equipment & Services,Computer manufacture & services,,,keyword match,,apple,,,,,
+"Warnken-Brill, Donna",1,5000.0,non_company_individual,not employed,WARNKEN BRILL DONNA,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Warland Investments Company,1,5000.0,individual,investor,WARLAND INVESTMENTS COMPANY,,,,,,,,,,,,,,no_results
+"Walker, Kay",1,5000.0,non_company_individual,retired,WALKER KAY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Walker Firm, PC",1,5000.0,individual,executive,WALKER FIRM PC,"Walker Firm, PC","Finance, Insurance & Real Estate",Real Estate,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Visco Financial Insurance Services,1,5000.0,individual,president and ceo,VISCO FINANCIAL INSURANCE SERVICES,Visco Financial Insurance Services,"Finance, Insurance & Real Estate",Insurance,Property & casualty insurance,52,Finance and Insurance,masterfile,opensecrets,,,,,,
+University of California Los Angeles,1,5000.0,individual,professor,UNIVERSITY OF CALIFORNIA LOS ANGELES,UNIVERSITY OF CALIFORNIA LOS ANGELES,,,,61,Educational Services,masterfile,h1b,,,,,,
+Village Properties,1,5000.0,individual,principal,VILLAGE PROPERTIES,Village Properties,,,,531210,Offices of Real Estate Agents & Brokers,edd,,,Village Properties,exact,531210,Offices of Real Estate Agents & Brokers,ok
+Village Operating Co,1,5000.0,individual,finance,VILLAGE OPERATING CO,Village Operating Co,,,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+Viking Management,1,5000.0,individual,re manager,VIKING MANAGEMENT,Viking Management,,,,23,Construction,masterfile,manual,,,,,,
+"Vaudagna, Ann",1,5000.0,non_company_individual,retired,VAUDAGNA ANN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Arroyo Vista Family Health Center,1,5000.0,individual,ceo,ARROYO VISTA FAMILY HEALTH CENTER,,,,,,,,,,,,,,no_results
+"Astrana Health, Inc.",1,5000.0,individual,administrator,ASTRANA HEALTH INC,,,,,,,,,,,,,,no_results
+Astro Aluminum Heat Treating,1,5000.0,individual,executive,ASTRO ALUMINUM HEAT TREATING,,,,,,,,,,,,,,no_results
+"Welcker Bartholomew, Christine",1,5000.0,non_company_individual,retired,WELCKER BARTHOLOMEW CHRISTINE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Angelenos for Safe Transportation PAC Sponsored by L.A. Taxi Cooperative, Inc. and South Bay Cooperative, Inc.",1,5000.0,organization,,ANGELENOS FOR SAFE TRANSPORTATION PAC SPONSORED BY L A TAXI COOPERATIVE INC AND SOUTH BAY COOPERATIVE INC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Westar Associates,1,5000.0,individual,developer,WESTAR ASSOCIATES,Westar Associates,,,,237210,Land Subdivision,edd,,,Westar Associates,exact,237210,Land Subdivision,ok
+Americans4Hindus CA PAC,1,5000.0,organization,,AMERICANS4HINDUS CA PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Zaruka, John",1,5000.0,non_company_individual,retired,ZARUKA JOHN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+ACT Political,1,5000.0,organization,,ACT POLITICAL,Act Political,,,,813940,Political Organizations,edd,,,Act Political,exact,813940,Political Organizations,ok
+ARCT Inc.,1,5000.0,individual,accounting manager,ARCT INC,ARCT Inc.,,,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+Actum,1,5000.0,individual,co-chair,ACTUM,,,,,,,,,,Actum II LLC,starts_with,999990,Unknown,ok
+Yorktown Partners LLC,1,5000.0,individual,investor,YORKTOWN PARTNERS LLC,,,,,,,,,,,,,,no_results
+"Adam, Mark",1,5000.0,non_company_individual,retired,ADAM MARK,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Administrative Services Cooperative, Inc.",1,5000.0,organization,,ADMINISTRATIVE SERVICES COOPERATIVE INC,,,,,,,,,,,,,,no_results
+"Advance Surgeons Medical Group, Inc.",1,5000.0,individual,business owner,ADVANCE SURGEONS MEDICAL GROUP INC,,Health,,,,,keyword match,,medical group,,,,,
+Airbnb,1,5000.0,individual,attorney,AIRBNB,Airbnb,General Business,Lodging & Tourism,Hotels & motels,72,Accommodation and Food Services,masterfile,opensecrets,,,,,,
+William D. Shapiro Law Inc.,1,5000.0,individual,attorney,WILLIAM D SHAPIRO LAW INC,,,,,,,,,,,,,,no_results
+"Allen, Jared",1,5000.0,non_company_individual,retired,ALLEN JARED,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Whitney, Lisa",1,5000.0,non_company_individual,retired,WHITNEY LISA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Allied International Security,1,5000.0,organization,,ALLIED INTERNATIONAL SECURITY,Allied International Security,,,,561612,Security Guards and Patrol Services,edd,,,Allied International Security,exact,561612,Security Guards and Patrol Services,ok
+Altais Family Care Specialists,1,5000.0,individual,physician,ALTAIS FAMILY CARE SPECIALISTS,Altais Family Care Specialists,Health,Health Professionals,,62,Health Care and Social Assistance,masterfile,manual,,,,,,
+American Physicians for Change AP4C,1,5000.0,organization,,AMERICAN PHYSICIANS FOR CHANGE AP4C,,,,,,,,,,,,,,no_results
+Upward Housing,1,5000.0,individual,realtor,UPWARD HOUSING,,,,,,,,,,,,,,no_results
+Avidity Biology,1,5000.0,individual,ceo,AVIDITY BIOLOGY,,,,,,,,,,,,,,no_results
+"Chester, Dalton",1,5000.0,non_company_individual,retired,CHESTER DALTON,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Trammell-Schmitt, Judy",1,5000.0,non_company_individual,retired,TRAMMELL SCHMITT JUDY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+California Families in Focus,1,5000.0,individual,physician,CALIFORNIA FAMILIES IN FOCUS,,,,,,,,,,,,,,no_results
+California Northstate University,1,5000.0,individual,adm,CALIFORNIA NORTHSTATE UNIVERSITY,,,,,,,,,,,,,,no_results
+California Partnership for Health,1,5000.0,individual,executive director,CALIFORNIA PARTNERSHIP FOR HEALTH,,,,,,,,,,,,,,no_results
+California Westside Farms PAC,1,5000.0,organization,,CALIFORNIA WESTSIDE FARMS PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Camp Logistics, Inc.",1,5000.0,individual,transportation,CAMP LOGISTICS INC,,,,,,,,,,,,,,no_results
+"Carberry, JoAnn",1,5000.0,non_company_individual,retired,CARBERRY JOANN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Carpenter & Zuckerman LLP (John Carpenter),1,5000.0,organization,,CARPENTER ZUCKERMAN LLP JOHN CARPENTER,,,,,,,,,,,,,,no_results
+Casaca Vineyards,1,5000.0,organization,,CASACA VINEYARDS,CASACA VINEYARDS,General Business,"Beer, Wine & Liquor",Liquor stores,44-45,Retail Trade,masterfile,opensecrets,,,,,,
+BAK Festivals,1,5000.0,organization,,BAK FESTIVALS,,,,,,,,,,,,,,no_results
+"Towne, Sam",1,5000.0,non_company_individual,retired,TOWNE SAM,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Centaurus Financial,1,5000.0,individual,corporate officer,CENTAURUS FINANCIAL,Centaurus Financial,,,,523940,Portfolio Management and Investment Advice,edd,,,Centaurus Financial,exact,523940,Portfolio Management and Investment Advice,ok
+"Tosetti, Paul",1,5000.0,non_company_individual,retired,TOSETTI PAUL,"TOSETTI, PAUL",Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,54,"Professional, Scientific, and Technical Services",masterfile,opensecrets,,,,,,
+Tiodize Advanced Coatings and Composites,1,5000.0,individual,president,TIODIZE ADVANCED COATINGS AND COMPOSITES,,,,,,,,,,,,,,no_results
+Cherry Tree Capital Partners,1,5000.0,individual,ceo,CHERRY TREE CAPITAL PARTNERS,,,,,,,,,,,,,,no_results
+"Firestone, Brooks",1,5000.0,non_company_individual,retired,FIRESTONE BROOKS,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Tierra Luna Engineering, LLC",1,5000.0,individual,farmer and aerospace engineer,TIERRA LUNA ENGINEERING LLC,,,,,,,,,,,,,,no_results
+Tuzer Capital Management,1,5000.0,individual,president,TUZER CAPITAL MANAGEMENT,Tuzer Capital Management,"Finance, Insurance & Real Estate",Real Estate,,52,Finance and Insurance,masterfile,manual,,,,,,
+California Back & Pain Specialists,1,5000.0,individual,physician,CALIFORNIA BACK PAIN SPECIALISTS,,,,,,,,,,,,,,no_results
+Cal Pacific Supply Inc.,1,5000.0,organization,,CAL PACIFIC SUPPLY INC,,,,,,,,,,,,,,no_results
+U.A. Local No. 228 Building Corporation PAC Fund,1,5000.0,organization,,U A LOCAL NO 228 BUILDING CORPORATION PAC FUND,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+BD&J Injury Attorneys,1,5000.0,individual,attorney,BD J INJURY ATTORNEYS,,,,,,,,,,,,,,no_results
+Barrett Family Holdings,1,5000.0,individual,owner,BARRETT FAMILY HOLDINGS,,,,,,,,,,,,,,no_results
+"Barsanti, Michelle",1,5000.0,non_company_individual,retired,BARSANTI MICHELLE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Bauge, Harry",1,5000.0,non_company_individual,retired,BAUGE HARRY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+United Association of Journeymen & Apprentices of the Plumbing & Pipefitting Industry Local Union Number 345 Political Action Committee,1,5000.0,organization,,UNITED ASSOCIATION OF JOURNEYMEN APPRENTICES OF THE PLUMBING PIPEFITTING INDUSTRY LOCAL UNION NUMBER 345 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Bayside Realty,1,5000.0,individual,real estate broker,BAYSIDE REALTY,,"Finance, Insurance & Real Estate",,,,,keyword match,,realty,,,,,
+"Beck, Dennis",1,5000.0,non_company_individual,retired,BECK DENNIS,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Bequer, Leyda",1,5000.0,non_company_individual,retired,BEQUER LEYDA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Unicare Systems Inc.,1,5000.0,organization,,UNICARE SYSTEMS INC,,,,,,,,,,,,,,no_results
+"Berle, Carrie",1,5000.0,non_company_individual,homemaker,BERLE CARRIE,,Non-company individual,Homemaker,,,,non-company individual,,,,,,,
+"Brooks, Maryanne",1,5000.0,non_company_individual,retired,BROOKS MARYANNE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+USA Express Legal & Investigative Services,1,5000.0,individual,ceo,USA EXPRESS LEGAL INVESTIGATIVE SERVICES,,,,,,,,,,,,,,no_results
+US Small Business Administration,1,5000.0,individual,administrator,US SMALL BUSINESS ADMINISTRATION,,,,,,,,,,,,,,no_results
+"Burke, Linda",1,5000.0,non_company_individual,not employed,BURKE LINDA,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+UA 290 Industry Advancement Fund,1,5000.0,organization,,UA 290 INDUSTRY ADVANCEMENT FUND,,,,,,,,,,,,,,no_results
+SidePrize LLC,1,5000.0,organization,,SIDEPRIZE LLC,,,,,,,,,,,,,,no_results
+FremantleMedia,1,5000.0,individual,senior accountant,FREMANTLEMEDIA,Fremantlemedia,,,,711510,Independent Artists/Writers/Performers,edd,,,Fremantlemedia,exact,711510,Independent Artists/Writers/Performers,ok
+"Flax, Larry",1,5000.0,non_company_individual,retired,FLAX LARRY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Perkins, Hilary",1,5000.0,non_company_individual,not employed,PERKINS HILARY,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Planned Parenthood of Orange and San Bernardino Counties Community Action Fund PAC,1,5000.0,organization,,PLANNED PARENTHOOD OF ORANGE AND SAN BERNARDINO COUNTIES COMMUNITY ACTION FUND PAC,,PAC,Political Action Committee,"Abortion policy, pro-choice",88,PAC / Political Committee,custom rule,,planned parenthood,,,,,
+"Pitigliano Farm Services, Inc.",1,5000.0,organization,,PITIGLIANO FARM SERVICES INC,,,,,,,,,,,,,,no_results
+LCS Electrical & Industrial Services Inc. dba Quantum Industries,1,5000.0,organization,,LCS ELECTRICAL INDUSTRIAL SERVICES INC DBA QUANTUM INDUSTRIES,LCS Electrical & Industrial Services Inc. dba Quantum Industries,,,,23,Construction,masterfile,manual,,,,,,
+Pinnacle Group,1,5000.0,individual,ceo,PINNACLE GROUP,Pinnacle Group,,,,523940,Portfolio Management and Investment Advice,edd,,,Pinnacle Group,exact,523940,Portfolio Management and Investment Advice,ok
+LDC Group,1,5000.0,individual,real estate investor,LDC GROUP,LDC Group,,,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+Laborers Local Union No. 783-PAC,1,5000.0,organization,,LABORERS LOCAL UNION NO 783 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+Lazer Broadcasting,1,5000.0,individual,president,LAZER BROADCASTING,Lazer Broadcasting,,,,516110,Radio broadcasting stations,edd,,,Lazer Broadcasting,exact,516110,Radio broadcasting stations,ok
+"Levin, Robert",1,5000.0,non_company_individual,retired,LEVIN ROBERT,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Kawasaki, Guy",1,5000.0,non_company_individual,not employed,KAWASAKI GUY,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+LiUNA Laborers' Local 585 PAC,1,5000.0,organization,,LIUNA LABORERS LOCAL 585 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,laborers,,,,,
+Payless Building Supply,1,5000.0,individual,founder and president,PAYLESS BUILDING SUPPLY,Payless Building Supply,,,,444110,Home Centers,edd,,,Payless Building Supply,exact,444110,Home Centers,ok
+Patton Real Estate,1,5000.0,individual,real estate,PATTON REAL ESTATE,,"Finance, Insurance & Real Estate",Real Estate,,,,keyword match,,real estate,,,,,
+"Patterson, Kathleen",1,5000.0,non_company_individual,retired,PATTERSON KATHLEEN,"PATTERSON, KATHLEEN",Construction,Building Materials & Equipment,Building materials,31-33,Manufacturing,masterfile,opensecrets,,,,,,
+Panish Shea Ravipudi LLP (Jessie Kohler),1,5000.0,organization,,PANISH SHEA RAVIPUDI LLP JESSIE KOHLER,Panish Shea Ravipudi LLP (Jessie Kohler),,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Palisade Bio,1,5000.0,individual,executive,PALISADE BIO,Palisade Bio Inc,,,,325412,Pharmaceutical Preparation Manufacturing,edd,,,Palisade Bio Inc,starts_with,325412,Pharmaceutical Preparation Manufacturing,ok
+Painters and Allied Trades District Council No. 36 Political Action Committee,1,5000.0,organization,,PAINTERS AND ALLIED TRADES DISTRICT COUNCIL NO 36 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,district council,,,,,
+LA Chamber of Commerce,1,5000.0,individual,executive,LA CHAMBER OF COMMERCE,Biola Chamber of Commerce,,,,813910,Business Associations,edd,,,Biola Chamber of Commerce,largest,813910,Business Associations,ok
+Plumbers & Pipefitters Local Union 442 PAC,1,5000.0,organization,,PLUMBERS PIPEFITTERS LOCAL UNION 442 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Kulligian Group LP,1,5000.0,individual,real estate development,KULLIGIAN GROUP LP,,,,,,,,,,,,,,no_results
+"Korshak, Kracoff, Kong & Sugano LLP",1,5000.0,individual,attorney,KORSHAK KRACOFF KONG SUGANO LLP,,,,,,,,,,,,,,no_results
+Keker Van Nest & Peters,1,5000.0,individual,attorney,KEKER VAN NEST PETERS,Keker Van Nest & Peters,,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+"Prisbe, Ernest",1,5000.0,non_company_individual,retired,PRISBE ERNEST,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Prince, Lori",1,5000.0,non_company_individual,not employed,PRINCE LORI,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Keker, Van Nest & Peters LLP",1,5000.0,individual,attorney,KEKER VAN NEST PETERS LLP,,,,,,,,,,,,,,no_results
+"Keker, Van Nest & Peters, LLP",1,5000.0,individual,attorney,KEKER VAN NEST PETERS LLP,,,,,,,,,,,,,,no_results
+Keyes Motors,1,5000.0,individual,auto dealer,KEYES MOTORS,,Transportation,Automotive,,,,keyword match,,motors,,,,,
+Kings Oil Tools Inc,1,5000.0,organization,,KINGS OIL TOOLS INC,Kings Oil Tools Inc,,,,33,,masterfile,manual,,,,,,
+Kirkland & Ellis LLP,1,5000.0,individual,attorney,KIRKLAND ELLIS LLP,Kirkland & Ellis LLP,,,,541110,Offices of Lawyers,edd,,,Kirkland & Ellis LLP,exact,541110,Offices of Lawyers,ok
+Kirkland and Ellis LLP,1,5000.0,individual,attorney,KIRKLAND AND ELLIS LLP,KIRKLAND AND ELLIS LLP,,,,54,"Professional, Scientific, and Technical Services",masterfile,h1b,,,,,,
+Kitchen Law Group PC,1,5000.0,individual,attorney,KITCHEN LAW GROUP PC,,Lawyers & Lobbyists,Lawyers & Lobbyists,Attorneys & law firms,,,keyword match,,law group,,,,,
+Plumbers and Steamfitters Local Union No. 398 Political Action Committee,1,5000.0,organization,,PLUMBERS AND STEAMFITTERS LOCAL UNION NO 398 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Plumbers and Steamfitters Local Union No. 114 Political Action Committee,1,5000.0,organization,,PLUMBERS AND STEAMFITTERS LOCAL UNION NO 114 POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Kordestani, Gisel",1,5000.0,non_company_individual,unemployed,KORDESTANI GISEL,,Non-company individual,Unemployed,,,,non-company individual,,,,,,,
+"Korshak, Kracoff, Kong & Sugano",1,5000.0,individual,attorney,KORSHAK KRACOFF KONG SUGANO,,,,,,,,,,,,,,no_results
+Plumbers and Pipefitters U.A. Local #246 COPE Committee,1,5000.0,organization,,PLUMBERS AND PIPEFITTERS U A LOCAL 246 COPE COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Lindemann, Frayda",1,5000.0,non_company_individual,retired,LINDEMANN FRAYDA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Lindsey Foundation,1,5000.0,individual,president,LINDSEY FOUNDATION,,,,,,,,,,,,,,no_results
+"Lisenbee, Mary",1,5000.0,non_company_individual,retired,LISENBEE MARY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Novogradac & Company LLP,1,5000.0,individual,partner,NOVOGRADAC COMPANY LLP,,,,,,,,,,,,,,no_results
+"Marina Landscape, Inc.",1,5000.0,individual,ceo,MARINA LANDSCAPE INC,,Construction,Special Trade Contractors,Landscaping & excavation services,,,keyword match,,landscape,,,,,
+North Richmond Properties Inc.,1,5000.0,individual,president,NORTH RICHMOND PROPERTIES INC,,,,,,,,,,,,,,no_results
+"Nicholson, DJ",1,5000.0,non_company_individual,retired,NICHOLSON DJ,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Nibbi Bros. Associates,1,5000.0,individual,chairman,NIBBI BROS ASSOCIATES,,,,,,,,,,,,,,no_results
+"Martinetti, Ronald",1,5000.0,non_company_individual,retired,MARTINETTI RONALD,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Martinian Lawyers, Inc.",1,5000.0,individual,attorney,MARTINIAN LAWYERS INC,,,,,,,,,,,,,,no_results
+"Mazotta, Margaret",1,5000.0,non_company_individual,retired,MAZOTTA MARGARET,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"McAllen Anesthesia Consultants, P.A.",1,5000.0,individual,nurse anesthetist,MCALLEN ANESTHESIA CONSULTANTS P A,,,,,,,,,,,,,,no_results
+Neighborhood Healthcare,1,5000.0,individual,physician,NEIGHBORHOOD HEALTHCARE,Neighborhood Healthcare,,,,621999,Miscellaneous Ambulatory Health Care Svc,edd,,,Neighborhood Healthcare,exact,621999,Miscellaneous Ambulatory Health Care Svc,ok
+Navia Benefits,1,5000.0,individual,third party administration,NAVIA BENEFITS,Navia Benefits,,,,52,Finance and Insurance,masterfile,manual,,,,,,
+Nat'l Assoc. of Hispanic Real Estate Professionals,1,5000.0,individual,executive,NAT L ASSOC OF HISPANIC REAL ESTATE PROFESSIONALS,,"Finance, Insurance & Real Estate",Real Estate,,,,keyword match,,real estate,,,,,
+Michelle Rodriguez for Assembly 2026,1,5000.0,organization,,MICHELLE RODRIGUEZ FOR ASSEMBLY 2026,,,,,,,,,,,,,,no_results
+NALS Apartment Homes,1,5000.0,individual,partner,NALS APARTMENT HOMES,,"Finance, Insurance & Real Estate",Real Estate,,,,keyword match,,apartment,,,,,
+"Middleteon, Geraldine",1,5000.0,non_company_individual,retired,MIDDLETEON GERALDINE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Muses Media,1,5000.0,individual,executive,MUSES MEDIA,,,,,,,,,,Muses Media Enterprises Inc,starts_with,999990,Unknown,ok
+Marin Professional Firefighters Political Action Committee,1,5000.0,organization,,MARIN PROFESSIONAL FIREFIGHTERS POLITICAL ACTION COMMITTEE,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,firefighters,,,,,
+"March, Tim",1,5000.0,non_company_individual,retired,MARCH TIM,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Loandepot,1,5000.0,individual,mortgage banker,LOANDEPOT,Loandepot,,,,522292,Real Estate Credit,edd,,,Loandepot,exact,522292,Real Estate Credit,ok
+Marathon Construction Corporation,1,5000.0,individual,contractor and developer,MARATHON CONSTRUCTION CORPORATION,,,,,,,,,,,,,,no_results
+PAF Co.,1,5000.0,individual,vice president,PAF CO,,,,,,,,,,,,,,no_results
+"Lopez-Vera, Ana",1,5000.0,non_company_individual,retired,LOPEZ VERA ANA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Oproglou, Anna",1,5000.0,non_company_individual,retired,OPROGLOU ANNA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Lori Wilson for Assembly 2026,1,5000.0,organization,,LORI WILSON FOR ASSEMBLY 2026,,,,,,,,,,,,,,no_results
+"Los Angeles City Law, APLC",1,5000.0,individual,attorney,LOS ANGELES CITY LAW APLC,,,,,,,,,,,,,,no_results
+"Ongaro, Amy",1,5000.0,non_company_individual,retired,ONGARO AMY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Lozano, Monica",1,5000.0,non_company_individual,not employed,LOZANO MONICA,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+"Lyons Land Management, LP (William J. Lyons Jr)",1,5000.0,organization,,LYONS LAND MANAGEMENT LP WILLIAM J LYONS JR,,,,,,,,,,,,,,no_results
+"Olund, Kathleen",1,5000.0,non_company_individual,retired,OLUND KATHLEEN,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+MMI Services,1,5000.0,individual,executive,MMI SERVICES,MMI Services,,,,213112,"Support Activities, Oil/Gas Operations",edd,,,MMI Services,exact,213112,"Support Activities, Oil/Gas Operations",ok
+Odyssey Insights,1,5000.0,organization,,ODYSSEY INSIGHTS,,,,,,,,,,,,,,no_results
+Oaktree Ag Management Inc. (Miguel Reyes),1,5000.0,organization,,OAKTREE AG MANAGEMENT INC MIGUEL REYES,,,,,,,,,,,,,,no_results
+"MacFarlane, John",1,5000.0,non_company_individual,not employed,MACFARLANE JOHN,,Non-company individual,Not Employed,,,,non-company individual,,,,,,,
+Oak Farm Vineyards,1,5000.0,individual,owner,OAK FARM VINEYARDS,Oak Farm Vineyards,,,,111332,Grape Vineyards,edd,,,Oak Farm Vineyards,exact,111332,Grape Vineyards,ok
+O.P.C. Farms Inc.,1,5000.0,organization,,O P C FARMS INC,,,,,,,,,,,,,,no_results
+Producers Ranch,1,5000.0,organization,,PRODUCERS RANCH,,,,,,,,,,,,,,no_results
+Kaiser Permanente Foundation Health Plan,1,5000.0,individual,president,KAISER PERMANENTE FOUNDATION HEALTH PLAN,,,,,,,,,,,,,,no_results
+"Shamrock Holdings, Inc.",1,5000.0,individual,chairman,SHAMROCK HOLDINGS INC,,,,,,,,,,,,,,no_results
+Hengehold Truck,1,5000.0,individual,owner,HENGEHOLD TRUCK,Hengehold Truck Sales-Rentals,,,,532120,"Truck, Trailer and RV Rental and Leasing",edd,,,Hengehold Truck Sales-Rentals,starts_with,532120,"Truck, Trailer and RV Rental and Leasing",ok
+"Hansen Ranches, LLC",1,5000.0,organization,,HANSEN RANCHES LLC,,Agriculture,,,,,keyword match,,ranches,,,,,
+"Scalora, Polly",1,5000.0,non_company_individual,retired,SCALORA POLLY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Harleen Grewal DDS,1,5000.0,individual,dentist,HARLEEN GREWAL DDS,,Health,Health Professionals,,,,keyword match,,dds,,,,,
+"Hassler, Larry",1,5000.0,non_company_individual,retired,HASSLER LARRY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Health and Human Rights PAC, Sponsored by St. John's Well Child and Family Center Action Fund",1,5000.0,organization,,HEALTH AND HUMAN RIGHTS PAC SPONSORED BY ST JOHN S WELL CHILD AND FAMILY CENTER ACTION FUND,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+San Joaquin River Ranch LLC,1,5000.0,organization,,SAN JOAQUIN RIVER RANCH LLC,,,,,,,,,,,,,,no_results
+San Gabriel Valley Water Company,1,5000.0,organization,,SAN GABRIEL VALLEY WATER COMPANY,,,,,,,,,,,,,,no_results
+"Henry Salcido, A Professional Corporation (Henry Salcido)",1,5000.0,organization,,HENRY SALCIDO A PROFESSIONAL CORPORATION HENRY SALCIDO,,,,,,,,,,,,,,no_results
+"KVP, LLP",1,5000.0,individual,attorney,KVP LLP,"KVP, LLP",,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+Samini Block APC,1,5000.0,individual,attorney,SAMINI BLOCK APC,,,,,,,,,,,,,,no_results
+"Hill, Marianne",1,5000.0,non_company_individual,retired,HILL MARIANNE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Holscher, Kelly",1,5000.0,non_company_individual,homemaker,HOLSCHER KELLY,,Non-company individual,Homemaker,,,,non-company individual,,,,,,,
+Horn Productions Inc.,1,5000.0,individual,owner,HORN PRODUCTIONS INC,Horn Productions Inc.,,,,51,Information,masterfile,manual,,,,,,
+"Horner, Julia",1,5000.0,non_company_individual,retired,HORNER JULIA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Horowitz Management,1,5000.0,individual,executive,HOROWITZ MANAGEMENT,,,,,,,,,,,,,,no_results
+"SDITP, Inc.",1,5000.0,individual,president/ceo,SDITP INC,"SDITP, Inc.",,,,53,Real Estate and Rental and Leasing,masterfile,manual,,,,,,
+"Schnuck, Craig",1,5000.0,non_company_individual,retired,SCHNUCK CRAIG,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Grannis, Scott",1,5000.0,non_company_individual,retired,GRANNIS SCOTT,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Gracelight Community Health,1,5000.0,individual,administrator,GRACELIGHT COMMUNITY HEALTH,Gracelight Community Health,,,,621111,"Offices of Physicians, ex. Mental Health",edd,,,Gracelight Community Health,exact,621111,"Offices of Physicians, ex. Mental Health",ok
+"Second Street Fund, Inc.",1,5000.0,individual,real estate property investment,SECOND STREET FUND INC,,,,,,,,,,,,,,no_results
+Shamrock Enterprises,1,5000.0,individual,investor,SHAMROCK ENTERPRISES,,,,,,,,,,,,,,no_results
+"Forester, Diane",1,5000.0,non_company_individual,retired,FORESTER DIANE,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Frase investments,1,5000.0,individual,real estate investor,FRASE INVESTMENTS,,,,,,,,,,,,,,no_results
+MirRam Group,1,5000.0,individual,partner,MIRRAM GROUP,,,,,,,,,,,,,,no_results
+Freshworks,1,5000.0,individual,ceo,FRESHWORKS,Freshworks Inc,,,,513210,Software Publishers,edd,,,Freshworks Inc,starts_with,513210,Software Publishers,ok
+Fresno Plumbing,1,5000.0,individual,vice president,FRESNO PLUMBING,Fresno Plumbing & Heating,,,,238220,Plumbing and HVAC Contractors,edd,,,Fresno Plumbing & Heating,starts_with,238220,Plumbing and HVAC Contractors,ok
+"Frykman, Karl",1,5000.0,non_company_individual,retired,FRYKMAN KARL,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Fullmer Construction,1,5000.0,individual,real estate,FULLMER CONSTRUCTION,Fullmer Construction,,,,236115,New Single-Family Housing Construction,edd,,,Fullmer Construction,exact,236115,New Single-Family Housing Construction,ok
+GT Water Products,1,5000.0,individual,vice president,GT WATER PRODUCTS,,,,,,,,,,,,,,no_results
+"Gallo, Thomas",1,5000.0,non_company_individual,retired,GALLO THOMAS,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+"Gaston, Rodney",1,5000.0,non_company_individual,retired,GASTON RODNEY,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+General Douglas MacArthur Lodge,1,5000.0,individual,architect,GENERAL DOUGLAS MACARTHUR LODGE,,,,,,,,,,,,,,no_results
+Georgetown University,1,5000.0,individual,professor,GEORGETOWN UNIVERSITY,GEORGETOWN UNIVERSITY,,,,61,Educational Services,masterfile,h1b,,,,,,
+"Gianelli, Donna",1,5000.0,non_company_individual,retired,GIANELLI DONNA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Gilkey Five,1,5000.0,organization,,GILKEY FIVE,,,,,,,,,,,,,,no_results
+"Horwitz, Shawn",1,5000.0,non_company_individual,retired,HORWITZ SHAWN,"HORWITZ, SHAWN","Finance, Insurance & Real Estate",Real Estate,Real estate developers & subdividers,53,Real Estate and Rental and Leasing,masterfile,opensecrets,,,,,,
+"S&N Marketing, Inc.",1,5000.0,individual,business owner,S N MARKETING INC,"S&N Marketing, Inc.",,,,54,"Professional, Scientific, and Technical Services",masterfile,manual,,,,,,
+IDEATE,1,5000.0,individual,ceo,IDEATE,Ideate Inc Com,,,,541511,Custom Computer Programming Services,edd,,,Ideate Inc Com,starts_with,541511,Custom Computer Programming Services,ok
+"Regan, Ann",1,5000.0,non_company_individual,retired,REGAN ANN,"REGAN, ANN",Government Agencies/Education/Other,Retired,Retired,81,Other Services (except Public Administration),masterfile,opensecrets,,,,,,
+John Duarte For Congress,1,5000.0,organization,,JOHN DUARTE FOR CONGRESS,,,,,,,,,,,,,,no_results
+Jon Gibson Company,1,5000.0,individual,president,JON GIBSON COMPANY,,,,,,,,,,,,,,no_results
+Judy Chu for Congress,1,5000.0,organization,,JUDY CHU FOR CONGRESS,,,,,,,,,,,,,,no_results
+Julie Haas Designs,1,5000.0,individual,designer,JULIE HAAS DESIGNS,Julie Haas Designs,,,,236118,Residential Remodelers,edd,,,Julie Haas Designs,exact,236118,Residential Remodelers,ok
+"Re, Mikel",1,5000.0,non_company_individual,retired,RE MIKEL,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+Raven Farms,1,5000.0,individual,farmer,RAVEN FARMS,,,,,,,,,,,,,,no_results
+"Randall, Eleanor",1,5000.0,non_company_individual,homemaker,RANDALL ELEANOR,,Non-company individual,Homemaker,,,,non-company individual,,,,,,,
+Randall Capital Group,1,5000.0,individual,ceo,RANDALL CAPITAL GROUP,,,,,,,,,,,,,,no_results
+Rancho Cucamonga Professional Firefighters Association - IAFF Local 2274 PAC,1,5000.0,organization,,RANCHO CUCAMONGA PROFESSIONAL FIREFIGHTERS ASSOCIATION IAFF LOCAL 2274 PAC,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,firefighters,,,,,
+Rainbow Sandals,1,5000.0,individual,manufacturer,RAINBOW SANDALS,Rainbow Sandals Inc,,,,458210,Shoe Retailers,edd,,,Rainbow Sandals Inc,starts_with,458210,Shoe Retailers,ok
+K & M Visser Dairy,1,5000.0,organization,,K M VISSER DAIRY,K & M VISSER DAIRY,Agriculture,Dairy,"Dairy farmers & wholesale and retail milk, cheese and ice cream dealers",11,"Agriculture, Forestry, Fishing, Hunting",masterfile,opensecrets,,,,,,
+RV Management,1,5000.0,individual,real estate,RV MANAGEMENT,Ableserv Management Co,,,,561110,Office Administrative Services,edd,,,Ableserv Management Co,largest,561110,Office Administrative Services,ok
+Quantumn Industries,1,5000.0,individual,businessman,QUANTUMN INDUSTRIES,,,,,,,,,,,,,,no_results
+Quantum Industries,1,5000.0,individual,electrical contractor,QUANTUM INDUSTRIES,Quantum Industries,,,,236220,Commercial Building Construction,edd,,,Quantum Industries,exact,236220,Commercial Building Construction,ok
+KCal Insurance Agency,1,5000.0,individual,insurance agent,KCAL INSURANCE AGENCY,,"Finance, Insurance & Real Estate",,,,,keyword match,,insurance,,,,,
+Refunded,1,5000.0,individual,refunded,REFUNDED,Refunded,"Finance, Insurance & Real Estate",Lawyers & Lobbyists,,99,,masterfile,manual,,,,,,
+"Regan, William",1,5000.0,non_company_individual,retired,REGAN WILLIAM,"REGAN, WILLIAM",Construction,General Contractors,"Public works, industrial & commercial construction",23,Construction,masterfile,opensecrets,,,,,,
+Ideate,1,5000.0,individual,ceo,IDEATE,Ideate Inc Com,,,,541511,Custom Computer Programming Services,edd,,,Ideate Inc Com,starts_with,541511,Custom Computer Programming Services,ok
+Renewable America,1,5000.0,individual,ceo,RENEWABLE AMERICA,,,,,,,,,,Renewable America LLC,starts_with,999990,Unknown,ok
+International Longshore and Warehouse Union Foremen's Local 94 PAC (ILWU),1,5000.0,organization,,INTERNATIONAL LONGSHORE AND WAREHOUSE UNION FOREMEN S LOCAL 94 PAC ILWU,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+"Iredale and Yoo, APC",1,5000.0,individual,business owner,IREDALE AND YOO APC,,,,,,,,,,,,,,no_results
+"Roe, Richard",1,5000.0,non_company_individual,retired,ROE RICHARD,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+J & B Refining dba  J & B Enterprises,1,5000.0,organization,,J B REFINING DBA J B ENTERPRISES,,Energy & Natural Resources,Oil & Gas,,,,keyword match,,refining,,,,,
+J Derek Lewis and Associates,1,5000.0,individual,investment advisor,J DEREK LEWIS AND ASSOCIATES,,,,,,,,,,,,,,no_results
+"Robles, Glenda",1,5000.0,non_company_individual,retired,ROBLES GLENDA,,Non-company individual,Retired,,,,non-company individual,,,,,,,
+J. Slammed,1,5000.0,individual,farmer,J SLAMMED,J. Slammed,,,,11,"Agriculture, Forestry, Fishing, Hunting",masterfile,manual,,,,,,
+JD Pierce Company,1,5000.0,individual,president,JD PIERCE COMPANY,JD Pierce Company,,,,23,Construction,masterfile,manual,,,,,,
+JNS Associates Ltd,1,5000.0,individual,property managment,JNS ASSOCIATES LTD,,,,,,,,,,,,,,no_results
+"Road Sprinkler Fitters Local Union No. 669, UA, AFL-CIO PAC (Fed PAC ID #C00468801)",1,5000.0,organization,,ROAD SPRINKLER FITTERS LOCAL UNION NO 669 UA AFL CIO PAC FED PAC ID C00468801,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,,,,,,no_results
+Riverwest Processing,1,5000.0,individual,owner,RIVERWEST PROCESSING,Riverwest Processing Inc,,,,424450,Confectionery Merchant Wholesalers,edd,,,Riverwest Processing Inc,starts_with,424450,Confectionery Merchant Wholesalers,ok
+JWH Wilcox Holdings LLC,1,5000.0,organization,,JWH WILCOX HOLDINGS LLC,,,,,,,,,,,,,,no_results
+Rio Farms,1,5000.0,individual,farmer,RIO FARMS,Rio Farms,,,,111219,Other Vegetable and Melon Farming,edd,,,Rio Farms,exact,111219,Other Vegetable and Melon Farming,ok
+"Richmond Police Officers Association PAC, Sponsored by Richmond Police Officers Association",1,5000.0,organization,,RICHMOND POLICE OFFICERS ASSOCIATION PAC SPONSORED BY RICHMOND POLICE OFFICERS ASSOCIATION,,PAC,Political Action Committee,,88,PAC / Political Committee,custom rule,,officers association,,,,,
+"Renewable Properties, LLC",1,5000.0,individual,administrator,RENEWABLE PROPERTIES LLC,,,,,,,,,,,,,,no_results
+2m Foundation,1,5000.0,individual,executive director,2M FOUNDATION,,,,,,,,,,,,,,no_results

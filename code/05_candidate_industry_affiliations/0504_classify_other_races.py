@@ -116,19 +116,24 @@ def looks_like_org(name: str | float) -> bool:
     return "," not in s
 
 
-def filter_and_aggregate_with_orgs(df: pd.DataFrame, amount_min: float) -> pd.DataFrame:
-    """Step 0: filter to qualifying high-value rows then collapse to one
-    row per entity. Three entity kinds are tracked:
+def assign_entities(df: pd.DataFrame, amount_min: float) -> pd.DataFrame:
+    """Step 0 (donation level): filter to qualifying high-value rows and
+    stamp each surviving donation with its entity_kind / entity, WITHOUT
+    collapsing to one row per entity. Returns the per-donation frame (all
+    original columns plus entity_kind, entity, occupation_norm).
+
+    Three entity kinds are tracked:
       - "individual"             : person with an employer; entity = employer
       - "organization"           : org-like name OR has Contributor ID
                                    (committee-to-committee); entity = name
       - "non_company_individual" : Contributor Occupation is retired/
                                    self-employed/etc.; entity = name
     Drops only truly empty rows (no employer, no org-like name, no
-    Contributor ID, no relevant occupation)."""
-    n_total = len(df)
-    total_amount = float(df["Amount"].sum())
+    Contributor ID, no relevant occupation) and rows below amount_min.
 
+    Used both by filter_and_aggregate_with_orgs (which aggregates the
+    result) and by 0702's donation-level expansion (which keeps it as-is to
+    broadcast entity classifications back onto individual donations)."""
     occ = df["Contributor Occupation"].fillna("").str.lower().str.strip()
     employer_str = df["Contributor Employer"].astype(str).str.strip()
     has_employer = df["Contributor Employer"].notna() & (employer_str != "")
@@ -137,12 +142,11 @@ def filter_and_aggregate_with_orgs(df: pd.DataFrame, amount_min: float) -> pd.Da
     is_nc = occ.isin(NON_COMPANY_OCCUPATIONS)
 
     qual = (
-        (df["Amount"] > amount_min)
+        (df["Amount"] >= amount_min)
         & (has_employer | is_org | has_id | is_nc)
     )
     filtered = df.loc[qual].copy()
 
-    f_has_employer = has_employer.loc[qual]
     f_is_org = is_org.loc[qual]
     f_has_id = has_id.loc[qual]
     f_is_nc = is_nc.loc[qual]
@@ -163,6 +167,16 @@ def filter_and_aggregate_with_orgs(df: pd.DataFrame, amount_min: float) -> pd.Da
 
     # Preserve normalized occupation (used to label non-company-individual rows).
     filtered["occupation_norm"] = occ.loc[qual]
+    return filtered
+
+
+def filter_and_aggregate_with_orgs(df: pd.DataFrame, amount_min: float) -> pd.DataFrame:
+    """Step 0: filter to qualifying high-value rows (assign_entities) then
+    collapse to one row per entity for the classification steps."""
+    n_total = len(df)
+    total_amount = float(df["Amount"].sum())
+
+    filtered = assign_entities(df, amount_min)
 
     n_qual = len(filtered)
     qual_amount = float(filtered["Amount"].sum())
@@ -175,7 +189,7 @@ def filter_and_aggregate_with_orgs(df: pd.DataFrame, amount_min: float) -> pd.Da
     print("STEP 0 — filter qualifying donations (org + non-company aware)")
     print("=" * 70)
     print(f"  Total donations:                  {n_total:>9,}   ${total_amount:>15,.0f}")
-    print(f"  Qualifying (>${int(amount_min):,}, any donor type):")
+    print(f"  Qualifying (>=${int(amount_min):,}, any donor type):")
     print(
         f"    rows:    {n_qual:>9,}   "
         f"({n_qual / max(n_total, 1) * 100:>5.2f}% of input rows)"
@@ -352,6 +366,9 @@ def run_race(
     merged = kw.match_keywords(merged, keywords)
     # Replace 0501's "manual" with our EDD live-lookup fallback.
     merged = match_edd(merged, delay=delay)
+    # Final authoritative override (e.g. PAC/committee -> "88"), driven by
+    # data/03_input/masterfile/custom_naics_labels.csv.
+    merged = kw.apply_custom_label_overrides(merged)
 
     print_summary(merged, race=input_path.stem)
 

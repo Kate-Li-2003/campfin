@@ -1,0 +1,90 @@
+  [  1/31] Juan Alanis for Assembly 2024                      -> no_results         
+  [  2/31] Steyer for Governor 2026                           -> no_results         
+  [  3/31] Association of California School Administrators PA -> no_results         
+  [  4/31] Palladium Music                                    -> no_results         
+  [  5/31] Highland Fairview Operating Co. & Affiliated       -> no_results         
+  [  6/31] AMERICAN RESORT DEVELOPMENT ASSOCIATION RESORT OWN -> no_results         
+  [  7/31] PSC Renaissance, LLC                               -> no_results         
+  [  8/31] TAV Property Holdings LLC                          -> no_results         
+  [  9/31] A Khmer Buddhist Foundation                        -> no_results         
+  [ 10/31] Associated General Contractors PAC                 -> no_results         
+  [ 11/31] Downey Brand, LLP                                  -> no_results         
+  [ 12/31] R. J. Noble Company                                -> no_results         
+  [ 13/31] SLTC LLC                                           -> no_results         
+  [ 14/31] Universe Properties, LLC                           -> no_results         
+  [ 15/31] The Salt and Light Council                         -> no_results         
+  [ 16/31] KXLA-TV                                            -> no_results         
+  [ 17/31] VAL Property AI                                    -> no_results         
+  [ 18/31] Union of American Physicians and Dentists Medical  -> no_results         
+  [ 19/31] Thumbtack                                          -> ok          999990 Thumbtack
+  [ 20/31] Democratic Lieutenant Governors Association Suppor -> no_results         
+  [ 21/31] The Scott Foundation                               -> no_results         
+  [ 22/31] United Domestic Workers of America Action Fund Sma -> no_results         
+  [ 23/31] Steamfitters & Refrigeration U.A. Local 250 PAC Sm -> no_results         
+  [ 24/31] American Federation of State, County and Municipal -> no_results         
+  [ 25/31] Steamfitters & Refrigeration UA Local 250 PAC Smal -> no_results         
+  [ 26/31] Professional Engineers in California Government PA -> no_results         
+  [ 27/31] Cal Fire Local 2881 Small Contributor PAC          -> no_results         
+  [ 28/31] Northern California Carpenters Regional Council PO -> no_results         
+  [ 29/31] California State Council of Service Employees Smal -> no_results         
+  [ 30/31] California State Retirees PAC                      -> no_results         
+  [ 31/31] BRDBND, LLC                                        -> no_results         
+
+######################################################################
+# Race: power_search_candidates_2526.csv
+######################################################################
+
+======================================================================
+STEP 0 — filter qualifying donations (org + non-company aware)
+======================================================================
+  Total donations:                     22,332   $     22,816,588
+  Qualifying (>$10,000, any donor type):
+    rows:           77   ( 0.34% of input rows)
+    $ value: $    12,141,219   (53.21% of input $)
+    breakdown:  individual=26  organization=43  non-company=8
+  Unique entities (aggregated):     63
+
+======================================================================
+PART 1 — masterfile match (running_list.csv)
+======================================================================
+  Reference rows in running_list:      62,475
+  Employers matched:                         9   (14.29% of 63)
+  Donations matched:                        18   (23.38% of 77)
+
+======================================================================
+PART 1.5 — auto-classify non-company individuals
+======================================================================
+  Rows tagged 'non-company individual': 8
+
+======================================================================
+PART 2 — keyword match (fallback)
+======================================================================
+  Keywords loaded (after expansion + dedupe): 325
+  Employers unmatched after Part 1:           46
+  Newly matched by keyword:                   15   (32.61% of remaining)
+
+======================================================================
+PART 3 — EDD lookup for unmatched entities
+======================================================================
+  Unmatched rows:                      31
+  Distinct names to query:             31
+  EDD matches with valid NAICS:         0   ( 0.00% of unique queries)
+
+======================================================================
+FINAL SUMMARY — power_search_candidates_2526
+======================================================================
+  Total entities: 63    Total donations: 77
+
+  masterfile      entities:    9 (14.29%)   donations:   18 (23.38%)
+  non-company individual  entities:    8 (12.70%)   donations:    8 (10.39%)
+  keyword match   entities:   15 (23.81%)   donations:   17 (22.08%)
+  edd             entities:    0 ( 0.00%)   donations:    0 ( 0.00%)
+  unmatched       entities:   31 (49.21%)   donations:   34 (44.16%)
+
+  Wrote: /Users/kateli/Desktop/CalMatters/campaign finance categorization/output/05_output/power_search_candidates_2526_classified.csv  (63 rows)
+
+======================================================================
+CROSS-RACE COVERAGE RECAP
+======================================================================
+  race                                       entities    matched       %
+  power_search_candidates_2526                     63         32  50.79%

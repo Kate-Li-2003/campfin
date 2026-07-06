@@ -10,7 +10,7 @@ For each of the top-10 candidates in the 2026 CA Governor's race
      side-by-side comparison across candidates.
 
 Inputs:
-  - data/04_output_latest_data_pulls/governor_race_2026-04-27.csv
+  - data/04_output_latest_data_pulls/governor_race_2026.csv
         Per-donation transactional file. We use Recipient Name + Recipient
         Committee to attribute each row to a candidate, then filter to
         Amount > $10K.
@@ -44,7 +44,7 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-DEFAULT_DONATIONS = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026-04-27.csv"
+DEFAULT_DONATIONS = REPO_ROOT / "data/04_output_latest_data_pulls/governor_race_2026.csv"
 DEFAULT_CLASSIFIED = REPO_ROOT / "output/05_output/donors_classified_with_manual.csv"
 DEFAULT_FIGURES_DIR = REPO_ROOT / "output/05_output/figures"
 

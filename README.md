@@ -83,7 +83,7 @@ extra/powersearch_2526/power_search_candidates_2526.csv --out-dir output/05_outp
 ```
 This routes output to `output/05_output`, under `..._classified.csv`
 
-### Classifications (SVM) 
+### Classifications 
 
 To generate matches using **classifier** **predictions**, run:
 ```bash

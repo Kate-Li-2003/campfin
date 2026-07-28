@@ -1,0 +1,1723 @@
+---
+title: "Entity Resolution"
+output: html_notebook
+---
+
+# Purpose
+
+This notebook aims to group contributors that belong to the same entity for the purpose of: 
+1. Aggregating contributions by entity to see which cross the $5k threshold. 
+2. Computing one classification per entity for consistency and to minimize the number of classifications needed.
+
+Process: 
+
+Group organizations and committees
+1. Look for any contributors that are missing a Contributor.ID by name matching to the full contributions data (across races, props and recipient committees). 
+2. Group contributors that share the same Contributor.ID under one entity. 
+3. Look for exact name matches between contributors based on different processing of the name (removing parentheses, removing business endings, etc.)
+4. Fuzzy match contributors to see if there are any other links
+5. Use external references from Digital Democracy and previous campaign finance work to group orgs that were determined to be the same entity.
+
+Individuals: 
+1. Group individuals based on record linkage algorithm that assigns different weights according to the importance of each column in distinguishing individuals.
+Looks at name, employer, occupation, city, state and zip.
+
+- Contributors are assigned an entity_id and canonical name based on suspected links. Some entities are flagged for review. 
+- Data is filtered to only include entities that contributed $5k or more in the classification process. 
+
+
+# Questions
+- are there duplicates in the data or are people really making two of the exact same contributions on the same day?
+- why does same contributor name match to several contributor ids (for cases in the full contributions data)
+- ask for whatever mapping is used for camp fin this year to group contributors..
+- how to treat different unit numbers -> same entity or separate? also depends on what ends up happening with the PACs. 
+- ask about whether or not to propagate the contributor.id automatically. 
+  - mostly weird in major donor cases where most of the time the contributor id is NA, but some of them do have a contributor id
+  - also don't want to get major donors confused with PACs / committees
+
+# To Do 
+- add process for only processing new contributors
+- add process for flagging which entities have already been classified
+- add separate output for committees to send to PAC processing
+- simplify where possible
+- incorporate id_map to see which are major donors if possible (don't want to send these to PAC review)
+- add PAC output
+- use id map instead of contributions_full for propagating ids (should have more name variants)
+- could add a check for anything w/ PAC/fund/etc that doesn't have a contributor id
+- could try using fastLink or using splink to see if it works better, esp for individuals
+- look at full contib data for cases w/ diff ids per name to see whats happening
+- check no negatives after aggregation
+- make sure hashing not based on any standardization that could change
+
+
+
+# Load packages
+
+```{r}
+here::i_am("0801_entity_resolution.Rmd")
+library(here)
+library(dplyr)
+library(stringr)
+library(stringdist)
+library(reclin2)
+library(phonics)
+library(igraph)
+library(readr)
+library(digest)
+library(jsonlite)
+library(tidyr)
+
+source("standardization_helpers.R")
+```
+
+```{r}
+pac_keyword_pattern <- regex(
+  paste0("\\b(", paste(c(
+    "PAC", "POLITICAL ACTION COMMITTEE", "POLITICAL ACTION LEAGUE", "POLITICAL FUND",
+    "POLITICAL ACTION FUND", "COMMITTEE", "FPPC", "MAJOR DONOR", "SCC", "SMALL CONTRIBUTOR"
+    #"SMALL CONTRIBUTOR COMMITTEE", "SMALL CONT COMMITTEE"
+  ), collapse = "|"), ")\\b"),
+  ignore_case = TRUE
+)
+
+has_pac_language <- function(name) str_detect(toupper(coalesce(name, "")), pac_keyword_pattern)
+
+safe_metaphone <- function(x) {
+  clean <- str_replace_all(coalesce(x, ""), "[^A-Za-z]", "")
+  ifelse(clean != "", metaphone(clean), NA_character_)
+}
+
+bigram_cosine <- function(a, b) stringsim(a, b, method = "cosine", q = 2)
+
+hash_id <- function(keys, prefix) {
+  paste0(prefix, "_", substr(digest::digest(paste(sort(unique(keys)), collapse = "||"), algo = "xxhash32"), 1, 16))
+}
+
+```
+
+
+# Load and standardize all contributors data
+
+```{r}
+# data from datasette created by Jeremia (only includes 2026 data)
+url <- "https://calmatters-powersearch-2026.fly.dev/powersearch/contributions.csv?_stream=on&_size=max"
+contributions_full <- read.csv(url)
+```
+
+
+### look at aliases by contributor id
+
+```{r, eval = FALSE}
+contributions_full %>% group_by(Contributor.ID) %>% mutate(count = n_distinct(Contributor.Name)) %>% arrange(Contributor.ID) %>% filter(count > 1) %>% select(Contributor.Name, Contributor.ID) %>% unique()
+```
+
+
+### filter for contributions data we're interested in
+
+- Becerra and hilton
+- insurance comm.
+- props 40-42
+
+```{r}
+# read in data downloaded from powersearch (includes 2025 contributions)
+gov <- read.csv("08_inputs/power_search_gov_race_072426.csv")
+gov <- head(gov,n=-6)
+gov <- gov %>% filter(Recipient.Name == "BECERRA, XAVIER" | Recipient.Name == "HILTON, STEVE") # filter for candidates
+ins <- read.csv("08_inputs/power_search_ins_comiss_072426.csv")
+ins <- head(ins,n=-6)
+
+contributions <- contributions_full %>% filter(
+  Ballot.Measure.s. == "OPPOSED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE."
+)
+nrow(contributions)
+
+# combine all data from races/props we're interested in
+contributions <- bind_rows(gov,ins,contributions)
+
+nrow(contributions[which(contributions$Amount >= 5000 &(contributions$Office == "Governor")),])
+```
+
+
+```{r}
+# flag contributions by race/prop
+contributions <- contributions %>%
+  mutate(
+    race_prop = case_when(
+      Ballot.Measure.Contribution == "Y" ~ Ballot.Measure.s.,
+      !is.na(Office) & Office != "" ~ Office,
+      TRUE ~ Recipient.Name
+    )
+  )
+
+```
+
+
+### standardize contributions data
+
+
+```{r}
+make_row_hash <- function(...) {
+  cols <- list(...)
+  n <- length(cols[[1]])
+  vapply(seq_len(n), function(i) {
+    parts <- vapply(cols, function(col) as.character(col[i]), character(1))
+    digest::digest(paste(parts, collapse = "|"), algo = "xxhash32")
+  }, character(1))
+}
+
+```
+
+
+```{r}
+
+contributions <- contributions %>%
+  filter(Contributor.Name != "Unitemized Contributions") %>%
+  mutate(
+    standardized_name = standardize_names(Contributor.Name) %>% fix_typos(),
+    processed_name = standardized_name %>%
+      remove_pac_info() %>% remove_unit_info() %>% 
+      str_remove_all("\\s*\\(.*?\\)") %>% replace_business_text() %>% str_squish(),
+
+    standardized_employer_name = standardize_names(Contributor.Employer) %>% fix_typos(),
+    processed_employer_name = standardized_employer_name %>% standardize_occupation_employer() %>%
+      remove_pac_info() %>% remove_unit_info() %>% str_remove_all("\\s*\\(.*?\\)") %>%
+      replace_business_text() %>%
+      str_squish(),
+
+    standardized_occupation = standardize_names(Contributor.Occupation),
+    processed_occupation    = standardize_occupation_employer(standardized_occupation),
+    standardized_city       = standardize_names(Contributor.City),
+    zip_code_processed      = substr(Contributor.Zip.Code, 1, 5),
+
+    has_pac_language = has_pac_language(Contributor.Name),
+    entity_type      = if_else(sapply(standardized_name, is_individual), "individual", "organization"),
+    row_id           = row_number(),
+    contribution_id  = make_row_hash(Contributor.Name, Contributor.ID, Amount, race_prop,
+                                      Contributor.City, Contributor.Employer,
+                                      Contributor.Occupation, Contributor.Zip.Code, Start.Date)
+  )
+
+```
+
+```{r, eval = FALSE}
+contributions %>% group_by(contribution_id) %>% summarise(count = n()) %>% filter(count > 1)
+```
+
+### look at individuals with diff employers
+
+```{r}
+# lyons
+contributions %>% filter(grepl("Lyons",Contributor.Name))
+```
+
+Also orgs that are linked, but different
+- Lyons Investments, LP (William J. Lyons Jr)
+- Lyons Land Management, LP (William J. Lyons Jr)
+- Mapes Ranch, LP (William J. Lyons Jr)
+
+```{r}
+contributions %>% filter(entity_type == "individual") %>% group_by(processed_name, Contributor.City) %>% mutate(n = n_distinct(processed_employer_name)) %>% filter(n > 1) %>% select(Contributor.Name,Contributor.Employer) %>% arrange(processed_name)
+```
+
+- UCSD vs University of California San Diego
+
+APARICIO SYLVIA
+- elite medical vs premium urgent care
+
+ACRE JOSHUA
+- 	Northern California District Council of Laborers
+- California Alliance for Jobs
+
+BERGHOFF HERBERT
+- Coldwell banker envision and HJB Management
+
+BOATENG SARAH
+- Hummelstown Municipal Authority
+- Health Management Associates
+
+OR not employed/retired in one and list an employer in another
+
+
+
+
+
+## manually process edge cases
+
+Manually verified each of these. 
+
+```{r}
+contributions[which(contributions$Contributor.Name == "Lovecchio, US Navy (R, CDR Peter"),]$entity_type <- "individual"
+contributions[which(contributions$Contributor.Name == "Lovecchio, US Navy (R, CDR Peter"),]$standardized_name <- "LOVECCHIO, PETER"
+contributions[which(contributions$Contributor.Name == "Lovecchio, US Navy (R, CDR Peter"),]$processed_name <- "LOVECCHIO PETER"
+
+contributions[which(contributions$Contributor.Name == "Title Group Llc Zunilda Perez, Zmar"),]$entity_type <- "individual"
+contributions[which(contributions$Contributor.Name == "Title Group Llc Zunilda Perez, Zmar"),]$standardized_name <- "ZUNILDA, PEREZ"
+contributions[which(contributions$Contributor.Name == "Title Group Llc Zunilda Perez, Zmar"),]$processed_name <- "ZUNILDA, PEREZ"
+
+contributions[which(contributions$Contributor.Name == "Lidell   Pac, John Mark"),]$entity_type <- "individual"
+contributions[which(contributions$Contributor.Name == "Lidell   Pac, John Mark"),]$standardized_name <- "LIDELL, JOHN MARK" # PA-C = physician assistant (don't want to add PAC to suffix list though)
+contributions[which(contributions$Contributor.Name == "Lidell   Pac, John Mark"),]$processed_name <- "LIDELL JOHN MARK"
+
+contributions[which(contributions$Contributor.Name == "Last0b6df6bd, First7606aee3"),]$entity_type <- "individual"
+contributions[which(contributions$Contributor.Name == "Lastcbea8f37, Firstd599d312"),]$entity_type <- "individual"
+```
+
+### standardize occupation and employer for organizations and individuals
+
+
+## orgs 
+
+- check employer of non-individuals
+- for organizations, could change standardized occupation and employers to be blank for consistency -> but don't know if this is a factor later? 
+- comes into play when looking at unique name, employer combos? 
+- There are also cases where employer = N/A or none, but occupation = self-employed, earlier, i changed employer to also be self employer, but not sure this matters. maybe for matching, but not much info anyways.
+- Not having an occupation would mean these people are send to the no-employer queue
+
+```{r,eval = FALSE}
+contributions %>% filter(entity_type == "individual",Contributor.Employer == "N/A",Contributor.Occupation != "N/A") %>% select(Contributor.Name,Contributor.Employer,Contributor.Occupation)
+```
+
+```{r}
+#contributions %>% filter(entity_type == "organization") %>% select(Contributor.Employer) %>% distinct()
+#contributions %>% filter(entity_type == "organization") %>% select(Contributor.Occupation) %>% table()
+```
+
+
+## individuals
+
+- Make sure employer and occupation are NONE for individuals where these columns are blank 
+- Could also update employer to UNKNOWN for individuals where employer is N/A, but occupation specifies they're self-employed
+  - Are cases where employer is N/A, but occupation indicates they have a job.
+
+```{r}
+contributions <- contributions %>%
+  mutate(
+    standardized_employer_name   = if_else(entity_type == "individual" & standardized_employer_name == "", "NONE", standardized_employer_name),
+    processed_employer_name  = if_else(entity_type == "individual" & processed_employer_name == "", "NONE", processed_employer_name),
+
+    standardized_occupation  = if_else(entity_type == "individual" & standardized_occupation == "", "NONE", standardized_occupation),
+    processed_occupation = if_else(entity_type == "individual" & processed_occupation == "", "NONE", processed_occupation),    
+  )
+
+```
+
+
+
+# Load and standardize name maps
+
+```{r}
+map1 <- read.csv("08_inputs/dd_names_mapped_to_org_concepts_3_18_2026.csv") %>%
+  rename(canonical_name = org_concept_name, alias_group_id = oid) %>%
+  mutate(
+    record_name    = str_squish(record_name),
+    canonical_name = str_squish(canonical_name),
+    mapping_source = "dd_name_mapping",
+    confirmed      = TRUE
+  )
+
+map2 <- read.csv("08_inputs/2024 Contributor name mapping and descriptions - Combined.csv") %>%
+  select(record_name = Original, canonical_name = Normalized) %>%
+  filter(!is.na(record_name) & record_name != "") %>%
+  mutate(
+    record_name    = str_squish(record_name),
+    canonical_name = str_squish(canonical_name),
+    alias_group_id = NA_integer_,
+    mapping_source = "2024_combined",
+    confirmed      = TRUE
+  )
+
+# combine — prefer map1 when both have same record_name
+reference_mapping <- bind_rows(map1, map2) %>%
+  group_by(record_name) %>%
+  slice(1) %>%
+  ungroup() %>%
+  mutate(record_name_std = standardize_names(record_name) %>% fix_typos())
+
+```
+
+# Organizations
+
+```{r}
+make_name_variants <- function(df, col) {
+  df %>% mutate(
+    name_v1 = standardize_names(.data[[col]]) %>% fix_typos(),
+    name_v2 = remove_pac_info(name_v1)        %>% str_squish(), # removing FEC ID, FED PAC ID, MAJOR DONOR ID
+    #name_v3 = remove_unit_info(name_v2)        %>% str_squish(),
+    name_v4 = str_remove_all(name_v1, "\\s*\\(.*?\\)") %>% str_squish(),
+    name_v5 = replace_business_text(name_v4)   %>% str_squish()
+    #name_v6 = str_remove_all(name_v5, "\\s*\\(.*?\\)") %>% str_squish()
+  )
+}
+
+find_exact_variant_pairs <- function(pool, variant_col) {
+  candidates <- pool %>%
+    filter(!is.na(.data[[variant_col]]), .data[[variant_col]] != "") %>%
+    group_by(across(all_of(c(variant_col, "has_pac_language")))) %>%
+    filter(n() > 1) %>%
+    ungroup()
+
+  if (nrow(candidates) == 0)
+    return(tibble(.x = integer(), .y = integer(), match_source = character()))
+
+  candidates %>%
+    group_by(across(all_of(c(variant_col, "has_pac_language")))) %>%
+    group_modify(~ as_tibble(t(combn(.x$row_id, 2)), .name_repair = ~ c(".x", ".y"))) %>%
+    ungroup() %>%
+    select(.x, .y) %>%
+    mutate(match_source = paste0("exact_", variant_col))
+}
+```
+
+
+```{r}
+orgs <- contributions %>%
+  filter(entity_type == "organization") %>%
+  mutate(cont_row_id = row_id) %>%          # preserve row_id before overwriting
+  mutate(has_contributor_id = !is.na(Contributor.ID) & str_trim(as.character(Contributor.ID)) != "") %>%
+  make_name_variants("Contributor.Name") %>%
+  filter(!is.na(name_v1), name_v1 != "") %>%
+  mutate(row_id = row_number())
+
+
+# boilerplate removal for fuzzy blocking key
+#all_tokens    <- orgs$name_v5 %>% str_split("\\s+") %>% unlist()
+#token_counts  <- table(all_tokens)
+
+#BOILERPLATE_MIN_SHARE <- 0.05  # was 0.01
+#boilerplate_words <- names(token_counts)[token_counts > nrow(orgs) * BOILERPLATE_MIN_SHARE]
+#boilerplate_words <- names(token_counts)[token_counts > nrow(orgs) * 0.01]
+#cat("boilerplate words dropped:", paste(boilerplate_words, collapse = ", "), "\n")
+
+#strip_boilerplate <- function(name) {
+#  vapply(str_split(name, "\\s+"), function(toks) {
+#    kept <- toks[!toks %in% boilerplate_words]
+#    paste(if (length(kept) == 0) toks else kept, collapse = " ")
+#  }, character(1))
+#}
+
+#orgs <- orgs %>%
+#  mutate(
+#    core_name   = strip_boilerplate(name_v5),
+#    first_token = str_extract(core_name, "^\\S+"),
+#    block_key   = safe_metaphone(first_token)
+#  )
+```
+
+
+
+## Look at names in contributor data that match to multiple contributor ids
+
+```{r}
+orgs %>% group_by(name_v5) %>%
+  filter(n_distinct(Contributor.ID) > 1) %>% arrange(name_v5) %>% select(Contributor.Name,name_v5,Contributor.ID)
+
+orgs %>% group_by(Contributor.Name) %>%
+  filter(n_distinct(Contributor.ID) > 1) %>% arrange(Contributor.Name) %>% select(Contributor.Name,name_v5,Contributor.ID)
+```
+
+- flag this as an error if it comes up
+- pacaso inc. is just a major donor, but ramsey robinson for gov 2025 should defs have a contributor id
+
+
+## ID Propagation
+
+- consider whether to do a name variant like name_v5 or a stricter name match
+
+```{r}
+# Build name/ID lookup from full dataset
+full_id_lookup <- contributions_full %>%
+  filter(!is.na(Contributor.ID), Contributor.ID != "") %>%
+  mutate(name_v5 = standardize_names(Contributor.Name) %>% fix_typos() %>%
+           replace_business_text() %>% # remove_pac_info() %>% remove_unit_info() %>% 
+           str_remove_all("\\s*\\(.*?\\)") %>% str_squish()) %>%
+  distinct(name_v5, Contributor.ID) %>%
+  filter(name_v5 != "") %>%
+  group_by(name_v5) %>%
+  mutate(n_ids = n_distinct(Contributor.ID)) %>%
+  ungroup()
+
+
+```
+
+
+```{r}
+full_id_lookup %>% 
+  group_by(name_v5) %>%
+  filter(n_distinct(Contributor.ID) > 1) %>% arrange(name_v5)
+```
+
+- There are many instances where the same name matches to multiple contributor ids.
+  - in some cases I'm wondering if its the difference between xrefid and the filer id
+  - other times it just looks like a typo in the id which is unfortuante - will be hard to grab these
+
+```{r}
+# Propagate IDs to orgs that are missing them
+full_id_propagation <- orgs %>%
+  filter(!has_contributor_id) %>%
+  select(row_id, Contributor.Name, name_v5) %>%
+  inner_join(full_id_lookup, by = "name_v5") %>%
+  mutate(needs_review = n_ids > 1) %>%
+  select(row_id, Contributor.Name, propagated_id = Contributor.ID, n_ids, needs_review)
+
+cat("IDs propagated (unambiguous):", n_distinct(full_id_propagation$row_id[!full_id_propagation$needs_review]), "\n")
+cat("IDs to review (multiple matches):", n_distinct(full_id_propagation$row_id[full_id_propagation$needs_review]), "\n")
+
+# apply unambiguous ones back to orgs
+orgs <- orgs %>%
+  left_join(
+    full_id_propagation %>% filter(!needs_review) %>% distinct(row_id, propagated_id),
+    by = "row_id"
+  ) %>%
+  mutate(
+    Contributor.ID     = coalesce(Contributor.ID, propagated_id),
+    has_contributor_id = !is.na(Contributor.ID) & str_trim(as.character(Contributor.ID)) != ""
+  ) %>%
+  select(-propagated_id)
+
+# inspect review cases
+full_id_propagation %>%
+  filter(needs_review) %>%
+  arrange(Contributor.Name, propagated_id)
+
+```
+
+Look at which rows ids were added to: 
+
+```{r}
+full_id_propagation %>%
+  filter(!needs_review) %>%
+  arrange(Contributor.Name, propagated_id)
+```
+
+- most of these look like major donors as opposed to PACs/ committees. 
+  - maybe use id map to flag which are major donors? 
+
+```{r}
+contributions_full %>% filter(Contributor.Name == "Twenty-Nine Palms Band of Mission Indians") %>% select(Contributor.Name,Contributor.ID) #%>% unique()
+```
+
+- some of these ids may correspond to a major donor id instead of a committee id? e.g. blue shielf of california
+- ones that match to diff ids (one being NA are not flagged for review)
+
+
+## Step 1: ID-based aliases (same Contributor.ID, different names)
+
+- should update this to just group by contributor.id, regardless of whether names are different or not
+
+```{r}
+id_based_aliases <- orgs %>%
+  filter(has_contributor_id) %>%
+  group_by(Contributor.ID) %>%
+  filter(n_distinct(Contributor.Name) > 1) %>%
+  ungroup()
+
+id_auto_pairs <- id_based_aliases %>%
+  group_by(Contributor.ID) %>%
+  group_modify(~ as_tibble(t(combn(.x$row_id, 2)), .name_repair = ~ c(".x", ".y"))) %>%
+  ungroup() %>%
+  mutate(link_tier = "auto_link", match_source = "same_contributor_id")
+
+cat("ID-based alias pairs:", nrow(id_auto_pairs), "\n")
+
+id_based_aliases %>%
+  group_by(Contributor.ID) %>%
+  summarise(names = paste(unique(Contributor.Name), collapse = " | "), n = n(), .groups = "drop") %>%
+  arrange(desc(n))
+```
+
+## Step 2: Exact variant cascade
+
+```{r}
+id_resolved_rows <- unique(c(id_auto_pairs$.x, id_auto_pairs$.y))
+remaining_orgs   <- orgs %>% filter(!row_id %in% id_resolved_rows)
+
+#variant_cols     <- c("name_v1", "name_v2", "name_v3", "name_v4", "name_v5", "name_v6")
+variant_cols     <- c("name_v1", "name_v2", "name_v4", "name_v5") # don't do variants where we remove unit info or words attributed w/ PAC for now
+exact_pairs_list <- list()
+
+for (v in variant_cols) {
+  new_pairs <- find_exact_variant_pairs(remaining_orgs, v)
+  if (nrow(new_pairs) > 0) {
+    exact_pairs_list[[v]] <- new_pairs
+    remaining_orgs <- remaining_orgs %>%
+      filter(!row_id %in% unique(c(new_pairs$.x, new_pairs$.y)))
+  }
+  cat("variant", v, "- new pairs:", nrow(new_pairs), "| remaining:", nrow(remaining_orgs), "\n")
+}
+
+exact_pairs <- bind_rows(exact_pairs_list) %>%
+  left_join(orgs %>% select(row_id, id_x = Contributor.ID, has_id_x = has_contributor_id), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, id_y = Contributor.ID, has_id_y = has_contributor_id), by = c(".y" = "row_id")) %>%
+  filter(!(coalesce(has_id_x, FALSE) & coalesce(has_id_y, FALSE) & coalesce(id_x != id_y, FALSE))) %>%
+  mutate(link_tier = "auto_link") %>%
+  select(.x, .y, link_tier, match_source)
+
+cat("Exact cascade auto-links:", nrow(exact_pairs), "| remaining for fuzzy:", nrow(remaining_orgs), "\n")
+```
+
+
+### Step 3: internal fuzzy match
+
+
+```{r}
+remaining <- orgs %>%
+  filter(
+    !row_id %in% id_resolved_rows,
+    !row_id %in% unique(c(exact_pairs$.x, exact_pairs$.y))
+  )
+
+ids <- remaining$row_id
+pairs_idx <- combn(length(ids), 2)
+
+org_pairs <- tibble(
+  .x = ids[pairs_idx[1, ]],
+  .y = ids[pairs_idx[2, ]]
+) %>%
+  left_join(orgs %>% select(row_id, name_x = name_v5, id_x = Contributor.ID,
+                             has_id_x = has_contributor_id, pac_x = has_pac_language),
+            by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = name_v5, id_y = Contributor.ID,
+                             has_id_y = has_contributor_id, pac_y = has_pac_language),
+            by = c(".y" = "row_id")) %>%
+  filter(
+    !(coalesce(has_id_x, FALSE) & coalesce(has_id_y, FALSE) & coalesce(id_x != id_y, FALSE)),
+    pac_x == pac_y
+  ) %>%
+  mutate(
+    name_jw     = stringsim(name_x, name_y, method = "jw", p = 0.1),
+    name_cosine = bigram_cosine(name_x, name_y)
+  ) %>%
+  filter(name_jw >= 0.70, name_cosine >= 0.50) %>%
+  select(-name_x, -name_y) %>%
+  mutate(
+    name_sim     = (name_jw + name_cosine) / 2,
+    link_tier    = case_when(
+      name_jw >= 0.999 ~ "auto_link",
+      name_sim >= 0.90 ~ "auto_link", # reviewd this manually
+      name_sim >= 0.85 ~ "review", # was 0.75, but no of those were really close..
+      TRUE             ~ "no_link"
+    ),
+    match_source = "internal_fuzzy"
+  )
+
+
+```
+
+### Inspect internal fuzzy matches
+
+```{r}
+org_fuzzy_inspect <- org_pairs %>%
+  filter(link_tier != "no_link") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
+  select(link_tier, name_x, name_y, name_jw, name_cosine, name_sim,
+         has_id_x, has_id_y, id_x, id_y) %>%
+  arrange(link_tier, desc(name_sim))
+
+org_fuzzy_inspect
+```
+
+
+```{r}
+# just below review threshold
+org_pairs %>%
+  filter(name_jw >= 0.70, name_cosine >= 0.50, link_tier == "no_link") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
+  select(name_x, name_y, name_jw, name_cosine, name_sim) %>%
+  arrange(desc(name_sim))
+
+```
+
+- don't think i want to adjust threshold b/c none of these look good
+
+```{r}
+# review
+org_pairs %>%
+  filter(link_tier == "review") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
+  select(name_x, name_y, name_jw, name_cosine, name_sim) %>%
+  arrange(desc(name_sim))
+
+```
+
+- only two of these are worth reviewing and one will get flagged by another one of the matching methods anyways
+
+```{r}
+org_fuzzy_inspect %>%
+  filter(link_tier == "review") %>%
+  arrange(name_sim)
+
+```
+
+
+## Step 5: External bridge (map1 / map2)
+
+- do i want to use name_v5 here or just use standardized name? 
+  - not sure about removing business text, etc. b/c name variants will account for different endings
+  - want to be really sure about matching to name variants.
+
+```{r}
+# standardize external names to name_v5 format for matching
+build_bridge_lookup <- function(mapping) {
+  mapping %>%
+    mutate(name_std = standardize_names(record_name) %>%
+             fix_typos() %>%
+             #remove_pac_info() %>%
+             #remove_unit_info() %>%
+             replace_business_text() %>%
+             str_remove_all("\\s*\\(.*?\\)") %>%
+             str_squish()) %>%
+    select(name_std, canonical_name) %>%
+    filter(!is.na(name_std), name_std != "", !is.na(canonical_name), canonical_name != "")
+}
+
+map1_lookup <- build_bridge_lookup(map1)
+map2_lookup <- build_bridge_lookup(map2)
+```
+
+```{r}
+find_bridge_pairs <- function(orgs_df, lookup, source_label) {
+  matched <- orgs_df %>%
+    inner_join(lookup, by = c("name_v5" = "name_std")) %>%
+    select(row_id, name_v5, canonical_name) %>%
+    distinct(name_v5, canonical_name, .keep_all = TRUE)  # one row per unique name × canonical (used to be row_id instead of name_v5 here)
+
+  if (nrow(matched) < 2) return(tibble(.x = integer(), .y = integer(),
+                                        match_source = character(), canonical_name = character()))
+
+  matched %>%
+    rename(.x = row_id, name_v5_x = name_v5) %>%
+    inner_join(matched %>% rename(.y = row_id, name_v5_y = name_v5), by = "canonical_name") %>%
+    filter(.x < .y, name_v5_x != name_v5_y) %>%
+    group_by(.x, .y) %>%
+    mutate(
+      n_canonicals = n_distinct(canonical_name),
+      needs_review = n_canonicals > 1
+    ) %>%
+    ungroup() %>%
+    mutate(match_source = source_label) %>%
+    select(.x, .y, match_source, canonical_name, n_canonicals, needs_review)
+}
+
+```
+
+```{r}
+bridge_map1 <- find_bridge_pairs(orgs, map1_lookup, "map1_bridge")
+bridge_map2 <- find_bridge_pairs(orgs, map2_lookup, "map2_bridge")
+cat("Bridge pairs — map1:", nrow(bridge_map1), "| map2:", nrow(bridge_map2), "\n")
+```
+
+```{r, eval=FALSE}
+bridge_pairs <- bind_rows(bridge_map1, bridge_map2) %>%
+  mutate(
+    .x = pmin(.x, .y),
+    .y = pmax(.x, .y)
+  ) %>%
+  distinct(.x, .y, canonical_name, .keep_all = TRUE)
+
+bridge_pairs %>%
+  # filter(needs_review) %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
+  select(name_x, name_y, canonical_name, n_canonicals) %>%
+  arrange(name_x, name_y)
+
+```
+
+
+```{r}
+#x[which(x$Contributor.Name == "Local 770 United Food and Commercial Workers PAC"),]$Contributor.ID
+#x[which(x$Contributor.Name == "United Food and Commercial Workers Active Ballot Club (California) (Fed PAC ID# C00002766)"),]$Contributor.ID
+
+#x[grep("association of health",tolower(x$Contributor.Name)),]
+```
+
+
+### combine bridge pairs
+
+```{r}
+# combine bridge pairs
+# log when both sources agree
+bridge_pairs <- bind_rows(bridge_map1, bridge_map2) %>%
+  group_by(.x, .y) %>%
+  summarise(
+    match_source   = paste(sort(unique(match_source)), collapse = "+"),
+    canonical_name = paste(sort(unique(canonical_name)), collapse = " / "),
+    .groups = "drop"
+  )
+
+# canonical ID per name_v5: if ANY contribution row for that name has an ID, record it
+# used detect conflicting-ID pairs regardless of which row_id find_bridge_pairs picked.
+org_name_canonical_id <- orgs %>%
+  filter(has_contributor_id) %>%
+  group_by(name_v5) %>%
+  summarise(canonical_id = names(sort(table(Contributor.ID), decreasing = TRUE))[1],
+            .groups = "drop")
+
+# score bridge pairs on internal similarity - keep?
+bridge_scored <- bridge_pairs %>%
+  left_join(orgs %>% select(row_id, name_x = name_v5, pac_x = has_pac_language),
+            by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = name_v5, pac_y = has_pac_language),
+            by = c(".y" = "row_id")) %>%
+  # join on name, not row_id in case a row was picked that didn't have a contributor.id
+  left_join(org_name_canonical_id %>% rename(name_x = name_v5, id_x = canonical_id), by = "name_x") %>%
+  left_join(org_name_canonical_id %>% rename(name_y = name_v5, id_y = canonical_id), by = "name_y") %>% # drop any pair where both orgs have IDs and those IDs differ — they are distinct entities
+  filter(!(coalesce(!is.na(id_x), FALSE) & coalesce(!is.na(id_y), FALSE) & coalesce(id_x != id_y, FALSE))) %>%
+
+  mutate(
+    name_jw     = stringsim(name_x, name_y, method = "jw", p = 0.1),
+    name_cosine = bigram_cosine(name_x, name_y),
+    name_sim    = (name_jw + name_cosine) / 2
+  ) %>%
+  select(-name_x, -name_y, -id_x, -id_y)
+
+# tag internal fuzzy paris thr bridge found— for match_source logging
+internal_pair_keys <- org_pairs %>%
+  filter(link_tier != "no_link") %>%
+  mutate(pair_key = paste(pmin(.x, .y), pmax(.x, .y)))
+
+bridge_pair_keys <- bridge_scored %>%
+  mutate(pair_key = paste(pmin(.x, .y), pmax(.x, .y))) %>%
+  select(pair_key, bridge_source = match_source)
+
+# upgrade internal pairs corroborated by a bridge
+BRIDGE_UPGRADE_THRESHOLD <- 0.65
+
+org_pairs <- org_pairs %>%
+  mutate(pair_key = paste(pmin(.x, .y), pmax(.x, .y))) %>%
+  left_join(bridge_pair_keys, by = "pair_key") %>%
+  mutate(
+    match_source = if_else(!is.na(bridge_source),
+                           paste(match_source, bridge_source, sep = "+"),
+                           match_source),
+    link_tier = case_when(
+      link_tier == "review" & !is.na(bridge_source) & name_sim >= BRIDGE_UPGRADE_THRESHOLD ~ "auto_link",
+      TRUE ~ link_tier
+    )
+  ) %>%
+  select(-pair_key, -bridge_source)
+
+# bridge-only pairs
+bridge_only <- bridge_scored %>%
+  mutate(pair_key = paste(pmin(.x, .y), pmax(.x, .y))) %>%
+  filter(!pair_key %in% internal_pair_keys$pair_key) %>%
+  select(-pair_key) %>%
+  mutate(
+    link_tier = "review"  # bridge alone never auto-links
+  )
+
+cat("Bridge-corroborated internal pairs:", sum(!is.na(bridge_pair_keys$bridge_source[match(internal_pair_keys$pair_key, bridge_pair_keys$pair_key)])), "\n")
+cat("Bridge-only new pairs for review:", nrow(bridge_only), "\n")
+```
+
+```{r}
+bridge_only
+```
+
+
+
+## Step 4: ID propagation — where one side is missing an ID
+
+**not sure i should do this based on fuzzy matches, but will do for now just to look at review process**
+
+```{r}
+# exact cascade — needs all columns joined
+exact_id_propagation <- bind_rows(exact_pairs_list) %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name, std_name_x = name_v5,
+                             id_x = Contributor.ID, has_id_x = has_contributor_id), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name, std_name_y = name_v5,
+                             id_y = Contributor.ID, has_id_y = has_contributor_id), by = c(".y" = "row_id")) %>%
+  filter(coalesce(has_id_x, FALSE) != coalesce(has_id_y, FALSE))
+
+# fuzzy — id_x, id_y, has_id_x, has_id_y already in org_pairs; only join names
+fuzzy_id_propagation <- org_pairs %>%
+  filter(link_tier %in% c("auto_link", "review")) %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name, std_name_x = name_v5), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name, std_name_y = name_v5), by = c(".y" = "row_id")) %>%
+  filter(coalesce(has_id_x, FALSE) != coalesce(has_id_y, FALSE))
+
+
+id_propagation <- bind_rows(
+  exact_id_propagation %>% mutate(confidence = "high"),
+  fuzzy_id_propagation %>% mutate(confidence = "review")
+) %>%
+  mutate(
+    source_id       = coalesce(id_x, id_y),
+    name_with_id    = if_else(coalesce(has_id_x, FALSE), name_x, name_y),
+    name_missing_id = if_else(coalesce(has_id_x, FALSE), name_y, name_x),
+    std_with_id     = if_else(coalesce(has_id_x, FALSE), std_name_x, std_name_y),
+    std_missing_id  = if_else(coalesce(has_id_x, FALSE), std_name_y, std_name_x),
+    row_missing_id  = if_else(coalesce(has_id_x, FALSE), .y, .x)
+  ) %>%
+  select(row_missing_id, name_missing_id, std_missing_id, name_with_id, std_with_id,
+         source_id, match_source, confidence)
+
+cat("IDs to propagate:", nrow(id_propagation), "\n")
+id_propagation
+
+```
+
+
+## Combine + cluster
+
+Combine all links, including those that need to be reviewed into a single entity
+
+```{r}
+# pairs computed through different linkage methods
+all_org_pairs <- bind_rows(
+  id_auto_pairs %>% select(.x, .y, link_tier, match_source),
+  exact_pairs,
+  org_pairs    %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim),
+  bridge_only  %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim, canonical_name)
+)
+
+# build one graph from all non-rejected pairs, treating review links as true
+linkable_pairs <- all_org_pairs %>% filter(link_tier %in% c("auto_link", "review"))
+
+if (nrow(linkable_pairs) > 0) {
+  g_orgs       <- graph_from_data_frame(linkable_pairs %>% select(.x, .y), directed = FALSE)
+  org_clusters <- components(g_orgs)$membership
+  org_cluster_map <- tibble(row_id = as.integer(names(org_clusters)), cluster_num = org_clusters) %>%
+    left_join(orgs %>% select(row_id, Contributor.ID, name_v5), by = "row_id") %>%
+    group_by(cluster_num) %>%
+    mutate(member_key = paste0(coalesce(as.character(Contributor.ID), ""), "::", name_v5),
+           entity_id  = hash_id(member_key, "org")) %>%
+    ungroup() %>%
+    select(row_id, entity_id)
+} else {
+  org_cluster_map <- tibble(row_id = integer(), entity_id = character())
+}
+
+orgs_singletons <- orgs %>%
+  filter(!row_id %in% org_cluster_map$row_id) %>%
+  mutate(member_key = paste0(coalesce(as.character(Contributor.ID), ""), "::", name_v5),
+         entity_id  = vapply(member_key, hash_id, character(1), prefix = "org")) %>%
+  select(row_id, entity_id)
+
+review_org_entity_ids <- all_org_pairs %>%
+  filter(link_tier == "review") %>%
+  left_join(bind_rows(org_cluster_map, orgs_singletons), by = c(".x" = "row_id"),
+            relationship = "many-to-one") %>%
+  filter(!is.na(entity_id)) %>%
+  pull(entity_id) %>%
+  unique()
+
+orgs_resolved <- orgs %>%
+  left_join(bind_rows(org_cluster_map, orgs_singletons), by = "row_id") %>%
+  mutate(needs_review = entity_id %in% review_org_entity_ids)
+
+```
+
+- update to also include match_method for those that need a review and reason for review - could be id propagation or bridge....
+
+```{r}
+orgs_resolved %>% filter(needs_review == TRUE) %>% arrange(entity_id) %>% select(entity_id,Contributor.Name)
+```
+
+
+```{r}
+# inspect resolved clusters (multi-member only)
+orgs_resolved %>%
+  group_by(entity_id) %>%
+  filter(n() > 1) %>%
+  summarise(members = paste(Contributor.Name, collapse = " | "), n = n(), .groups = "drop") %>%
+  arrange(desc(n))
+```
+
+
+```{r}
+all_org_pairs %>%
+  filter(link_tier == "auto_link") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
+  select(name_x, name_y, match_source)
+
+```
+
+
+```{r}
+all_org_pairs %>%
+  filter(link_tier == "review") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
+  select(name_x, name_y, match_source)
+
+```
+
+
+- some that should not match due to local unit nums: e.g. Northern California District Council ILWU (no id) vs Marine Clerks ILWU Local 63- PAC Small Contributor Committee (these were bridged)
+- Laborer's Union Local No. 777 PAC: doesn't have an id and it should, so its matching to other PACs w/ diff local unit numbers
+- look for names in id_map instead of contributions_full
+
+
+# Individuals
+
+- Uninformative vals
+  - look at whether blank is ever in there for individuals (employer or occupation)
+- need to tune what counts as a common name
+- take self employed out of uninfomative_vals? its not capturing all insteances of self employed individuals
+  
+```{r}
+# ── Constants ─────────────────────────────────────────────────────────────────
+UNINFORMATIVE_VALS        <- c("UNKNOWN", "RETIRED", "NONE", "SELF EMPLOYED") 
+FIRST_NAME_MIN            <- 0.85
+MATCH_THRESHOLD           <- 0.90
+STRICT_THRESHOLD          <- 0.94  # both employer & occupation uninformative
+COMMON_NAME_THRESHOLD     <- 0.93  # common name, employer informative
+COMMON_NAME_STRICT        <- 0.97  # common name + both uninformative
+UNCERTAIN_LOW             <- 0.75
+EMPLOYER_CONFLICT_SIM     <- 0.70  # employer sim below this = conflict
+#COMMON_NAME_MIN_COUNT     <- 3     # names appearing >= N times treated as common
+RARE_NAME_UNCERTAIN_LOW <- 0.65  # tune based on what you see in the review queue
+COMMON_LAST_MIN           <- 3
+COMMON_FIRST_MIN          <- 3
+RARE_NAME_UNCERTAIN_LOW   <- 0.65
+
+
+```
+
+
+```{r}
+# compute name frequency
+
+# parse distinct name strings from full dataset
+full_names_parsed <- contributions_full %>%
+  mutate(
+    standardized_name = standardize_names(Contributor.Name),
+    entity_type = if_else(sapply(standardized_name, is_individual), "individual", "organization")
+  ) %>%
+  filter(entity_type == "individual") %>%
+  distinct(standardized_name) %>%
+  bind_cols(parse_names_df(.$standardized_name)) %>%
+  filter(!is.na(last), !is.na(first))
+
+last_name_freq  <- full_names_parsed %>% count(last,  name = "last_name_freq")
+first_name_freq <- full_names_parsed %>% count(first, name = "first_name_freq")
+
+```
+
+```{r}
+#last_name_freq %>% arrange(desc(last_name_freq))
+#first_name_freq %>% arrange(desc(first_name_freq))
+```
+
+
+```{r}
+# parse names 
+parsed_cols <- parse_names_df(
+  contributions %>% filter(entity_type == "individual") %>% pull(standardized_name) # use standardized name here because it has the commas still in it
+)
+
+individuals <- contributions %>%
+  filter(entity_type == "individual") %>%
+  bind_cols(parsed_cols %>% rename(last_name = last, first_name = first)) %>%
+  mutate(
+    original_row_id = row_id,       # preserve for final join back to x
+    row_id          = row_number(), # sequential for pair_blocking compatibility
+    first_initial   = substr(first_name, 1, 1),
+    last_meta       = safe_metaphone(last_name)
+  ) %>%
+  filter(!is.na(last_meta), last_meta != "")
+
+```
+
+
+
+```{r}
+# scoring function
+compare_and_score_indiv <- function(pairs_obj, df) {
+  pairs_obj %>%
+    compare_pairs(
+      on = c("last_name", "first_name", "zip_code_processed",
+             "processed_employer_name", "processed_occupation", "standardized_city"),
+      default_comparator = cmp_jarowinkler(),
+      comparators = list(
+        processed_employer_name = function(a, b) stringsim(a, b, method = "cosine", q = 2),
+        zip_code_processed      = cmp_identical(),
+        processed_occupation    = cmp_identical()
+      )
+    ) %>%
+    as_tibble() %>%
+    # join raw employer/occupation values
+    left_join(df %>% select(row_id, emp_a = processed_employer_name, occ_a = processed_occupation,
+                             city_a = standardized_city),
+              by = c(".x" = "row_id")) %>%
+    left_join(df %>% select(row_id, emp_b = processed_employer_name, occ_b = processed_occupation,
+                             city_b = standardized_city),
+              by = c(".y" = "row_id")) %>%
+    mutate(
+      emp_a_uninf = emp_a %in% UNINFORMATIVE_VALS | is.na(emp_a) | emp_a == "",
+      emp_b_uninf = emp_b %in% UNINFORMATIVE_VALS | is.na(emp_b) | emp_b == "",
+      occ_a_uninf = occ_a %in% UNINFORMATIVE_VALS | is.na(occ_a) | occ_a == "",
+      occ_b_uninf = occ_b %in% UNINFORMATIVE_VALS | is.na(occ_b) | occ_b == "",
+      w_emp  = if_else(emp_a_uninf & emp_b_uninf, 0,    0.25),
+      w_occ  = if_else(occ_a_uninf & occ_b_uninf, 0,    0.10),
+      w_tot  = 0.30 + 0.25 + w_emp + w_occ + 0.07 + 0.03,
+      emp_sim = if_else(emp_a_uninf | emp_b_uninf, 0, coalesce(processed_employer_name, 0)),
+      occ_sim = if_else(occ_a_uninf | occ_b_uninf, 0, coalesce(processed_occupation, 0)),
+      score  = (0.30 * coalesce(last_name, 0) +
+                0.25 * coalesce(first_name, 0) +
+                w_emp * emp_sim +
+                w_occ * occ_sim +
+                0.07 * coalesce(zip_code_processed, 0) +
+                0.03 * coalesce(standardized_city, 0)) / w_tot,
+      both_uninformative = (emp_a_uninf & emp_b_uninf) & (occ_a_uninf & occ_b_uninf),
+    
+      employer_substring = !emp_a_uninf & !emp_b_uninf & mapply(
+        function(a, b) {
+          if (is.na(a) || is.na(b) || a == "" || b == "") return(FALSE)
+          a <- toupper(a); b <- toupper(b)
+          grepl(b, a, fixed = TRUE) || grepl(a, b, fixed = TRUE)
+        },
+        emp_a, emp_b,
+        USE.NAMES = FALSE
+      ),
+    
+      employer_conflict  = !emp_a_uninf & !emp_b_uninf &
+                           !employer_substring &
+                           coalesce(processed_employer_name, 0) < EMPLOYER_CONFLICT_SIM,
+    
+      # city conflict: both cities are known and different (JW < 0.85)
+      city_conflict = (!is.na(city_a) & city_a != "") &
+                      (!is.na(city_b) & city_b != "") &
+                      coalesce(standardized_city, 1) < 0.85
+    ) %>%
+    select(-occ_a, -occ_b,
+           -emp_a_uninf, -emp_b_uninf, -occ_a_uninf, -occ_b_uninf,
+           -w_emp, -w_occ, -w_tot, -emp_sim, -occ_sim,
+           -city_a, -city_b)
+}
+```
+
+```{r}
+# blocking + scoring
+pairs_zip  <- pair_blocking(individuals, on = c("last_meta", "zip_code_processed"), deduplication = TRUE)
+pairs_init <- pair_blocking(individuals, on = c("last_meta", "first_initial"),       deduplication = TRUE)
+
+indiv_pairs <- bind_rows(
+  compare_and_score_indiv(pairs_zip,  individuals),
+  compare_and_score_indiv(pairs_init, individuals)
+) %>%
+  group_by(.x, .y) %>%
+  slice_max(score, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+
+# name frequency adjustment
+indiv_pairs <- indiv_pairs %>%
+  left_join(individuals %>% select(row_id, last_name_str = last_name, first_name_str = first_name),
+            by = c(".x" = "row_id")) %>%
+  left_join(last_name_freq,  by = c("last_name_str"  = "last")) %>%
+  left_join(first_name_freq, by = c("first_name_str" = "first")) %>%
+  mutate(
+    common_last  = coalesce(last_name_freq,  1L) >= COMMON_LAST_MIN,
+    common_first = coalesce(first_name_freq, 1L) >= COMMON_FIRST_MIN,
+    common_name  = common_last & common_first,
+    rare_name    = !common_last & !common_first,
+    match_threshold = case_when(
+      common_name & both_uninformative ~ COMMON_NAME_STRICT,
+      common_name                      ~ COMMON_NAME_THRESHOLD,
+      both_uninformative               ~ STRICT_THRESHOLD,
+      TRUE                             ~ MATCH_THRESHOLD
+    ),
+    # unusual names flagged for review at a lower score bar
+    review_threshold = if_else(rare_name, RARE_NAME_UNCERTAIN_LOW, UNCERTAIN_LOW)
+  ) %>%
+  select(-last_name_str, -first_name_str, -last_name_freq, -first_name_freq)
+
+# link tiers
+indiv_pairs <- indiv_pairs %>%
+  mutate(
+    link_tier = case_when(
+      coalesce(first_name, 0) < FIRST_NAME_MIN ~ "no_link",
+      common_name & both_uninformative ~ "no_link",
+      city_conflict & both_uninformative ~ "no_link",
+      common_name & city_conflict ~ "no_link",       # city disagreement is enough to reject common names
+      common_name & employer_conflict ~ "no_link",   # clearly different employers also enough for common names
+      score < review_threshold ~ "no_link",
+      score >= match_threshold ~ "auto_link",
+      TRUE                                           ~ "review"
+    ),
+    match_source = "internal_fuzzy"
+  )
+
+cat("Individual pairs — auto_link:", sum(indiv_pairs$link_tier == "auto_link"),
+    "| review:", sum(indiv_pairs$link_tier == "review"),
+    "| employer conflicts in review:", sum(indiv_pairs$employer_conflict & indiv_pairs$link_tier == "review"), "\n")
+
+```
+
+
+## Cluster individuals
+
+```{r}
+# treat all links as true, review after classifications
+linkable_indiv_pairs <- indiv_pairs %>% filter(link_tier %in% c("auto_link", "review"))
+
+if (nrow(linkable_indiv_pairs) > 0) {
+  g_indiv        <- graph_from_data_frame(linkable_indiv_pairs %>% select(.x, .y), directed = FALSE)
+  indiv_clusters <- components(g_indiv)$membership
+  indiv_cluster_map <- tibble(row_id = as.integer(names(indiv_clusters)), cluster_num = indiv_clusters) %>%
+    left_join(individuals %>% select(row_id, Contributor.ID, standardized_name), by = "row_id") %>%
+    mutate(member_key = paste0(coalesce(as.character(Contributor.ID), ""), "::", standardized_name)) %>%
+    group_by(cluster_num) %>%
+    mutate(entity_id = hash_id(member_key, "indiv")) %>%
+    ungroup() %>%
+    left_join(individuals %>% select(row_id, original_row_id), by = "row_id") %>%
+    select(row_id = original_row_id, entity_id)
+} else {
+  indiv_cluster_map <- tibble(row_id = integer(), entity_id = character())
+}
+
+indiv_singletons <- individuals %>%
+  filter(!original_row_id %in% indiv_cluster_map$row_id) %>%
+  mutate(member_key = paste0(coalesce(as.character(Contributor.ID), ""), "::", standardized_name),
+         entity_id  = vapply(member_key, hash_id, character(1), prefix = "indiv")) %>%
+  select(row_id = original_row_id, entity_id)
+
+# within-individuals row_id to entity_id map (needed for needs_review flag)
+# indiv_pairs uses within-individuals row_id; cluster_map was renamed to original_row_id
+indiv_internal_to_entity <- individuals %>%
+  select(row_id, original_row_id) %>%
+  left_join(bind_rows(indiv_cluster_map, indiv_singletons), by = c("original_row_id" = "row_id"))
+
+review_indiv_entity_ids <- indiv_pairs %>%
+  filter(link_tier == "review") %>%
+  left_join(indiv_internal_to_entity %>% select(row_id, entity_id), by = c(".x" = "row_id"),
+            relationship = "many-to-one") %>%
+  filter(!is.na(entity_id)) %>%
+  pull(entity_id) %>%
+  unique()
+
+# use longer employer name for pairs when one employer is the exact substring of another
+employer_normalization <- indiv_pairs %>%
+  filter(employer_substring) %>%
+  mutate(longer = if_else(nchar(coalesce(emp_a, "")) >= nchar(coalesce(emp_b, "")), emp_a, emp_b)) %>%
+  select(.x, .y, longer) %>%
+  pivot_longer(c(.x, .y), names_to = "side", values_to = "row_id") %>%
+  group_by(row_id) %>%
+  slice_max(nchar(coalesce(longer, "")), n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
+  select(row_id, normalized_employer = longer)
+
+
+individuals_resolved <- individuals %>%
+  left_join(bind_rows(indiv_cluster_map, indiv_singletons), by = c("original_row_id" = "row_id")) %>%
+  mutate(needs_review = entity_id %in% review_indiv_entity_ids)
+
+individuals_resolved <- individuals_resolved %>%
+  left_join(employer_normalization, by = "row_id") %>%
+  mutate(classification_employer = coalesce(normalized_employer, processed_employer_name))
+
+
+```
+
+
+# CHOOSE CANONICAL NAMES
+
+```{r}
+entity_canonical <- bind_rows(
+
+  # orgs: use longest with contributor id; else longest overall
+  orgs_resolved %>%
+    group_by(entity_id) %>%
+    summarise(
+      canonical_name = {
+        with_id <- Contributor.Name[has_contributor_id]
+        if (length(with_id) > 0)
+          with_id[which.max(nchar(with_id))]
+        else
+          Contributor.Name[which.max(nchar(Contributor.Name))]
+      },
+      canonical_id = if (any(has_contributor_id))
+        names(sort(table(Contributor.ID[has_contributor_id]), decreasing = TRUE))[1]
+      else NA_character_,
+      entity_type = "organization",
+      .groups = "drop"
+    ),
+
+  # individuals: use longest name with most complete info; else longest overall
+  individuals_resolved %>%
+    group_by(entity_id) %>%
+    summarise(
+      canonical_name = {
+        has_info   <- !processed_employer_name %in% c("UNKNOWN", "NONE", "RETIRED", "", NA) &
+                       !is.na(standardized_city) & standardized_city != ""
+        candidates <- Contributor.Name[has_info]
+        if (length(candidates) > 0)
+          candidates[which.max(nchar(candidates))]
+        else
+          Contributor.Name[which.max(nchar(Contributor.Name))]
+      },
+      canonical_id = NA_character_,
+      entity_type  = "individual",
+      .groups = "drop"
+    )
+)
+
+```
+
+
+
+# PRODUCE FINAL OUTPUT
+
+uninformative employer vals treated as not counting toward multiple employers
+- could drop uninformative employer vals filter in employer_units
+
+```{r}
+
+#UNINFORMATIVE_EMPLOYER_VALS <- c("UNKNOWN", "RETIRED", "NONE", "SELF EMPLOYED", "", NA)
+
+parse_date_safe <- function(x) suppressWarnings(as.Date(x, format = "%Y-%m-%d"))
+
+all_members <- bind_rows(
+  orgs_resolved %>%
+    transmute(
+      entity_id, contribution_id, needs_review,
+      entity_type_raw = "organization",
+      has_pac_language,
+      raw_name = Contributor.Name,
+      normalized_name = name_v5, # Do i want to do standardized name instead? 
+      #blocking_key = block_key,
+      raw_employer = NA_character_, raw_occupation = NA_character_,
+      processed_employer_name = NA_character_, processed_occupation = NA_character_,
+      raw_city = Contributor.City, raw_state = Contributor.State, raw_zip = Contributor.Zip.Code,
+      contribution_amount = Amount,
+      race_or_proposition_id = race_prop,
+      event_date = parse_date_safe(Start.Date)
+    ),
+  individuals_resolved %>%
+    transmute(
+      entity_id, contribution_id, needs_review,
+      entity_type_raw = "individual",
+      has_pac_language = FALSE,
+      raw_name = Contributor.Name,
+      normalized_name = standardized_name,
+      #blocking_key = paste(last_meta, zip_code_processed, first_initial, sep = "|"),
+      raw_employer = Contributor.Employer, raw_occupation = Contributor.Occupation,
+      processed_employer_name, processed_occupation,
+      raw_city = Contributor.City, raw_state = Contributor.State, raw_zip = Contributor.Zip.Code,
+      contribution_amount = Amount,
+      race_or_proposition_id = race_prop,
+      event_date = parse_date_safe(Start.Date)
+    )
+)
+
+```
+
+
+
+## entity contribution totals by race
+
+```{r}
+entity_race_totals <- bind_rows(
+  orgs_resolved        %>% select(entity_id, cont_row_id),
+  individuals_resolved %>% select(entity_id, cont_row_id = original_row_id)
+) %>%
+  left_join(contributions %>% select(row_id, race_prop, Amount), by = c("cont_row_id" = "row_id")) %>%
+  group_by(entity_id, race_prop) %>%
+  summarise(entity_total = sum(Amount, na.rm = TRUE), .groups = "drop")
+
+entity_max_amounts <- entity_race_totals %>%
+  group_by(entity_id) %>%
+  summarise(max_race_total = max(entity_total, na.rm = TRUE), .groups = "drop")
+
+```
+
+### review matching - individuals
+
+```{r}
+indiv_5k_row_ids <- individuals_resolved %>%
+  filter(entity_id %in% (entity_max_amounts %>%
+           filter(max_race_total >= 5000) %>% pull(entity_id))) %>%
+  pull(row_id)
+
+pair_detail_cols <- c("name_x", "name_y", "employer_x", "employer_y",
+                      "occ_x", "occ_y", "city_x", "city_y",
+                      "score", "match_threshold", "employer_conflict",
+                      "common_name", "both_uninformative")
+
+add_names <- function(pairs) {
+  pairs %>%
+    left_join(individuals %>% select(row_id, name_x = processed_name,
+                                      employer_x = processed_employer_name,
+                                      occ_x = processed_occupation,
+                                      city_x = standardized_city,
+                                     zip_x = zip_code_processed),
+              by = c(".x" = "row_id")) %>%
+    left_join(individuals %>% select(row_id, name_y = processed_name,
+                                      employer_y = processed_employer_name,
+                                      occ_y = processed_occupation,
+                                      city_y = standardized_city,
+                                     zip_y = zip_code_processed),
+              by = c(".y" = "row_id"))
+}
+
+# review individuals that meet the $5k threshold
+indiv_review_5k <- indiv_pairs %>%
+  filter(link_tier == "review",
+         .x %in% indiv_5k_row_ids | .y %in% indiv_5k_row_ids) %>%
+  add_names() %>%
+  select(all_of(pair_detail_cols)) %>%
+  arrange(desc(score))
+
+# auto-links that meet $5k threshold
+indiv_auto_5k <- indiv_pairs %>%
+  filter(link_tier == "auto_link",
+         .x %in% indiv_5k_row_ids | .y %in% indiv_5k_row_ids) %>%
+  add_names() %>%
+  select(all_of(pair_detail_cols)) %>%
+  arrange(score)
+
+```
+
+```{r,eval=FALSE}
+indiv_review_5k %>% arrange(score)
+#indiv_auto_5k %>% arrange(score) %>% distinct()
+```
+
+- commas in names that shouldn't be there
+- are still seeing some with scores of 0.75 that are clearly the same person
+- employer and occupation both informative, should never tolerate different cities, esp when either name is common
+  - Cynthia Anderson is a case where they probs are the same person, but don't think we can make that assumption.. 
+  - bill bloomfield is another one with a city conlflict, commong name, no employer or occupation info, but probs the same person
+- UC DAVIS vs University of California Davis
+- UCLA vs University of California
+
+```{r}
+#contributions %>% filter(grepl("Van Nest, Robert",Contributor.Name))
+contributions[which(contributions$processed_employer_name == "N/A"),]
+```
+- this should not be the case...
+
+### review matching -- orgs
+
+
+```{r}
+# org review queue
+org_review_queue <- all_org_pairs %>%
+  filter(link_tier == "review") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name, city_x = Contributor.City,
+                             state_x = Contributor.State),
+            by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name, city_y = Contributor.City,
+                             state_y = Contributor.State),
+            by = c(".y" = "row_id")) %>%
+  left_join(orgs_resolved %>% distinct(row_id, entity_id), by = c(".x" = "row_id"),
+            relationship = "many-to-one") %>%
+  left_join(entity_max_amounts, by = "entity_id") %>%
+  select(.x, .y, name_x, name_y, city_x, city_y, state_x, state_y,
+         match_source, name_jw, name_cosine, name_sim, canonical_name,
+         entity_id, max_race_total) %>%
+  arrange(desc(coalesce(name_sim, 0)))
+
+# filter to $5k entities
+org_review_queue %>%
+  filter(coalesce(max_race_total, 0) >= 5000) %>%
+  select(name_x, name_y, city_x, city_y, match_source,
+         name_jw, name_cosine, name_sim, canonical_name, max_race_total)
+
+# auto-links
+all_org_pairs %>%
+  filter(link_tier == "auto_link") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name, city_x = Contributor.City),
+            by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name, city_y = Contributor.City),
+            by = c(".y" = "row_id")) %>%
+  select(name_x, name_y, city_x, city_y, match_source, name_jw, name_cosine, name_sim, canonical_name) %>%
+  arrange(coalesce(name_sim, 1))  # lowest confidence first
+
+```
+
+```{r,eval=FALSE}
+contributions[which(contributions$Contributor.Name == "IBEW Local 684 PAC"),]
+#contributions[which(contributions$Contributor.Name == "IBEW Local 6 Political Account"),]
+contributions[which(contributions$Contributor.Name == "IBEW PAC Educational Fund (FEC ID #C00027342)"),]
+```
+
+
+
+## entity 
+
+Note that contribution_id is not necessarily unique to contributions. 
+- can be more than one contribution with the exact same info.
+
+```{r}
+entity_aliases_out <- all_members %>%
+  #filter(!entity_id %in% flagged_entity_ids) %>%
+  group_by(entity_id, raw_name, normalized_name) %>% # , blocking_key
+  summarise(
+    occurrence_count = n(),
+    source_contribution_ids = paste(contribution_id, collapse = ";"),
+    .groups = "drop"
+  ) %>%
+  mutate(alias_id = hash_id(paste(entity_id, raw_name), "alias")) %>%
+  select(alias_id, entity_id, raw_name, normalized_name, 
+         occurrence_count, source_contribution_ids) # blocking_key
+
+#write_csv(entity_aliases_out, "entity_aliases.csv")
+
+```
+
+
+## entity attributes
+
+- not sure about using contribution_id here
+
+```{r}
+build_attribute_rows <- function(df, attr_type, raw_col, norm_col) {
+  df %>%
+    #filter(!entity_id %in% flagged_entity_ids, !is.na(.data[[raw_col]]), .data[[raw_col]] != "") %>%
+    filter(!is.na(.data[[raw_col]]), .data[[raw_col]] != "") %>%
+    group_by(entity_id, value = .data[[raw_col]], normalized_value = .data[[norm_col]]) %>%
+    summarise(
+      occurrence_count = n(),
+      total_amount_for_this_value = sum(contribution_amount, na.rm = TRUE),
+      first_seen_contribution_id = contribution_id[which.min(event_date)],
+      last_seen_contribution_id  = contribution_id[which.max(event_date)],
+      .groups = "drop"
+    ) %>%
+    mutate(attribute_type = attr_type, .before = value)
+}
+
+entity_attributes <- bind_rows(
+  build_attribute_rows(all_members, "city",  "raw_city",  "raw_city"),
+  build_attribute_rows(all_members, "state", "raw_state", "raw_state"),
+  build_attribute_rows(all_members, "zip", "raw_zip", "raw_zip"),
+  build_attribute_rows(all_members %>% filter(entity_type_raw == "individual"),
+                        "employer",   "raw_employer",   "processed_employer_name"),
+  build_attribute_rows(all_members %>% filter(entity_type_raw == "individual"),
+                        "occupation", "raw_occupation", "processed_occupation")
+)
+
+#write_csv(entity_attributes, "entity_attributes.csv")
+
+```
+
+
+# ENTITIES OUTPUT
+
+
+**change has pac language to has contributor id**
+
+
+```{r}
+entity_type_lookup <- all_members %>%
+  distinct(entity_id, entity_type_raw, has_pac_language) %>%
+  group_by(entity_id) %>%
+  summarise(
+    entity_type = case_when(
+      first(entity_type_raw) == "individual" ~ "individual",
+      any(has_pac_language)                   ~ "committee", # want to do has contributor id here
+      TRUE                                     ~ "org"
+    ),
+    .groups = "drop"
+  )
+
+entity_totals <- all_members %>%
+  group_by(entity_id) %>%
+  summarise(total_contribution_amount = sum(contribution_amount, na.rm = TRUE),
+            cluster_size = n(), .groups = "drop")
+
+entity_needs_review <- all_members %>%
+  group_by(entity_id) %>%
+  summarise(needs_review = any(needs_review), .groups = "drop")
+
+entity_crosses_threshold <- entity_max_amounts %>%
+  transmute(entity_id, crosses_threshold = max_race_total >= 5000)
+
+
+entity_race_totals_nested <- entity_race_totals %>%
+  rename(race_or_proposition_id = race_prop, total_amount = entity_total) %>%
+  mutate(crosses_threshold = total_amount >= 5000) %>%
+  tidyr::nest(race_totals = c(race_or_proposition_id, total_amount, crosses_threshold))
+
+entity_aliases_nested <- all_members %>%
+  distinct(entity_id, raw_name, normalized_name, contribution_id) %>% # blocking_key
+  group_by(entity_id, raw_name, normalized_name) %>% # blocking_key
+  summarise(occurrence_count = n(),
+            source_contribution_ids = paste(contribution_id, collapse = ";"),
+            .groups = "drop") %>%
+  tidyr::nest(aliases = c(raw_name, normalized_name,
+                          occurrence_count, source_contribution_ids)) #blocking_key
+
+# change these to be normalize version of city and state
+entity_attributes_nested <- bind_rows(
+  build_attribute_rows(all_members, "city",  "raw_city",  "raw_city"),
+  build_attribute_rows(all_members, "state", "raw_state", "raw_state"),
+  build_attribute_rows(all_members, "zip", "raw_zip", "raw_zip"),
+  build_attribute_rows(all_members %>% filter(entity_type_raw == "individual"),
+                        "occupation", "raw_occupation", "processed_occupation")
+) %>%
+  tidyr::nest(attributes = c(attribute_type, value, normalized_value, occurrence_count,
+                             total_amount_for_this_value,
+                             first_seen_contribution_id, last_seen_contribution_id))
+
+
+# incorporate when available
+#prior_entity_classifications <- tryCatch(
+#  read_csv("entity_classifications.csv", show_col_types = FALSE),
+#  error = function(e) tibble(entity_id = character(), industry_code = character(),
+#                              confidence = double(), method = character())
+#)
+
+
+entities <- entity_canonical %>%
+  select(entity_id, canonical_name) %>%
+  left_join(entity_type_lookup,        by = "entity_id") %>%
+  left_join(entity_totals,             by = "entity_id") %>%
+  left_join(entity_crosses_threshold,  by = "entity_id") %>%
+  left_join(entity_needs_review,       by = "entity_id") %>%
+  left_join(entity_aliases_nested,     by = "entity_id") %>%
+  left_join(entity_attributes_nested,  by = "entity_id") %>%
+  left_join(entity_race_totals_nested, by = "entity_id") %>%
+  #left_join(prior_entity_classifications, by = "entity_id") %>%
+  mutate(
+    crosses_threshold  = coalesce(crosses_threshold, FALSE),
+    needs_review       = coalesce(needs_review, FALSE),
+    status             = "active",
+    name_for_matching  = if_else(entity_type == "individual", NA_character_, canonical_name),
+    #industry_code      = if_else(entity_type == "individual", NA_character_, industry_code),
+    #already_classified = if_else(entity_type == "individual", NA,           !is.na(industry_code))
+  ) %>%
+  select(entity_id, entity_type, canonical_name, status, cluster_size,
+         total_contribution_amount, crosses_threshold, needs_review,
+         name_for_matching, 
+         aliases, attributes, race_totals) # already_classified, industry_code
+
+
+#saveRDS(entities, "entities.rds")                          
+#jsonlite::write_json(entities, "entities.json", auto_unbox = TRUE, na = "null", pretty = TRUE)
+
+```
+
+
+# TAGGED CONTRIBUTORS FILE
+
+```{r}
+row_to_entity_all <- bind_rows(
+  orgs_resolved        %>% select(row_id = cont_row_id, entity_id),
+  individuals_resolved %>% select(row_id = original_row_id, entity_id)
+) #%>% distinct()
+
+contributions_tagged <- contributions %>%
+  left_join(row_to_entity_all, by = "row_id") %>% # , relationship = "many-to-one"
+  left_join(entity_type_lookup, by = "entity_id")
+
+#write_csv(contributions_tagged, "contributions_tagged.csv")
+
+```
+
+
+# CLASSIFICATION INPUT
+
+```{r}
+
+auto_org_links <- all_org_pairs %>% filter(link_tier == "auto_link") %>% select(.x, .y)
+if (nrow(auto_org_links) > 0) {
+  auto_org_comp <- components(graph_from_data_frame(auto_org_links, directed = FALSE))$membership
+  org_auto_unit_map <- tibble(row_id = as.integer(names(auto_org_comp)), auto_unit = auto_org_comp)
+} else {
+  org_auto_unit_map <- tibble(row_id = integer(), auto_unit = integer())
+}
+
+auto_indiv_links <- indiv_pairs %>% filter(link_tier == "auto_link") %>% select(.x, .y)
+if (nrow(auto_indiv_links) > 0) {
+  auto_indiv_comp <- components(graph_from_data_frame(auto_indiv_links, directed = FALSE))$membership
+  indiv_auto_unit_map <- tibble(row_id = as.integer(names(auto_indiv_comp)), auto_unit = auto_indiv_comp)
+} else {
+  indiv_auto_unit_map <- tibble(row_id = integer(), auto_unit = integer())
+}
+
+# orgs
+org_units <- orgs_resolved %>%
+  left_join(org_auto_unit_map, by = "row_id") %>%
+  mutate(unit_key = if_else(!is.na(auto_unit),
+                             paste0(entity_id, "::", auto_unit),
+                             paste0(entity_id, "::solo::", row_id))) %>%
+  group_by(entity_id, unit_key) %>%
+  summarise(
+    entity_type    = "organization",
+    needs_review   = any(needs_review),
+    canonical_name = { n <- Contributor.Name; w <- n[has_contributor_id]
+                       if (length(w) > 0) w[which.max(nchar(w))] else n[which.max(nchar(n))] },
+    canonical_id   = { ids <- Contributor.ID[has_contributor_id & !is.na(Contributor.ID)]
+                       if (length(ids) > 0) names(sort(table(ids), decreasing = TRUE))[1] else NA_character_ },
+    employer       = NA_character_,
+    occupation     = NA_character_,
+    city           = names(sort(table(Contributor.City[!is.na(Contributor.City)]),  decreasing = TRUE))[1],
+    state          = names(sort(table(Contributor.State[!is.na(Contributor.State)]), decreasing = TRUE))[1],
+    zip          = names(sort(table(Contributor.Zip.Code[!is.na(Contributor.Zip.Code)]), decreasing = TRUE))[1],
+    total_amount   = sum(Amount, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# individual units: one row per {sub-cluster × employer × occupation}
+# conflicting employer or occupation within a cluster leads to separate classification rows
+indiv_units <- individuals_resolved %>%
+  left_join(indiv_auto_unit_map, by = "row_id") %>%
+  mutate(
+    auto_cluster = if_else(!is.na(auto_unit),
+                           paste0(entity_id, "::", auto_unit),
+                           paste0(entity_id, "::solo::", original_row_id)),
+    employer_key = coalesce(processed_employer_name, ""),
+    occ_key      = coalesce(processed_occupation, ""),
+    unit_key     = paste(auto_cluster, employer_key, occ_key, sep = "||")
+  ) %>%
+  group_by(entity_id, unit_key) %>%
+  summarise(
+    entity_type    = "individual",
+     needs_review   = any(needs_review),
+    canonical_name = { has_info <- !is.na(processed_employer_name) & processed_employer_name != "" &
+                                   !is.na(standardized_city) & standardized_city != ""
+                       cands <- standardized_name[has_info]
+                       if (length(cands) > 0) cands[which.max(nchar(cands))]
+                       else standardized_name[which.max(nchar(standardized_name))] },
+    canonical_id   = { ids <- Contributor.ID[!is.na(Contributor.ID) & Contributor.ID != ""]
+                       if (length(ids) > 0) names(sort(table(ids), decreasing = TRUE))[1] else NA_character_ },
+    employer       = first(na.omit(processed_employer_name[processed_employer_name != ""])),
+    occupation     = first(na.omit(processed_occupation[processed_occupation != ""])),
+    city           = names(sort(table(standardized_city[!is.na(standardized_city)]),  decreasing = TRUE))[1],
+    state          = names(sort(table(Contributor.State[!is.na(Contributor.State)]), decreasing = TRUE))[1],
+    zip          = names(sort(table(Contributor.Zip.Code[!is.na(Contributor.Zip.Code)]), decreasing = TRUE))[1],
+    total_amount   = sum(Amount, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+over_5k_entity_ids <- entity_max_amounts %>% filter(max_race_total >= 5000) %>% pull(entity_id)
+
+classification_input <- bind_rows(org_units, indiv_units) %>%
+  filter(entity_id %in% over_5k_entity_ids) %>%
+  mutate(classification_unit_id = map_chr(unit_key, ~ hash_id(.x, "unit"))) %>%
+  left_join(entity_max_amounts, by = "entity_id") %>%
+  mutate(crosses_threshold = max_race_total >= 5000) %>%
+  select(classification_unit_id, entity_id, entity_type, needs_review,
+         canonical_id, canonical_name, employer, occupation, city, state, zip,
+         total_amount, crosses_threshold)
+
+#write_csv(classification_input, "classification_input.csv")
+
+```
+
+```{r}
+#write_csv(classification_input, "classification_input.csv")
+```
+
+```{r}
+classification_input
+```
+
+
+
+
+
+
+
+
+
+  
+  
+  

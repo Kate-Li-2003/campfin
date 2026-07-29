@@ -37,3 +37,13 @@ env/
 
 # ── macOS ─────────────────────────────────────────────────────────────────────
 .DS_Store
+
+# ── R / RMarkdown ─────────────────────────────────────────────────────────────
+*.nb.html
+*.html
+
+# ── Large data files in 08_alternative_pipeline ─────────────────────────────
+code/08_alternative_pipeline/08_inputs/FILERNAME_CD.TSV
+code/08_alternative_pipeline/08_inputs/ContributionOpenSecretsCategories.csv
+code/08_alternative_pipeline/08_inputs/power_search_gov_race_072426.csv
+

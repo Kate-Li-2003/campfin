@@ -1,0 +1,1528 @@
+classification_unit_id,entity_id,entity_type,needs_review,canonical_name,employer,occupation,city,state,total_amount,crosses_threshold
+unit_b5c609a3,org_01307973,organization,FALSE,California Association of Health Facilities Southern Region PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_62bbadfa,org_01a34065,organization,FALSE,Plumbers and Steamfitters Local 460 PAC,NA,NA,Bakersfield,CA,20000,TRUE
+unit_e2f4bddf,org_01d6114a,organization,FALSE,Palo Alto Foundation Medical Group,NA,NA,Los Altos,CA,39200,TRUE
+unit_532c0a0f,org_01f743f4,organization,FALSE,Nixon & Associates,NA,NA,Santa Monica,CA,5000,TRUE
+unit_3aad2abc,org_02219b46,organization,FALSE,Davidson Communities,NA,NA,Del Mar,CA,5000,TRUE
+unit_80c985f7,org_027ef62e,organization,FALSE,"Panish, Shea, Ravipudi LLP",NA,NA,Los Angeles,CA,14800,TRUE
+unit_a1731b79,org_050b1340,organization,FALSE,"Vitu, Inc.",NA,NA,Agoura Hills,CA,39200,TRUE
+unit_d8114b6a,org_0558b63d,organization,FALSE,"Mapes Ranch, LP (William J. Lyons Jr)",NA,NA,Modesto,CA,15500,TRUE
+unit_fada5fa5,org_05a49c56,organization,FALSE,Laborers Pacific Southwest Regional Organizing Coalition PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_f2926c23,org_05c63f0d,organization,FALSE,Tina McKinnor For Assembly 2026,NA,NA,Los Angeles,CA,5000,TRUE
+unit_26f6e78b,org_07f4798f,organization,FALSE,Yuhaaviatam of San Manuel Nation,NA,NA,Los Angeles,CA,78400,TRUE
+unit_c1cd39f3,org_0803aec8,organization,FALSE,SEIU California State Council Small Contributor Committee,NA,NA,Sacramento,CA,98000,TRUE
+unit_27ecb636,org_082d2d89,organization,FALSE,Southern California Pipe Trades District Council No. 16 Political Action Committee,NA,NA,Los Angeles,CA,66500,TRUE
+unit_d5771576,org_0883a3d9,organization,FALSE,California Farm Bureau Federation Fund to Protect the Family Farm (FARM PAC),NA,NA,Sacramento,CA,10000,TRUE
+unit_06a242a0,org_08e28e5f,organization,FALSE,Association for Consumer Debt Relief,NA,NA,Washington,DC,39200,TRUE
+unit_37faee73,org_0c2c4682,organization,FALSE,Blue Shield of California,NA,NA,Oakland,CA,39200,TRUE
+unit_931c055b,org_0d4a8691,organization,FALSE,Redding Rancheria Tribe,NA,NA,Redding,CA,10000,TRUE
+unit_24e81a8c,org_0d4fb7f6,organization,FALSE,JWH Wilcox Holdings LLC,NA,NA,Santa Ana,CA,5000,TRUE
+unit_c8145b1f,org_0d6769e0,organization,FALSE,ACT Political,NA,NA,Pasadena,CA,5000,TRUE
+unit_4fd9e975,org_0d7dc9de,organization,FALSE,California Professional Firefighters PAC Small Contributor Committee,NA,NA,Sacramento,CA,85900,TRUE
+unit_a0eafe61,org_0d808f74,organization,FALSE,Kiss Nail Products Inc,NA,NA,Port Washington,NY,9800,TRUE
+unit_cc956b53,org_0edbbf91,organization,FALSE,Local 770 United Food and Commercial Workers PAC,NA,NA,Los Angeles,CA,78400,TRUE
+unit_ad513589,org_0eedb964,organization,FALSE,American Physicians for Change AP4C,NA,NA,Union City,CA,5000,TRUE
+unit_35f4f5f0,org_0f0c8a92,organization,FALSE,"Taylor Fresh Foods, Inc.",NA,NA,Salinas,CA,39200,TRUE
+unit_661f3dfc,org_0f1fb4c2,organization,FALSE,International Brotherhood of Boilermakers Local 92 PAC,NA,NA,Sacramento,CA,11800,TRUE
+unit_ee484df1,org_0f606756,organization,FALSE,D&N Management LLC (Dominic Assali),NA,NA,Ceres,CA,39200,TRUE
+unit_5cc7c1ef,org_0f7c5dbb,organization,FALSE,"California Dairies, Inc",NA,NA,Visalia,CA,39200,TRUE
+unit_d14a8459,org_0fb11bac,organization,FALSE,J & L Capital Resources,NA,NA,Kingsburg,CA,15000,TRUE
+unit_ad370c59,org_112ea04f,organization,FALSE,U.A. Local 38 COPE Fund,NA,NA,San Francisco,CA,10000,TRUE
+unit_8171bcff,org_11525b76,organization,FALSE,Service Employees International Union SEIU Local 2015 State PAC,NA,NA,Sacramento,CA,76200,TRUE
+unit_c55c3f13,org_11c4751a,organization,FALSE,"Lyons Investments, LP (William J. Lyons Jr)",NA,NA,Modesto,CA,15500,TRUE
+unit_2376e8cb,org_124cbea9,organization,FALSE,Llorente & Heckler PA,NA,NA,Miami,FL,13000,TRUE
+unit_76baf07b,org_12515f55,organization,FALSE,IBEW Local 6 Political Account,NA,NA,San Francisco,CA,10000,TRUE
+unit_c2e72093,org_1290103d,organization,FALSE,California Water Association Political Action Committee,NA,NA,Sacramento,CA,14000,TRUE
+unit_47d31abf,org_135fe759,organization,FALSE,Revenue Based Finance Coalition Nonprofit 501(c)(6),NA,NA,Arlington,VA,39200,TRUE
+unit_da245edb,org_13985e45,organization,FALSE,English Lloyd & Armenta (Juan Armenta),NA,NA,Rancho Mirage,CA,5000,TRUE
+unit_75de0fae,org_142d9e53,organization,FALSE,Oaktree Ag Management Inc. (Miguel Reyes),NA,NA,Chowchilla,CA,5000,TRUE
+unit_7df479f9,org_146dfc1a,organization,FALSE,Service Employees International Union Local 1000 Candidate PAC,NA,NA,Sacramento,CA,29700,TRUE
+unit_6e65e076,org_151bdeac,organization,FALSE,"SunPoint Public Adjusters, Inc.",NA,NA,Walnut Creek,CA,5000,TRUE
+unit_25e74a3e,org_152f99dd,organization,FALSE,"Service Employees International Union Local 721 CTW, CLC State & Local",NA,NA,Los Angeles,CA,23600,TRUE
+unit_b9bbe045,org_15c9a400,organization,FALSE,"Genentech, Inc.",NA,NA,South San Francisco,CA,73400,TRUE
+unit_de9b44a6,org_162e707b,organization,FALSE,"AC Disaster Consulting, LLC",NA,NA,Denver,CO,32000,TRUE
+unit_6829296d,org_16b513ca,organization,FALSE,O.P.C. Farms Inc.,NA,NA,Hanford,CA,5000,TRUE
+unit_b6ee0318,org_16eadff5,organization,FALSE,United Association Political Action Fund,NA,NA,Annapolis,MD,39200,TRUE
+unit_8ef83921,org_16f934c3,organization,FALSE,"Prima Waste Management, Inc. (Fernando Vasquez)",NA,NA,Downey,CA,10000,TRUE
+unit_21ba47ce,org_174fd9bd,organization,FALSE,State Building and Construction Trades Council of California PAC,NA,NA,Sacramento,CA,58800,TRUE
+unit_adf76783,org_17622e06,organization,FALSE,Faria Land & Cattle Company LLC,NA,NA,Tipton,CA,5000,TRUE
+unit_1987f619,org_178515c1,organization,FALSE,Colusa Indian Community Council,NA,NA,Colusa,CA,39200,TRUE
+unit_b4d91845,org_19037dbc,organization,FALSE,United Nurses Association of California/Union of Health Care Professionals PAC (UNAC PAC) Small Contributor Committee,NA,NA,Sacramento,CA,88400,TRUE
+unit_9f03ac7b,org_196d532f,organization,FALSE,Pipe Trades District Council #36 PAC,NA,NA,Fresno,CA,39200,TRUE
+unit_3366403b,org_19eb6829,organization,FALSE,Sacramento Area Fire Fighters Local 522 Political Action Committee,NA,NA,Sacramento,CA,39200,TRUE
+unit_84989684,org_19f90537,organization,FALSE,Dimension Energy,NA,NA,Atlanta,GA,39200,TRUE
+unit_611bae7a,org_1a897d1d,organization,FALSE,Plumbers and Pipefitters Local 364 PAC,NA,NA,Colton,CA,20000,TRUE
+unit_e8eb89c6,org_1b992825,organization,FALSE,LCS Electrical & Industrial Services Inc. dba Quantum Industries,NA,NA,Bakersfield,CA,5000,TRUE
+unit_e2478c1f,org_1bd8ef90,organization,FALSE,Calpine Corporation,NA,NA,Houston,TX,5500,TRUE
+unit_6aac1e75,org_1d4785af,organization,FALSE,"West Coast University, Inc.",NA,NA,Irvine,CA,39200,TRUE
+unit_04d9c02c,org_1d974ba0,organization,FALSE,Smartwash Solutions LLC,NA,NA,Salinas,CA,39200,TRUE
+unit_b8924ac9,org_1db7bbd3,organization,FALSE,Santa Ynez Band Of Mission Indians,NA,NA,Santa Ynez,CA,39200,TRUE
+unit_403e1128,org_1e5babc9,organization,FALSE,Golden Bear Insurance Co - Art Terner,NA,NA,Stockton,CA,9800,TRUE
+unit_2386cca9,org_1e5f5a43,organization,FALSE,"Kiesel Law, LLP",NA,NA,Beverly Hills,CA,9000,TRUE
+unit_052cf606,org_2048c7df,organization,FALSE,Altamed Health Network Inc.,NA,NA,Montebello,CA,78400,TRUE
+unit_95c555de,org_208ac8c2,organization,FALSE,Los Angeles County Building and Construction Trades Council - Political Action Committee,NA,NA,Los Angeles,CA,20000,TRUE
+unit_ecadac96,org_2097906f,organization,FALSE,"Lallande Law, PLC (M. Lawrence Lallande)",NA,NA,Long Beach,CA,5000,TRUE
+unit_d9f22dcc,org_20b8a239,organization,FALSE,K & M Visser Dairy,NA,NA,Pixley,CA,5000,TRUE
+unit_f2205934,org_2310af1d,organization,FALSE,Planned Parenthood of Orange and San Bernardino Counties Community Action Fund PAC,NA,NA,Sacramento,CA,5000,TRUE
+unit_ff93477f,org_2350f2c0,organization,FALSE,California Pawnbrokers Association PAC,NA,NA,Sacramento,CA,15000,TRUE
+unit_d5c6c5b1,org_2351e445,organization,FALSE,Marin Professional Firefighters Political Action Committee,NA,NA,Sacramento,CA,5000,TRUE
+unit_ab6ee7f8,org_2478a6b4,organization,FALSE,"Meta Platforms, Inc.",NA,NA,Menlo Park,CA,9800,TRUE
+unit_d8c66d38,org_26cc9087,organization,FALSE,Professional Engineers in California Government PAC (PECG PAC) Small Contributor Committee,NA,NA,Sacramento,CA,43200,TRUE
+unit_050eff73,org_275708f1,organization,FALSE,"Jules and Associates, Inc. (Jules Buenabenta)",NA,NA,Los Angeles,CA,39200,TRUE
+unit_eae9adc5,org_2772dd4a,organization,FALSE,Doong Ji Inc.,NA,NA,Diamond Bar,CA,30000,TRUE
+unit_687cf265,org_2845487c,organization,FALSE,United Association of Journeymen & Apprentices of the U.S. & Canada Local 447 Federal PAC (Fed PAC ID # C00320218),NA,NA,Sacramento,CA,25000,TRUE
+unit_3ca62623,org_2870a3a7,organization,FALSE,AMG Outdoor Advertising Inc.,NA,NA,Corona,CA,24000,TRUE
+unit_3624318f,org_296f9fd1,organization,FALSE,Jane Fonda Climate PAC (FED PAC ID #C00806893),NA,NA,Washington,DC,5000,TRUE
+unit_ce5d24c7,org_29e8238f,organization,FALSE,Progressive Era PAC,NA,NA,San Francisco,CA,9800,TRUE
+unit_66cf9d6d,org_2a33283c,organization,FALSE,Allied International Security,NA,NA,Torrance,CA,5000,TRUE
+unit_a0b34954,org_2b3992bc,organization,FALSE,"PwC US Group, LLP",NA,NA,New York,FL,13000,TRUE
+unit_4aa7fc76,org_2bfa4ce1,organization,FALSE,"Mid-Valley Disposal, LLC, Mid Valley Recycling LLC and their Affiliated Entities",NA,NA,Fresno,CA,22500,TRUE
+unit_131da83c,org_2c04f4e2,organization,FALSE,Jacobs Engineering Group Inc.,NA,NA,Dallas,TX,10000,TRUE
+unit_a00c1d64,org_2c97d883,organization,FALSE,AN Farming Company,NA,NA,Madera,CA,8000,TRUE
+unit_5483c0dd,org_2e29fb4d,organization,FALSE,Exquisite Cabinet and Counter-Top Corp.,NA,NA,South El Monte,CA,8000,TRUE
+unit_5787e9a2,org_3096a6da,organization,FALSE,San Luis Rey Indian Water Authority,NA,NA,Pala,CA,10000,TRUE
+unit_9fcabc5c,org_30a87130,organization,FALSE,California Westside Farms PAC,NA,NA,Fresno,CA,5000,TRUE
+unit_c8d3ed7e,org_3103306a,organization,FALSE,Habematolel Pomo of Upper Lake,NA,NA,Upper Lake,CA,5000,TRUE
+unit_1133fbfb,org_310e9bd5,organization,FALSE,Oasis Legal Finance Operating Company LLC,NA,NA,Rosemont,IL,39200,TRUE
+unit_2da4bfde,org_312a44b1,organization,FALSE,Carpenter & Zuckerman LLP (John Carpenter),NA,NA,Beverly Hills,CA,5000,TRUE
+unit_0ff54a18,org_3163a50a,organization,FALSE,"AMAROK, LLC",NA,NA,Columbia,SC,5900,TRUE
+unit_35ac2eec,org_320bcb4e,organization,FALSE,Sheet Metal Workers Local Union 104 PAC,NA,NA,Livermore,CA,9800,TRUE
+unit_9e71d84f,org_321c3ecd,organization,FALSE,"JW Howard/Attorneys, Ltd.",NA,NA,San Diego,CA,32713.04,TRUE
+unit_7d7e4e3f,org_323a960d,organization,FALSE,"DWO Enterprises, Inc.",NA,NA,Rancho Santa Fe,CA,39200,TRUE
+unit_c8939fc7,org_32fd0976,organization,FALSE,California Applicants' Attorneys Association PAC,NA,NA,Sacramento,CA,45100,TRUE
+unit_9df39b7d,org_339b086b,organization,FALSE,United Food and Commercial Workers Western States Council Candidate PAC Small Contributor Committee,NA,NA,Buena Park,CA,45700,TRUE
+unit_76b92068,org_34929351,organization,FALSE,Michelle Rodriguez for Assembly 2026,NA,NA,Sacramento,CA,10000,TRUE
+unit_d2316c50,org_357dea4f,organization,FALSE,California Association of Health Facilities PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_41e72a48,org_366ea978,organization,FALSE,"Claims Specialists, Inc.",NA,NA,Danbury,CT,7000,TRUE
+unit_f15a968d,org_376753a8,organization,FALSE,"Spargi Ventures, LLC",NA,NA,Bethesda,MD,5900,TRUE
+unit_cd1e312e,org_37e5a549,organization,FALSE,Amazon.com Services LLC(Andrea Fava),NA,NA,Washington,DC,5900,TRUE
+unit_3a7442fe,org_38da29d2,organization,FALSE,International Brotherhood of Electrical Workers Local No. 11,NA,NA,Pasadena,CA,15000,TRUE
+unit_770bc492,org_39f27929,organization,FALSE,Vista Verde Dairy,NA,NA,Chowchilla,CA,10000,TRUE
+unit_544e2fd0,org_3a261c4f,organization,FALSE,Turo Inc.,NA,NA,San Francisco,CA,39200,TRUE
+unit_ad334004,org_3a39ebfb,organization,FALSE,Laborers Local Union No. 783-PAC,NA,NA,Riverside,CA,25000,TRUE
+unit_c7f29473,org_3a7c9e25,organization,FALSE,"Zuffa, LLC dba UFC(Ivette Fernandez)",NA,NA,Las Vegas,NV,5100,TRUE
+unit_780211ec,org_3aa95354,organization,FALSE,North Star Emergency Services Inc.,NA,NA,Dublin,CA,25000,TRUE
+unit_a95a360f,org_3b823efd,organization,FALSE,"Floyd Skeren Manukian Langevin, LLP",NA,NA,Thousand Oaks,CA,5000,TRUE
+unit_0d209d6a,org_3c28c914,organization,FALSE,UA 290 Industry Advancement Fund,NA,NA,Tualatin,OR,5000,TRUE
+unit_8d1127be,org_3cae8f18,organization,FALSE,Oportun Inc.,NA,NA,San Mateo,CA,49200,TRUE
+unit_a417906e,org_3d43619a,organization,FALSE,California Broadband & Video Association CalBroadband PAC,NA,NA,Sacramento,CA,5000,TRUE
+unit_ac07ee5e,org_3f92e1bf,organization,FALSE,Cement Masons Local 600 Political Action Committee,NA,NA,Bell Gardens,CA,5000,TRUE
+unit_afc48f4c,org_3fd4efab,organization,FALSE,"Astrana Health Management, Inc.",NA,NA,Alhambra,CA,10376,TRUE
+unit_7571e38a,org_4062b9e9,organization,FALSE,Western States Council of Sheet Metal Workers PAC Small Contributor Committee,NA,NA,Sacramento,CA,10000,TRUE
+unit_ac1630b1,org_415857b1,organization,FALSE,California Poultry Federation PAC,NA,NA,Modesto,CA,5000,TRUE
+unit_94352b59,org_41d5e1b9,organization,FALSE,Robert E. Cendejas and Associates (Robert E. Cendejas),NA,NA,Laguna Niguel,CA,10000,TRUE
+unit_6de74104,org_44863495,organization,FALSE,Gould Medical Group Inc.,NA,NA,Modesto,CA,10000,TRUE
+unit_e62575ee,org_454cb313,organization,FALSE,Americans4Hindus CA PAC,NA,NA,San Rafael,CA,5000,TRUE
+unit_8856c317,org_45fbbba3,organization,FALSE,U.A. Local No. 228 Building Corporation PAC Fund,NA,NA,Marysville,CA,5000,TRUE
+unit_d2d81e2f,org_46526db2,organization,FALSE,California Academy of Family Physicians Political Action Committee,NA,NA,Sacramento,CA,15000,TRUE
+unit_c9f6881b,org_4653d77c,organization,FALSE,Sharon Quirk-Silva for Assembly 2024,NA,NA,Sacramento,CA,5900,TRUE
+unit_1e22b114,org_467a7cb9,organization,FALSE,Laborers Local 652 PAC,NA,NA,Santa Ana,CA,39200,TRUE
+unit_6781c97c,org_46a1b5bc,organization,FALSE,Elect Dems Now PAC Fed ID# C00880062,NA,NA,Washington,DC,11999,TRUE
+unit_b67597b0,org_482ef16d,organization,FALSE,"Taylor & Ring, LLP",NA,NA,Manhattan Beach,CA,5000,TRUE
+unit_7c650c7c,org_49454ed3,organization,FALSE,David Alvarez for Assembly 2026,NA,NA,San Diego,CA,5900,TRUE
+unit_68d946da,org_49598e69,organization,FALSE,"Merlin Law Group, PLLC",NA,NA,Tampa,FL,5000,TRUE
+unit_862c10c1,org_4a4a4d77,organization,FALSE,"Road Sprinkler Fitters Local Union No. 669, UA, AFL-CIO PAC (Fed PAC ID #C00468801)",NA,NA,Columbia,MD,5000,TRUE
+unit_69db25e6,org_4a7ddaa7,organization,FALSE,Al Malaikah Auditorium Company,NA,NA,Los Angeles,CA,5000,TRUE
+unit_3a3003b7,org_4aa33a36,organization,FALSE,Association of California Life & Health Insurance Companies PAC (ACLHIC PAC),NA,NA,Sausalito,CA,39000,TRUE
+unit_7a4f2460,org_4af08256,organization,FALSE,GCEC,NA,NA,Grants Pass,OR,10000,TRUE
+unit_ce450480,org_4b13830a,organization,FALSE,"PACE of California School Employees Association Local, State, Federal Candidates (Fed PAC ID #C00480830)",NA,NA,Sacramento,CA,39200,TRUE
+unit_46c67cae,org_4b22ea7b,organization,FALSE,Sprinkler Fitters & Apprentices Local 483 Statewide PAC,NA,NA,Hayward,CA,5500,TRUE
+unit_21027e61,org_4b4a61e5,organization,FALSE,Californians for Local Affordable Solar and Storage (CLASS) PAC,NA,NA,Sacramento,CA,10000,TRUE
+unit_36e647de,org_4b9f6038,organization,FALSE,LCCC PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_557f5142,org_4ba76dfb,organization,FALSE,SEIU United Healthcare Workers West PAC,NA,NA,Los Angeles,CA,19600,TRUE
+unit_b4a9e301,org_4c1bec23,organization,FALSE,Avila Farias for State Assembly 2026,NA,NA,Martinez,CA,9852.27,TRUE
+unit_7a0ff909,org_4c91b491,organization,FALSE,California State Pipe Trades Council PAC Small Contributor Committee,NA,NA,Sacramento,CA,106600,TRUE
+unit_6a299ef8,org_4d6c97ff,organization,FALSE,California Association of Health Facilities Northern Region PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_3cb9fd00,org_4e39fd90,organization,FALSE,Rancho Cucamonga Professional Firefighters Association - IAFF Local 2274 PAC,NA,NA,Sacramento,CA,5000,TRUE
+unit_41136c16,org_4e4a0f41,organization,FALSE,Gianrand LLC (Gian Singh Randhawa),NA,NA,Modesto,CA,39200,TRUE
+unit_4bf859b1,org_4ea27d1f,organization,FALSE,California-Nevada Conference of Operating Engineers Political Action Committee,NA,NA,Sacramento,CA,39200,TRUE
+unit_0a347695,org_4f487af0,organization,FALSE,Local Societies of the California Optometric Association PAC (aka LSCOA-PAC),NA,NA,Sacramento,CA,12000,TRUE
+unit_1fb527ee,org_4f680f01,organization,FALSE,Northern California District Council of Laborers PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_86d088b5,org_50dd3608,organization,FALSE,Union of American Physicians and Dentists Small Contributor Committee,NA,NA,Sacramento,CA,40700,TRUE
+unit_dca14d60,org_5194f440,organization,FALSE,Eloise Reyes for Senate 2024,NA,NA,Sacramento,CA,10000,TRUE
+unit_f62b649e,org_52b1815b,organization,FALSE,Jesse Gabriel for Assembly 2026,NA,NA,Los Angeles,CA,5900,TRUE
+unit_a7946eee,org_52c1cc3c,organization,FALSE,Consumer Attorneys Consumer Protection Fund,NA,NA,Sacramento,CA,8837.02,TRUE
+unit_fa33209a,org_52c741db,organization,FALSE,"Administrative Services Cooperative, Inc.",NA,NA,Torrance,CA,5000,TRUE
+unit_6a6da041,org_5341352c,organization,TRUE,Pechanga Band of Indians,NA,NA,Temecula,CA,13700,TRUE
+unit_506d8def,org_5341352c,organization,TRUE,Pechanga Band of Luiseno Indians,NA,NA,Temecula,CA,78400,TRUE
+unit_de5f6176,org_53ab287f,organization,FALSE,SidePrize LLC,NA,NA,Atlanta,GA,5000,TRUE
+unit_2b86948d,org_53cdbefc,organization,FALSE,Consumer Attorneys of California Political Action Committee,NA,NA,Sacramento,CA,40600,TRUE
+unit_51989842,org_56519013,organization,FALSE,"Plumbers, Steamfitters & Refrigeration Fitters Local 393 Political Action Fund",NA,NA,Sacramento,CA,10000,TRUE
+unit_04e06edd,org_56726f65,organization,FALSE,"Lieff Cabraser Heimann & Bernstein, LLP",NA,NA,San Francisco,CA,5000,TRUE
+unit_debc01f1,org_56b40fa2,organization,FALSE,Morongo Band of Mission Indians,NA,NA,Banning,CA,39200,TRUE
+unit_a5f3d3cc,org_5817f5a2,organization,FALSE,The Captains Chest Revocable Trust (Evan Spiegel),NA,NA,Santa Monica,CA,39200,TRUE
+unit_171432bf,org_58baada3,organization,FALSE,Zeta Global Holdings Corp.,NA,NA,New York,NY,25000,TRUE
+unit_930a6f88,org_5aa8f4a9,organization,FALSE,California Real Estate Political Action Committee,NA,NA,Los Angeles,CA,58800,TRUE
+unit_965f6ca9,org_5b054673,organization,FALSE,Collins Electrical Company Inc.,NA,NA,Stockton,CA,5000,TRUE
+unit_0415caac,org_5cbb289f,organization,FALSE,Re-Elect Eleni Kounalakis for Lieutenant Governor 2022,NA,NA,Sacramento,CA,5900,TRUE
+unit_f89eb6cc,org_5cbc3cab,organization,FALSE,Rizio Lipinsky Heiting PC,NA,NA,Santa Ana,CA,5000,TRUE
+unit_29800158,org_5cff7ff1,organization,FALSE,California Hospital Association PAC Sponsored by CA Association of Hospitals & Health Systems (CAHHS),NA,NA,Sacramento,CA,40700,TRUE
+unit_132c59a2,org_5d37fafc,organization,FALSE,Klein Financial Corporation,NA,NA,Palo Alto,CA,39200,TRUE
+unit_f4b8b54f,org_5eb60988,organization,FALSE,Gilkey Five,NA,NA,Corcoran,CA,5000,TRUE
+unit_29069c78,org_5eda85e0,organization,FALSE,Daybreak (Van Morgan),NA,NA,Los Angeles,CA,5000,TRUE
+unit_d935a9ee,org_605d3133,organization,FALSE,"STC-QST, LLC",NA,NA,Los Angeles,CA,20000,TRUE
+unit_9590c8b0,org_606694c1,organization,FALSE,International Union Of Operating Engineers Stationary Engineers Local 39,NA,NA,San Francisco,CA,25000,TRUE
+unit_7cf86ccf,org_606aa957,organization,FALSE,IBEW Local 18 Water & Power Defense League,NA,NA,Los Angeles,CA,15000,TRUE
+unit_41418d3d,org_611a925f,organization,FALSE,"McNicholas & McNicholas, LLP",NA,NA,Los Angeles,CA,14800,TRUE
+unit_55aa0b6a,org_61420d16,organization,FALSE,Plumbers and Steamfitters Local Union No. 761 Political Action Committee,NA,NA,Burbank,CA,20000,TRUE
+unit_b47bfbe8,org_61510018,organization,FALSE,Steamfitters & Refrigeration U.A. Local 250 PAC Small Contributor Committee,NA,NA,Gardena,CA,58300,TRUE
+unit_af564442,org_61daf8ef,organization,FALSE,California Association of Nurse Anesthetists PAC,NA,NA,Sacramento,CA,15900,TRUE
+unit_b13210dc,org_61e33ef2,organization,FALSE,Links Healthcare Group LLC,NA,NA,San Diego,CA,10000,TRUE
+unit_fd87b46f,org_626f83d7,organization,FALSE,Unicare Systems Inc.,NA,NA,Chula Vista,CA,5000,TRUE
+unit_6cc52cd0,org_6349dca1,organization,FALSE,"Lyons Land Management, LP (William J. Lyons Jr)",NA,NA,Modesto,CA,18000,TRUE
+unit_03dd796d,org_6366182e,organization,FALSE,California Grain & Feed Association PAC,NA,NA,Sacramento,CA,10000,TRUE
+unit_133eba8c,org_63f0d56c,organization,FALSE,Centene Management Company LLC (Katie Phillips),NA,NA,Sacramento,CA,78400,TRUE
+unit_d9a8b08b,org_647a1e8f,organization,FALSE,Federal Express Corporation,NA,NA,Memphis,TN,39200,TRUE
+unit_5ab4739a,org_651c63b8,organization,FALSE,United Domestic Workers of America Action Fund,NA,NA,Sacramento,CA,19600,TRUE
+unit_7ae98c4b,org_66b768f1,organization,FALSE,Brian Watte Farms,NA,NA,Tulare,CA,6000,TRUE
+unit_7e0f1076,org_67b891b4,organization,FALSE,International Longshore and Warehouse Union Foremen's Local 94 PAC (ILWU),NA,NA,Long Beach,CA,14000,TRUE
+unit_40242a1c,org_68636530,organization,FALSE,California State Council of Laborers PAC,NA,NA,Sacramento,CA,78400,TRUE
+unit_ac2583ef,org_686cf178,organization,FALSE,Stacy A. Korsgaden Insurance Agency - Stacy Korsgaden 100% Ownership,NA,NA,Grover Beach,CA,48350,TRUE
+unit_7ff9813b,org_68c66c2a,organization,FALSE,Specialty Equipment Market Association,NA,NA,Diamond Bar,CA,10000,TRUE
+unit_f9db33a6,org_68c93582,organization,FALSE,"Roxborough, Pomerance, Nye & Adreani, LLP",NA,NA,Woodland Hills,CA,9800,TRUE
+unit_630fb120,org_68feb62a,organization,FALSE,California Water Service Company,NA,NA,San Jose,CA,10000,TRUE
+unit_44f28ef0,org_69bacd0b,organization,FALSE,Bay Area Housing Action Coalition,NA,NA,San Francisco,CA,10000,TRUE
+unit_475f950f,org_6a3f01ac,organization,FALSE,Sun Mar Management Services Inc,NA,NA,Brea,CA,10000,TRUE
+unit_6a5228de,org_6a993ebb,organization,FALSE,"Holistic Alternative Recovery Trust, Inc.",NA,NA,Lexington,KY,5900,TRUE
+unit_6228c9f1,org_6af76902,organization,FALSE,Garry's List Action,NA,NA,Washington,DC,39200,TRUE
+unit_c9639aeb,org_6b55995e,organization,FALSE,"Henry Salcido, A Professional Corporation (Henry Salcido)",NA,NA,Long Beach,CA,5000,TRUE
+unit_c2d07829,org_6b5988cd,organization,FALSE,CAPA21- State,NA,NA,Sacramento,CA,9800,TRUE
+unit_12c24a38,org_6c077253,organization,FALSE,California Medical Association PAC,NA,NA,Sacramento,CA,78400,TRUE
+unit_90997044,org_6c98343f,organization,FALSE,California Pacific Physicians Medical Group Inc.,NA,NA,San Francisco,CA,39200,TRUE
+unit_55fe71a3,org_6cedebf1,organization,FALSE,Mike Gatto for Lt. Governor 2026,NA,NA,Encino,CA,11000,TRUE
+unit_d492a2aa,org_6d3a25fb,organization,FALSE,Ted Lieu for Congress,NA,NA,Los Angeles,CA,10000,TRUE
+unit_fc1eba99,org_6d3ff811,organization,FALSE,California Apartment Association PAC,NA,NA,Sacramento,CA,9800,TRUE
+unit_285f68ff,org_6d655dca,organization,FALSE,Border Health Federal PAC,NA,NA,McAllen,TX,39200,TRUE
+unit_af18c848,org_6df10e31,organization,FALSE,"Troutman Pepper Locke, LLP",NA,NA,Atlanta,GA,5000,TRUE
+unit_475daebb,org_6e40a51d,organization,FALSE,"Faculty For Our University's Future, A Committee Sponsored By The California Faculty Association",NA,NA,Sacramento,CA,103400,TRUE
+unit_99d48481,org_6f4d1436,organization,FALSE,Dr. Jasmeet Bains for Assembly 2026,NA,NA,Sacramento,CA,5900,TRUE
+unit_718a6603,org_6fc50c4d,organization,FALSE,Chevron U.S.A. Inc.,NA,NA,San Ramon,CA,42200,TRUE
+unit_3d19644a,org_7042962c,organization,FALSE,Cencal Services Inc.,NA,NA,Fresno,CA,10000,TRUE
+unit_773ca825,org_70cfc18d,organization,FALSE,"Law Offices of Walkup, Melodia, Kelly & Schoenberger, A Professional Corporation",NA,NA,San Francisco,CA,9800,TRUE
+unit_154abdd3,org_714ba741,organization,FALSE,"Intuit, Inc.",NA,NA,San Diego,CA,2500,TRUE
+unit_50685a56,org_714ba741,organization,FALSE,Intuit,NA,NA,San Diego,CA,2500,TRUE
+unit_51aefe66,org_71506bd7,organization,FALSE,Steamfitters Local 342 Political Action Committee,NA,NA,Concord,CA,39200,TRUE
+unit_13fbdd2c,org_72a37f86,organization,FALSE,Physician Association of California Political Action Committee,NA,NA,Sacramento,CA,40700,TRUE
+unit_6b2a30ad,org_72e7a91d,organization,FALSE,One Putt Broadcasting,NA,NA,Fresno,CA,7785,TRUE
+unit_290599da,org_7405a166,organization,FALSE,Youth Save Democracy PAC,NA,NA,Fresno,CA,10000,TRUE
+unit_fc28ef32,org_753a272c,organization,FALSE,UAW Region 6 Western States PAC,NA,NA,Pico Rivera,CA,10000,TRUE
+unit_f8ea8314,org_758696ed,organization,FALSE,Casaca Vineyards,NA,NA,Five Points,CA,5000,TRUE
+unit_0362815f,org_778d7980,organization,FALSE,Doctors Company Political Action Committee AKA Docpac; The,NA,NA,Napa,CA,5000,TRUE
+unit_35dd3730,org_78300afd,organization,FALSE,United Association No. 159 Consumer Protection Fund Sponsored by Plumbers & Steamfitters Local 159,NA,NA,Martinez,CA,15000,TRUE
+unit_9b2fe273,org_786000c6,organization,FALSE,"Setton Pistachio of Terra Bella, Inc.",NA,NA,Terra Bella,CA,25000,TRUE
+unit_88669498,org_78c158eb,organization,FALSE,California Statewide Law Enforcement Association Political Action Committee,NA,NA,Sacramento,CA,20800,TRUE
+unit_c294db91,org_7980957c,organization,FALSE,"Valov Brothers Farms, LP",NA,NA,Tulare,CA,11000,TRUE
+unit_0468d01b,org_79a646fa,organization,FALSE,Laborer's International Union of North America Local 89 Political Action Fund,NA,NA,San Diego,CA,39200,TRUE
+unit_5ebdfe06,org_79d0b38c,organization,FALSE,"Molina Healthcare, Inc.",NA,NA,Long Beach,CA,5000,TRUE
+unit_ae191451,org_79d2bcd0,organization,FALSE,"Sheet Metal, Air, Rail, Transportation Workers Local Union 105 Political Education Fund",NA,NA,Glendora,CA,5000,TRUE
+unit_481e8c31,org_7a059015,organization,FALSE,Plumbers and Steamfitters Local Union No. 484 Political Action Committee,NA,NA,Ventura,CA,10000,TRUE
+unit_e151453f,org_7c35128d,organization,FALSE,"Twenty Holdings, Inc.",NA,NA,Miami,FL,40000,TRUE
+unit_befc3f89,org_7c7d645c,organization,FALSE,Southern California District Council of Laborers PAC Small Contributor Committee,NA,NA,Long Beach,CA,98000,TRUE
+unit_a67193b1,org_7cceee63,organization,FALSE,FanDuel Inc.,NA,NA,New York,NY,5900,TRUE
+unit_bc000ddd,org_7d297cd7,organization,FALSE,California Association of Health Facilities Los Angeles Region PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_eb48fc2b,org_7e34a50d,organization,FALSE,"United Association of the Journeymen and Apprentices of the Plumbing and Pipefitting Industry, Local #343 PAC",NA,NA,Vacaville,CA,10000,TRUE
+unit_25f9bf08,org_7eef7f96,organization,FALSE,Lytton Rancheria,NA,NA,Windsor,CA,78400,TRUE
+unit_1883b85b,org_7f228a1e,organization,FALSE,Building A Stronger California sponsored by Western States Regional Council of Carpenters,NA,NA,Los Angeles,CA,8500,TRUE
+unit_8e16b2d3,org_7fe63901,organization,FALSE,California State Association of Electrical Workers Small Contributor Committee,NA,NA,San Francisco,CA,67400,TRUE
+unit_f47e643e,org_81d395e7,organization,FALSE,South Cord Management LLC,NA,NA,Long Beach,CA,25000,TRUE
+unit_403f23fa,org_821861fb,organization,FALSE,Panish Shea Ravipudi LLP (Jessie Kohler),NA,NA,Los Angeles,CA,5000,TRUE
+unit_b9241719,org_82d96e72,organization,FALSE,Storefront Political Media Inc,NA,NA,Brooklyn,NY,9800,TRUE
+unit_4bb82e78,org_83d3ffc8,organization,FALSE,Fabian Nunez for State Treasurer 2026,NA,NA,Sacramento,CA,11800,TRUE
+unit_814ba9b4,org_8488469e,organization,FALSE,Building a Stronger Future for California PAC,NA,NA,Los Angeles,CA,39200,TRUE
+unit_7ed4115d,org_85bfa6a7,organization,FALSE,California Federation of Teachers COPE Small Contributor Committee,NA,NA,Sacramento,CA,10000,TRUE
+unit_2fc41f97,org_86eec9d1,organization,FALSE,National Union of Healthcare Workers Candidate Committee for Quality Patient Care and Union Democracy,NA,NA,Sacramento,CA,10000,TRUE
+unit_5e230518,org_87c149b0,organization,FALSE,Empower PAC,NA,NA,Placerville,CA,9800,TRUE
+unit_ed134772,org_881f01b7,organization,FALSE,Cambridge Healthcare Services LLC,NA,NA,Buena Park,CA,10000,TRUE
+unit_93397c29,org_89b3cdb2,organization,FALSE,California's Best,NA,NA,Norwalk,CA,39200,TRUE
+unit_ba813048,org_8bf99d53,organization,FALSE,"Health and Human Rights PAC, Sponsored by St. John's Well Child and Family Center Action Fund",NA,NA,Los Angeles,CA,5000,TRUE
+unit_3cd973fe,org_8de1d1aa,organization,FALSE,Pharmaceutical Research and Manufacturers Association of America PAC,NA,NA,Sacramento,CA,5000,TRUE
+unit_bf43e39d,org_8ed41650,organization,FALSE,Operating Engineers Local Union 3 Statewide PAC,NA,NA,Concord,CA,39200,TRUE
+unit_19983b81,org_908ede48,organization,FALSE,Instacart Inc.,NA,NA,San Francisco,CA,39200,TRUE
+unit_4626d5f0,org_911da609,organization,FALSE,United Health Group Inc.,NA,NA,Englewood,CO,39200,TRUE
+unit_3c532a5e,org_913c32db,organization,FALSE,Common Energy LLC,NA,NA,New York,NY,5000,TRUE
+unit_7f148fdd,org_915a4a3c,organization,FALSE,Plumbers and Steamfitters Local Union No. 398 Political Action Committee,NA,NA,Rancho Cucamonga,CA,5000,TRUE
+unit_133d2d32,org_935e5e41,organization,FALSE,California Chamber of Commerce PAC AKA ChamberPAC,NA,NA,Sacramento,CA,6500,TRUE
+unit_e299eed6,org_93a752a8,organization,FALSE,SA Recycling,NA,NA,Orange,CA,10000,TRUE
+unit_d915d267,org_93f618fc,organization,FALSE,"Richmond Police Officers Association PAC, Sponsored by Richmond Police Officers Association",NA,NA,Richmond,CA,5000,TRUE
+unit_eca8c319,org_94e21c88,organization,FALSE,"Providence Administrative Consulting Services, Inc.",NA,NA,Salt Lake City,UT,20000,TRUE
+unit_1f809ad5,org_95500b49,organization,FALSE,Affirmed Housing Group,NA,NA,San Diego,CA,10000,TRUE
+unit_a395112c,org_955274da,organization,FALSE,Shingle Springs Band of Miwok Indians,NA,NA,Placerville,CA,86400,TRUE
+unit_c9fff5ea,org_95586a9a,organization,FALSE,"Hansen Ranches, LLC",NA,NA,Corcoran,CA,5000,TRUE
+unit_f3c72fdd,org_9588feeb,organization,FALSE,International Brotherhood of Electrical Workers Political Action Committee,NA,NA,Washington,DC,34200,TRUE
+unit_56a07fb7,org_95c8d164,organization,FALSE,Pacific Coast Companies Inc.,NA,NA,Rancho Cordova,CA,39200,TRUE
+unit_3913d667,org_95dbab37,organization,FALSE,Americans for Patient Access Inc.,NA,NA,Middleton,WI,39200,TRUE
+unit_936053f2,org_9684430f,organization,FALSE,Sheet Metal Workers 104 District 2 Small Contributor Committee,NA,NA,Livermore,CA,5200,TRUE
+unit_f578678c,org_96e226c2,organization,FALSE,Golden Bear Insurance Company,NA,NA,Stockton,CA,20000,TRUE
+unit_50694191,org_970ad9fb,organization,FALSE,"HIMS, Inc.",NA,NA,San Francisco,CA,40700,TRUE
+unit_63794277,org_97fe57c7,organization,FALSE,"Cox Communications, Inc.",NA,NA,San Diego,CA,5288.52,TRUE
+unit_dc3689c6,org_97fe57c7,organization,FALSE,Cox Communications and Affiliated Entities,NA,NA,San Diego,CA,288.52,TRUE
+unit_eecfec06,org_9819c80b,organization,FALSE,Kalshi Inc.,NA,NA,New York,NY,39200,TRUE
+unit_ae2af16f,org_9ab1c7f0,organization,FALSE,Chula Vista Firefighters Local 2180 PAC,NA,NA,Chula Vista,CA,5000,TRUE
+unit_dc841d07,org_9b2a263f,organization,FALSE,"T-Mobile USA, Inc.",NA,NA,Bellevue,WA,6500,TRUE
+unit_ae15fa04,org_9b4f5b29,organization,FALSE,NTB Strategies LLC,NA,NA,Shingle Springs,CA,10000,TRUE
+unit_e694f957,org_9cb6dd98,organization,FALSE,California Correctional Peace Officers Association Political Action Committee,NA,NA,Sacramento,CA,19300,TRUE
+unit_967f5034,org_9d7c6fcb,organization,FALSE,Kings Oil Tools Inc,NA,NA,Paso Robles,CA,7500,TRUE
+unit_38f9238f,org_9df41bc5,organization,FALSE,Elevance Health Inc.,NA,NA,Cincinnati,OH,39200,TRUE
+unit_c94cf17f,org_9dfff2dc,organization,FALSE,"TELACU Industries, Inc.",NA,NA,Commerce,CA,41700,TRUE
+unit_0580cd4d,org_9dfff2dc,organization,FALSE,TELACU Industries,NA,NA,Commerce,CA,1000,TRUE
+unit_9441f951,org_9ff2948f,organization,FALSE,"Prime Healthcare Services, Inc.",NA,NA,Ontario,CA,20000,TRUE
+unit_3ce3e7c3,org_a0ecda9c,organization,FALSE,United Association of Journeymen & Apprentices of the Plumbing & Pipefitting Industry Local Union Number 345 Political Action Committee,NA,NA,Sacramento,CA,5000,TRUE
+unit_c654ba6d,org_a0f48b7a,organization,FALSE,Pacaso Inc.,NA,NA,Cincinnati,OH,27567.9,TRUE
+unit_eb6f05ff,org_a10cf4a2,organization,FALSE,Asian Business Association Candidate PAC,NA,NA,Encinitas,CA,39200,TRUE
+unit_2d7d437f,org_a1290d98,organization,FALSE,Ripple Labs,NA,NA,San Francisco,CA,5000000,TRUE
+unit_3281dd28,org_a169ee27,organization,FALSE,Esparza Enterprises Inc,NA,NA,Bakersfield,CA,10000,TRUE
+unit_9fb828c5,org_a2180a8f,organization,FALSE,"American Federation of State, County & Municipal Employees-Council 57 PAC",NA,NA,Norwalk,CA,15000,TRUE
+unit_3dcb5f6f,org_a26e3fbd,organization,FALSE,Government That Works PAC (FED PAC ID#C00915595),NA,NA,Washington,DC,39200,TRUE
+unit_7a214cba,org_a363d7a8,organization,FALSE,Rhodesia Ransom for State Assembly,NA,NA,Inglewood,CA,10000,TRUE
+unit_dd6c03be,org_a51200e1,organization,FALSE,Electing Climate Champions Fund sponsored by California Environmental Voters,NA,NA,Oakland,CA,5000,TRUE
+unit_c164b05b,org_a52806cd,organization,FALSE,AirBnB Inc.,NA,NA,San Francisco,CA,5000,TRUE
+unit_cad888c0,org_a52806cd,organization,FALSE,"Airbnb, Inc.",NA,NA,San Francisco,CA,39200,TRUE
+unit_99003711,org_a5631580,organization,FALSE,"Verizon Communications, Inc.",NA,NA,Sacramento,CA,25000,TRUE
+unit_fca1dc09,org_a578bb15,organization,FALSE,Yellow Claims,NA,NA,Agua,CA,5000,TRUE
+unit_572a2e66,org_a659458e,organization,FALSE,Imprenta Communications Group Inc.,NA,NA,San Marino,CA,8500,TRUE
+unit_bf7bb628,org_a6c68c76,organization,FALSE,"GMRI, Inc",NA,NA,Orlando,FL,39200,TRUE
+unit_c4c64b8e,org_a6f7d476,organization,FALSE,"E-W Services, Inc.",NA,NA,Pasadena,CA,39200,TRUE
+unit_366847e2,org_a8c62442,organization,FALSE,Producers Ranch,NA,NA,Stratford,CA,7500,TRUE
+unit_b813310e,org_a8eb4aac,organization,FALSE,Painters and Allied Trades District Council No. 36 Political Action Committee,NA,NA,Monterey Park,CA,5000,TRUE
+unit_96431afd,org_a93662e1,organization,FALSE,"Underdog Sports Holdings, Inc.",NA,NA,Brooklyn,NY,50000,TRUE
+unit_6023af1c,org_a9cb9fb5,organization,FALSE,International Longshore and Warehouse Union Political Action Fund,NA,NA,San Francisco,CA,20000,TRUE
+unit_128bf7d8,org_aa0ae624,organization,FALSE,"Claims XP, LLC",NA,NA,Alhambra,CA,12000,TRUE
+unit_e489e9bf,org_abac8f01,organization,FALSE,"International Brotherhood of Boilermakers, Iron Ship Builders, Blacksmiths, Forgers & Helpers Local 549 PAC",NA,NA,Sacramento,CA,11800,TRUE
+unit_2fb2a5f1,org_ac2a0329,organization,FALSE,The Cafe SF,NA,NA,San Francisco,CA,5000,TRUE
+unit_51783277,org_acb199b1,organization,FALSE,Agua Caliente Band of Cahuilla Indians,NA,NA,Palm Springs,CA,39200,TRUE
+unit_6d540fb8,org_adb264c4,organization,FALSE,CALIFORNIA BUSINESS ROUNDTABLE ISSUES PAC,NA,NA,Sacramento,CA,450000,TRUE
+unit_68722410,org_ae2024e7,organization,FALSE,Peace Officers Research Association of California PAC (PORAC PAC) Small Contributor Committee,NA,NA,Sacramento,CA,6500,TRUE
+unit_79d76226,org_ae47ea33,organization,FALSE,Stanislaus Food Products Company,NA,NA,Modesto,CA,10000,TRUE
+unit_6347b206,org_aebae59f,organization,FALSE,Donald T. Trowbridge and affiliated Entity Auburn Manor Holding Corporation,NA,NA,Rocklin,CA,39200,TRUE
+unit_78dd78a3,org_af25bb02,organization,FALSE,"Gabriel, OD, Carolynn",NA,NA,Pasadena,CA,8707.14,TRUE
+unit_8224bf56,org_b0c34ddb,organization,FALSE,"Charter Communications Operating, LLC(Keri Askew Bailey)",NA,NA,Sacramento,CA,5000,TRUE
+unit_f3ee4c71,org_b1074f7c,organization,FALSE,"Medic Ambulance Service, Inc.",NA,NA,Fairfield,CA,37500,TRUE
+unit_fe649d77,org_b12c6677,organization,FALSE,LSMA Management Inc.,NA,NA,Redlands,CA,10000,TRUE
+unit_d80d1c85,org_b1383ef3,organization,FALSE,California American Water Employee PAC,NA,NA,San Diego,CA,7000,TRUE
+unit_ed7ed827,org_b1619c0d,organization,FALSE,"ESC Local 20 IFPTE Lou Lucivero Legislative Education & Action Program (LEAP), Sponsored by Engineers & Scientists of California Local 20",NA,NA,Oakland,CA,30000,TRUE
+unit_31d5935a,org_b1cdfd61,organization,FALSE,John Duarte For Congress,NA,NA,Hilmar,CA,5000,TRUE
+unit_7fde219d,org_b25b42af,organization,FALSE,North Coast States Regional Council of Carpenters Small Contributor Committee,NA,NA,Sacramento,CA,39200,TRUE
+unit_b08bbefd,org_b26f8df6,organization,FALSE,Clean Energy,NA,NA,Newport Beach,CA,40200,TRUE
+unit_594dc4b6,org_b2749d1b,organization,FALSE,Greater Anesthesia Service and PAC,NA,NA,Sacramento,CA,39200,TRUE
+unit_83f17741,org_b2be3a64,organization,FALSE,Lori Wilson for Assembly 2026,NA,NA,Sacramento,CA,5000,TRUE
+unit_be4d61a6,org_b31b7ad5,organization,FALSE,"Cotchett, Pitre & McCarthy, LLP",NA,NA,Burlingame,CA,14800,TRUE
+unit_337a772d,org_b3ab0ce0,organization,FALSE,South Cord Management LLC (Elliot Lewis),NA,NA,Long Beach,CA,10000,TRUE
+unit_54048a98,org_b52839e6,organization,FALSE,American Beverage Association California PAC,NA,NA,San Rafael,CA,11800,TRUE
+unit_a1c4183a,org_b8a2771c,organization,FALSE,California Ambulatory Surgery Association PAC,NA,NA,Sacramento,CA,5000,TRUE
+unit_94985f24,org_ba9d0f14,organization,FALSE,Dimension Energy LLC (Brandon Smithwood),NA,NA,Atlanta,GA,78400,TRUE
+unit_6a5ff6a6,org_bbdf18a3,organization,FALSE,Sycuan Band of the Kumeyaay Nation,NA,NA,El Cajon,CA,39200,TRUE
+unit_27a7ea3e,org_bbf6098c,organization,FALSE,Operating Engineers Local Union No. 12 Political Fund,NA,NA,Pasadena,CA,39200,TRUE
+unit_300239cb,org_bbf7632a,organization,FALSE,Plumbers and Pipefitters U.A. Local #246 COPE Committee,NA,NA,Fresno,CA,5000,TRUE
+unit_652400cc,org_bc2a118b,organization,FALSE,Golden State Leadership Fund PAC,NA,NA,Los Angeles,CA,16500,TRUE
+unit_457ed074,org_bc73d2ec,organization,FALSE,Sierra Pacific Industries Inc.,NA,NA,Anderson,CA,10000,TRUE
+unit_45f2e093,org_bcb650b3,organization,FALSE,Odyssey Insights,NA,NA,Los Angeles,CA,5000,TRUE
+unit_18784050,org_bd5a591d,organization,FALSE,California New Car Dealers Association PAC,NA,NA,Sacramento,CA,90500,TRUE
+unit_f0bcd35d,org_bd77360c,organization,FALSE,Laborers' International Union of North America Local 1309 PAC,NA,NA,Lakewood,CA,39200,TRUE
+unit_26b74149,org_bead19af,organization,FALSE,Double J Farms,NA,NA,Corcoran,CA,5000,TRUE
+unit_99429369,org_bee3911d,organization,FALSE,"Intersect USA, LLC(Michael Wheeler)",NA,NA,Beaverton,OR,100000,TRUE
+unit_c02bc55f,org_bee3ac9a,organization,FALSE,"Greene Broillet & Wheeler, LLP",NA,NA,El Segundo,CA,10500,TRUE
+unit_749bb189,org_bf24715f,organization,FALSE,Plumbers and Steamfitters Local No. 467 State Political Action Fund,NA,NA,Burlingame,CA,10000,TRUE
+unit_3a42765a,org_bf292362,organization,FALSE,J & B Refining dba  J & B Enterprises,NA,NA,Santa Clara,CA,5000,TRUE
+unit_2d035ead,org_bf95d298,organization,FALSE,"Singleton Schreiber, LLP",NA,NA,San Diego,CA,29400,TRUE
+unit_c1a3f057,org_c07ec74e,organization,FALSE,Diversified Properties L.P.,NA,NA,El Cajon,CA,5000,TRUE
+unit_d4740eda,org_c1cfb590,organization,FALSE,"Pitigliano Farm Services, Inc.",NA,NA,Tipton,CA,5000,TRUE
+unit_057fb508,org_c1e799bb,organization,FALSE,"Ghost Management Group, LLC(Brian Camire)",NA,NA,Irvine,CA,5000,TRUE
+unit_fd1d3c25,org_c322bc1c,organization,FALSE,Table Mountain Rancheria,NA,NA,Friant,CA,5900,TRUE
+unit_0e8a38e8,org_c335d30e,organization,FALSE,Plumbers and Steamfitters Local Union No. 582 Political Action Committee,NA,NA,Orange,CA,20000,TRUE
+unit_f2e73edd,org_c3443951,organization,FALSE,Oakland Police Officer's Association - Political Action Committee,NA,NA,Sacramento,CA,10000,TRUE
+unit_e42037ff,org_c39e2ceb,organization,FALSE,Service Corporation International PAC (FEC ID#C00173096),NA,NA,Houston,TX,5000,TRUE
+unit_49c29ed9,org_c3faa04c,organization,FALSE,California Partnership for Health PAC,NA,NA,Sacramento,CA,35000,TRUE
+unit_7c01787e,org_c51796fa,organization,FALSE,"NextEra Energy Resources, LLC",NA,NA,Houston,TX,39200,TRUE
+unit_711b6521,org_c63f257e,organization,FALSE,Metropolis Technologies Inc.,NA,NA,Santa Monica,CA,39200,TRUE
+unit_aa0e1407,org_c6ba91d2,organization,FALSE,Los Angeles County Firefighters Local 1014 Legislative Fund Committee,NA,NA,El Monte,CA,39200,TRUE
+unit_71ce24ed,org_c8211205,organization,FALSE,Service Employees International Union Local 1021 Candidate PAC,NA,NA,Sacramento,CA,11800,TRUE
+unit_675e4f4b,org_c8d04ccd,organization,FALSE,Comcast Financial Agency Corporation,NA,NA,Philadelphia,PA,56000,TRUE
+unit_b1657703,org_c8e6caf4,organization,FALSE,California Mortgage Bankers Association PAC (CAMPAC),NA,NA,Roseville,CA,7000,TRUE
+unit_f29555f8,org_c900dcc2,organization,FALSE,E&J Gallo Winery Inc.,NA,NA,Modesto,CA,25000,TRUE
+unit_4260c4f5,org_c99b119f,organization,FALSE,"Pacific Personnel Management, Inc.",NA,NA,Madera,CA,10500,TRUE
+unit_84872e1e,org_c9cb1631,organization,FALSE,Stern for Senate 2024,NA,NA,Sacramento,CA,5500,TRUE
+unit_a1fc435a,org_ca2a764f,organization,FALSE,California Nations Indian Gaming Association Sovereignty Protection Fund,NA,NA,Los Angeles,CA,15000,TRUE
+unit_9f088ca7,org_ca6dce16,organization,FALSE,"Smittcamp Ag Enterprises Series D, LLC",NA,NA,Fresno,CA,10000,TRUE
+unit_e9bf2382,org_ca7e5fc8,organization,FALSE,California Working Families Party,NA,NA,Brooklyn,NY,19600,TRUE
+unit_0e281972,org_ccdbf2c1,organization,FALSE,Judy Chu for Congress,NA,NA,Encino,CA,5000,TRUE
+unit_1b4e15a0,org_cd383ea9,organization,FALSE,Western United Dairies PAC,NA,NA,Modesto,CA,10000,TRUE
+unit_aaf64c3a,org_cdc90a9b,organization,FALSE,"DaVita, Inc.",NA,NA,Malvern,PA,39200,TRUE
+unit_33902f73,org_ce072237,organization,FALSE,San Gabriel Valley Water Company,NA,NA,El Monte,CA,6000,TRUE
+unit_98eb43de,org_cfa1a21b,organization,FALSE,Laborers Local 220 PAC,NA,NA,Sacramento,CA,19600,TRUE
+unit_ba547e08,org_d02d7131,organization,FALSE,"Angelenos for Safe Transportation PAC Sponsored by L.A. Taxi Cooperative, Inc. and South Bay Cooperative, Inc.",NA,NA,Norwalk,CA,5000,TRUE
+unit_090caf8e,org_d0c2d7c8,organization,FALSE,"Freedom Financial Network Funding, LLC",NA,NA,San Mateo,CA,39200,TRUE
+unit_359a7517,org_d1bb7130,organization,FALSE,"ARB Interactive, Inc.",NA,NA,Miami,FL,5000,TRUE
+unit_e8e38b77,org_d1f3189c,organization,FALSE,California Ambulance Association PAC,NA,NA,Sacramento,CA,45000,TRUE
+unit_a4309e27,org_d2fa5bf2,organization,FALSE,Californians for Safer Neighborhoods,NA,NA,Norwalk,CA,5500,TRUE
+unit_b849f03e,org_d325c776,organization,FALSE,"Uber Technologies, Inc.",NA,NA,San Francisco,CA,78400,TRUE
+unit_36b9736f,org_d3a4dbd7,organization,FALSE,Laborers' Local 300 Small Contributor Committee,NA,NA,Los Angeles,CA,39200,TRUE
+unit_35dfd902,org_d3f13ac4,organization,FALSE,Laborers Local 185 PAC,NA,NA,Sacramento,CA,19000,TRUE
+unit_79cc4209,org_d41f3521,organization,FALSE,"IPX Power USA, LLC",NA,NA,Beaverton,OR,39200,TRUE
+unit_89eee690,org_d4257cf3,organization,FALSE,Bay Area Legislative Leaders PAC,NA,NA,Sacramento,CA,5900,TRUE
+unit_b4ecc02d,org_d46606bd,organization,FALSE,Sabrina Cervantes for Secretary of State 2030,NA,NA,Sacramento,CA,9800,TRUE
+unit_adc699e8,org_d5b158b1,organization,FALSE,California Association of Sheet Metal and Air Conditioning Contractors PAC,NA,NA,Sacramento,CA,30000,TRUE
+unit_3382fa04,org_d7053e0f,organization,FALSE,California Defense Counsel PAC,NA,NA,Sacramento,CA,16500,TRUE
+unit_55ea3035,org_d7ee68c1,organization,FALSE,California Jewish PAC,NA,NA,Los Angeles,CA,19600,TRUE
+unit_6c4f1b7f,org_d80a5ebe,organization,FALSE,DYT Dairy (Will Dyt),NA,NA,Lakeview,CA,10000,TRUE
+unit_4dc61695,org_d84a04dc,organization,FALSE,Fox Corporation,NA,NA,Washington,DC,8400,TRUE
+unit_cac95891,org_d873a789,organization,FALSE,Christopher Sabourin DDS MSD Inc.,NA,NA,Clovis,CA,6000,TRUE
+unit_f1c1049c,org_d991d72a,organization,FALSE,CA Primary Care Association Advocates PAC,NA,NA,Sacramento,CA,29180.190000000002,TRUE
+unit_54cf991b,org_da6340fe,organization,FALSE,"Kilroy Realty, L.P.",NA,NA,Los Angeles,CA,39200,TRUE
+unit_d53eb032,org_db236f1d,organization,TRUE,Sutter East Bay Medical Group Inc.,NA,NA,Oakland,CA,30000,TRUE
+unit_9a164e6c,org_db236f1d,organization,TRUE,Sutter Medical Group Inc.,NA,NA,Sacramento,CA,39200,TRUE
+unit_b7c13396,org_db236f1d,organization,TRUE,Sutter North Medical Group Inc.,NA,NA,Yuba City,CA,25000,TRUE
+unit_002b9a97,org_dcff8204,organization,FALSE,Carl DeMaio for State Assembly 2026,NA,NA,San Diego,CA,5500,TRUE
+unit_84637112,org_dd8683f7,organization,FALSE,Sprinkler Fitters United Association 709 P.A.C.,NA,NA,Whittier,CA,6000,TRUE
+unit_689a6ede,org_de5a793f,organization,FALSE,"888 Claims, LLC",NA,NA,Los Angeles,CA,6000,TRUE
+unit_e96be9ad,org_dfb265e3,organization,FALSE,Federated Indians of Graton Rancheria,NA,NA,Rohnert Park,CA,39200,TRUE
+unit_a2151d72,org_e01da759,organization,FALSE,United Food and Commercial Workers Active Ballot Club (California) (Fed PAC ID# C00002766),NA,NA,Washington,DC,39200,TRUE
+unit_671447da,org_e2c257be,organization,FALSE,El Sur Ranch,NA,NA,Marysville,CA,10000,TRUE
+unit_395f115b,org_e4565c84,organization,FALSE,LiUNA Laborers' Local 585 PAC,NA,NA,Ventura,CA,7000,TRUE
+unit_705f4020,org_e4e6507d,organization,FALSE,Plumbers and Steamfitters Local Union No. 114 Political Action Committee,NA,NA,Sacramento,CA,5000,TRUE
+unit_06e0c5e7,org_e512f9a2,organization,FALSE,Professional Compounding Centers of America,NA,NA,Houston,TX,9999,TRUE
+unit_63cff90e,org_e56bcc60,organization,FALSE,Plumbers & Pipefitters Local Union 442 PAC,NA,NA,Modesto,CA,5000,TRUE
+unit_a28e1b01,org_e5e64f10,organization,FALSE,California Nurses Association Political Action Committee,NA,NA,Sacramento,CA,19600,TRUE
+unit_d3827cc5,org_e61d0463,organization,FALSE,Service Employees International Union Local 99 Candidate PAC,NA,NA,Los Angeles,CA,5000,TRUE
+unit_1ba5070a,org_e699c8d5,organization,FALSE,Makena Medical Buildings LLC,NA,NA,San Diego,CA,10000,TRUE
+unit_c756320e,org_e7069e76,organization,FALSE,Mayer Brown LLP,NA,NA,Los Angeles,CA,10000,TRUE
+unit_2e88f855,org_e7d89623,organization,FALSE,Stay Green Inc,NA,NA,Santa Clarita,CA,10000,TRUE
+unit_1ffb07f5,org_e810a72f,organization,FALSE,Nextpower Inc.,NA,NA,Fremont,CA,39200,TRUE
+unit_4b223588,org_e871ea32,organization,FALSE,American Medical Response Inc.,NA,NA,Lewisville,TX,39200,TRUE
+unit_a5ee9b9a,org_e98e3f50,organization,FALSE,Good Governance PAC Sponsored by Vasquez & Company LLP,NA,NA,Los Angeles,CA,5000,TRUE
+unit_c3207cd8,org_e993d5f5,organization,FALSE,"Democratic Action, Sponsored by Democratic Governors Association",NA,NA,Washington,DC,39200,TRUE
+unit_52196bfd,org_e9f99e79,organization,FALSE,"Cyan Robotics, Inc.",NA,NA,Venice,CA,39200,TRUE
+unit_5a04a5e7,org_eac0937b,organization,FALSE,California Teachers Association Association for Better Citizenship,NA,NA,Burlingame,CA,19600,TRUE
+unit_33df027f,org_eaeb78cf,organization,FALSE,California Rice Industry Association Political Action Committee,NA,NA,San Rafael,CA,10000,TRUE
+unit_5f24293a,org_eaf5fe2b,organization,FALSE,Los Angeles Police Protective League PAC - Small Contributor Committee,NA,NA,Sacramento,CA,45700,TRUE
+unit_09155a44,org_ebaa4d28,organization,FALSE,"DoorDash, Inc.",NA,NA,San Francisco,CA,39200,TRUE
+unit_9afe185b,org_ec0f3dd0,organization,FALSE,PCMA Pharmaceutical Care Management Association (FEC ID#C00388819),NA,NA,Washington,DC,5000,TRUE
+unit_c8a33271,org_ecdfe829,organization,FALSE,K A L L Accountancy Corporation,NA,NA,West Covina,CA,5000,TRUE
+unit_9ee07e6c,org_ed14d154,organization,TRUE,Marine Clerks ILWU Local 63- PAC Small Contributor Committee,NA,NA,San Pedro,CA,6500,TRUE
+unit_f2edf47a,org_ed14d154,organization,TRUE,International Longshore and Warehouse Union Local 13 PAC (ILWU),NA,NA,Wilmington,CA,40700,TRUE
+unit_7bf91915,org_ed14d154,organization,TRUE,Northern California District Council ILWU,NA,NA,San Francisco,CA,500,TRUE
+unit_515eba83,org_ee3a3cda,organization,FALSE,AlphaOne Ambulance Medical Services Inc.,NA,NA,Sacramento,CA,20000,TRUE
+unit_e6937d2c,org_ef5a5715,organization,FALSE,Jamul Indian Village,NA,NA,Jamul,CA,25000,TRUE
+unit_cde580c1,org_ef9a2c32,organization,FALSE,Meruelo Enterprises Inc. (Alex Meruelo),NA,NA,Downey,CA,10000,TRUE
+unit_b5698190,org_eff705b0,organization,FALSE,"McDonald's USA, LLC, including McDonald's Corporation(Lauren Aguilar)",NA,NA,Chicago,IL,10000,TRUE
+unit_4234fd81,org_f124f44d,organization,FALSE,Plumbers Local No. 78 Political Action Committee,NA,NA,Los Angeles,CA,10000,TRUE
+unit_227fe165,org_f1290b13,organization,FALSE,Wine Institute California PAC,NA,NA,Long Beach,CA,13000,TRUE
+unit_7d901f16,org_f1bb8d6b,organization,FALSE,BAK Festivals,NA,NA,Salinas,CA,5000,TRUE
+unit_baff9ed5,org_f1dc6701,organization,FALSE,Pala Band of Mission Indians,NA,NA,Pala,CA,9800,TRUE
+unit_20894117,org_f2782211,organization,FALSE,Foster Poultry Farms LLC (Jayson Penn),NA,NA,Livingston,CA,13000,TRUE
+unit_5b04ba19,org_f27934c2,organization,FALSE,Dario Frommer for Controller 2026,NA,NA,Sacramento,CA,10000,TRUE
+unit_0922810f,org_f2c230c1,organization,FALSE,"TAH Operations, LLC",NA,NA,Santa Ana,CA,8900,TRUE
+unit_9ccedd57,org_f392bedf,organization,FALSE,Aspen Skilled Healthcare Inc.,NA,NA,Laguna Niguel,CA,10000,TRUE
+unit_2365cd2a,org_f3d0eb0f,organization,FALSE,Association of California School Administrators Political Action Committee,NA,NA,Sacramento,CA,78400,TRUE
+unit_bbd44009,org_f424de5e,organization,FALSE,Dr. Angelo Farooq for Riverside County Supervisor 2028,NA,NA,Encino,CA,10000,TRUE
+unit_011d9efb,org_f449a083,organization,FALSE,California Dental Association Political Action Committee (CDA PAC),NA,NA,Sacramento,CA,80900,TRUE
+unit_dae1a832,org_f53c584e,organization,FALSE,Twenty-Nine Palms Band of Mission Indians,NA,NA,Coachella,CA,31000,TRUE
+unit_3ce1b804,org_f64a2f53,organization,FALSE,The Lincoln Club of Orange County State PAC,NA,NA,Irvine,CA,5000,TRUE
+unit_7fc48205,org_f6a3a6e1,organization,FALSE,Eureka Political Action Committee (fed PAC ID #c00390161),NA,NA,Bethesda,MD,10000,TRUE
+unit_ef4d7f9a,org_f6f29c30,organization,FALSE,"Diversis Capital Partners II, LP",NA,NA,Los Angeles,CA,39200,TRUE
+unit_4da5827b,org_f7570feb,organization,FALSE,Robert Zarnegan and Probity International Corporation,NA,NA,Beverly Hills,CA,49200,TRUE
+unit_40d68ab1,org_f7f6e335,organization,FALSE,Flagstone Healthcare Central LLC and Affiliated Entities,NA,NA,San Juan Capistrano,CA,20000,TRUE
+unit_e3118c3b,org_f80239f5,organization,FALSE,"California's Credit Unions League PAC, Sponsored by California Credit Union League",NA,NA,Ontario,CA,12500,TRUE
+unit_13117f5e,org_f9a21158,organization,FALSE,Cal Pacific Supply Inc.,NA,NA,Madera,CA,30000,TRUE
+unit_95c2bc74,org_fa765096,organization,FALSE,Dawn Davidson Design,NA,NA,Del Mar,CA,5000,TRUE
+unit_0d302c03,org_fa86332a,organization,FALSE,Hughes Investments,NA,NA,Newport Beach,CA,20000,TRUE
+unit_42a09023,org_fb7051d3,organization,FALSE,California Optometric PAC (aka CAL-OPAC),NA,NA,Sacramento,CA,41200,TRUE
+unit_cd525110,org_fb8d2d6d,organization,FALSE,Wherabouts LLC (Will Wiersig),NA,NA,Turlock,CA,39200,TRUE
+unit_6a5d6799,org_fbcc2a35,organization,FALSE,Stephanie Nguyen for Assembly 2026,NA,NA,Sacramento,CA,11900,TRUE
+unit_b9f94b38,org_fca676ec,organization,FALSE,Laborers' Local 1184 Political Campaign Fund,NA,NA,Riverside,CA,10000,TRUE
+unit_3cce52a1,org_fd2dc57a,organization,FALSE,San Joaquin River Ranch LLC,NA,NA,Fresno,CA,5000,TRUE
+unit_a0a0fa6a,org_fdc2789d,organization,FALSE,"America's Physician Groups California Political Action Committee, sponsored by America's Physician Groups",NA,NA,Glendale,CA,39200,TRUE
+unit_0846cd05,org_fdc317eb,organization,FALSE,The Spanos Corporation,NA,NA,Stockton,CA,10000,TRUE
+unit_061ea123,org_fdcc7a1a,organization,FALSE,LSN Partners LLC (Alex Heckler),NA,NA,Miami,FL,39200,TRUE
+unit_40d52160,org_fdd6e250,organization,FALSE,Mark Gonzalez for Assembly 2026,NA,NA,Norwalk,CA,5900,TRUE
+unit_4f77d61e,org_fdf752a2,organization,FALSE,Associated General Contractors Political Action Committee of CA,NA,NA,West Sacramento,CA,39200,TRUE
+unit_7bcfb376,org_fe68ac8d,organization,FALSE,Terra Linda Farms,NA,NA,Riverdale,CA,6000,TRUE
+unit_dd8cb716,org_fe8c2043,organization,FALSE,GFC Courage Committee - San Francisco Chapter,NA,NA,San Rafael,CA,5000,TRUE
+unit_6e1727df,org_ff755003,organization,FALSE,Yocha Dehe Wintun Nation,NA,NA,Brooks,CA,91400,TRUE
+unit_0599a40e,indiv_007e84a0,individual,FALSE,VALERO KYLE,THE VALERO LAW GROUP APC,ATTORNEY,WOODLAND HILLS,CA,5000,TRUE
+unit_b05152c1,indiv_012a5616,individual,FALSE,MACFARLANE JOHN,NONE,NONE,MONTECITO,CA,5000,TRUE
+unit_8fc98031,indiv_013405a3,individual,FALSE,CZYZYK JOSEPH,MERCURY AVIATION COMPANIES,CEO,TORRANCE,CA,15000,TRUE
+unit_c26d9ad2,indiv_01b1e327,individual,FALSE,PERRY CLAIRE,SELF EMPLOYED,PHILANTHROPIST,SAN JOSE,CA,39200,TRUE
+unit_9f69c8ef,indiv_01c0dc41,individual,FALSE,LUCCHETTI CHRISTINE,RETIRED,RETIRED,WILTON,CA,39200,TRUE
+unit_859ad7de,indiv_01d208f5,individual,FALSE,SAMUELIAN KRISTIN,RETIRED,RETIRED,LAGUNA BEACH,CA,10000,TRUE
+unit_18aebdf9,indiv_01ebbb4d,individual,FALSE,LORD PHILIP,SELF EMPLOYED,FILMMAKER,VENICE,CA,6000,TRUE
+unit_a7cd8263,indiv_0235bb7a,individual,FALSE,YOUNG ALBERT,ASTRANA HEALTH,ADMINISTRATOR,MONTEREY PARK,CA,5000,TRUE
+unit_807a2d6d,indiv_02511612,individual,FALSE,SENDERS TOM MICHELE,APPLE,EXECUTIVE,ATHERTON,CA,10000,TRUE
+unit_f33d1429,indiv_026526b8,individual,FALSE,SIEBEL TOM,RETIRED,RETIRED,WOODSIDE,CA,10000,TRUE
+unit_ec706be3,indiv_02c69f7d,individual,FALSE,WADSWORTH STEVE,W3 CAPITAL,INVESTING,ATHERTON,CA,10000,TRUE
+unit_5a3744e1,indiv_02cc965e,individual,TRUE,LEAL DOLORES,ALLRED MAROKO AND GOLDBERG,ATTORNEY,LOS ANGELES,CA,20384.07,TRUE
+unit_b4ddc46a,indiv_02cc965e,individual,TRUE,LEAL DOLORES,AMG,ATTORNEY,LOS ANGELES,CA,250,TRUE
+unit_9cde20e8,indiv_03071593,individual,FALSE,ROSENBLATT RICHARD,WHIP MEDIA,CEO,SANTA MONICA,CA,20000,TRUE
+unit_4a46eb27,indiv_039a39c4,individual,FALSE,BLOCK CARSON,MUDDY WATERS CAPITAL,CEO,AUSTIN,TX,5000,TRUE
+unit_42ca3641,indiv_03ab84fb,individual,FALSE,AUGUSTINE DAVID,DAV,SOFTWARE ENGINEER,SAN FRANCISCO,CA,9800,TRUE
+unit_e60f72b6,indiv_03ca42b9,individual,FALSE,GAO LEO,OPENAI,RESEARCHER,SAN FRANCISCO,CA,39200,TRUE
+unit_2a8fa41a,indiv_03e66ffd,individual,FALSE,SINGH SANDALDEEP,SELF EMPLOYED,DENTIST,GILROY,CA,5000,TRUE
+unit_c35a7356,indiv_03ea3457,individual,FALSE,GOLDMAN DOUGLAS,CERTAIN,PUBLISHER,SAN FRANCISCO,CA,10000,TRUE
+unit_b7d39937,indiv_04192b27,individual,FALSE,CHAKRABARTI SAIKAT,NEW CONSENSUS,PRESIDENT,SAN FRANCISCO,CA,7500,TRUE
+unit_168a7054,indiv_054e18a8,individual,FALSE,SENYEI ANDREW,RETIRED,RETIRED,LA JOLLA,CA,15000,TRUE
+unit_a8fbbf57,indiv_0555b34d,individual,FALSE,ABRAMS JEFFREY,BAD ROBOT,FOUNDER,ENCINO,CA,39200,TRUE
+unit_abe07a75,indiv_055e9ba3,individual,FALSE,BEQUER LEYDA,RETIRED,RETIRED,YORBA LINDA,CA,7000,TRUE
+unit_1c925bc0,indiv_059f4848,individual,FALSE,KRIEGER KAITLYN,SELF EMPLOYED,PHILANTHROPIST,SAN FRANCISCO,CA,39200,TRUE
+unit_09389df9,indiv_060b4cec,individual,FALSE,ALEX CRISTOBAL,TUSK STRATEGIES,EXECUTIVE,WASHINGTON,DC,2500,TRUE
+unit_c47be50f,indiv_060b4cec,individual,FALSE,ALEX CRISTOBAL,TUSK STRATEGIES,PARTNER,WASHINGTON,DC,3500,TRUE
+unit_0fbc7b88,indiv_06592455,individual,FALSE,IGLESIAS NORMA,SELF EMPLOYED,PHYSICIAN,MCALLEN,TX,5000,TRUE
+unit_68754b04,indiv_0687ecd2,individual,FALSE,ESTRADAS J,ARROYO VISTA FAMILY HEALTH CENTER,CEO,SANTA MONICA,CA,5000,TRUE
+unit_755d5eea,indiv_069e413e,individual,FALSE,THOMAS ELIZABETH ALLISON,ELIZABETH ALLISON THOMAS,PRODUCER,LOS ANGELES,CA,6000,TRUE
+unit_7e01ae55,indiv_06aefcd3,individual,FALSE,FLAX LARRY,RETIRED,RETIRED,LOS ANGELES,CA,5000,TRUE
+unit_80876cc1,indiv_06dda53d,individual,FALSE,COHEN LARRY,RETIRED,RETIRED,LOS ANGELES,CA,5000,TRUE
+unit_323e9ad7,indiv_07ac4b2f,individual,FALSE,SIMON GIL,SOMA EQUITY,CIO,HILLSBOROUGH,CA,9800,TRUE
+unit_050cc3b3,indiv_07baa833,individual,FALSE,DAVIS LONNY,DAVIS GUEST HOME,BUSINESSMAN,MODESTO,CA,15000,TRUE
+unit_670f1b88,indiv_081aa9da,individual,TRUE,GARZA JOSE,MERRILL LYNCH,FINANCIAL ADVISOR,MCALLEN,TX,20000,TRUE
+unit_839bfcc0,indiv_081aa9da,individual,TRUE,CARUSO JOSEPH,LOMA LINDA UNIVERSITY,PROFESSOR_ADMINISTRATOR_RESEARCHER,MORRO BAY,CA,52.05,TRUE
+unit_e2f76caa,indiv_083e18a5,individual,FALSE,KAZAKIAN HARRY,USA EXPRESS LEGAL AND INVESTIGATIVE SERVICES,CEO,WOODLAND HILLS,CA,6000,TRUE
+unit_792952ca,indiv_0869b3e2,individual,FALSE,BARSANTI MICHELLE,RETIRED,RETIRED,SAN JOSE,CA,5500,TRUE
+unit_76cf6c93,indiv_08a95c84,individual,TRUE,MARTINIAN TIGRAN,MARTINIAN LAWYERS,ATTORNEY,LOS ANGELES,CA,51600,TRUE
+unit_b688fe63,indiv_08a95c84,individual,TRUE,MARTINIAN TIGRAN,MARTINIAN AND ASSOCIATES,ATTORNEY,LOS ANGELES,CA,9200,TRUE
+unit_983e820d,indiv_08cbdbfd,individual,FALSE,DISNEY ROY,SHAMROCK ENTERPRISES,INVESTOR,BURBANK,CA,5000,TRUE
+unit_6471dd08,indiv_0903c6d6,individual,FALSE,MEYER BRITT,MEYER PROPERTIES,OWNER,NEWPORT BEACH,CA,29200,TRUE
+unit_1200e0cb,indiv_093ba643,individual,TRUE,LINER STUART,LINER FREEDMAN TAITELMAN COOLEY,ATTORNEY,LOS ANGELES,CA,7500,TRUE
+unit_e90783fc,indiv_093ba643,individual,TRUE,LINER STUART,LINER FREEDMAN TAITELMAN COOLEY,PARTNER,LOS ANGELES,CA,20000,TRUE
+unit_20f27d94,indiv_093ba643,individual,TRUE,LINER STUART,LINER FREEDMAN TAITELMAN,PARTNER,LOS ANGELES,CA,12500,TRUE
+unit_b98dcc45,indiv_0a4fb332,individual,FALSE,ERVIN DANIEL,RETIRED,RETIRED,FLORENCE,SC,11389.690000000002,TRUE
+unit_6e9e0b85,indiv_0aa7bbfd,individual,FALSE,ROE RICHARD THORNEY WILLIAM,RETIRED,RETIRED,SHERMAN OAKS,CA,6570,TRUE
+unit_323bbbd8,indiv_0b167270,individual,FALSE,WEBER PETER,RETIRED,RETIRED,FRESNO,CA,20000,TRUE
+unit_ebd20148,indiv_0b3c5944,individual,FALSE,JOSEFOWITZ NICHOLAS,PERMIT POWER,EXECUTIVE,SAN FRANCISCO,CA,9800,TRUE
+unit_5057a26b,indiv_0b69fd05,individual,FALSE,SMITH MEYER WENDY,NONE,NONE,ENCINO,CA,2000,TRUE
+unit_b4516915,indiv_0b69fd05,individual,FALSE,SMITH MEYER WENDY,NONE,RETIRED,ENCINO,CA,5000,TRUE
+unit_8eda6f22,indiv_0b6ab9c4,individual,FALSE,SHELL LAURA,NONE,NONE,BEVERLY HILLS,CA,39200,TRUE
+unit_2d0061f6,indiv_0b6ab9c4,individual,FALSE,SHELL LAURA,N A,RETIRED,BEVERLY HILLS,CA,9800,TRUE
+unit_31d8d7b1,indiv_0c073603,individual,FALSE,ALTAIR LAW PC,NA,NA,SAN FRANCISCO,CA,9800,TRUE
+unit_1c9f5222,indiv_0cfc4f5b,individual,FALSE,GOMEZ JOHN,GOMEZ TRIAL ATTORNEYS,ATTORNEY,SAN DIEGO,CA,10000,TRUE
+unit_5ef00c9a,indiv_0d1cab73,individual,FALSE,GOLD STANLEY,SHAMROCK HOLDINGS,CHAIRMAN,BURBANK,CA,10000,TRUE
+unit_8a2ba635,indiv_0d2f9335,individual,FALSE,SCHATTYN JOHN,RETIRED,RETIRED,KERRVILLE,TX,5323.380000000003,TRUE
+unit_49cdc92c,indiv_0e0e8019,individual,FALSE,FRASE TIMOTHY,FRASE INVESTMENTS,REAL ESTATE INVESTOR,BOZEMAN,MT,5000,TRUE
+unit_96626c3a,indiv_0e1089e4,individual,TRUE,DAKE GLEN,GENERAL DOUGLAS MACARTHUR LODGE,ARCHITECT,LOS ANGELES,CA,5000,TRUE
+unit_ac9550bd,indiv_0e1089e4,individual,TRUE,DAKE GLEN,GENERAL DOUGLAS MACARTHUR LODGE,LANDSCAPE ARCHITECT,LOS ANGELES,CA,10000,TRUE
+unit_378799ac,indiv_0e1089e4,individual,TRUE,DAKE GLEN,GDML HOLDINGS,ARCHITECT,LOS ANGELES,CA,11315.1,TRUE
+unit_b7255f65,indiv_0e1089e4,individual,TRUE,TAUKE GLEN,DENMAR TECHNICAL SERVICES,ENGINEER,LANCASTER,CA,150,TRUE
+unit_e69688b1,indiv_0e1089e4,individual,TRUE,DAKE GLEN,GDML HOLDINGS,LANDSCAPE ARCHITECT,LOS ANGELES,CA,5000,TRUE
+unit_a23b550c,indiv_0e135454,individual,FALSE,KEKER JOHN,KEKER VAN NEST AND PETERS,ATTORNEY,SAN FRANCISCO,CA,5000,TRUE
+unit_3d51dfe5,indiv_0e7b21fe,individual,FALSE,LOPEZ ABEL,CHURCH OF THE MESSIAH,PRIEST,SANTA ANA,CA,5000,TRUE
+unit_da63386c,indiv_0ea9c05c,individual,FALSE,VERA ALBERT,N A,NONE,CULVER CITY,CA,7500,TRUE
+unit_e8978e7a,indiv_0f146f5d,individual,FALSE,MOORE PATRICIA,NONE,NONE,SAN DIEGO,CA,6000,TRUE
+unit_91909579,indiv_0f3da240,individual,FALSE,PRITZKER LISA,NONE,NONE,SAN FRANCISCO,CA,39200,TRUE
+unit_94f6d19c,indiv_0f9ea0e3,individual,FALSE,STARK DAWN,STARK LEGAL,ATTORNEY,NASHVILLE,TN,7500,TRUE
+unit_290625a0,indiv_10290fbe,individual,FALSE,MULLENWEG CHARLEEN,CHARLEEN MULLENWEG,GENEALOGIST,WEST LAKE HILLS,TX,9800,TRUE
+unit_15039f81,indiv_10483ca3,individual,FALSE,FIELDS ROGER,PENINSULA LAND AND CAPITAL,PRIVATE EQUITY COMMERCIAL REAL ESTATE,PALO ALTO,CA,10500,TRUE
+unit_62b4630b,indiv_1093458a,individual,FALSE,SOLACHE JOSE,STATE OF CALIFORNIA,ASSEMBLYMEMBER,LYNWOOD,CA,5000,TRUE
+unit_f353a105,indiv_10d21ca8,individual,TRUE,JAMESON JAMES,JAMES D JAMESON,OWNER,DEL MAR,CA,39200,TRUE
+unit_2579d2be,indiv_10d21ca8,individual,TRUE,JAMESON JAMES,LIDCO,CHAIRMAN,DEL MAR,CA,39200,TRUE
+unit_d7a1bbda,indiv_10fbaefa,individual,FALSE,HARGROVE KAREN,RETIRED,RETIRED,CARMEL,CA,20000,TRUE
+unit_61a50f55,indiv_10fcf219,individual,FALSE,HEISING CAITLIN,NONE,HOMEMAKER,SAN FRANCISCO,CA,5000,TRUE
+unit_810d00dc,indiv_1191bb2c,individual,FALSE,AYALA OSCAR,NONE,NONE,COVINA,CA,5000,TRUE
+unit_5c0cbb08,indiv_11bc3cac,individual,FALSE,ROBLES GLENDA,NONE,RETIRED,SOUTH PASADENA,CA,5000,TRUE
+unit_ce1c10f5,indiv_120dca91,individual,FALSE,SEGAL MARK,NKSFB,CPA,ARCADIA,CA,5000,TRUE
+unit_3c52b5d2,indiv_126332b5,individual,FALSE,BANCROFT HUGH,RETIRED,RETIRED,RANCHO SANTA FE,CA,16328.130000000003,TRUE
+unit_16a07f27,indiv_1289d3cb,individual,FALSE,KOEHNEN MICHAEL,RIVERWEST PROCESSING,OWNER,CHICO,CA,5000,TRUE
+unit_6b2954f4,indiv_128e4de6,individual,FALSE,GILL AMANDEEP,SELF EMPLOYED,DENTIST,MANTECA,CA,25000,TRUE
+unit_0c3fdaef,indiv_12ea7922,individual,FALSE,PETERSON RICHARD,LIGHTHOUSE PUBLIC AFFAIRS,CONSULTANT,SAN FRANCISCO,CA,25000,TRUE
+unit_925f6e78,indiv_13320390,individual,FALSE,ROCK MICHELLE,RETIRED,RETIRED,SAN JOSE,CA,10000,TRUE
+unit_1ca30241,indiv_13662fee,individual,TRUE,SULLIVAN SEAN,SULLIVAN WATERWORKS,BUSINESS OWNER,OAKLAND,CA,100,TRUE
+unit_4b5f2224,indiv_13662fee,individual,TRUE,SULLIVAN SEAN,LIFE WEST AMBULANCE,CEO,SANTA ROSA,CA,10000,TRUE
+unit_b6ce6c5d,indiv_1374c5e9,individual,FALSE,DALLA DEVAN,SELF EMPLOYED,DENTIST,ELK GROVE,CA,30000,TRUE
+unit_5f010798,indiv_138087ab,individual,TRUE,ANDROS ANN,OLYMPIA PROPERTIES,OWNER,SAN JUAN CAPISTRANO,CA,400,TRUE
+unit_ab53dd88,indiv_138087ab,individual,TRUE,ANDREWS ANNE,ANDREWS AND THORNTON ATTORNEYS AT LAW,MANAGING PARTNER/ATTORNEY,NEWPORT BEACH,CA,5000,TRUE
+unit_e4604289,indiv_13ae95dc,individual,FALSE,OBENDORF SUSAN,N A,PHILANTHROPIST,SAN FRANCISCO,CA,9800,TRUE
+unit_84f25687,indiv_13b6abfc,individual,FALSE,VAUDAGNA ANN,RETIRED,RETIRED,SARATOGA,CA,5000,TRUE
+unit_f2b9a179,indiv_1491804f,individual,FALSE,LEIDEL PETER,YORKTOWN PARTNERS,INVESTOR,DIME BOX,TX,5000,TRUE
+unit_bb5a1f7a,indiv_149dd02c,individual,FALSE,PRISELAC THOMAS,NONE,NONE,SANTA MONICA,CA,5000,TRUE
+unit_acfd5207,indiv_149dd02c,individual,FALSE,PRISELAC THOMAS,NONE,RETIRED,SANTA MONICA,CA,4000,TRUE
+unit_ea0fad14,indiv_16031c86,individual,FALSE,GALLO THOMAS,RETIRED,RETIRED,MODESTO,CA,7500,TRUE
+unit_f765e51a,indiv_163d9d63,individual,FALSE,LOCKARD TOM,NONE,NONE,SAN FRANCISCO,CA,7000,TRUE
+unit_4b299fe0,indiv_168fdbd5,individual,FALSE,RANDALL JAMES,RANDALL CAPITAL GROUP,CEO,LOS ANGELES,CA,5000,TRUE
+unit_83b6c631,indiv_173426de,individual,FALSE,MARSHALL BARBARA GRIMM,RETIRED,RETIRED,BAKERSFIELD,CA,20000,TRUE
+unit_f6f653bc,indiv_17497741,individual,FALSE,MADISON STEVEN,QUINN EMANUEL,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_37e2aba1,indiv_175c88a7,individual,FALSE,HAYS JOE,DYNAMIC ENERGY SOLUTIONS,CONTROLLER,PHILADELPHIA,PA,5000,TRUE
+unit_272f4723,indiv_17b70e8b,individual,FALSE,SHENKMAN KEVIN,SHENKMAN AND HUGHES PC,ATTORNEY,MALIBU,CA,5000,TRUE
+unit_9fa3224f,indiv_17de5731,individual,FALSE,NOORIAN SHAUN,EMPOWER PHARMACY,CEO,HOUSTON,TX,41700,TRUE
+unit_0eca9f2e,indiv_1813c45b,individual,FALSE,MIDDLETON CAROLE,RETIRED,RETIRED,HILLSBOROUGH,CA,21250,TRUE
+unit_c1e20af8,indiv_1849f2ef,individual,FALSE,MANLEY DWIGHT,DWIGHT MANLEY,SELF EMPLOYED,BREA,CA,10000,TRUE
+unit_ad4f0228,indiv_1883274b,individual,FALSE,DEDEAUX BRETT,DEDEAUX PROPERTIES,CEO AND MANAGING MEMBER,SANTA MONICA,CA,5000,TRUE
+unit_38f5d297,indiv_18ec20c2,individual,FALSE,BILLS STEVEN,ANTHROPIC PBC,RESEARCHER,SAN FRANCISCO,CA,39200,TRUE
+unit_da0180b1,indiv_18ec20c2,individual,FALSE,BILLS STEVEN,ANTHROPIC,RESEARCHER,SAN FRANCISCO,CA,39200,TRUE
+unit_ffa811c6,indiv_195d4f1e,individual,FALSE,GRANNIS SCOTT,RETIRED,RETIRED,CLAREMONT,CA,5100,TRUE
+unit_d4d05bd7,indiv_197e841e,individual,FALSE,WHITNEY LISA,RETIRED,RETIRED,SANTA ROSA,CA,5000,TRUE
+unit_d47a20bb,indiv_19f3e640,individual,FALSE,ALLEN JARED,RETIRED,RETIRED,NASHVILLE,TN,5000,TRUE
+unit_57ff5be5,indiv_1a114bf8,individual,FALSE,PACE PHIL,PHILS BBQ,OWNER,SAN DIEGO,CA,39200,TRUE
+unit_ec642d8c,indiv_1a3cb896,individual,FALSE,JONES ERIC,N A,NONE,SAN FRANCISCO,CA,5000,TRUE
+unit_1638e038,indiv_1a7e748f,individual,FALSE,GARCIA ELVIN,SELF EMPLOYED,PHYSICIAN,MISSION,TX,5000,TRUE
+unit_e1ca1288,indiv_1a927819,individual,FALSE,OPROGLOU ANNA,RETIRED,RETIRED,MARINA DEL REY,CA,5000,TRUE
+unit_df829186,indiv_1ab5cccf,individual,FALSE,SACHAN KSHITIJ,ANTHROPIC PBC,RESEARCHER,SAN FRANCISCO,CA,39200,TRUE
+unit_09102659,indiv_1b0efb3c,individual,FALSE,SALTON SCOTT,LIGHTHOUSE WORLDWIDE SOLUTIONS,MANAGER,GRANTS PASS,OR,78199,TRUE
+unit_37ed0c31,indiv_1b332fd8,individual,FALSE,DAVIS ZACHARY,DAVIS GUEST HOMES,BUSINESSMAN,RIPON,CA,5000,TRUE
+unit_236a1d7c,indiv_1b4e2abe,individual,FALSE,KEANE LINDSEY,SUNRUN,EXECUTIVE ASSISTANT,WOBURN,MA,5000,TRUE
+unit_8d137fa2,indiv_1b8d651a,individual,FALSE,SALCEDO ANTHONY,PLC,MANAGER,SACRAMENTO,CA,5000,TRUE
+unit_b3dd8094,indiv_1b8f4a98,individual,TRUE,ADAMS THOMAS,TIODIZE,PRESIDENT,HUNTINGTON BEACH,CA,20000,TRUE
+unit_08076963,indiv_1b8f4a98,individual,TRUE,ADAMS THOMAS,TIODIZE ADVANCED COATINGS AND COMPOSITES,PRESIDENT,HUNTINGTON BEACH,CA,5000,TRUE
+unit_3b2d1702,indiv_1b918adb,individual,FALSE,ROSENSTEIN ARNOLD,NEW PACIFIC REALTY,REAL ESTATE EXECUTIVE,BEVERLY HILLS,CA,39200,TRUE
+unit_49fad458,indiv_1b9e4f2c,individual,FALSE,PERTEL JOE,LOYOLA LAW SCHOOL,ATTORNEY,SANTA MONICA,CA,5000,TRUE
+unit_9b3f07b7,indiv_1bd27d3c,individual,FALSE,MARSH CHRISTOPHER,CHERRY TREE CAPITAL PARTNERS,CEO,NEWPORT BEACH,CA,5000,TRUE
+unit_98f46671,indiv_1be9ab4b,individual,FALSE,ABIAAD MARIANNE,ROYAL CORPORATION,BUSINESS EXECUTIVE,CHINO HILLS,CA,10000,TRUE
+unit_a2dbe9ad,indiv_1bf6333e,individual,FALSE,WILKINS MIKE,KINGSFORD CAPITAL,MONEY MANAGER,RICHMOND,CA,9800,TRUE
+unit_4a59ff66,indiv_1c1c0b10,individual,FALSE,GOLDMAN LISA,NONE,NONE,SAN FRANCISCO,CA,10000,TRUE
+unit_63147765,indiv_1c251921,individual,TRUE,HORENSTEIN JANET,CALIFORNIA FAMILIES IN FOCUS,PHYSICIAN,LONG BEACH,CA,5250,TRUE
+unit_16deac60,indiv_1c251921,individual,TRUE,HORENSTEIN JANET,CENTER FOR FETAL MEDICINE,PHYSICIAN,LONG BEACH,CA,2500,TRUE
+unit_c65931b6,indiv_1c251921,individual,TRUE,HORENSTEIN JANET,SELF EMPLOYED,PHYSICIAN,LONG BEACH,CA,50,TRUE
+unit_b9ca6f71,indiv_1c91a045,individual,FALSE,RASCOFF NANCI,UNIVERSITY OF CALIFORNIA LOS ANGELES,PHYSICIAN,SANTA MONICA,CA,39200,TRUE
+unit_bf013fff,indiv_1d6bf331,individual,FALSE,BARDACK STEVE,NONE,NONE,LOS ANGELES,CA,1500,TRUE
+unit_0aaf4d95,indiv_1d6bf331,individual,FALSE,BARDACK STEVE,STRATA CAPITAL,REAL ESTATE DEVELOPER,LOS ANGELES,CA,39200,TRUE
+unit_d53b0cfd,indiv_1d9a0bc7,individual,FALSE,FLOYD ARIC,80 000 HOURS,PRODUCER,BERKELEY,CA,39200,TRUE
+unit_c8056b4b,indiv_1df89fa6,individual,FALSE,GREWAL ANUREET,NONE,NONE,PLEASANTON,CA,5000,TRUE
+unit_4c166390,indiv_1e054298,individual,FALSE,LEVENTHAL JEROME,RETIRED,RETIRED,WOODLAND HILLS,CA,5516.4,TRUE
+unit_84ebf9b5,indiv_1e64e6eb,individual,FALSE,RICHMOND THOMAS,DOORKING,ENGINEER,LOS ALAMITOS,CA,7000,TRUE
+unit_cdacd9b6,indiv_1e789d6f,individual,FALSE,ACOSTA GARY,NATL ASSOCIATION OF HISPANIC REAL ESTATE PROFESSIONALS,EXECUTIVE,SAN DIEGO,CA,5000,TRUE
+unit_ea731142,indiv_1f33a498,individual,FALSE,LIKER MARK,NEUROSURGICAL ASSOCIATES OF LA,PHYSICIAN,VALENCIA,CA,5000,TRUE
+unit_51ab5cdb,indiv_1f33b8d5,individual,FALSE,ROPER ROB,N A,RETIRED,SANTA ROSA,CA,5000,TRUE
+unit_1c7d7d87,indiv_1f3c13ed,individual,FALSE,MCMILLIN SCOTT,RETIRED,RETIRED,SAN DIEGO,CA,68400,TRUE
+unit_e00cfc6b,indiv_1f3c13ed,individual,FALSE,MCMILLIN SCOTT,THE CORKY MCMILLIN COMPANIES,REAL ESTATE,SAN DIEGO,CA,10000,TRUE
+unit_7902d5cc,indiv_1f48e24a,individual,FALSE,OBENDORF WILLIAM,OBENDORF INVESTMENTS,INVESTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_fee2b9a9,indiv_1fb238ac,individual,FALSE,WARSCHAW HOPE,WARLAND INVESTMENTS,INVESTOR,SANTA MONICA,CA,5000,TRUE
+unit_68554e69,indiv_20101e07,individual,FALSE,COX JR JM,MITCH COX COMPANIES,CONTRACTOR,JOHNSON CITY,TN,10000,TRUE
+unit_f96a5458,indiv_2063df25,individual,FALSE,LAKE JOHN,PROCHORUS,MANAGER,BAKERSFIELD,CA,7500,TRUE
+unit_2b36c7f1,indiv_20a5261e,individual,FALSE,YAKOVENKO LAURA,NONE,NONE,OAKLAND,CA,39200,TRUE
+unit_d14644e1,indiv_20af241e,individual,FALSE,SINGH AMIT,RETIRED,RETIRED,LOS ALTOS HILLS,CA,25000,TRUE
+unit_1aea64ad,indiv_21bf6dea,individual,FALSE,RANGASWAMI VIJI,LIBERTY MUTUAL INSURANCE,ATTORNEY,WASHINGTON,DC,2500,TRUE
+unit_2381c491,indiv_21bf6dea,individual,FALSE,RANGASWAMI VIJI,LIBERTY MUTUAL,ATTORNEY,WASHINGTON,DC,5005,TRUE
+unit_bbb2071a,indiv_21c4a583,individual,TRUE,SWANSON MATTHEW,ENVIRONMENTAL PROGRESS,MANAGER,VISALIA,CA,5000,TRUE
+unit_9ad0633e,indiv_21c4a583,individual,TRUE,SWANSON MATTHEW,PROSPECTOR,PRESIDENT,VISALIA,CA,39200,TRUE
+unit_f140997c,indiv_2215248f,individual,FALSE,GILBERT DENNIS,GILBERT GROUP,CEO,LOS ANGELES,CA,9000,TRUE
+unit_970f62eb,indiv_2216af64,individual,FALSE,MCGRORY JOHN,LA JOLLA MANAGEMENT,CEO,LA JOLLA,CA,2000,TRUE
+unit_b740ced5,indiv_2216af64,individual,FALSE,MCGRORY JOHN,LA JOLLA MJ MANAGEMENT,CEO,LA JOLLA,CA,6000,TRUE
+unit_f81c38b9,indiv_2216af64,individual,FALSE,MCGRORY JOHN,LAJOLLA MJ MANAGEMENT,CEO,LA JOLLA,CA,1000,TRUE
+unit_957c0828,indiv_22489abf,individual,FALSE,MCMILLIN SUSAN,RETIRED,RETIRED,SAN DIEGO,CA,45900,TRUE
+unit_a080377d,indiv_2259a11e,individual,TRUE,PHELPS CAROL,NONE,NONE,MOUNTAIN RANCH,CA,5000,TRUE
+unit_42d25515,indiv_2259a11e,individual,TRUE,PHILLIPS CAROLYN,NONE,NONE,GARDEN GROVE,CA,252,TRUE
+unit_97e9e011,indiv_2259a11e,individual,TRUE,PHILLIPS CAROL,RETIRED,RETIRED,REDDING,CA,400,TRUE
+unit_bb9a0b74,indiv_2259a11e,individual,TRUE,PHELPS CARL,NONE,NONE,PACIFIC PALISADES,CA,1000,TRUE
+unit_445895d7,indiv_22c351cd,individual,TRUE,MASSEY BARRY,N A,N/A,CALIFORNIA CITY,CA,100,TRUE
+unit_00a8edc1,indiv_22c351cd,individual,TRUE,MAAS BARRY,NAVIA BENEFITS,THIRD PARTY ADMINISTRATION,FRESNO,CA,5000,TRUE
+unit_1eec9344,indiv_233e25a7,individual,FALSE,LITT CHARLES,FENTON GRANT LAW FIRM,ATTORNEY,LAS VEGAS,NV,5000,TRUE
+unit_2f58e340,indiv_2364a8fa,individual,FALSE,GREENWAY HUBERT,SCRIPPS CLINIC,CEO,RANCHO SANTA FE,CA,5000,TRUE
+unit_9dfe2a42,indiv_23a0a78e,individual,FALSE,HAYWARD ANDREW,LIGHTHOUSE PUBLIC AFFAIRS,CONSULTANT,SAN FRANCISCO,CA,25000,TRUE
+unit_9a472dba,indiv_23afa375,individual,FALSE,BECKER TODD,BECKER LAW GROUP,ATTORNEY,PASADENA,CA,14800,TRUE
+unit_879c557e,indiv_23c082af,individual,FALSE,LINDENBAUM CYNTHIA,NONE,RETIRED,VENTURA,CA,15000,TRUE
+unit_0351004f,indiv_23f3773d,individual,FALSE,RUSENKO DAVID,LEAP FORWARD VENTURES,MANAGING PARTNER,SAN FRANCISCO,CA,9800,TRUE
+unit_8da486b1,indiv_24192883,individual,FALSE,AYERS JOHNNY,SOCURE,CEO,INCLINE VILLAGE,NV,5000,TRUE
+unit_fb71c015,indiv_2514835d,individual,FALSE,HAYLING CRYSTAL,N A,NONE,SAN MATEO,CA,9800,TRUE
+unit_f96ad158,indiv_25650934,individual,FALSE,GALLAGHER MATTHEW,SELF EMPLOYED,ENGINEER,ENCINO,CA,39200,TRUE
+unit_5c10a907,indiv_2571eaf9,individual,FALSE,GORE TRINA,RETIRED,RETIRED,DAVIE,FL,6745.499999999994,TRUE
+unit_3f4406ff,indiv_258b9231,individual,FALSE,CLOUGH JENNIFER,HOLDSWORTH HOLDINGS,ACCOUNTING AND BUSINESS MANAGEMENT,LOS ANGELES,CA,5435,TRUE
+unit_726244ba,indiv_26016627,individual,FALSE,TURTLETAUB MARC,NONE,NONE,SAN FRANCISCO,CA,78400,TRUE
+unit_a11e95ca,indiv_2610115b,individual,FALSE,ROWLEY NICK,TRIAL LAWYERS FOR JUSTICE,ATTORNEY,DECORAH,IA,10000,TRUE
+unit_33b9fc0c,indiv_26609c05,individual,FALSE,SAMINI BOBBY,SAMINI BLOCK APC,ATTORNEY,IRVINE,CA,5000,TRUE
+unit_89012937,indiv_2711a6c7,individual,FALSE,TASH DEBRA,GT WATER PRODUCTS,VICE PRESIDENT,SOMIS,CA,5000,TRUE
+unit_5ecc682e,indiv_27be2bda,individual,FALSE,MAMALIGER JOSEF,SELF EMPLOYED,DENTIST,ENCINO,CA,5000,TRUE
+unit_b46a1668,indiv_28187850,individual,TRUE,SANDNES RICHARD,ENTREPRENEUR,BUSINESS OWNER,CANYON COUNTRY,CA,2500,TRUE
+unit_2d153ccd,indiv_28187850,individual,TRUE,SANDNES RICHARD,MR STAX,PRESIDENT,CANYON COUNTRY,CA,3000,TRUE
+unit_dbcee975,indiv_28754074,individual,FALSE,DODDRIDGE WILLIAM,THE JEWELRY EXCHANGE,CEO,TUSTIN,CA,20000,TRUE
+unit_7f3ae427,indiv_288c3ce3,individual,FALSE,CRAIL SHARON,RETIRED,RETIRED,IRVINE,CA,5000,TRUE
+unit_d568eaf9,indiv_28a4b0ba,individual,FALSE,ECONN GREG,VENBROOK,VICE CHAIRMAN,LOS ANGELES,CA,9800,TRUE
+unit_0b0ca36c,indiv_29307545,individual,TRUE,DORDICK GARY,DORDICK LAW CORPORATION,ATTORNEY,LOS ANGELES,CA,20000,TRUE
+unit_aaa66c16,indiv_29307545,individual,TRUE,DORDICK GARY,DORDICK LAW,ATTORNEY,BEVERLY HILLS,CA,9800,TRUE
+unit_ebe94751,indiv_29307545,individual,TRUE,DORDICK GARY,DORDICK LAW CORPORATION,ATTORNEY,BEVERLY HILLS,CA,9800,TRUE
+unit_cde4814e,indiv_2966f717,individual,FALSE,RUBIN NANCY,S N MARKETING,BUSINESS OWNER,LOS ANGELES,CA,5000,TRUE
+unit_710b81e8,indiv_297acf4d,individual,FALSE,CHERNICK AUBREY,RETIRED,RETIRED,LOS ANGELES,CA,39200,TRUE
+unit_a954d7ef,indiv_29964eb5,individual,FALSE,TAVAKOLI ANDREW,TAVACO PROPERTIES,CEO,BEVERLY HILLS,CA,39200,TRUE
+unit_f5418ecd,indiv_29c4f163,individual,FALSE,COLICH JANINE,COLICH AND SON,ENGINEERING CONTRACTOR,RANCHO PALOS VERDES,CA,10000,TRUE
+unit_fdd4f38c,indiv_29ce2bbd,individual,FALSE,NELSON DARYL,SELF EMPLOYED DARYL NELSON,REAL ESTATE INVESTMENTS,NEWPORT BEACH,CA,10000,TRUE
+unit_bf767fc5,indiv_29e9b886,individual,FALSE,HORWITZ SHAWN,NONE,RETIRED,WESTLAKE VILLAGE,CA,5000,TRUE
+unit_41f9434e,indiv_2a0cbbf4,individual,TRUE,HILL JAMES,WELLS FARGO,SALES,CANTON,GA,200,TRUE
+unit_63ab97ee,indiv_2a0cbbf4,individual,TRUE,HALL JAMES,N A,UNKNOWN,MIDLAND,TX,5000,TRUE
+unit_f03014af,indiv_2a0cbbf4,individual,TRUE,HALL JAMES,DRILLING AND PRODUCTION,EXECUTIVE,PALOS VERDES ESTATES,CA,100,TRUE
+unit_8f0fab4b,indiv_2a75e5c8,individual,FALSE,FISHER MATTHEW,ADOBE,RESEARCH SCIENTIST,BURLINGAME,CA,39200,TRUE
+unit_b511bec6,indiv_2ab5344e,individual,FALSE,LEE SEAN,ANTAI FINANCIAL,CEO,IRVINE,CA,26200,TRUE
+unit_083d5f55,indiv_2ad34cde,individual,TRUE,KEPNER SCOTT,VILLAGE OPERATING,FINANCE,REDWOOD CITY,CA,6000,TRUE
+unit_62b5b39e,indiv_2ad34cde,individual,TRUE,KEPNER SCOTT,VILLAGE PROPERTIES,PRINCIPAL,BELMONT,CA,7500,TRUE
+unit_89a4e8ba,indiv_2ad3d0ea,individual,FALSE,BRANDT ERIC,ONE WORLD BEEF,PRESIDENT AND CEO,SOLANA BEACH,CA,39200,TRUE
+unit_b564939f,indiv_2b378b75,individual,FALSE,DOSANJH JASPREET,CALIFORNIA AUTOMOTIVE GROUP,LAWYER/CAR DEALER,DANVILLE,CA,39200,TRUE
+unit_0c49b489,indiv_2b6003f1,individual,TRUE,HUH JIHEE,PAF,VICE PRESIDENT,ROLLING HILLS,CA,6133.02,TRUE
+unit_e5d26f37,indiv_2b6003f1,individual,TRUE,HUH JIHEE,PACIFIC AMERICAN FISH,CHAIRMAN,ROLLING HILLS,CA,2500,TRUE
+unit_ecb0135d,indiv_2b6003f1,individual,TRUE,HUH JIHEE,PAFCO,VICE CHAIRMAN,ROLLING HILLS,CA,1000,TRUE
+unit_63fb4b03,indiv_2b793dc7,individual,FALSE,KING JAMES,CENTAURUS FINANCIAL,CORPORATE OFFICER,SANTA ANA,CA,5000,TRUE
+unit_a031b90a,indiv_2c3e878e,individual,FALSE,NEWMAN PAUL,LIGHTHOUSE WORLDWIDE SOLUTIONS,PRESIDENT,GRANTS PASS,OR,78200,TRUE
+unit_eb70e438,indiv_2c516306,individual,FALSE,WORTHE KRISTIN,THE PRISM WAY,EXECUTIVE DIRECTOR,SANTA MONICA,CA,9800,TRUE
+unit_395108f1,indiv_2c64e2fd,individual,FALSE,YIP FELIX,SELF EMPLOYED,PHYSICIAN,MONTEREY PARK,CA,5000,TRUE
+unit_74f2bf00,indiv_2ccfdeba,individual,FALSE,GILL DAVID,RIO FARMS,FARMER,KING CITY,CA,5000,TRUE
+unit_b73cc4f5,indiv_2d7522ac,individual,FALSE,FERGUSON DIANE,NONE,NONE,AVALON,CA,550,TRUE
+unit_2eca50a1,indiv_2d7522ac,individual,FALSE,FERGUSON DIANE,DMF PROPERTIES,RENTALS,CAPISTRANO BEACH,CA,5500,TRUE
+unit_d0dabb8e,indiv_2d963bea,individual,FALSE,HOLSCHER MARK,KIRKLAND AND ELLIS,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_c44ab2b1,indiv_2dde4107,individual,FALSE,LOPEZ VERA ANA,NONE,RETIRED,DAVIS,CA,5000,TRUE
+unit_586959c8,indiv_2e10d6e7,individual,FALSE,KORSGADEN TROY,KORSGADEN INTERNATIONAL,CONSULTANT,VISALIA,CA,5000,TRUE
+unit_cedd05bc,indiv_2e73819e,individual,FALSE,SIDLEY MICHAEL,MICHAEL S,REAL ESTATE,BEAVERTON,OR,5000,TRUE
+unit_b2566aea,indiv_2ea17e61,individual,FALSE,NIBBI LAWRENCE,NIBBI BROS ASSOCIATES,CHAIRMAN,HILLSBOROUGH,CA,5000,TRUE
+unit_dd35c7cc,indiv_2f4c899c,individual,FALSE,TUMANJAN MICHAEL,TUMANJAN HOMES,REAL ESTATE,PALOS VERDES ESTATES,CA,10000,TRUE
+unit_c7778579,indiv_2f51d99c,individual,FALSE,TAORMINO J DAVID,DAVID MAR CO,ATTORNEY-REAL ESTATE DEVELOPMENT,DAVIS,CA,25000,TRUE
+unit_8d3dc3bf,indiv_2f627486,individual,TRUE,CHUNN BRIAN,THERMO FISHER,FIELD ENGINEER,LAKE FOREST,CA,304.1,TRUE
+unit_582b0450,indiv_2f627486,individual,TRUE,CHEN BRIAN,ZIP,SOFTWARE ENGINEER,SAN FRANCISCO,CA,39200,TRUE
+unit_6baceccb,indiv_3017a71a,individual,FALSE,GELFAND MICHAEL,TERRA VISTA MANAGEMENT,CEO,RANCHO SANTA FE,CA,1000,TRUE
+unit_541c9e5e,indiv_3017a71a,individual,FALSE,GELFAND MICHAEL,TERRA VISTA MANAGEMENT,REAL ESTATE AGENT,RANCHO SANTA FE,CA,100,TRUE
+unit_b3b24010,indiv_3017a71a,individual,FALSE,GELFAND MICHAEL,TERRA VISTA MANAGEMENT,REAL ESTATE BROKER,RANCHO SANTA FE,CA,5500,TRUE
+unit_f88ec267,indiv_3017a71a,individual,FALSE,GELFAND MICHAEL,TERRA VISTA MANAGEMENT,REALTOR,RANCHO SANTA FE,CA,5000,TRUE
+unit_b8003ab2,indiv_30b8469c,individual,FALSE,ROBERTSON CHIP,SELF EMPLOYED,ATTORNEY,PACIFIC PALISADES,CA,10000,TRUE
+unit_c1b64575,indiv_30be3d16,individual,FALSE,MCGRATH KATHLEEN,BAD ROBOT,EXECUTIVE,ENCINO,CA,39200,TRUE
+unit_9f8b41b2,indiv_30f60c32,individual,TRUE,MURRELL STEVE,RETIRED,RETIRED,CARLSBAD,CA,125,TRUE
+unit_17535a83,indiv_30f60c32,individual,TRUE,MERRILL STEVEN,NONE,NONE,LOS ALTOS,CA,250,TRUE
+unit_1ac51854,indiv_30f60c32,individual,TRUE,MERRILL STEVEN,NONE,NONE,SAN FRANCISCO,CA,5000,TRUE
+unit_b62d225b,indiv_314ccd78,individual,FALSE,WINTER HOPE,LIGHTHOUSE WORLDWIDE SOLUTIONS,CONTROLLER,MEDFORD,OR,40200,TRUE
+unit_9969b963,indiv_31cf1ab4,individual,FALSE,DENHAM BURNETTA,BURNETTA DENHAM,INVESTOR,IRVINE,CA,3000,TRUE
+unit_e62e7e40,indiv_31cf1ab4,individual,FALSE,DENHAM BURNETTA,SELF EMPLOYED BURNETTA DENHAM,INVESTOR,IRVINE,CA,2000,TRUE
+unit_d01ac18a,indiv_31e2057d,individual,TRUE,ANDERSON CYNTHIA,RETIRED,RETIRED,FERNANDINA BEACH,FL,875.26,TRUE
+unit_3824957a,indiv_31e2057d,individual,TRUE,ANDERSON CYNTHIA,RETIRED,RETIRED,FERNANDINA BEACH,FL,6713.6,TRUE
+unit_a9265876,indiv_31e2057d,individual,TRUE,ANDERSON CYNTHIA,RETIRED,RETIRED,LONGWOOD,FL,100,TRUE
+unit_aa99f050,indiv_32001f93,individual,FALSE,SMEAD LARRY,SASCO,CEO,ESSEX,NY,6500,TRUE
+unit_540eaffa,indiv_32855d5b,individual,FALSE,LONGLEY JAY,RAINBOW SANDALS,MANUFACTURER,SAN CLEMENTE,CA,5000,TRUE
+unit_ac17d04e,indiv_329e3614,individual,FALSE,BOWMAN ANN,N A,RETIRED,SANTA MONICA,CA,5000,TRUE
+unit_b73b6a4c,indiv_32d2a488,individual,FALSE,EMERSON JOHN STEVEN,SELF EMPLOYED JOHN EMERSON,STOCK MARKET INVESTOR,LOS ANGELES,CA,7500,TRUE
+unit_133ab037,indiv_33353031,individual,FALSE,STONE RYAN,ELEVATION ENTERTAINMENT GROUP,REAL ESTATE/GAMING,LA JOLLA,CA,7500,TRUE
+unit_975e1fb2,indiv_3337e455,individual,FALSE,CASEY DAVID,SELF EMPLOYED,ATTORNEY,SAN DIEGO,CA,5000,TRUE
+unit_306f99f7,indiv_33473754,individual,FALSE,BANKE BARBARA,JACKSON FAMILY WINES,CHAIRMAN,GEYSERVILLE,CA,10000,TRUE
+unit_05de5d04,indiv_33b2643a,individual,TRUE,FLORES HECTOR,ALTAIS,PHYSICIAN,WHITTIER,CA,1939.2,TRUE
+unit_327f2acc,indiv_33b2643a,individual,TRUE,FLORES HECTOR,ALTAIS FAMILY CARE SPECIALISTS,PHYSICIAN,WHITTIER,CA,18500,TRUE
+unit_d866714f,indiv_33b2643a,individual,TRUE,FLORES HECTOR,FAMILY CARE SPECIALISTS MEDICAL GROUP,PHYSICIAN,WHITTIER,CA,2600,TRUE
+unit_0d49cd4f,indiv_33eb1e70,individual,TRUE,MARKOV TODOR,ANTHROPIC,MEMBER OF TECHNICAL STAFF,SAN FRANCISCO,CA,25000,TRUE
+unit_4fd10232,indiv_33eb1e70,individual,TRUE,MARKOV TODOR,ANTHROPIC PBC,ANALYST,SAN FRANCISCO,CA,14200,TRUE
+unit_ff812960,indiv_33eb1e70,individual,TRUE,MARKOV TODOR,ANTHROPIC PBC,TECHNICIAN,SAN FRANCISCO,CA,39200,TRUE
+unit_45780e8b,indiv_3498a006,individual,FALSE,FRIESE ANDREA,RETIRED,RETIRED,CHATSWORTH,CA,78400,TRUE
+unit_c81a5f00,indiv_34dec825,individual,FALSE,MAVRIDES DYLAN,JANE STREET,QUANTITATIVE TRADER,NEW YORK,NY,30000,TRUE
+unit_2339d689,indiv_34fc9873,individual,FALSE,PACKARD JULIE,MONTEREY BAY AQUARIUM,DIRECTOR,SOQUEL,CA,10000,TRUE
+unit_c0f21e39,indiv_3540a0d9,individual,TRUE,HENGEHOLD DAVID,HENGEHOLD TRUCK,OWNER,ATHERTON,CA,5500,TRUE
+unit_e95e225f,indiv_3540a0d9,individual,TRUE,HENGEHOLD DAVID,HENGEHOLD MOTOR,OWNER,ATHERTON,CA,250,TRUE
+unit_01757509,indiv_36602c64,individual,TRUE,NELSON MICHAEL,MIKES GRILLHOUSE,RESTAURANT OWNER,MODESTO,CA,10000,TRUE
+unit_7cfcee60,indiv_36602c64,individual,TRUE,NIELSON MICHAEL,BH MANAGEMENT,DIRECTOR,WOODLAND HILLS,CA,250,TRUE
+unit_9012f7f1,indiv_367136cc,individual,FALSE,NEPLOKH ERIC,UNIF,OWNER,SAN FRANCISCO,CA,5000,TRUE
+unit_4bba9c36,indiv_367a8625,individual,FALSE,CUEVAS BRANDON,KAISER PERMANENTE FOUNDATION HEALTH PLAN,PRESIDENT,LADERA RANCH,CA,5000,TRUE
+unit_d53e5def,indiv_368df7a8,individual,FALSE,KOLCHINS CHERYL,RETIRED,RETIRED,MAYS LANDING,NJ,24999,TRUE
+unit_dfb7dedb,indiv_374246d1,individual,FALSE,COOPER LEE,N A,RETIRED,SANTA MONICA,CA,9000,TRUE
+unit_03864167,indiv_3755094a,individual,FALSE,MAXWELL TIMOTHY,ANTHROPIC,SOFTWARE ENGINEER,SANTA CLARA,CA,39200,TRUE
+unit_f7c3b3f6,indiv_37c0900f,individual,TRUE,FRIEDMAN ROBERT,ASCENDANT ENTERTAINMENT,PRESIDENT,LOS ANGELES,CA,10000,TRUE
+unit_f7012875,indiv_37c0900f,individual,TRUE,FRIEDMAN ROBERT,ASCENDANT ENTERTAINMENT,CHAIRMAN,LOS ANGELES,CA,5000,TRUE
+unit_a47d6f2c,indiv_37cc127d,individual,FALSE,KONG CLEMENT,KORSHAK KRACOFF KONG AND SUGANO,ATTORNEY,SACRAMENTO,CA,15000,TRUE
+unit_56979492,indiv_37fb416b,individual,FALSE,MCLAUGHLIN M RANDY,OLD DURHAM WOOD,PRESIDENT,DURHAM,CA,10000,TRUE
+unit_1dd4f7f2,indiv_387b47a9,individual,FALSE,PRATHIKANTI SR,ORCA BEHAVIORAL HEALTH,PHYSICIAN,BURLINGAME,CA,10000,TRUE
+unit_468f4fa9,indiv_38934798,individual,FALSE,HUGHES PATRICK,FAEGRE DRINKER BIDDLE AND REATH,PARTNER,WILMETTE,IL,9800,TRUE
+unit_58e7e79b,indiv_38f25c20,individual,FALSE,ABASTA CUMMINGS LESLIE,CALIFORNIA PARTNERSHIP FOR HEALTH,EXECUTIVE DIRECTOR,MERCED,CA,5000,TRUE
+unit_f6741503,indiv_3916b6f1,individual,FALSE,BARKHORDAR HAMID,SELF EMPLOYED,INVESTOR,SAN FRANCISCO,CA,10000,TRUE
+unit_e48180d5,indiv_399a5008,individual,FALSE,MELENDEZ REYES,SELF EMPLOYED,ARTIST,NEW YORK,NY,10000,TRUE
+unit_f145815a,indiv_3a07b8fe,individual,FALSE,MARTINIAN ELENA,MARTINIAN AND ASSOCIATES,ACCOUNTANT,LOS ANGELES,CA,14128.560000000001,TRUE
+unit_52c13c0e,indiv_3b41374b,individual,FALSE,DENG JIE,RETIRED,RETIRED,DIAMOND BAR,CA,7000,TRUE
+unit_44e34bc1,indiv_3b6cefe3,individual,FALSE,PRINCE LORI,NONE,NONE,LONG BEACH,CA,5000,TRUE
+unit_d3b20b63,indiv_3c356e71,individual,FALSE,CHESTER DALTON,RETIRED,RETIRED,SAN ANTONIO,TX,5000,TRUE
+unit_f9795ba9,indiv_3ca4f2db,individual,FALSE,JENNINGS MONA,NONE,NONE,SAN LUIS OBISPO,CA,11055,TRUE
+unit_23aa03b4,indiv_3cd32e27,individual,FALSE,MANRIQUE DE LARA CARLOS,SELF EMPLOYED,PHYSICIAN,MCALLEN,TX,10000,TRUE
+unit_a1861299,indiv_3cf4dd27,individual,FALSE,LOEFFLER KELLY,US SMALL BUSINESS ADMINISTRATION,ADMINISTRATOR,ATLANTA,GA,5000,TRUE
+unit_67067e8f,indiv_3cfde4c8,individual,FALSE,LEONARD DANIEL J,RETIRED,RETIRED,NEWPORT BEACH,CA,7000,TRUE
+unit_0cb3b39a,indiv_3d4c1300,individual,FALSE,PORTER NEIL,RETIRED,RETIRED,MERCED,CA,10000,TRUE
+unit_000122b5,indiv_3d6f1b5f,individual,TRUE,ORTEGA SHARLA,ESELO SPIRITS,AGAVE FARMER,MURRIETA,CA,3500,TRUE
+unit_e4992648,indiv_3d6f1b5f,individual,TRUE,ORTEGA SHARLA,J SLAMMED,FARMER,MURRIETA,CA,5000,TRUE
+unit_32fd13c7,indiv_3dca0918,individual,FALSE,SALIMPOUR PEJMAN,SELF EMPLOYED,PHYSICIAN,SHERMAN OAKS,CA,5000,TRUE
+unit_fd49d7da,indiv_3ddda7b4,individual,FALSE,NICHOL PETER,MERCHANTS CAPITAL CORPORATION,COMMERCIAL RELENDING,SAN FRANCISCO,CA,10000,TRUE
+unit_b7e07ba2,indiv_3e549366,individual,FALSE,NEWMAN RICHARD,HECC,CONSULTANT,SANTA MONICA,CA,39000,TRUE
+unit_a85e5400,indiv_3e86faff,individual,FALSE,PALMER JONATHAN,LIGHTHOUSE WORLDWIDE SOLUTIONS,MARKETING SPECIAL PROJECTS,GRANTS PASS,OR,27000,TRUE
+unit_f724303e,indiv_3e9af41b,individual,FALSE,MONTEVIDEO JOHN,SELF EMPLOYED,ATTORNEY,SANTA ANA,CA,5000,TRUE
+unit_6632df59,indiv_3f029c8c,individual,FALSE,DAVIDSON CHARLES,RETIRED,RETIRED,CANYON COUNTRY,CA,200,TRUE
+unit_1c9f254a,indiv_3f029c8c,individual,FALSE,DAVIDSON CHARLES,WEXFORD CAPITAL,CHAIRMAN,PALM BEACH,FL,10000,TRUE
+unit_fb5d4b7b,indiv_3f1f01b3,individual,FALSE,MANCHESTER DOUGLAS,MANCHESTER FINANCIAL GROUP,CHAIRMAN OF THE BOARD,SAN DIEGO,CA,10000,TRUE
+unit_0d8854b4,indiv_3fc6b730,individual,FALSE,BEST ROBERT,WESTAR ASSOCIATES,DEVELOPER,NEWPORT BEACH,CA,5000,TRUE
+unit_b6a4de05,indiv_3fc9c23a,individual,FALSE,BHULLAR HARMAN,NONE,NONE,FRESNO,CA,25000,TRUE
+unit_bbb286a9,indiv_4022d4d8,individual,FALSE,SERRANO NILZA,SERRANO AND ASSOCIATES,CONSULTANT,LOS ANGELES,CA,6448.990000000001,TRUE
+unit_120e1f17,indiv_4022d4d8,individual,FALSE,SERRANO NILZA,NONE,NONE,LOS ANGELES,CA,500,TRUE
+unit_56742306,indiv_408ed4af,individual,FALSE,SHEPHERD DANNY,RETIRED,RETIRED,RANCHO SANTA FE,CA,10000,TRUE
+unit_b9af462d,indiv_41016114,individual,FALSE,WALKER MARY ANN,WALKER FIRM PC,EXECUTIVE,PALOS VERDES ESTATES,CA,5000,TRUE
+unit_90301f18,indiv_41016114,individual,FALSE,WALKER MARY ANN,WALKER FIRM,EXECUTIVE,PALOS VERDES ESTATES,CA,7135.04,TRUE
+unit_d432c07e,indiv_4165877d,individual,FALSE,MCNEIL CAROLE,MCNEIL CAPITAL,REAL ESTATE INVESTOR,SAN FRANCISCO,CA,20000,TRUE
+unit_5881d762,indiv_41cd6925,individual,FALSE,BLOOMFIELD SUSAN,N A,RETIRED,PARK CITY,UT,9800,TRUE
+unit_b182b4df,indiv_42115a91,individual,TRUE,KAY STEVEN,SELF EMPLOYED,ATTORNEY,SAN FRANCISCO,CA,5000,TRUE
+unit_e0b7c0ec,indiv_42115a91,individual,TRUE,KAY STEVEN,STEVEN KAY,ATTORNEY,SAN FRANCISCO,CA,5000,TRUE
+unit_5a977620,indiv_434a4b3a,individual,FALSE,SILBERMAN JEFFREY,CARLETON MANAGEMENT,CEO,SOLANA BEACH,CA,15128.75,TRUE
+unit_0deeb074,indiv_434a4b3a,individual,FALSE,SILBERMAN JEFFREY,NONE,NONE,SOLANA BEACH,CA,10000,TRUE
+unit_6bab10d7,indiv_438954d5,individual,TRUE,THOMPSON DR JAMES,RETIRED,RETIRED,YORBA LINDA,CA,133,TRUE
+unit_99f55b6d,indiv_438954d5,individual,TRUE,THOMPSON JAMES,RETIRED,RETIRED,SANTA CRUZ,CA,11600,TRUE
+unit_fe8c17cb,indiv_438954d5,individual,TRUE,THOMPSON JAMES,RETIRED,RETIRED,VISTA,CA,100,TRUE
+unit_2273295d,indiv_446736b7,individual,FALSE,HAAS JULIE,JULIE HAAS DESIGNS,DESIGNER,SAN FRANCISCO,CA,5000,TRUE
+unit_268d4404,indiv_4555acb2,individual,TRUE,FRIEDMAN MARK,MARK FRIEDMAN,INVESTOR,MILL VALLEY,CA,1200,TRUE
+unit_03da167f,indiv_4555acb2,individual,TRUE,FRIEDMAN MARK,FULCRUM PROPERTY GROUP,REALTOR,SACRAMENTO,CA,25000,TRUE
+unit_f453d5fe,indiv_459a349d,individual,FALSE,LISENBEE MARY,RETIRED,RETIRED,NEWPORT BEACH,CA,5000,TRUE
+unit_971406dc,indiv_45c78243,individual,TRUE,TAN GARRY K,Y COMBINATOR,INVESTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_124e5a20,indiv_45c78243,individual,TRUE,TAN GARRY,Y COMBINATOR,CEO AND PRESIDENT,SAN FRANCISCO,CA,9800,TRUE
+unit_2308f486,indiv_47225a6e,individual,FALSE,SPILO MARC,RETIRED,RETIRED,LOS ANGELES,CA,6000,TRUE
+unit_111422f8,indiv_4775f89b,individual,FALSE,GIANOPULOS JAMES,MUSES MEDIA,EXECUTIVE,BEVERLY HILLS,CA,5000,TRUE
+unit_cc840928,indiv_4798b9e4,individual,FALSE,DUNKELMAN DANIEL,CEDARS TOWERS SURGICAL MEDICAL GROUP,PHYSICIAN,LOS ANGELES,CA,10000,TRUE
+unit_dde0b7e1,indiv_47b0f217,individual,FALSE,WEINTRAUB JERALD,WEINTRAUB CAPITAL MANAGEMENT,INVESTOR,LAFAYETTE,CA,9800,TRUE
+unit_b4d55713,indiv_47fa92ad,individual,TRUE,HERRICK CATHERINE,SDITP,PRESIDENT/CEO,LA MESA,CA,5000,TRUE
+unit_e133efc4,indiv_47fa92ad,individual,TRUE,HERRICK CATHERINE,SDHP,RE DEV,LA MESA,CA,10000,TRUE
+unit_3708d152,indiv_481a2716,individual,FALSE,ZARABI MICHAEL,NONE,NONE,CHATSWORTH,CA,39200,TRUE
+unit_732d3838,indiv_483233be,individual,FALSE,KATZ DANIEL,DANNY KATZ,INVESTOR,ORINDA,CA,7000,TRUE
+unit_f2bfd1c2,indiv_490f2553,individual,FALSE,LEE SU,SELF EMPLOYED,PHYSICIAN,SAN MARINO,CA,5000,TRUE
+unit_8fbe4b23,indiv_4a67cf21,individual,FALSE,KWAK JAMES,COLLEGE BOARD,SENIOR FELLOW,AMHERST,MA,9800,TRUE
+unit_f64729fd,indiv_4a76879f,individual,FALSE,FLATLEY JAY,RADIAN,CEO,RANCHO SANTA FE,CA,10000,TRUE
+unit_2a43987e,indiv_4ab38f29,individual,FALSE,PLA GEORGE,CORDOBA CORPORATION,PRESIDENT,LOS ANGELES,CA,39200,TRUE
+unit_940d7065,indiv_4b252abe,individual,TRUE,LOPES STEPHEN,WESTERN STATES OIL,CEO,SAN JOSE,CA,15000,TRUE
+unit_43f8fab5,indiv_4b252abe,individual,TRUE,LOPES STEPHEN,WESTERN STATES OIL,BUSINESS OWNER,SAN JOSE,CA,24200,TRUE
+unit_b2c61793,indiv_4bac288e,individual,FALSE,WIEDERHORN ANDREW,FOG CUTTER HOLDINGS,EXECUTIVE,BEVERLY HILLS,CA,7000,TRUE
+unit_04e86e6a,indiv_4bdfeaba,individual,FALSE,VOIGT COATES LINDA,NONE,RETIRED,SAN FRANCISCO,CA,39200,TRUE
+unit_55795ea0,indiv_4c4d4c47,individual,TRUE,WORTHE JEFF,WORTHE REAL ESTATE GROUP,BUSINESS OWNER,SANTA MONICA,CA,39200,TRUE
+unit_b67a6981,indiv_4c4d4c47,individual,TRUE,WORTHE JEFFREY M,WORTHE REAL ESTATE GROUP,REAL ESTATE,SANTA MONICA,CA,9800,TRUE
+unit_0de661c5,indiv_4caa9a6e,individual,TRUE,WOOD DAVID,DAV,INSURANCE AGENT,LOS ANGELES,CA,0,TRUE
+unit_1bfda03f,indiv_4caa9a6e,individual,TRUE,WOOD DAVID,WOOD AG MANAGEMENT,OWNER,FRESNO,CA,10000,TRUE
+unit_71a50eca,indiv_4cd7b0b8,individual,FALSE,NEJABAT SAM,SJN PROPERTIES,REAL ESTATE,LA JOLLA,CA,39200,TRUE
+unit_b5ed8f9a,indiv_4cd7b0b8,individual,FALSE,NEJABAT SAM,SJN PROPERTIES,REALTOR,LA JOLLA,CA,39200,TRUE
+unit_762d9a8b,indiv_4d0786f6,individual,FALSE,DELANEY QUINN,N A,NONE,OAKLAND,CA,19600,TRUE
+unit_07bb2c09,indiv_4d23f078,individual,FALSE,SIGNH KIRNJOT,KJ SINGH MD PC,PHYSICIAN,LOS ANGELES,CA,5000,TRUE
+unit_9aa32834,indiv_4d4409fa,individual,FALSE,LOVELESS GARY,SQUARE MILE ENERGY,CEO,HOUSTON,TX,5000,TRUE
+unit_50af254e,indiv_4da1f946,individual,FALSE,SCHIEFER NICHOLAS,ANTHROPIC,MEMBER OF TECHNICAL STAFF,SAN FRANCISCO,CA,39200,TRUE
+unit_b7efe667,indiv_4dd70516,individual,FALSE,ROSENSTEIN ANITA,AR ASSET MANAGEMENT,INVESTMENT ADVISOR,BEVERLY HILLS,CA,39200,TRUE
+unit_9fe9e3d5,indiv_4e3a72fe,individual,TRUE,ENGEL ALBERT,NORTH RICHMOND PROPERTIES,PRESIDENT,RICHMOND,CA,5000,TRUE
+unit_7a57610d,indiv_4e3a72fe,individual,TRUE,ENGEL ALBERT,SELF EMPLOYED PHYSICIAN,PHYSICIAN,RICHMOND,CA,7000,TRUE
+unit_82210e28,indiv_4e3a72fe,individual,TRUE,ENGEL ALBERT,NORTH RICHMOND PHYSICIANS,PRESIDENT,RICHMOND,CA,7000,TRUE
+unit_c625a455,indiv_4ee77f7d,individual,FALSE,PATEL NIMISH,MITCHELL SILBERBERG AND KNUPP,PARTNER,SANTA MONICA,CA,9800,TRUE
+unit_ac296d75,indiv_4faa6f8f,individual,FALSE,HILTON STEPHEN,THE STEVE HILTON SHOW,OWNER,ATHERTON,CA,190099.95,TRUE
+unit_dd89ed74,indiv_4faa6f8f,individual,FALSE,HILTON STEPHEN,RETIRED,RETIRED,GREER,SC,100,TRUE
+unit_78582168,indiv_50991351,individual,FALSE,MAZOTTA MARGARET,RETIRED,RETIRED,HUNTINGTON BEACH,CA,8000,TRUE
+unit_e2e92130,indiv_50e8dade,individual,FALSE,SELTZER MARC,SUSMAN GODFREY,ATTORNEY,BEVERLY HILLS,CA,7500,TRUE
+unit_f6e434c8,indiv_51320d2b,individual,FALSE,PRISBE ERNEST,RETIRED,RETIRED,LOS ALTOS,CA,5000,TRUE
+unit_9bdc7cc9,indiv_517f236c,individual,FALSE,RIZIO LIPINSKY HEITING PC,NA,NA,SANTA ANA,CA,9800,TRUE
+unit_19d33812,indiv_5183e276,individual,FALSE,COATES THOMAS,JACKSON SQUARE PROPERTIES,REAL ESTATE INVESTOR,SAN FRANCISCO,CA,39200,TRUE
+unit_001f9310,indiv_520b87f4,individual,FALSE,MIRANDA LUIS,MIRRAM GROUP,PARTNER,NEW YORK,NY,5000,TRUE
+unit_68ee45a1,indiv_522e8467,individual,FALSE,BURNS JEFFREY,WALKER AND DUNLOP,MORTGAGE BANKER,DANVILLE,CA,33634.64,TRUE
+unit_b134da20,indiv_522f9648,individual,FALSE,MCCAULEY JACK,RETIRED,RETIRED,SUNOL,CA,16500,TRUE
+unit_14598007,indiv_523fa40d,individual,TRUE,BROOKS MARYANNE,RETIRED,RETIRED,TALLAHASSEE,FL,8500,TRUE
+unit_34166105,indiv_523fa40d,individual,TRUE,BROOKS MARIANNE,RETIRED,RETIRED,CAMARILLO,CA,200,TRUE
+unit_6e1f8e1a,indiv_52b9a0c5,individual,FALSE,WOOLVERTON KATE,GOOGLE DEEPMIND,SOFTWARE ENGINEER,ALAMEDA,CA,39200,TRUE
+unit_9c2ef9a1,indiv_5389dc7b,individual,TRUE,TUZER VOLKAN,ODG MANAGEMENT INC OCEAN DENTAL GROUP,CEO,FRESNO,CA,1000,TRUE
+unit_4c37f3fb,indiv_5389dc7b,individual,TRUE,TUZER VOLKAN,TUZER CAPITAL MANAGEMENT,PRESIDENT,FRESNO,CA,5000,TRUE
+unit_f9c5f54b,indiv_53eabf83,individual,FALSE,THIEL DOUG,THIEL AIR CARE,OWNER,CHOWCHILLA,CA,7477,TRUE
+unit_7ac9eb06,indiv_53fe87d4,individual,FALSE,ROSENTHAL NINA,RETIRED,RETIRED,LOS ANGELES,CA,9500,TRUE
+unit_bff392c0,indiv_54402655,individual,FALSE,FISH KYLE,ANTHROPIC PBC,MANAGER,BERKELEY,CA,39200,TRUE
+unit_dfc028f2,indiv_544a2f98,individual,FALSE,DISNEY TIM,SELF EMPLOYED,WRITER,ENCINO,CA,5000,TRUE
+unit_1ddf1cbd,indiv_54a4832b,individual,FALSE,LEVIN ROBERT,RETIRED,RETIRED,IRVINE,CA,5000,TRUE
+unit_07b45914,indiv_55158b9c,individual,FALSE,NORMAN GERALD,JNS ASSOCIATES,PROPERTY MANAGMENT,LOS ANGELES,CA,5600,TRUE
+unit_49ce5d9c,indiv_556de39c,individual,FALSE,SHILLMAN ROBERT,COGNEX,FOUNDER,RANCHO SANTA FE,CA,5000,TRUE
+unit_53b7ebc7,indiv_56b017c2,individual,FALSE,ABELE EMMA,PROTECTIVE EQUIPMENT,EXECUTIVE,BERKELEY,CA,39200,TRUE
+unit_1b65892b,indiv_56d742ca,individual,FALSE,TRIBULL CHRISTOPH,TRIBULL INVESTMENT,INVESTOR,BEVERLY HILLS,CA,10000,TRUE
+unit_e5035fe5,indiv_575de17e,individual,FALSE,SAFRAN THOMAS,THOMAS SAFRAN AND ASSOCIATES,CHAIR,LOS ANGELES,CA,2500,TRUE
+unit_9ea62c0d,indiv_575de17e,individual,FALSE,SAFRAN THOMAS,THOMAS SAFRAN AND ASSOCIATES,CHAIRMAN,LOS ANGELES,CA,15000,TRUE
+unit_77a1fe40,indiv_57935c68,individual,FALSE,ESTRIN JUDITH,JLABS,CEO,MENLO PARK,CA,5000,TRUE
+unit_e5082293,indiv_579e2cfc,individual,FALSE,ALVAREZ MANUEL,STATE OF CALIFORNIA,ATTORNEY,SACRAMENTO,CA,10000,TRUE
+unit_8631cb7d,indiv_57c89139,individual,FALSE,KING JUSTIN,SELF EMPLOYED,ATTORNEY,CLAREMONT,CA,5000,TRUE
+unit_5e8240b4,indiv_586670fd,individual,FALSE,DAVIS JR JOHN,CLUB AUTO SPORT AND TMFC,OWNER,SAN JOSE,CA,5702.18,TRUE
+unit_eede43f2,indiv_5891a53d,individual,FALSE,BASZUCKI DAVID,ROBLOX,FOUNDER AND CEO,SAN MATEO,CA,10000,TRUE
+unit_4941d966,indiv_58cbc696,individual,FALSE,CRABB TONY,NONE,RETIRED,HEALDSBURG,CA,10000,TRUE
+unit_493b8d9d,indiv_58cc4504,individual,FALSE,PERARD ELOISA,GRACELIGHT COMMUNITY HEALTH,ADMINISTRATOR,GLENDORA,CA,5000,TRUE
+unit_080f1ea2,indiv_58d60491,individual,FALSE,WALKER KAY,NONE,RETIRED,SAN FRANCISCO,CA,5000,TRUE
+unit_156f70e2,indiv_590bc7d9,individual,FALSE,FIORE JR MAURO,FIORE LEGAL,ATTORNEY,MONROVIA,CA,10000,TRUE
+unit_62553058,indiv_59387bfb,individual,FALSE,CARSON DARREN,N A,UNKNOWN,LONG BEACH,CA,7500,TRUE
+unit_3d05aa50,indiv_59e1cf2c,individual,FALSE,HAHN JULIE,SELF EMPLOYED,PORTFOLIO MANAGER,ATHERTON,CA,5000,TRUE
+unit_caf1a509,indiv_59f38fbf,individual,FALSE,MOSTOV CHARLES,NONE,RETIRED,LOS ANGELES,CA,7500,TRUE
+unit_a1d8edf3,indiv_5a68698b,individual,FALSE,BOEMAN CARL,RETIRED,RETIRED,BAKERSFIELD,CA,12250,TRUE
+unit_5288c68a,indiv_5a68c1a9,individual,TRUE,MINANA ALICIA,SELF EMPLOYED,ATTORNEY,HERMOSA BEACH,CA,49200,TRUE
+unit_b1c0670f,indiv_5a68c1a9,individual,TRUE,MINANA ALICIA,LAW OFFICES OF ALICIA MINANA,ATTORNEY,HERMOSA BEACH,CA,20000,TRUE
+unit_b48bb198,indiv_5a6f56d0,individual,TRUE,LARSEN CHRIS,RIPPLE,EXECUTIVE CHAIR,SAN FRANCISCO,CA,39200,TRUE
+unit_596a292d,indiv_5a6f56d0,individual,TRUE,LARSON CHRIS,SELF EMPLOYED CHRIS LARSON,MANAGER,BAKERSFIELD,CA,250,TRUE
+unit_f91e04e9,indiv_5a6f56d0,individual,TRUE,LARSEN CHRIS,N A,RETIRED,SAN FRANCISCO,CA,9800,TRUE
+unit_3d4b7ba6,indiv_5a6f56d0,individual,TRUE,LARSEN CHRIS,RIPPLE LABS,EXECUTIVE CHAIRMAN,SAN FRANCISCO,CA,5000000,TRUE
+unit_b75ae30a,indiv_5a91d49b,individual,FALSE,WHITE NABI,LIGHTHOUSE WORLDWIDE SOLUTIONS,MARKETING,GRANTS PASS,OR,19000,TRUE
+unit_e2f493b9,indiv_5a9a038c,individual,FALSE,NOVOGRADAC MICHAEL,NOVOGRADAC AND,PARTNER,ORINDA,CA,5000,TRUE
+unit_d767b1ba,indiv_5aef63c4,individual,FALSE,FURBY MICHAEL,MARATHON CONSTRUCTION CORPORATION,CONTRACTOR AND DEVELOPER,LA JOLLA,CA,5000,TRUE
+unit_95a34f3e,indiv_5aef63c4,individual,FALSE,FURBY MICHAEL,MARATHON CONSTRUCTION,CONTRACTOR AND DEVELOPER,LA JOLLA,CA,40000,TRUE
+unit_5b34dc0b,indiv_5b24bfe0,individual,FALSE,MOLINA JOSEPH,NONE,RETIRED,SOUTH PASADENA,CA,39200,TRUE
+unit_d2dfe663,indiv_5b403ee9,individual,FALSE,MCCARTHY NIALL,COTCHETT PITRE AND MCCARTHY,ATTORNEY,BURLINGAME,CA,5000,TRUE
+unit_e80a832d,indiv_5b82fd13,individual,FALSE,PRASAD ERIC,ERIC PRASAD,ACTOR/ACTIVIST,SANTA MONICA,CA,9800,TRUE
+unit_8eb8d058,indiv_5b88d124,individual,FALSE,BOYCE SARAH,AVIDITY BIOLOGY,CEO,RANCHO SANTA FE,CA,7030.26,TRUE
+unit_dc8091e2,indiv_5c1d8c2f,individual,FALSE,BANAFSHEH HOUMAN,BD J INJURY ATTORNEYS,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_94c4e24c,indiv_5c215968,individual,FALSE,MOSELEY NOELLE,NONE,NONE,SAN FRANCISCO,CA,9800,TRUE
+unit_6d012b06,indiv_5c264471,individual,FALSE,CRARY JOHN,RETIRED,RETIRED,MILL VALLEY,CA,10000,TRUE
+unit_c41cac62,indiv_5db10005,individual,TRUE,MERCADO MOSES,US OFFICE OF GOVERNMENT RELATIONS,ATTORNEY,WASHINGTON,DC,1000,TRUE
+unit_7adb0310,indiv_5db10005,individual,TRUE,MERCADO MOSES,SELF EMPLOYED,ATTORNEY,WASHINGTON,DC,5000,TRUE
+unit_6b92f3d9,indiv_5db10005,individual,TRUE,MERCADO MOSES,OGR,ATTORNEY,WASHINGTON,DC,2000,TRUE
+unit_a0caccf9,indiv_5dc88db9,individual,FALSE,MAGDALENO JR JERRY,THE ALMOND,SALES,MADERA,CA,10000,TRUE
+unit_6a021172,indiv_5e07f48e,individual,FALSE,FAIRBAIRN MALCOLM,NONE,NONE,LAFAYETTE,CA,9800,TRUE
+unit_0603508a,indiv_5e17c4a0,individual,FALSE,DICKSON JULIE,RETIRED,RETIRED,ST HELENA,CA,39200,TRUE
+unit_c013a529,indiv_5e4ffa7b,individual,FALSE,FRIESE DONALD,RETIRED,RETIRED,CHATSWORTH,CA,78400,TRUE
+unit_878342f4,indiv_5e842031,individual,FALSE,ASSAF CECELIA,N A,RETIRED,LOS ANGELES,CA,19600,TRUE
+unit_71a161b6,indiv_5f40aeeb,individual,FALSE,NEIMAN TIMOTHY,SELF EMPLOYED,INTERIOR DESIGNER,PALM SPRINGS,CA,5000,TRUE
+unit_e913e5b1,indiv_5f4cd748,individual,FALSE,VALENCIA AVELINO,CALIFORNIA ASSEMBLY,ASSEMBLYMEMBER,ANAHEIM,CA,5900,TRUE
+unit_84c67bb7,indiv_5f4deb24,individual,FALSE,ZHOU YING,ANTAI GLOBAL,CFO,TEMPLE CITY,CA,6000,TRUE
+unit_68eef11b,indiv_5fc2273d,individual,FALSE,SAHABI ALI,OPTIMUM SEISMIC,COO,VERNON,CA,20000,TRUE
+unit_54352624,indiv_60287eb1,individual,FALSE,CONWAY RON,SV ANGEL,CO-FOUNDER/VENTURE CAPITALIST,SAN FRANCISCO,CA,5000,TRUE
+unit_2faf5616,indiv_60871aaf,individual,TRUE,REYES CAROLYN,UNIVERSITY OF CALIFORNIA DAVIS,PHYSICIAN,SACRAMENTO,CA,6700,TRUE
+unit_4db9d38f,indiv_60871aaf,individual,TRUE,REYES CAROLYN,UC DAVIS HEALTH,PHYSICIAN,SACRAMENTO,CA,100,TRUE
+unit_4461ef91,indiv_608864ee,individual,FALSE,CONWAY DANNY,SYMPHONY VENTURES,INVESTOR,SAN FRANCISCO,CA,39200,TRUE
+unit_a8819809,indiv_61600a21,individual,FALSE,DRAPER TIM,BORIS,OWNER,SAN MATEO,CA,78400,TRUE
+unit_f7ab2c2b,indiv_61644eaf,individual,FALSE,KRIEGER MIKE,ANTHROPIC,CHIEF PRODUCT OFFICER,SAN FRANCISCO,CA,39200,TRUE
+unit_37ed622f,indiv_618cdc3d,individual,FALSE,FRYKMAN KARL,RETIRED,RETIRED,ROLLING HILLS,CA,5000,TRUE
+unit_097ec5ba,indiv_62b2308a,individual,TRUE,SANDERS III JOHN,MMI SERVICES,EXECUTIVE,BAKERSFIELD,CA,5000,TRUE
+unit_df61a756,indiv_62b2308a,individual,TRUE,SAUNDERS JOHN,N A,N/A,SARATOGA,CA,100,TRUE
+unit_e82266d4,indiv_62d8dff6,individual,FALSE,LOFGREN PETER,ANTHROPIC,MEMBER OF TECHNICAL STAFF,BURLINGAME,CA,39200,TRUE
+unit_db1495c3,indiv_62ff9eeb,individual,FALSE,CONWAY MICHELE,NONE,HOMEMAKER,BELVEDERE TIBURON,CA,39200,TRUE
+unit_b53e3dd7,indiv_6333cc6e,individual,FALSE,LOWDER JANICE,LJL FARMING,FARMING,MADERA,CA,10000,TRUE
+unit_a030e8ed,indiv_6434f797,individual,FALSE,HERNANDEZ AMBROSIO,SELF EMPLOYED,PHYSICIAN,PHARR,TX,5000,TRUE
+unit_f6e7d90c,indiv_6449f0df,individual,FALSE,FOGELMAN JAMES,GIBSON DUNN,ATTORNEY,BEVERLY HILLS,CA,15000,TRUE
+unit_1a7f98a4,indiv_64a78967,individual,FALSE,KNEE DENNIS,RETIRED,RETIRED,OLATHE,KS,2941.44,TRUE
+unit_32d2510e,indiv_64a78967,individual,FALSE,KNEE DENNIS,FAIR POLITICAL PRACTICES COMMISSION,MAJOR DONOR,OLATHE,KS,4905.5700000000015,TRUE
+unit_b4071321,indiv_65103829,individual,FALSE,LUCKEY PALMER,ANDURIL INDUSTRIES,FOUNDER,VISTA,CA,39200,TRUE
+unit_7371298c,indiv_6557e0d4,individual,FALSE,DASH JONATHAN,DASH INVESTMENTS,INVESTMENTS,WOODLAND HILLS,CA,5000,TRUE
+unit_3bc25bb3,indiv_65821074,individual,FALSE,BOWER ROGER,CROWN POINT VINEYARDS,PROPRIETOR,SANTA YNES,CA,10000,TRUE
+unit_ab7c272e,indiv_65d8e8a6,individual,FALSE,CISMAS SORIN,APPLE,ENGINEER,SARATOGA,CA,5000,TRUE
+unit_c41abba5,indiv_65e5188e,individual,FALSE,TEMPLETON ADLY,ANTHROPIC PBC,SOFTWARE ENGINEER,SEATTLE,WA,39200,TRUE
+unit_4239abdd,indiv_65e5188e,individual,FALSE,TEMPLETON ADLY,ANTHROPIC,SOFTWARE ENGINEER,SEATTLE,WA,39200,TRUE
+unit_73027f9e,indiv_65ee4172,individual,FALSE,BULLOCK CLARK,RETIRED,RETIRED,POMPANO BEACH,FL,5000,TRUE
+unit_c56a10a3,indiv_66179482,individual,TRUE,MENA EDWARD,CALIFORNIA LIVER RESEARCH CENTER,PHYSICIAN,PASADENA,CA,7000,TRUE
+unit_3fc06c85,indiv_66179482,individual,TRUE,MOONE EDWARD,N A,N/A,LA QUINTA,CA,100,TRUE
+unit_e22af611,indiv_663d6bab,individual,FALSE,ECKSTEIN JAMES,N A,SELF EMPLOYED,CORONADO,CA,5000,TRUE
+unit_2da2f9c6,indiv_663dbc0c,individual,FALSE,ABIAAD GEORGE,ROYAL CORPORATION,BUSINESS EXECUTIVE,CHINO HILLS,CA,10000,TRUE
+unit_1bc13d44,indiv_665cc8b1,individual,FALSE,THOMAS DRAKE,ANTHROPIC,ANALYST,BERKELEY,CA,39200,TRUE
+unit_1607c3aa,indiv_66aa94b4,individual,FALSE,MCCARTHY LOUISE,COMMUNITY CLINIC ASSOCIATION OF LA COUNTY,PRESIDENT,LOS ANGELES,CA,1000,TRUE
+unit_b6beae3f,indiv_66aa94b4,individual,FALSE,MCCARTHY LOUISE,COMMUNITY CLINIC ASSOCIATION OF LOS ANGELES COUNTY,PRESIDENT,LOS ANGELES,CA,5000,TRUE
+unit_19d7dace,indiv_66aa94b4,individual,FALSE,MCCARTHY LOUISE,COMMUNITY CLINIC ASSOCIATION,PRESIDENT,LOS ANGELES,CA,500,TRUE
+unit_e28a8391,indiv_66ee8d51,individual,FALSE,CONROY MAUREEN,ARCT,ACCOUNTING MANAGER,PASADENA,CA,5000,TRUE
+unit_f8bb2471,indiv_66efbae2,individual,FALSE,KIM JANE,CAND,CANDIDATE,SAN FRANCISCO,CA,22500,TRUE
+unit_3a2918e1,indiv_66f67651,individual,FALSE,VAUDAGNA JAMES,SELF EMPLOYED JAMES S VAUDAGNA,REAL ESTATE INVESTOR,SARATOGA,CA,3000,TRUE
+unit_6925129f,indiv_66f67651,individual,FALSE,VAUDAGNA JAMES,RETIRED,RETIRED,SAN JOSE,CA,2000,TRUE
+unit_da293184,indiv_6784c3af,individual,FALSE,JORDAN WAYNE,JORDAN REAL ESTATE INVESTMENTS,OWNER,OAKLAND,CA,19600,TRUE
+unit_1037f529,indiv_67a15697,individual,FALSE,GASTON RODNEY,RETIRED,RETIRED,IRVINE,CA,5000,TRUE
+unit_ac58da4d,indiv_67c8443f,individual,FALSE,SIEBEL STACEY,RETIRED,RETIRED,WOODSIDE,CA,10000,TRUE
+unit_6084d776,indiv_68352027,individual,TRUE,MCNICHOLAS PATRICK,SELF EMPLOYED,ATTORNEY,LOS ANGELES,CA,25000,TRUE
+unit_d795b356,indiv_68352027,individual,TRUE,MCNICHOLAS PATRICK,PATRICK MCNICHOLAS,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_3d7bee09,indiv_68951355,individual,FALSE,KELLY CHRISTOPHER,SELF EMPLOYED,INVESTOR,ATHERTON,CA,39200,TRUE
+unit_2d9d71e7,indiv_690856b5,individual,FALSE,SLAVIK JOHN,RETIRED,RETIRED,BOCA RATON,FL,6186.14,TRUE
+unit_6489658e,indiv_692d9267,individual,FALSE,SANCHEZ MICHAEL,MENDEZ AND SANVHEZ,ATTORNEY,LOS ANGELES,CA,10000,TRUE
+unit_3f4c9235,indiv_69ca42c4,individual,FALSE,MILIUS MARK,THE GREEN DIFFERENCE,BUSINESS OWNER,SAN CLEMENTE,CA,39200,TRUE
+unit_5def5b0b,indiv_69e2a737,individual,FALSE,MURDOCH RUPERT,FOX CORPORATION,CHAIRMAN EMERITUS,NEW YORK,NY,39200,TRUE
+unit_0280346e,indiv_6b0bda13,individual,FALSE,ASSAF JEFF,INVESTMENT CONSULTING GROUP ADVISOR,INVESTMENT ADVISOR,LOS ANGELES,CA,19600,TRUE
+unit_bf9f2e00,indiv_6b721e64,individual,FALSE,NICHOLSON DJ,RETIRED,RETIRED,JUPITER,FL,8500,TRUE
+unit_73660473,indiv_6b73a248,individual,FALSE,HANSON STEPHANIE,RETIRED,RETIRED,SAN DIEGO,CA,5000,TRUE
+unit_9f6631a3,indiv_6b814db6,individual,FALSE,ONGARO AMY,RETIRED,RETIRED,SAN RAFAEL,CA,5000,TRUE
+unit_c4899684,indiv_6befbf55,individual,FALSE,MCCARTHY JOSEPH,SELF EMPLOYED,REAL ESTATE INVESTOR,LOS GATOS,CA,10000,TRUE
+unit_9550a641,indiv_6c3b5315,individual,FALSE,SIM KENNETH,ADVANCE SURGEONS MEDICAL GROUP,BUSINESS OWNER,DIAMOND BAR,CA,5000,TRUE
+unit_a77768fd,indiv_6c911c94,individual,FALSE,MEGO CARLOS,SELF EMPLOYED,PHYSICIAN,MCALLEN,TX,5000,TRUE
+unit_863f4c48,indiv_6cb4a27e,individual,FALSE,HUNTER III KENNETH,VAQUERO ENERGY,PRESIDENT,SANTA YNEZ,CA,10000,TRUE
+unit_619cdb74,indiv_6ce7dad5,individual,FALSE,SCAFIDDI MICHAEL,SELF EMPLOYED,ATTORNEY,HIGHLAND,CA,5000,TRUE
+unit_9ac0dccf,indiv_6d16186a,individual,TRUE,WEINSTEIN MARCY,COMPASS,REALTOR,NEWPORT COAST,CA,1104.1,TRUE
+unit_37439bd5,indiv_6d16186a,individual,TRUE,WEINSTEIN MARCY,MCKNOWN WEINSTEIN ASSOCIATES,REALTOR,NEWPORT COAST,CA,3500,TRUE
+unit_c36f1ff4,indiv_6d16186a,individual,TRUE,WEINSTEIN MARCY,MMMMMINC,REALTOR AND FARMER,NEWPORT COAST,CA,500,TRUE
+unit_c1a58e46,indiv_6d237a04,individual,FALSE,DELANEY M,NONE,NONE,OAKLAND,CA,39200,TRUE
+unit_5230eb2e,indiv_6e18d16b,individual,FALSE,JERSIN JOHN,JOHN JERSIN,INVESTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_095b970b,indiv_6e5dbd90,individual,FALSE,PASTEL SCHLESINGER LINDA,RETIRED,RETIRED,LOS ANGELES,CA,7500,TRUE
+unit_5e62d862,indiv_6eafe250,individual,FALSE,MCENTEE JOHN,MCENTEE GROUP,BUSINESS OWNER,FULLERTON,CA,39200,TRUE
+unit_25c06a34,indiv_6f4ca9b0,individual,TRUE,BURT KELLY,PRICE SELF STORAGE,CEO,SAN DIEGO,CA,10000,TRUE
+unit_2d951068,indiv_6f4ca9b0,individual,TRUE,BURT KELLY,TRES DAC INC PRICE SELF STORAGE,CHAIRMAN,POWAY,CA,10000,TRUE
+unit_d324fd2c,indiv_6f4ca9b0,individual,TRUE,BURT KELLY,TRES DAC INC PRICE SELF STORAGE,CHAIRMAN,SAN DIEGO,CA,6080.3,TRUE
+unit_57eac539,indiv_6f999ec9,individual,FALSE,SAMUELIAN STEPHEN,RETIRED,RETIRED,LAGUNA BEACH,CA,10000,TRUE
+unit_35c4b43f,indiv_702f6a6b,individual,FALSE,REGAN ANN,RETIRED,RETIRED,SAN MATEO,CA,5000,TRUE
+unit_2b370586,indiv_703dc1a6,individual,TRUE,TAUBE DIANNE,TAUBE FAMILY FOUNDATION,SELF EMPLOYED,BELMONT,CA,5000,TRUE
+unit_623d9012,indiv_703dc1a6,individual,TRUE,TAUBE DIANNE,TAUBE INVESTMENTS,PRESIDENT,BELMONT,CA,5000,TRUE
+unit_23878bc3,indiv_7092c0b2,individual,TRUE,KELLY MICHAEL,KIRTLAND PACKARD,ATTORNEY,HERMOSA BEACH,CA,250,TRUE
+unit_359dce83,indiv_7092c0b2,individual,TRUE,GAUL MICHAEL,GAUL AND SONS GENERAL CONTRACTOR,OWNER,BURLINGAME,CA,100,TRUE
+unit_3cbf5667,indiv_7092c0b2,individual,TRUE,GALLO MICHAEL,JOSEPH GALLO FARMS,CEO,ATWATER,CA,39200,TRUE
+unit_41a175d4,indiv_7094ef67,individual,FALSE,MUTCHNIK ALLAN,CP,EXECUTIVE,BEVERLY HILLS,CA,9800,TRUE
+unit_3d494fcc,indiv_7141b40d,individual,FALSE,WILSON RENEE DAKE,DAKE WILSON ARCHITECTS,ARCHITECT,LOS ANGELES,CA,21000,TRUE
+unit_b501b06a,indiv_7147b9fc,individual,FALSE,SMITH BRAD,MICROSOFT CORPORATION,ATTORNEY,BELLEVUE,WA,7500,TRUE
+unit_749895ee,indiv_71667b93,individual,FALSE,RESNICK LYNDA,THE WONDERFUL,VICE CHAIRMAN,LOS ANGELES,CA,39200,TRUE
+unit_b2f3d173,indiv_71dc8bb6,individual,FALSE,LYON WILLIAM,CORPORATE ENTERPRISES,CEO,IRVINE,CA,5000,TRUE
+unit_fc4bc172,indiv_729ddbb7,individual,FALSE,TENENBAUM HOWARD,KEYES MOTORS,AUTO DEALER,HIDDEN HILLS,CA,5000,TRUE
+unit_00b2c612,indiv_72a4eb28,individual,FALSE,POWELL MILLER CHRISTINE,RETIRED,RETIRED,FOLSOM,CA,10000,TRUE
+unit_acf2f38a,indiv_72bc9ad5,individual,FALSE,DALLA SHVETA,DALLA DENTAL GROUP,BUSINESS OPERATIONS,ELK GROVE,CA,39200,TRUE
+unit_4c66845e,indiv_7411f0d1,individual,FALSE,HOLLOWELL III JOSEPH,LDC GROUP,REAL ESTATE INVESTOR,MODESTO,CA,5104.1,TRUE
+unit_2cbc6f52,indiv_741e5101,individual,FALSE,HUGHES JEREMY,JEREMY HUGHES FARMS,FARMER,FRESNO,CA,10500,TRUE
+unit_fbe0acce,indiv_748f9ef6,individual,FALSE,BLANDFORD JOHN,BLANDFORD GROUP,PUBLIC AFFAIRS CONSULTANT,RANCHO MIRAGE,CA,5000,TRUE
+unit_c691199c,indiv_751865cc,individual,FALSE,HORN CINDY,NONE,HOMEMAKER,LOS ANGELES,CA,39200,TRUE
+unit_b0409e68,indiv_75194ab7,individual,TRUE,GARCIA OSCAR,DHR HEALTH,PHYSICIAN,MISSION,TX,4400,TRUE
+unit_16cdc659,indiv_75194ab7,individual,TRUE,GARCIA OSCAR,EL MATATAN,BUSINESS OWNER,LA MIRADA,CA,1806.96,TRUE
+unit_ce70ed16,indiv_752e390e,individual,FALSE,QUINLAN TERENCE,SUSAN QUINLAN DOLL AND TEDDY BEAR MUSEUM AND LIBRARY,DIRECTOR,SANTA BARBARA,CA,10000,TRUE
+unit_8ba3353b,indiv_75666cdb,individual,FALSE,SCHAEFFER LEONARD,NONE,RETIRED,SANTA MONICA,CA,78400,TRUE
+unit_7dcc2dda,indiv_75b1123b,individual,FALSE,MILIGI GUY,TSM INSURANCE,OWNER,MODESTO,CA,2500,TRUE
+unit_7edae66b,indiv_75b1123b,individual,FALSE,MILIGI GUY,TSM INSURANCE,SALES,MODESTO,CA,2500,TRUE
+unit_7edead47,indiv_75b51f8e,individual,FALSE,WEST BENJAMIN,TRAJECTORY LABS PBC,CTO,BERKELEY,CA,78400,TRUE
+unit_5085c235,indiv_75e847d0,individual,FALSE,FLORES FRED,MEDICA,CEO,FULLERTON,CA,12000,TRUE
+unit_23a73446,indiv_7624c459,individual,FALSE,RODRIGUEZ RAUL,ENTRAVISION COMMUNICATIONS,EXECUTIVE,MOSS BEACH,CA,5000,TRUE
+unit_3117e557,indiv_769c1147,individual,FALSE,GRAZER VERONICA,RETIRED,RETIRED,SANTA MONICA,CA,25000,TRUE
+unit_e24916b5,indiv_76a33d9a,individual,TRUE,SIMAN HOMAN,PRIMARY CARE ASSOCIATES OF CALIFORNIA,CEO,LOS ANGELES,CA,26000,TRUE
+unit_04941819,indiv_76a33d9a,individual,TRUE,SIMAN HOMAN,SIMAN ENTERPRISES,CEO,LOS ANGELES,CA,13200,TRUE
+unit_4d6aa2d4,indiv_76a33d9a,individual,TRUE,SIMAN HOMAYOUN,STAT URGENT AND PRIMARY CARE,PHYSICIAN,NEWHALL,CA,500,TRUE
+unit_14ee0e3b,indiv_76d7f8e6,individual,FALSE,CHU MORGAN,IRELL AND MANELLA,ATTORNEY,LOS ANGELES,CA,39200,TRUE
+unit_8b8d9a93,indiv_77011826,individual,FALSE,CORDOVA JEFF,RETIRED,RETIRED,ORINDA,CA,7500,TRUE
+unit_73460b27,indiv_772148e0,individual,FALSE,WELCKER BARTHOLOMEW CHRISTINE,RETIRED,RETIRED,CORONA DEL MAR,CA,5000,TRUE
+unit_23dc0a81,indiv_773b5606,individual,TRUE,TOWNE SAM,RETIRED,RETIRED,NEWPORT BEACH,CA,1000,TRUE
+unit_d2ff6765,indiv_773b5606,individual,TRUE,TOWNE SAM,RETIRED,RETIRED,WALNUT GROVE,CA,5000,TRUE
+unit_936a7252,indiv_77bd7e12,individual,FALSE,BERGMAN MARK,BERGMANKPRS,CONSTRUCTION MANAGEMENT,YORBA LINDA,CA,39200,TRUE
+unit_90c0d22e,indiv_77e8926c,individual,FALSE,ROSENTHAL ROBERT,RETIRED,RETIRED,BURBANK,CA,33000,TRUE
+unit_07f321b8,indiv_785149e7,individual,FALSE,ALBERT CARL,N A,RETIRED,LOS ANGELES,CA,6000,TRUE
+unit_89a0f548,indiv_789b891f,individual,TRUE,HEIL BARBARA,NONE,RETIRED,SAN JOSE,CA,10000,TRUE
+unit_7931e887,indiv_789b891f,individual,TRUE,HILL BARBARA,RETIRED,RETIRED,FESTUS,MO,200,TRUE
+unit_ed53e491,indiv_78d38a02,individual,FALSE,SKELTON KAREN,SKELTON STRATEGIES,CEO,SACRAMENTO,CA,5000,TRUE
+unit_7673f7ac,indiv_79d8a303,individual,FALSE,SAUNDERS THOMAS,LIGHTHOUSE WORLDWIDE SOLUTIONS,SENIOR VICE PRESIDENT,GRANTS PASS,OR,78400,TRUE
+unit_03783e91,indiv_7a191690,individual,FALSE,CAMACHO SAUL,PACFIC FARM MANAGEMENT,OPERATIONS MANAGER,FRESNO,CA,10000,TRUE
+unit_1cd2b3e2,indiv_7a3888e5,individual,FALSE,DEL DON LEROY,SELF,FARMER,PATTERSON,CA,9999,TRUE
+unit_2ffa4d05,indiv_7a65f186,individual,FALSE,STEINKAMP JENNIFER,UNIVERSITY OF CALIFORNIA LOS ANGELES,PROFESSOR,LOS ANGELES,CA,5000,TRUE
+unit_f39d19b7,indiv_7a794b73,individual,FALSE,WEYRICK COLIN,WEYRICK LUMBER,CEO,TEMPLETON,CA,5000,TRUE
+unit_64aa1ba9,indiv_7ad4982f,individual,FALSE,SEROS ALEXANDRA,NONE,NONE,PACIFIC PALISADES,CA,27894.42,TRUE
+unit_e4284576,indiv_7ad4982f,individual,FALSE,SEROS ALEXANDRA,REDWING FILMS,SCREENWRITER,PACIFIC PALISADES,CA,42200,TRUE
+unit_724f232d,indiv_7b04a1b4,individual,FALSE,PITRE FRANK,SELF EMPLOYED,ATTORNEY,BURLINGAME,CA,5000,TRUE
+unit_ed331728,indiv_7b35c134,individual,FALSE,RATTO RONALD,RATTOS BROS,PRESIDENT,CASTRO VALLEY,CA,10000,TRUE
+unit_2256c3d3,indiv_7b73b4e4,individual,FALSE,KIM MIN,N A,NONE,LOS GATOS,CA,10100,TRUE
+unit_5d1bf97d,indiv_7b7559bf,individual,FALSE,HILL MARIANNE,RETIRED,RETIRED,HERMOSA BEACH,CA,7000,TRUE
+unit_9a44e90e,indiv_7c024233,individual,FALSE,MARCH TIM,RETIRED,RETIRED,SANTA ROSA,CA,6131,TRUE
+unit_5b167604,indiv_7c075349,individual,FALSE,SINGH JASPREET,SELF EMPLOYED,ATTORNEY,ELK GROVE,CA,39200,TRUE
+unit_17c9d9b4,indiv_7c43bc3e,individual,FALSE,HARPER JEFF,HARPER CONSTRUCTION,GENERAL CONTRACTOR,POWAY,CA,10000,TRUE
+unit_28ca4dba,indiv_7c67878e,individual,FALSE,LAUFER HENRY,NONE,RETIRED,LANTANA,FL,19600,TRUE
+unit_5f7a473a,indiv_7c6b6fc8,individual,FALSE,BORGESON BLAKE,RECURSION PHARMACEUTICALS,BOARD MEMBER,AUSTIN,TX,39200,TRUE
+unit_d030406a,indiv_7c7bbf55,individual,FALSE,SIMONOFF CHRIS,SOUTH BAY,EXECUTIVE,RANCHO DOMINGUEZ,CA,5000,TRUE
+unit_b0380578,indiv_7c8aece6,individual,FALSE,MANGIA JAMES,ST JOHNS COMMUNITY HEALTH,CEO,WINDSOR HILLS,CA,5000,TRUE
+unit_c046b98c,indiv_7c8e8679,individual,FALSE,WARNKEN BRILL DONNA,NONE,NONE,ALAMO,CA,5000,TRUE
+unit_d758a428,indiv_7cc515c6,individual,TRUE,MAHONEY PATRICK,NONE,NONE,SAN FRANCISCO,CA,475,TRUE
+unit_d271f7be,indiv_7cc515c6,individual,TRUE,MAHONEY PATRICK,HUGGINS DRECKMAN INSURANCE,INSURANCE AGENT,ANAHEIM,CA,1000,TRUE
+unit_9390f13a,indiv_7cc515c6,individual,TRUE,MAHONEY PATRICK,WEST COAST ARBORISTS,PRESIDENT,ANAHEIM,CA,4277.5,TRUE
+unit_e6c8912e,indiv_7d38b356,individual,FALSE,CANTU ALONZO,CANTU CONSTRUCTION,DEVELOPER,MCALLEN,TX,39200,TRUE
+unit_092e021f,indiv_7d870760,individual,FALSE,COOPER JOSH,AMERICAN COLLEGE OF RADIOLOGY,EXECUTIVE,VIENNA,VA,5000,TRUE
+unit_b1a17ee7,indiv_7de7e443,individual,FALSE,HUANG HUALIN,NU CYBERTEK,ENGINEER,EL MACERO,CA,15508.190000000002,TRUE
+unit_f57660dd,indiv_7de7e443,individual,FALSE,HUANG HUALIN,NU CYBERTEK,SOFTWARE ENGINEER,EL MACERO,CA,8261.29,TRUE
+unit_5dd29885,indiv_7e4e41c7,individual,FALSE,LOVRETOVICH JOE,SIGNATURE RESOLUTION,MEDIATOR,THOUSAND OAKS,CA,5000,TRUE
+unit_e8d6f60e,indiv_7eb0ad1a,individual,FALSE,GARCIA DOMINGO,SELF EMPLOYED,ATTORNEY,DALLAS,TX,40200,TRUE
+unit_758128e6,indiv_7eb31df1,individual,FALSE,LIFLAND ELI,AI FUTURES PROJECT,CO-FOUNDER,BERKELEY,CA,39200,TRUE
+unit_e4b2810b,indiv_7f10e25a,individual,FALSE,RANGLAS GERRY,RV MANAGEMENT,REAL ESTATE,RANCHO SANTA FE,CA,7500,TRUE
+unit_5410e3f9,indiv_7f10e25a,individual,FALSE,RANGLAS GERRY,RV MANAGEMENT,REAL ESTATE INVESTMENTS,RANCHO SANTA FE,CA,1000,TRUE
+unit_521e5a04,indiv_7fe8c202,individual,FALSE,WOLFF PATRICK,PATRICK WOLFF,FINANCIAL ANALYST,SAN FRANCISCO,CA,615000,TRUE
+unit_881d929a,indiv_80232805,individual,FALSE,AIRAPETIAN STEPHAN,SFA LAW,ATTORNEY,GLENDALE,CA,10000,TRUE
+unit_f4497e88,indiv_80829222,individual,FALSE,CARRILLO MICHAEL,CARRILLO LAW FIRM,ATTORNEY,SOUTH PASADENA,CA,11000,TRUE
+unit_b3d4960f,indiv_81117bea,individual,FALSE,KANG DAN,NONE,NONE,NEWPORT COAST,CA,78400,TRUE
+unit_eb69e95c,indiv_81aa15fe,individual,FALSE,SINGERMAN BRIAN,QUIET CAPITAL,MANAGING PARTNER,SAN FRANCISCO,CA,9800,TRUE
+unit_57da9585,indiv_81c489ed,individual,FALSE,LEE EUGENE,GUIDEWIRE SOFTWARE,EXECUTIVE,ALBANY,CA,9800,TRUE
+unit_36bd9171,indiv_82044370,individual,FALSE,ADAMS MAYUMI,WOMENS MAJOR LEAGUE SOFTBALL,VICE PRESIDENT,HUNTINGTON BEACH,CA,20000,TRUE
+unit_47e53e82,indiv_821e58f1,individual,TRUE,MCGRATH JAMES,FOX CHASE CANCER CENTER,OR SYSTEMS ANALYST,CHALFONT,PA,74.19,TRUE
+unit_c7d046e8,indiv_821e58f1,individual,TRUE,MCGRATH JAMES,INTELLECTUAL VIRTUES ACADEMY,EDUCATOR,ENCINO,CA,5000,TRUE
+unit_6f880e5a,indiv_8261661b,individual,FALSE,GLADU SCOTT,GAINWELL TECHNOLOGIES,SENIOR MANAGER,CARROLLTON,TX,39200,TRUE
+unit_a60171b3,indiv_82745feb,individual,FALSE,HEISING MARK,MEDLEY PARTNERS,DIRECTOR,ATHERTON,CA,39200,TRUE
+unit_80e01ebe,indiv_8298db62,individual,TRUE,LIN TAO,ANTHROPIC,MEMBER OF TECHNICAL STAFF,BERKELEY,CA,39200,TRUE
+unit_3642b71d,indiv_8298db62,individual,TRUE,LIN TAO,ANTHROPIC PBC,TECHNICIAN,NORTH MIAMI,FL,19900,TRUE
+unit_ace30004,indiv_83922834,individual,TRUE,ROBINSON STEVEN,BREWERY X,OWNER,CHICAGO,IL,20000,TRUE
+unit_dd28af3b,indiv_83922834,individual,TRUE,ROBINSON STEVEN,AIR FORCE,ANALYST,BURKE,VA,52.05,TRUE
+unit_e5875930,indiv_8396af4c,individual,TRUE,KABATECK BRIAN,SELF EMPLOYED,ATTORNEY,LOS ANGELES,CA,10000,TRUE
+unit_59e8750f,indiv_8396af4c,individual,TRUE,KABATECK BRIAN,BRIAN KABATECK,ATTORNEY,LOS ANGELES,CA,1000,TRUE
+unit_74158d29,indiv_841e7828,individual,FALSE,HAWKS JENNIFER,RETIRED,RETIRED,LOS ALTOS,CA,31540,TRUE
+unit_7286b2c8,indiv_848b4641,individual,FALSE,CHEN GERALD,GREYLOCK,INVESTOR,SAN FRANCISCO,CA,19600,TRUE
+unit_805132d9,indiv_84bc9f76,individual,FALSE,BASTRIRE BRET,NA,NA,VISALIA,CA,5000,TRUE
+unit_def2b38c,indiv_84fb9aff,individual,FALSE,HENLEY DOY,RETIRED,RETIRED,TUSTIN,CA,6141,TRUE
+unit_f9045647,indiv_869d5127,individual,FALSE,PONCE NINEZ,FIELDING SCHOOL OF PUBLIC HEALTH,PROFESSOR,TOPANGA,CA,5000,TRUE
+unit_3542678b,indiv_876466f9,individual,FALSE,SCALORA POLLY,RETIRED,RETIRED,SARATOGA,CA,5000,TRUE
+unit_e106e7b7,indiv_87f2da08,individual,FALSE,STINE JODI,N A,RETIRED,BEVERLY HILLS,CA,5000,TRUE
+unit_d2a9b600,indiv_886b8332,individual,FALSE,LIZARRAGA DAVID,TELACU INDUSTRIES,CHAIRMAN,GLENDORA,CA,5000,TRUE
+unit_38c6ccc5,indiv_888cf414,individual,FALSE,EVENHAIM SHARON,BALACIANO GROUP,CEO,LOS ANGELES,CA,10000,TRUE
+unit_51d51394,indiv_88e553fd,individual,TRUE,SINGH VIK,CALIFORNIA BACK AND PAIN SPECIALISTS,PHYSICIAN,VAN NUYS,CA,5313.89,TRUE
+unit_3f23d8b5,indiv_88e553fd,individual,TRUE,SINGH VIK,SELF EMPLOYED,PHYSICIAN,VAN NUYS,CA,49200,TRUE
+unit_d3b3a674,indiv_88e87174,individual,FALSE,STAMBAUGH SHERRY,RETIRED,RETIRED,UKIAH,CA,10000,TRUE
+unit_4faa60dd,indiv_88e94dd5,individual,FALSE,MOORE SCOTT,K,EDUCATOR,BERKELEY,CA,5100,TRUE
+unit_5eace496,indiv_894f2f22,individual,FALSE,DE CARDENAS ANTONIO,CYREES ESCROW AND SETTLEMENT,EXECUTIVE,SOUTH PASADENA,CA,10000,TRUE
+unit_f0a7bbc2,indiv_8a624756,individual,FALSE,AYALA KELLY,THE PERMANENTE MEDICAL GROUP,PHYSICIAN,FRESNO,CA,36926.350000000006,TRUE
+unit_c21a5b8a,indiv_8adefca4,individual,FALSE,GUERRA DANIEL,SELF EMPLOYED,PHYSICIAN,MCALLEN,TX,5000,TRUE
+unit_d8ec7393,indiv_8b384c8a,individual,FALSE,WHITAKER FRED,CUMMINS AND WHITE WHITAKER PROF,OWNER EXECUTIVE ATTORNEY,ORANGE,CA,10000,TRUE
+unit_99a486f8,indiv_8bf27482,individual,FALSE,HALL YVONNE,GOLDEN BEAR,RECRUITER,STOCKTON,CA,9800,TRUE
+unit_cab0773d,indiv_8c09b633,individual,FALSE,JANUS KATHLEEN,J CAPITAL,PRINCIPAL,SAN FRANCISCO,CA,39200,TRUE
+unit_03179962,indiv_8c75f407,individual,FALSE,PERKINS LEONE PATRICIA,RETIRED,RETIRED,MENLO PARK,CA,25000,TRUE
+unit_149157e8,indiv_8c8aae16,individual,FALSE,COHEN DAVID,SELF EMPLOYED,ATTORNEY,PHILADELPHIA,PA,5000,TRUE
+unit_07e88243,indiv_8cc7570a,individual,FALSE,BRINICH LANGLOIS PATRICK,ACADEMIAEDU,SOFTWARE ENGINEER,BERKELEY,CA,39200,TRUE
+unit_52d23225,indiv_8ce1250c,individual,TRUE,THOMAS DAVID,ROYAL T MGMT,REAL ESTATE,FRESNO,CA,2000,TRUE
+unit_de350dac,indiv_8ce1250c,individual,TRUE,THOMAS DAVID,RETIRED,RETIRED,PORT HUENEME,CA,40,TRUE
+unit_a98a2710,indiv_8ce1250c,individual,TRUE,THOMAS DAVID,MEHLMAN CONSULTING,PARTNER,CHEVY CHASE,MD,5000,TRUE
+unit_91559c62,indiv_8ce1250c,individual,TRUE,THOMAS DAVID,ROYAL T MANAGEMENT,REAL ESTATE,FRESNO,CA,1000,TRUE
+unit_000f646c,indiv_8d46324b,individual,FALSE,BROOKS KIMBERLY,SELF EMPLOYED KIMBERLY BROOKS,ARTIST,SANTA MONICA,CA,16364.76,TRUE
+unit_3d23406c,indiv_8e7239ca,individual,TRUE,CONWAY RONALD,SV ANGEL,INVESTOR,BELVEDERE TIBURON,CA,39200,TRUE
+unit_4905e261,indiv_8e7239ca,individual,TRUE,CONWAY JR RONALD,SELF EMPLOYED,INVESTOR,BELVEDERE TIBURON,CA,39200,TRUE
+unit_74a1cc14,indiv_8f32283d,individual,TRUE,TAYLOR JOHN,RETIRED,RETIRED,FORTUNA,CA,229.04,TRUE
+unit_f65491b0,indiv_8f32283d,individual,TRUE,TAYLOR JOHN,SELF EMPLOYED,ATTORNEY,MANHATTAN BEACH,CA,12500,TRUE
+unit_4c5f8173,indiv_8f32283d,individual,TRUE,TAYLOR JOHN,RETIRED,RETIRED,LIVERMORE,CA,100,TRUE
+unit_8c487b58,indiv_8f32283d,individual,TRUE,TAYLOR JOHN,NONE,NONE,FAYETTEVILLE,TN,100,TRUE
+unit_f9c9e90e,indiv_8f835381,individual,FALSE,SPENCER KAREN,HOMEMAKER,HOMEMAKER,FRESNO,CA,39200,TRUE
+unit_1e5ec458,indiv_8fce2223,individual,FALSE,DETERMAN DEBORAH,EDWIN H SMITH AND SONS,FARMER,DENAIR,CA,5000,TRUE
+unit_f83534e7,indiv_900fa380,individual,FALSE,CARUSO ALEXANDER,COX CASTLE AND NICHOLSON,ATTORNEY,SANTA MONICA,CA,5500,TRUE
+unit_bf901867,indiv_90228f1f,individual,FALSE,COHEN PAULETTE,PLC INVESTMENT GROUP,REAL ESTATE DEVELOPER,LOS ANGELES,CA,15000,TRUE
+unit_b225af73,indiv_90c508c4,individual,FALSE,CHANG WAYNE,SPRUCE SYSTEMS,CEO,NEW YORK,NY,39200,TRUE
+unit_b3f1759e,indiv_91abdb37,individual,FALSE,YUN KIM DR TAE,LIGHTHOUSE WORLDWIDE SOLUTIONS,MANAGEMENT/CHAIRMAN,MEDFORD,OR,78300,TRUE
+unit_fea3e876,indiv_91b49342,individual,FALSE,HOWELL JAMES,A AND J PROGRAMMING,PRESIDENT,GILROY,CA,10000,TRUE
+unit_31cee767,indiv_91db5c60,individual,FALSE,CASILLAS ARNOLDO,SELF EMPLOYED,ATTORNEY,LONG BEACH,CA,39200,TRUE
+unit_1ee47cef,indiv_9226c737,individual,FALSE,GLICK SAMUEL,KAISER PERMANENTE,EXECUTIVE,SAN FRANCISCO,CA,49200,TRUE
+unit_6fdf78e7,indiv_924185cc,individual,FALSE,KRINSK MARCY,NONE,NONE,SAN DIEGO,CA,5000,TRUE
+unit_506658fe,indiv_9260e169,individual,FALSE,TAYLOR MARGARETTA,RETIRED,RETIRED,NEW YORK,NY,8000,TRUE
+unit_5a60777b,indiv_9274bc16,individual,FALSE,FISH JASON,SEBASTES CAPITAL MANAGEMENT,INVESTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_74e45b90,indiv_93372ccf,individual,FALSE,CHAN DENNIS,SELF EMPLOYED,PHYSICIAN,SAN MARINO,CA,5000,TRUE
+unit_261ee863,indiv_936dad50,individual,FALSE,SRAMEK JAN,CALIFORNIA FOREVER,FOUNDER AND CEO,FAIRFIELD,CA,9800,TRUE
+unit_330ad187,indiv_94174657,individual,FALSE,PEACE JAMES,KILLER TOMATOES ENTERTAINMENT,MOTION PICTURE PRODUCER,EL CAJON,CA,10000,TRUE
+unit_cbd46ded,indiv_94789304,individual,FALSE,ARNS ROBERT,ARNS DAVIS LAW,ATTORNEY,NAPA,CA,5000,TRUE
+unit_d50a1da0,indiv_94b93b86,individual,FALSE,SINGH DAVINDER,TARA TRUCKING,BUSINESS OWNER,ELK GROVE,CA,5000,TRUE
+unit_e68d8b97,indiv_953f31a5,individual,FALSE,DOMINGUEZ DORENE,VANIR,CEO,SACRAMENTO,CA,10000,TRUE
+unit_5c9a5730,indiv_956be324,individual,FALSE,ELLISON S,FIRST STREET DEVELOPMENT,REALTOR,SONOMA,CA,39200,TRUE
+unit_ce60c450,indiv_957f0a84,individual,FALSE,ILIBASSI JOHN,VIKING MANAGEMENT,RE MANAGER,WANTAGH,NY,5000,TRUE
+unit_1db9212b,indiv_95842e5d,individual,FALSE,ROBERTSON CARL,CHIP ROBERTSON,ATTORNEY,PACIFIC PALISADES,CA,6000,TRUE
+unit_421db3e5,indiv_95b28364,individual,FALSE,FARREN MERRITT,CALIFORNIA INSURANCE COMMISSIONER,CANDIDATE,CALABASAS,CA,190000,TRUE
+unit_e4571806,indiv_95eb4059,individual,TRUE,GILBERT LURIE LESLIE,LESLIE GILBERT LURIE,ATTORNEY,ENCINO,CA,1000,TRUE
+unit_6336998f,indiv_95eb4059,individual,TRUE,GILBERT LURIE LESLIE,SELF EMPLOYED,ATTORNEY,ENCINO,CA,1000,TRUE
+unit_8d1de1e8,indiv_95eb4059,individual,TRUE,GILBERT LURIE LESLIE,SELF EMPLOYED,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_c77e77ac,indiv_95eb4059,individual,TRUE,GILBERT LURIE LESLIE,ALCOVE PUBLISHING,AUTHOR/ATTORNEY,ENCINO,CA,5000,TRUE
+unit_d4f0e8b4,indiv_96e360c4,individual,TRUE,HSU TONY,ALETHEA CAPITAL MANAGEMENT,MANAGING MEMBER,MERCER ISLAND,WA,2000,TRUE
+unit_3b71f772,indiv_96e360c4,individual,TRUE,HSU TONY,TONY HSU,INVESTOR,SAN DIEGO,CA,3000,TRUE
+unit_8f7351a3,indiv_97397304,individual,TRUE,ADAMS GREGORY,KAISER PERMANENTE,EXECUTIVE,ALTADENA,CA,39200,TRUE
+unit_4a1ade4e,indiv_97397304,individual,TRUE,ADAMS GREGORY,KAISER PERMANENTE,CEO,ALTADENA,CA,20000,TRUE
+unit_6981224b,indiv_97fbf181,individual,TRUE,WILLIAMS DONALD NEIL,PALISADE BIO,EXECUTIVE,SAN DIEGO,CA,5000,TRUE
+unit_1d409325,indiv_97fbf181,individual,TRUE,WILLIAMS SR DONALD,N A,N/A,SEVEN SPRINGS,NC,100,TRUE
+unit_5b3fec2c,indiv_97fdd42d,individual,FALSE,SCHWAB MICHAEL,SELF EMPLOYED MICHAEL SCHWAB,INVESTOR AND REAL ESTATE DEVELOPER,MALIBU,CA,20000,TRUE
+unit_e57e1b56,indiv_9834e54f,individual,FALSE,RUFER CHRIS,MORNING STAR,FARMER,WOODLAND,CA,39200,TRUE
+unit_eb4e6d76,indiv_9877d8e1,individual,FALSE,HASSLER LARRY,RETIRED,RETIRED,SAVAGE,MN,5000,TRUE
+unit_4057e489,indiv_98c0b5e4,individual,FALSE,FIRESTONE BROOKS,RETIRED,RETIRED,SANTA BARBARA,CA,5000,TRUE
+unit_cbc10d32,indiv_9981381f,individual,FALSE,WONNACOTT ANDREW,ANTHROPIC PBC,SOFTWARE ENGINEER,SAN FRANCISCO,CA,39200,TRUE
+unit_9831d151,indiv_99894cfb,individual,TRUE,BRINER ELIZABETH,HOMEMAKER,HOMEMAKER,FRESNO,CA,500,TRUE
+unit_c59877c8,indiv_99894cfb,individual,TRUE,BRINER ELIZABETH,EB LANDSCAPE CONSTRUCTION,CONTRACTOR,FRESNO,CA,10000,TRUE
+unit_9ef7da42,indiv_99ed3694,individual,FALSE,MINER JENNIFER,N A,RETIRED,SANTA MONICA,CA,6500,TRUE
+unit_32ba3586,indiv_99ed3694,individual,FALSE,MINER JENNIFER,NONE,NONE,SANTA MONICA,CA,2500,TRUE
+unit_5890ffc8,indiv_9a0b5606,individual,FALSE,DUNAGAN KELLY,J DEREK LEWIS AND ASSOCIATES,INVESTMENT ADVISOR,VILLA PARK,CA,5000,TRUE
+unit_89516d47,indiv_9a5c0c04,individual,FALSE,MILIM MATT,LIBRA SOLUTIONS GROUP,CEO,ARMONK,NY,22000,TRUE
+unit_4d4fc6ff,indiv_9a66c9b6,individual,FALSE,PEREZ FRANK,450 ATTORNEYS A LAW,ATTORNEY,LOS ANGELES,CA,10000,TRUE
+unit_2497064d,indiv_9a66c9b6,individual,FALSE,PEREZ FRANK,450 ATTORNEYS,ATTORNEY,LOS ANGELES,CA,25000,TRUE
+unit_230b348d,indiv_9a9e78c3,individual,FALSE,STRICKLER THOMAS,NONE,RETIRED,VENICE,CA,5000,TRUE
+unit_e58e6b49,indiv_9ac43272,individual,FALSE,BHATT BAIJU,COWBOY SPACE CORPORATION,FOUNDER AND CEO,SAN FRANCISCO,CA,39200,TRUE
+unit_c054db69,indiv_9afc16df,individual,FALSE,BHULLAR SARBJIT,STATE OF CALIFORNIA,PHYSICIAN,ELK GROVE,CA,25000,TRUE
+unit_2c67c6ff,indiv_9b0409c6,individual,FALSE,MABEN MERI,NONE,NONE,SAN JOSE,CA,15903.85,TRUE
+unit_956b227f,indiv_9b253f5d,individual,FALSE,JEROME PEGGY,RETIRED,RETIRED,LIBERTY HILL,TX,7454.289999999974,TRUE
+unit_24a3ac4d,indiv_9bb17000,individual,TRUE,JOHNSON KRISTI,SELF EMPLOYED,ATTORNEY,CARLSBAD,CA,200,TRUE
+unit_e1ed6963,indiv_9bb17000,individual,TRUE,JOHNSON KRISTIN,HOTWIRE COMMUNICATIONS,CEO,FORT LAUDERDALE,FL,78400,TRUE
+unit_f70b7b02,indiv_9bb17000,individual,TRUE,JOHNSON KRISTI,BLOCK,ATTORNEY,CARLSBAD,CA,100,TRUE
+unit_d43a74c2,indiv_9c0526c4,individual,FALSE,NIJJAR RANDHIR,CAMP LOGISTICS,TRANSPORTATION,ELK GROVE,CA,5000,TRUE
+unit_3ecd7025,indiv_9c1dc16d,individual,FALSE,JONES ELLIS,WASSERSTEIN,FINANCE,LOS ANGELES,CA,78200,TRUE
+unit_44254b79,indiv_9c621e13,individual,FALSE,DUIGNAN SHEILA,NONE,NONE,BERKELEY,CA,9800,TRUE
+unit_b52e6d3d,indiv_9d37e4bc,individual,FALSE,BURKE LINDA,NONE,NONE,SAN DIEGO,CA,5000,TRUE
+unit_7735b25c,indiv_9d603ef0,individual,TRUE,NGUYEN MINH,NGUYEN LAWYERS ALC,ATTORNEY,LONG BEACH,CA,25000,TRUE
+unit_e89dad7a,indiv_9d603ef0,individual,TRUE,NGUYEN MINH T,NGUYEN LAWYERS,ATTORNEY,LONG BEACH,CA,9800,TRUE
+unit_2a54f4c1,indiv_9d603ef0,individual,TRUE,NGUYEN MINH,NGUYEN THEAM LAWYERS,ATTORNEY,LONG BEACH,CA,10800,TRUE
+unit_f0f02d26,indiv_9d603ef0,individual,TRUE,NGUYEN MINH,SELF EMPLOYED,ATTORNEY,LONG BEACH,CA,39200,TRUE
+unit_d837931f,indiv_9d62b7ae,individual,FALSE,SCHENK LYNN,NONE,RETIRED,LA JOLLA,CA,5000,TRUE
+unit_e9173c15,indiv_9e08b00e,individual,FALSE,HESS LAWRENCE,N A,NONE,SAN DIEGO,CA,9800,TRUE
+unit_2be55071,indiv_9e3cb243,individual,FALSE,SHATTUCK PAUL,ADHESIVE PRODUCTS,CHAIRMAN,WALNUT CREEK,CA,6600,TRUE
+unit_71b9933f,indiv_9ef0b036,individual,FALSE,HANSON DAN,LOANDEPOT,MORTGAGE BANKER,CORONA DEL MAR,CA,5104.1,TRUE
+unit_737d2770,indiv_9f0ece38,individual,FALSE,JOHNSON JONATHAN,PATHWAY HOME CARE,OWNER,BAKERSFIELD,CA,5000,TRUE
+unit_cc2eb1c1,indiv_9fa3a65f,individual,FALSE,MANCHESTER PAPA DOUG,MANCHESTER FINANCIAL GROUP,CHAIRMAN,SAN DIEGO,CA,5000,TRUE
+unit_ccb431b5,indiv_a0574622,individual,FALSE,FLYNN GREGORY,FLYNN PROPERTIES,PRESIDENT,SAN FRANCISCO,CA,5500,TRUE
+unit_4e5e55d3,indiv_a0cd4808,individual,FALSE,MERUELO LISET,NONE,NONE,DOWNEY,CA,39000,TRUE
+unit_be90fac5,indiv_a0e1883f,individual,FALSE,COWAN ROBERT,MARINA LANDSCAPE,CEO,LAGUNA BEACH,CA,6000,TRUE
+unit_84889476,indiv_a0e90ef7,individual,FALSE,CAMPISI BARBARA,RETIRED,RETIRED,"SAN JOSE, CA 95126",CA,23200,TRUE
+unit_e0a4696b,indiv_a118b5bb,individual,FALSE,ARMONA LUIS,MERUELO GROUP,EXECUTIVE VICE PRESIDENT,DOWNEY,CA,32000,TRUE
+unit_0c856eb7,indiv_a179217d,individual,FALSE,CHAHAL SURJIT,ALLURE DENTAL,DENTIST,MODESTO,CA,5000,TRUE
+unit_66a22d1e,indiv_a17e62bb,individual,FALSE,RAMSEY HADI,LOS ANGELES CITY LAW APLC,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_7dca7ae2,indiv_a1d06218,individual,TRUE,AYALA RAUL,ADVENTIST HEALTH,MANAGER,FRESNO,CA,39200,TRUE
+unit_6553f28d,indiv_a1d06218,individual,TRUE,AYALA RAUL,NONE,NONE,SIERRA MADRE,CA,750,TRUE
+unit_5f26036f,indiv_a1d06218,individual,TRUE,AYALA RAUL,SELF EMPLOYED,ATTORNEY,SIERRA MADRE,CA,500,TRUE
+unit_b53fac8d,indiv_a1d9344d,individual,FALSE,MILSTEIN ADAM,HAGER PACIFIC,REAL ESTATE,ENCINO,CA,5000,TRUE
+unit_efe90c2e,indiv_a1ec5b1b,individual,FALSE,GRAU STEVE,ROYAL AMBULANCE,CEO,HILLSBOROUGH,CA,11000,TRUE
+unit_425a79b6,indiv_a2257d50,individual,FALSE,CERVANTES ANNE,SELF EMPLOYED,ARCHITECT,SAN FRANCISCO,CA,6902.5999999999995,TRUE
+unit_2c896733,indiv_a228dc52,individual,FALSE,EDWARDS PAUL,EDWARDS PARTNERS,FINANCE,REDWOOD CITY,CA,5000,TRUE
+unit_167a2fbe,indiv_a230f58e,individual,FALSE,HOWELL JIM,AGJ PROGRAMMIN,DIRECTOR OF OPERATIONS,GILROY,CA,10000,TRUE
+unit_868567d8,indiv_a2399ec5,individual,FALSE,BROAD KENNETH,RETIRED,RETIRED,MILL VALLEY,CA,20000,TRUE
+unit_3b0e7559,indiv_a24e7aee,individual,FALSE,GELMAN LAWRENCE,SELF EMPLOYED,PHYSICIAN,EDINBURG,TX,25000,TRUE
+unit_b6bb42f4,indiv_a2fc59c9,individual,FALSE,JOHNSON MATTHEW,JOHNSON SHAPIRO SLEWETT KOLE,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_4895b5a8,indiv_a347f7ab,individual,FALSE,HEFFERNAN FRANCIS MICHAEL,HIB,PRESIDENT AND CEO,WALNUT CREEK,CA,9800,TRUE
+unit_ad5090f7,indiv_a3f29324,individual,FALSE,GROFF SUSAN,RETIRED,RETIRED,LOS ANGELES,CA,39200,TRUE
+unit_2ba84f41,indiv_a400867c,individual,FALSE,SURYAN TAMI,RETIRED,RETIRED,NEWPORT BEACH,CA,39200,TRUE
+unit_32506226,indiv_a490f150,individual,TRUE,ANDERSON CARL,SIGLER,SALES,RSM,CA,100,TRUE
+unit_a4c9f8cc,indiv_a490f150,individual,TRUE,ANDERSON CHARLES,ANDERSON SEAFOOD,PRESIDENT,ANAHEIM,CA,10000,TRUE
+unit_4ae0798e,indiv_a494b85f,individual,FALSE,PANELLA HEATHER,OAK FARM VINEYARDS,OWNER,LODI,CA,5000,TRUE
+unit_50231175,indiv_a4d5d8ea,individual,FALSE,RYU MARCUS,BATTERY VENTURES,INVESTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_a6f0de5a,indiv_a529def7,individual,FALSE,PARKS JAMES,CBIZ,EXECUTIVE,LOS ANGELES,CA,10000,TRUE
+unit_5e6405ce,indiv_a5903cd4,individual,FALSE,RE MIKEL,RETIRED,RETIRED,ATHERTON,CA,5000,TRUE
+unit_6d0d20b4,indiv_a62cb744,individual,FALSE,LIZARRAGA MICHAEL,TELACU INDUSTRIES,PRESIDENT,GLENDORA,CA,5800,TRUE
+unit_2a27751d,indiv_a65f23b7,individual,FALSE,CHERRY MYRON,SELF EMPLOYED,ATTORNEY,CHICAGO,IL,15000,TRUE
+unit_638647e3,indiv_a6bfa39d,individual,FALSE,CROSBY TOM,RETIRED,RETIRED,SONORA,CA,12381.98,TRUE
+unit_4929982d,indiv_a71c50e2,individual,FALSE,WONG RONALD,IMPRENTA COMMUNICATIONS GROUP,PRESIDENT,PASADENA,CA,15000,TRUE
+unit_b168239c,indiv_a9ba274a,individual,FALSE,KELLY MARIA,RETIRED,RETIRED,SACRAMENTO,CA,32500,TRUE
+unit_6c014a4f,indiv_a9eb8c63,individual,FALSE,THRAPPAS GEORGE,GEORGE THRAPPAS,PROPERTY MANAGER,SAN JOSE,CA,5082.030000000001,TRUE
+unit_aeeea14a,indiv_a9f5adc2,individual,FALSE,MALLOY THOMAS,MFP,GENERAL PARTNER,VILLA PARK,CA,1000,TRUE
+unit_7180e38e,indiv_a9f5adc2,individual,FALSE,MALLOY THOMAS,RETIRED,RETIRED,CORONA,CA,5000,TRUE
+unit_7f42320e,indiv_aa849d41,individual,FALSE,LONSDALE JOE,8VC,MANAGING DIRECTOR,AUSTIN,TX,25000,TRUE
+unit_a7ea2ae4,indiv_aa9aa378,individual,FALSE,GLAZER ED,TAMPA BAY BUCCANEERS,CO-CHAIRMAN,LOS ANGELES,CA,10000,TRUE
+unit_6811cf56,indiv_ab293820,individual,FALSE,KRIEGER KAITLYN J,KITLYN KRIEGER,PHILANTHROPIST,PALO ALTO,CA,5900,TRUE
+unit_29246c98,indiv_ab398540,individual,FALSE,BOYERS MICHELLE,GIVE FORWARD FOUNDATION,CEO,WOODSIDE,CA,39200,TRUE
+unit_2c03c96b,indiv_ab902432,individual,TRUE,ARIAS MIKE,ARIAS SANGUINETTI WANG AND TEAM,ATTORNEY,LOS ANGELES,CA,9800,TRUE
+unit_47472def,indiv_ab902432,individual,TRUE,ARIAS MICKEL,ARIAS SANGUINETTI WANG AND TEAM,MANAGING PARTNER,LOS ANGELES,CA,5000,TRUE
+unit_5e0d971e,indiv_ab9e986d,individual,FALSE,SCHWARTZBERG ANDREW,NONE,NONE,PACIFIC PALISADES,CA,78400,TRUE
+unit_afee922a,indiv_ab9e986d,individual,FALSE,SCHWARTZBERG ANDREW,N A,RETIRED,PACIFIC PALISADES,CA,9800,TRUE
+unit_afdd4045,indiv_abbc8e28,individual,FALSE,JOHAL JOE,WENDYS OF THE PACIFIC,CEO,MODESTO,CA,10000,TRUE
+unit_8c8c6edd,indiv_ac3c16a6,individual,FALSE,SALEM MICHAEL,PALISADES MANAGEMENT AND CAPITAL,INVESTOR,LOS ANGELES,CA,8300,TRUE
+unit_0f7656bc,indiv_ac5a7a8c,individual,FALSE,MACTAGGART ALASTAIR,SECOND STREET FUND,REAL ESTATE INVESTMENT,OAKLAND,CA,3000,TRUE
+unit_23a4c2c4,indiv_ac5a7a8c,individual,FALSE,MACTAGGART ALASTAIR,SECOND STREET FUND,REAL ESTATE PROPERTY INVESTMENT,OAKLAND,CA,7500,TRUE
+unit_c73761e9,indiv_ac9d0c3b,individual,FALSE,MARQUEZ CORY,TELACU INDUSTRIES,EXECUTIVE,SIERRA MADRE,CA,10000,TRUE
+unit_7733b3ea,indiv_acce52d2,individual,FALSE,DAVIS GINA,RETIRED,RETIRED,NEWPORT BEACH,CA,5000,TRUE
+unit_0c67ff3f,indiv_ace7d609,individual,FALSE,LAUFER MARSHA,NONE,RETIRED,LANTANA,FL,19600,TRUE
+unit_4486bbe7,indiv_ad83e178,individual,FALSE,ASSIL BOBBY,NONE,NONE,BEVERLY HILLS,CA,39200,TRUE
+unit_c214d0cc,indiv_ad83e178,individual,FALSE,ASSIL BOBBY,EIGHTY EIGHT PLACE,PRINCIPAL,BEVERLY HILLS,CA,39200,TRUE
+unit_fedf6be1,indiv_adc52b74,individual,FALSE,RODRIGUEZ JASON,GOOGLE,DIRECTOR,SAN JOSE,CA,5905,TRUE
+unit_0077437e,indiv_adcd3002,individual,FALSE,BORDON CRAIG,CLAIMS XP,ADVOCATE,HERMOSA BEACH,CA,5000,TRUE
+unit_18ffe18b,indiv_ade06472,individual,FALSE,MERUELO ALEX,MERUELO GROUP,ENTREPRENEUR,DOWNEY,CA,29000,TRUE
+unit_60affbe4,indiv_ade08dad,individual,FALSE,BOWER DONNA,VAL PROPERTY AI,FOUNDER AND CEO,SAN JUAN CAPISTRANO,CA,25000,TRUE
+unit_aa556bc9,indiv_ade7ce47,individual,FALSE,LOZANO MONICA,NONE,NONE,PLAYA DEL REY,CA,15500,TRUE
+unit_4c124835,indiv_ae081857,individual,FALSE,MERRITT JAMES,NONE,NONE,POWAY,CA,10000,TRUE
+unit_b97ed063,indiv_aea91d2a,individual,TRUE,NICHOLS MARY,UNIVERSITY OF CALIFORNIA LOS ANGELES,ATTORNEY,LOS ANGELES,CA,250,TRUE
+unit_a1c676e4,indiv_aea91d2a,individual,TRUE,NICHOLS MARY,UCLA LAW SCHOOL,DISTINGUISHED COUNSEL,LOS ANGELES,CA,5000,TRUE
+unit_f7e2d200,indiv_aea91d2a,individual,TRUE,NICHOLS MARY,UNIVERSITY OF CALIFORNIA LAW SCHOOL,COUNSEL,LOS ANGELES,CA,500,TRUE
+unit_811be85e,indiv_aebcba13,individual,FALSE,PIERCE JR JENNINGS,JD PIERCE,PRESIDENT,NEWPORT BEACH,CA,5000,TRUE
+unit_7c4b09af,indiv_b05a4320,individual,FALSE,JAMESON DAPHNE,RETIRED,RETIRED,DEL MAR,CA,21600,TRUE
+unit_566b6c75,indiv_b0777bf5,individual,FALSE,YEH ALLEN,FREMANTLEMEDIA,SENIOR ACCOUNTANT,SAN MARINO,CA,5000,TRUE
+unit_f1ed4df2,indiv_b1c8d765,individual,FALSE,MOZART PATRICIA,MOZART INVESTMENTS,REAL ESTATE INVESTOR,LOS ALTOS HILLS,CA,20000,TRUE
+unit_c272b1c3,indiv_b1d895fd,individual,FALSE,HOLLANDER YOSSIE JOSEPH,NEWCHEM21,EXECUTIVE,IRVINE,CA,11492,TRUE
+unit_f6a9e999,indiv_b232fd7d,individual,FALSE,FULLMER JAMES,FULLMER CONSTRUCTION,REAL ESTATE,TUSTIN,CA,5000,TRUE
+unit_62643ce8,indiv_b28cf7c2,individual,FALSE,CAYWOOD JON,SELF,FARMER,TRANQUILLITY,CA,5000,TRUE
+unit_0beeb919,indiv_b2cdb945,individual,TRUE,HEINRICH KERRY,ADVENTIST HEALTH,CEO,MEADOW VISTA,CA,10000,TRUE
+unit_fc15ed1a,indiv_b2cdb945,individual,TRUE,HEINRICH KERRY,ADVENTIST HEALTH,EXECUTIVE,MEADOW VISTA,CA,10000,TRUE
+unit_251eb74e,indiv_b3291a9c,individual,FALSE,BURNAM BETH,N A,RETIRED,SANTA MONICA,CA,5500,TRUE
+unit_3f400896,indiv_b3410d78,individual,FALSE,HASTINGS REED,NONE,RETIRED,PALO ALTO,CA,39200,TRUE
+unit_d3704641,indiv_b3410d78,individual,FALSE,HASTINGS REED,N A,RETIRED,SANTA CRUZ,CA,1500,TRUE
+unit_09cbfef6,indiv_b3db2cd1,individual,FALSE,TUSK BRADLEY,TUSK HOLDINGS,CEO,NEW YORK,NY,10000,TRUE
+unit_f2e22e06,indiv_b40cbf37,individual,FALSE,SINGH GENE,RETIRED,RETIRED,CARLSBAD,CA,5000,TRUE
+unit_2d7fc788,indiv_b447d735,individual,FALSE,ZAFIROPOULO ARTHUR,RETIRED,RETIRED,ATHERTON,CA,5000,TRUE
+unit_19f19f79,indiv_b4a1f608,individual,FALSE,SAADIAN BOBBY,WILSHIRE LAW FIRM,ATTORNEY,PACIFIC PALISADES,CA,54700,TRUE
+unit_36e9d1b5,indiv_b4aeb546,individual,FALSE,ROXBOROUGH KAREN,N A,NONE,ENCINO,CA,9800,TRUE
+unit_df48ea35,indiv_b526e2ea,individual,TRUE,JACKSON DAVID,FAIRMONT SCHOOLS,EDUCATOR,VILLA PARK,CA,39198.97,TRUE
+unit_39ee40da,indiv_b526e2ea,individual,TRUE,JACKSON DAVID,RETIRED,RETIRED,MILLBRAE,CA,52.05,TRUE
+unit_748565ff,indiv_b526e2ea,individual,TRUE,JACKSON DAVID,RETIRED,RETIRED,HARRISON,OH,100,TRUE
+unit_00243109,indiv_b5880d73,individual,FALSE,LANDUCCI AL,RETIRED,RETIRED,SAN MATEO,CA,39200,TRUE
+unit_30761ef4,indiv_b58bbeb6,individual,FALSE,LOGUERCIO RICHARD,TOWN AND COUNTRY EVENT RENTALS,OWNER,PASADENA,CA,5000,TRUE
+unit_4a2946e3,indiv_b5c4f19f,individual,FALSE,LINDEMANN FRAYDA,RETIRED,RETIRED,MIAMI,FL,5000,TRUE
+unit_1760017b,indiv_b5cfc0a9,individual,FALSE,CALDWELL KIM,RETIRED,RETIRED,LA CANADA FLINTRIDGE,CA,10000,TRUE
+unit_4e60b4fb,indiv_b62eaea1,individual,FALSE,MARCUS GEORGE,ESSEX PROPERTY TRUST,CHAIRMAN,PALO ALTO,CA,10000,TRUE
+unit_40ffe298,indiv_b65bb6f6,individual,TRUE,HOROWITZ DAVID,DAV,ARBITRATOR MEDIATOR,STUDIO CITY,CA,250,TRUE
+unit_7d40a372,indiv_b65bb6f6,individual,TRUE,HOROWITZ DAVID,HOROWITZ MANAGEMENT,EXECUTIVE,NEWPORT BEACH,CA,5000,TRUE
+unit_c50d5e31,indiv_b6ef8402,individual,FALSE,HORNER JULIA,RETIRED,RETIRED,NEW YORK,NY,5000,TRUE
+unit_510283bb,indiv_b71e203b,individual,FALSE,PEREZ GUILLERMO,SELF EMPLOYED,PHYSICIAN,MCALLEN,TX,5000,TRUE
+unit_fa60e42f,indiv_b7336811,individual,FALSE,CISNEROS JACKI,GILBERT AND JACKI FOUNDATION,PRESIDENT,LOS ANGELES,CA,20000,TRUE
+unit_7922d336,indiv_b751fc7f,individual,TRUE,HORN ELIZABETH,HORN PRODUCTIONS,OWNER,HILLSBOROUGH,CA,7500,TRUE
+unit_f960ca23,indiv_b751fc7f,individual,TRUE,HORN ELIZABETH,2M FOUNDATION,EXECUTIVE DIRECTOR,MENLO PARK,CA,5000,TRUE
+unit_2e7374b6,indiv_b77da7ed,individual,TRUE,SAUCEDO MARTHA,AEG,EXTERNAL AFFAIRS,ALTADENA,CA,2500,TRUE
+unit_9f7351c1,indiv_b77da7ed,individual,TRUE,SAUCEDO MARTHA,ANSCHUTZ ENTERTAINMENT GROUP,CHIEF EXTERNAL AFFAIRS OFFICER,ALTADENA,CA,2500,TRUE
+unit_8c74c835,indiv_b791e0db,individual,FALSE,DAHLBERG MARY,RETIRED,RETIRED,VISTA,CA,5000,TRUE
+unit_a2304133,indiv_b85d9808,individual,FALSE,JETT T LAWRENCE,LANIKAI MANAGEMENT,REAL ESTATE INVESTOR,SANTA YNEZ,CA,39200,TRUE
+unit_dd4c6477,indiv_b85da01c,individual,FALSE,DOSANJH INDER,CALIFORNIA AUTOMOTIVE RETAILING GROUP,PRESIDENT,LIVERMORE,CA,39200,TRUE
+unit_f775b478,indiv_b9233f57,individual,FALSE,REESE DAVID,AMGEN,CTO,CULVER CITY,CA,7515.36,TRUE
+unit_cc28f61a,indiv_b93b9fc3,individual,FALSE,MOSCONE CHRISTOPHER,SELF EMPLOYED,ATTORNEY,MILL VALLEY,CA,10500,TRUE
+unit_9633d64c,indiv_b96091bf,individual,FALSE,VISCO FRANK,VISCO FINANCIAL INSURANCE SERVICES,PRESIDENT AND CEO,THOUSAND OAKS,CA,5000,TRUE
+unit_eb60bfd0,indiv_b97b0ac7,individual,FALSE,GIANELLI DONNA,NONE,RETIRED,RANCHO PALOS VERDES,CA,5000,TRUE
+unit_d60fd271,indiv_b9a70e44,individual,FALSE,GILL DAN,CARVANA,EXECUTIVE,SANTA MONICA,CA,5000,TRUE
+unit_8b8c6250,indiv_ba04d1e5,individual,FALSE,MAROUF ABE,INNOVATIVE INTEGRATED HEALTH,DIRECTOR,NEWPORT BEACH,CA,5000,TRUE
+unit_c116a686,indiv_bb10933b,individual,FALSE,CARDENAS CARLOS,SOUTH TEXAS GASTROENTEROLOGY,PHYSICIAN,MCALLEN,TX,5000,TRUE
+unit_9fedda25,indiv_bba6c16a,individual,FALSE,SOLINSKY FRANK,PAYLESS BUILDING SUPPLY,FOUNDER AND PRESIDENT,CHICO,CA,5000,TRUE
+unit_e1507642,indiv_bc05d4bd,individual,FALSE,HAM JAYNE,HAM PROPERTIES,BUSINESS OWNER,CUPERTINO,CA,6250,TRUE
+unit_8ff15a50,indiv_bcc0b866,individual,FALSE,EGGERT STEVEN,ANTON DEVCO,FOUNDER,SACRAMENTO,CA,49200,TRUE
+unit_f0b85606,indiv_bd4b9a7f,individual,FALSE,AUJLA GURVINDER,SELF EMPLOYED,ATTORNEY,PHOENIX,AZ,5000,TRUE
+unit_46e0775c,indiv_bd59d587,individual,FALSE,CHEUNG ALVIN,CALIFORNIA NORTHSTATE UNIVERSITY,ADM,ELK GROVE,CA,5000,TRUE
+unit_0162a555,indiv_bdc67af2,individual,FALSE,WEGHORN BARBARA,RETIRED,RETIRED,SAN RAFAEL,CA,5000,TRUE
+unit_ac41ed78,indiv_bdc850a6,individual,TRUE,HOWELL ROBERT,EXETRON,SOFTWARE ENGINEER,SAN JOSE,CA,25,TRUE
+unit_5f106f38,indiv_bdc850a6,individual,TRUE,HOWELL ROBERT,EXATRON,NA,SAN JOSE,CA,50000,TRUE
+unit_35178ab9,indiv_be30bf0a,individual,FALSE,MARSH LINDA,AHMC HEALTHCARE,VICE PRESIDENT,ARCADIA,CA,5000,TRUE
+unit_883a8374,indiv_be343006,individual,FALSE,RESNICK JOSHUA,JERICHO CAPITAL ASSET MANAGEMENT,"FOUNDER, MANAGING PARTNER",LOS ANGELES,CA,39200,TRUE
+unit_cc2a5f09,indiv_beda8336,individual,FALSE,HUVANE KEVIN,CREATIVE ARTISTS AGENCY,CHAIRMAN,LOS ANGELES,CA,20000,TRUE
+unit_b291b4f1,indiv_bf0ae9b1,individual,TRUE,HERNANDEZ JOSE,IDEATE CALIFORNIA,CEO,STUDIO CITY,CA,15000,TRUE
+unit_946d14d2,indiv_bf0ae9b1,individual,TRUE,HERNANDEZ JOSE,NA,CEO,BURBANK,CA,10000,TRUE
+unit_7cd509fc,indiv_bf0ae9b1,individual,TRUE,HERNANDEZ JOSE,NAPA VALLEY COLLEGE,EDUCATION,NAPA,CA,150,TRUE
+unit_88761811,indiv_bf0ae9b1,individual,TRUE,HERNANDEZ JOSE,IDEATE CALIFORNIA,CEO,BURBANK,CA,1000,TRUE
+unit_d414389a,indiv_bf0ae9b1,individual,TRUE,HERNANDEZ JOSE,ORANGE COUNTY,ATTORNEY,MONTEBELLO,CA,100,TRUE
+unit_1c833de4,indiv_bf0ae9b1,individual,TRUE,HERNANDEZ JOSE,TIERRA LUNA ENGINEERING,FARMER AND AEROSPACE ENGINEER,MANTECA,CA,5000,TRUE
+unit_b1f36a09,indiv_bf5a64ee,individual,FALSE,KORDESTANI GISEL,NONE,NONE,ATHERTON,CA,5000,TRUE
+unit_43dd010a,indiv_bf863da3,individual,FALSE,RUBINSTEIN JOSH,DEL MAR THOROUGHBRED CLUB,PRESIDENT,DEL MAR,CA,5000,TRUE
+unit_3f0b10bb,indiv_bf87b9d9,individual,TRUE,ANDERSON ROBERT,SELF EMPLOYED,PHYSICIAN,SANTA ROSA,CA,125,TRUE
+unit_e171f181,indiv_bf87b9d9,individual,TRUE,ANDERSON ROBERT,SELF EMPLOYED,WRITER,SAN FRANCISCO,CA,10000,TRUE
+unit_1ec7a9f1,indiv_bf99a163,individual,FALSE,GROFF HOWARD,RETIRED,RETIRED,LOS ANGELES,CA,10000,TRUE
+unit_6cc885bf,indiv_bfe06bdc,individual,TRUE,BLOOMFIELD BILL,N A,RETIRED,PARK CITY,UT,19600,TRUE
+unit_7bc0b13e,indiv_bfe06bdc,individual,TRUE,BLOOMFIELD BILL,NONE,NONE,MANHATTAN BEACH,CA,39200,TRUE
+unit_bc06b7e2,indiv_bfe06bdc,individual,TRUE,BLOOMFIELD BILL,NONE,NONE,PARK CITY,UT,39200,TRUE
+unit_135b345d,indiv_c025a50d,individual,FALSE,FLATTEN DAVID,INLAND POWDER COATING,CEO,RANCHO CUCAMONGA,CA,7246.110000000001,TRUE
+unit_6c740506,indiv_c05e9be7,individual,FALSE,FLORES JUAN,NEIGHBORHOOD HEALTHCARE,PHYSICIAN,FRESNO,CA,5000,TRUE
+unit_bbe65380,indiv_c0cb4cc3,individual,FALSE,UMHEY STACI,RENEWABLE PROPERTIES,ADMINISTRATOR,LARKSPUR,CA,5000,TRUE
+unit_25559a62,indiv_c0d7f890,individual,FALSE,KIMBER SHELDON,INTERSECT,FOUNDER,COVINA,CA,39200,TRUE
+unit_17a7b823,indiv_c164f2b3,individual,FALSE,FREEMAN DANYELLE,LE SEUL,CEO AND FOUNDER,LOS ANGELES,CA,39200,TRUE
+unit_7b36d300,indiv_c19e25ef,individual,FALSE,BILLICK KURT,HARTREE PARTNERS,INVESTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_c02f0f1a,indiv_c1a01bc0,individual,FALSE,LACEY DAVID,RETIRED,RETIRED,CAMBRIA,CA,6500,TRUE
+unit_d9b5cf24,indiv_c1a55686,individual,FALSE,COURY PETE,LAKEVIEW VILLAGE,REAL ESTATE/ OWNER,GARDEN GROVE,CA,11500,TRUE
+unit_0630e356,indiv_c1e29f03,individual,TRUE,TENEV VLAD,ROBINHOOD MARKETS,CEO,MENLO PARK,CA,39000,TRUE
+unit_a63b1850,indiv_c1e29f03,individual,TRUE,TENEV VLAD,ROBINHOOD MARKETS,"CHAIRMAN, CEO, AND PRESIDENT OF ROBINHOOD MARKETS",MOUNTAIN VIEW,CA,15000,TRUE
+unit_587b096a,indiv_c26b0e43,individual,FALSE,BLOOMFIELD WYATT,STATE OF CALIFORNIA,ATTORNEY,SANTA MONICA,CA,5000,TRUE
+unit_fdac1a7c,indiv_c27c5e0e,individual,FALSE,SCHWARTZBERG JAIME,NONE,NONE,PACIFIC PALISADES,CA,78400,TRUE
+unit_e89a2a82,indiv_c27c5e0e,individual,FALSE,SCHWARTZBERG JAIME,N A,RETIRED,PACIFIC PALISADES,CA,9800,TRUE
+unit_c643b246,indiv_c2c23901,individual,TRUE,PRICE ROBERT,THE PRICE PHILANTHROPIES FOUNDATION,PHILANTHROPIST,LA JOLLA,CA,15000,TRUE
+unit_0ff07c98,indiv_c2c23901,individual,TRUE,PRICE ROBERT,SELF EMPLOYED ROBERT PRICE,REALTOR,NAPLES,FL,500,TRUE
+unit_d305fcae,indiv_c2cd9845,individual,FALSE,TOY STANLEY,AHMC HEALTHCARE,CEO,PASADENA,CA,5500,TRUE
+unit_51e566df,indiv_c2f5a615,individual,FALSE,HANSEN ERIK,HANSEN RANCH,FARMER,CORCORAN,CA,10000,TRUE
+unit_3ae34b53,indiv_c3b02d4a,individual,FALSE,ROBIN AARON,NEWGEN ADMINISTRATIVE SERVICES,CEO,LOS ANGELES,CA,10000,TRUE
+unit_dbabed89,indiv_c3d03731,individual,FALSE,TIERNEY DANIEL,WICKLOW CAPITAL,ADMINISTRATOR,CHICAGO,IL,200000,TRUE
+unit_0ce74de8,indiv_c3d39809,individual,FALSE,VANDERPYL DANIEL,SONIC AIR SYSTEMS,PRESIDENT,BREA,CA,7500,TRUE
+unit_ebe8bdaa,indiv_c3f05688,individual,FALSE,SINGH HARPREET,SELF EMPLOYED,REALTOR,ELK GROVE,CA,7000,TRUE
+unit_4445342b,indiv_c4128b75,individual,FALSE,BURROUGHS JOHN,COMMERCE CONSTRUCTION CO,CONSTRUCTION MANAGER,CHINO HILLS,CA,10000,TRUE
+unit_65c1333e,indiv_c4135970,individual,FALSE,PALMER GEOFF,GH PALMER ASSOCIATES,OWNER,BEVERLY HILLS,CA,39200,TRUE
+unit_749cc2ef,indiv_c42b9797,individual,FALSE,CHANG KENNY,KCAL INSURANCE AGENCY,INSURANCE AGENT,HACIENDA HEIGHTS,CA,5000,TRUE
+unit_f65891b4,indiv_c4402490,individual,TRUE,FUKUSHIMA GLEN,STANFORD UNIVERSITY,PROFESSOR,WASHINGTON,DC,14800,TRUE
+unit_dd2e1c98,indiv_c4402490,individual,TRUE,FUKUSHIMA GLEN,STANFORD UNIVERSITY,VISITING FELLOW,WASHINGTON,DC,39200,TRUE
+unit_9411b190,indiv_c4402490,individual,TRUE,FUKUSHIMA GLEN,CENTER FOR AMERICAN PROGRESS,SENIOR FELLOW,WASHINGTON,DC,39200,TRUE
+unit_ada60b12,indiv_c5326c84,individual,FALSE,COUCH J GREGG,N A,UNKNOWN,SAN MARTIN,CA,39200,TRUE
+unit_4f3edd5f,indiv_c56be0ef,individual,FALSE,CHERNICK JOYCE,RETIRED,RETIRED,LOS ANGELES,CA,39200,TRUE
+unit_d6061a4c,indiv_c57a4feb,individual,FALSE,GINN SAMUEL,RETIRED,RETIRED,SAN MATEO,CA,39200,TRUE
+unit_8a30d5c8,indiv_c57ca723,individual,FALSE,HERING JOHN,SELF EMPLOYED JOHN HERING,PRIVATE INVESTOR,SAN FRANCISCO,CA,39200,TRUE
+unit_52c02930,indiv_c59770b7,individual,FALSE,REITER AUGUST,RETIRED,RETIRED,RANCHO CUCAMONGA,CA,8500,TRUE
+unit_cadf992c,indiv_c5f4bdf3,individual,FALSE,HUESTON JOHN,HUESTON HENNIGAN,ATTORNEY,NEWPORT BEACH,CA,7000,TRUE
+unit_c91a93c1,indiv_c6328537,individual,FALSE,NICKELL ROBERT,RETIRED,RETIRED,DALLAS,TX,5725.59,TRUE
+unit_2f3b4af5,indiv_c64233c3,individual,FALSE,POMERANCE DREW,POMERANCE RESOLUTIONS,MEDIATOR,TARZANA,CA,10000,TRUE
+unit_507559d1,indiv_c67f72a3,individual,FALSE,RAVEN SCOTT,RAVEN FARMS,FARMER,SELMA,CA,5000,TRUE
+unit_f7b58806,indiv_c6a6216a,individual,TRUE,COGGINS MARK,MARK COGGINS,WRITER,HONOLULU,HI,4000,TRUE
+unit_21379007,indiv_c6a6216a,individual,TRUE,COGGINS MARK,MARK COGGINS,WRITER,NAPA,CA,1000,TRUE
+unit_0a7ede8d,indiv_c6fd402e,individual,FALSE,MARWOOD SONJA,NONE,NONE,MOUNTAIN VIEW,CA,5000,TRUE
+unit_8366752b,indiv_c716b3e2,individual,FALSE,RANDALL ELEANOR,HOMEMAKER,HOMEMAKER,LOS ANGELES,CA,5000,TRUE
+unit_67021759,indiv_c71ea2d4,individual,FALSE,CHENG BIN,801 PROPERTIES,BUSINESS OWNER,SAN MARINO,CA,10000,TRUE
+unit_b1740cf7,indiv_c7871739,individual,FALSE,DAHLGREN WILLIAM,RETIRED,RETIRED,PALOS VERDES ESTATES,CA,12000,TRUE
+unit_c124047e,indiv_c78c2b05,individual,TRUE,PATTERSON KATHLEEN,RETIRED,RETIRED,ST HELENA,CA,6000,TRUE
+unit_9565e0cd,indiv_c78c2b05,individual,TRUE,PETERSON KATHLEEN,NONE,NONE,SANTA BARBARA,CA,1000,TRUE
+unit_8cad03b3,indiv_c7b0ab14,individual,FALSE,ADAMS JEFFREY,BAKERHOSTETLER,ATTORNEY,SEATTLE,WA,9170.6,TRUE
+unit_325ff4f7,indiv_c82c2db5,individual,FALSE,KLEIN ROBERT,KLEIN FINANCIAL CORPORATION,CHAIRMAN,LOS ALTOS HILLS,CA,10000,TRUE
+unit_26e0cdea,indiv_c8db11fd,individual,FALSE,GALYNSKY ELLIOTT,WELLNESS INSTITUTE FOR SENIOR EMPOWERMENT,CARETAKER,LOS ANGELES,CA,5000,TRUE
+unit_47477dfb,indiv_c9431f02,individual,FALSE,YARRA SUBBARAO,SELF EMPLOYED,PHYSICIAN,MCALLEN,TX,10000,TRUE
+unit_90681ec7,indiv_c9cba682,individual,FALSE,POST GUENTHER JULIA,REFUNDED,REFUNDED,NEWPORT COAST,CA,5000,TRUE
+unit_ba296de4,indiv_ca2a7b92,individual,FALSE,SHAPIRO WILLIAM,WILLIAM D SHAPIRO LAW,ATTORNEY,SAN BERNARDINO,CA,5000,TRUE
+unit_07364de4,indiv_ca55b2bd,individual,FALSE,YOU JOSHUA,EPOCH AI,RESEARCHER,BROOKLYN,NY,5000,TRUE
+unit_8c98f77f,indiv_cac79367,individual,FALSE,PLASCENCIA ALFREDO,LAZER BROADCASTING,PRESIDENT,CAMARILLO,CA,6000,TRUE
+unit_7367bf74,indiv_cb9d3a30,individual,FALSE,MATIASIC PAUL,THE MATIASIC FIRM PC,ATTORNEY,DANVILLE,CA,9800,TRUE
+unit_77d5938c,indiv_cbde3fc8,individual,TRUE,VAN NEST ROBERT,KEKER VAN NEST AND PETERS,ATTORNEY,PIEDMONT,CA,10000,TRUE
+unit_b93219af,indiv_cbde3fc8,individual,TRUE,VAN NEST ROBERT,KVP,ATTORNEY,PIEDMONT,CA,5000,TRUE
+unit_fa4379b2,indiv_cc1973fc,individual,FALSE,BRIN SERGEY,ALPHABET,CO-FOUNDER,CRYSTAL BAY,NV,39200,TRUE
+unit_51d1978c,indiv_cc583496,individual,TRUE,VILLEGAS PETER,ACTUM,CO-CHAIR,RANCHO CUCAMONGA,CA,5500,TRUE
+unit_16c56d39,indiv_cc583496,individual,TRUE,VILLEGAS PETER,ACTUM,CHAIR,RANCHO CUCAMONGA,CA,2000,TRUE
+unit_f59c4a82,indiv_cc8cd0b8,individual,FALSE,CHAVEZ TOM,SUPER SET,CEO,SAN FRANCISCO,CA,15000,TRUE
+unit_574e383d,indiv_cc8cd0b8,individual,FALSE,CHAVEZ TOM,SUPERSET,CEO,SAN FRANCISCO,CA,35000,TRUE
+unit_ffbc1b00,indiv_cd450040,individual,TRUE,MONROE SCOTT,LEGACY ASSET MANAGEMENT,REAL ESTATE INVESTMENTS,FORT LAUDERDALE,FL,100,TRUE
+unit_047d27a8,indiv_cd450040,individual,TRUE,MONROE SCOTT,JULES AND ASSOCIATES,VICE PRESIDENT,SAN CLEMENTE,CA,10000,TRUE
+unit_f220d753,indiv_cd7c919d,individual,FALSE,MUTCHNIK NICOLE,NICOLE MUTCHNIK,PUBLIC POLICY,BEVERLY HILLS,CA,19600,TRUE
+unit_1a25453c,indiv_cd7c919d,individual,FALSE,MUTCHNIK NICOLE,NONE,NONE,BEVERLY HILLS,CA,10000,TRUE
+unit_8c37a30b,indiv_ce0e7b94,individual,FALSE,TIEMROTH KIRSI,RETIRED,RETIRED,OAKLANS,CA,5434.59,TRUE
+unit_33429732,indiv_ce19d390,individual,FALSE,MICKELSON PHIL,SELF EMPLOYED PHIL MICKELSON,GOLFER,RANCHO SANTA FE,CA,39200,TRUE
+unit_736cb2a2,indiv_ce516a3a,individual,TRUE,KIJEWSKI JOSEPH,EVERLAW,SOFTWARE ENGINEER,BERKELEY,CA,19200,TRUE
+unit_7011fb38,indiv_ce516a3a,individual,TRUE,KIJEWSKI JOSEPH,CONSTELLATION BIO,CHIEF OF STAFF,BERKELEY,CA,20000,TRUE
+unit_2e39c9a9,indiv_cf2d3f3f,individual,TRUE,CHU JOAN,VISION TO LEARN,EXECUTIVE DIRECTOR,CULVER CITY,CA,9800,TRUE
+unit_814f1788,indiv_cf2d3f3f,individual,TRUE,CHU JOAN,VISION TO LEARN,EXECUTIVE DIRECTOR,LOS ANGELES,CA,9800,TRUE
+unit_db7816dc,indiv_cf6c1ff1,individual,FALSE,RYERSON VIRGINIA,RETIRED,RETIRED,EL CENTRO,CA,5500,TRUE
+unit_50afd6c1,indiv_cfc5d246,individual,TRUE,QUILLIN PATTY,N A,HOMEMAKER,SANTA CRUZ,CA,8200,TRUE
+unit_3bf10c46,indiv_cfc5d246,individual,TRUE,QUILLIN PATTY,N A,NONE,SANTA CRUZ,CA,21000,TRUE
+unit_0eb88361,indiv_cfc5d246,individual,TRUE,QUILLIN PATTY,NONE,HOMEMAKER,SANTA CRUZ,CA,39200,TRUE
+unit_a7b1763c,indiv_cfd8b7f6,individual,FALSE,FULLERTON RICHARD,RBF CAPITAL,INVESTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_cf666b9f,indiv_d08fb797,individual,FALSE,EMERSON RITA RAE,RETIRED,RETIRED,LOS ANGELES,CA,7500,TRUE
+unit_efcacdb6,indiv_d0f023ff,individual,FALSE,BODENSTEDT JAMES,RETIRED,RETIRED,CLEARWATER,FL,39200,TRUE
+unit_e2e1ab38,indiv_d101c0bc,individual,FALSE,BERGER DORIAN S,BERGER AND HIPSKIND,ATTORNEY,LOS ANGELES,CA,9800,TRUE
+unit_8497a26c,indiv_d18f700a,individual,FALSE,MIRABITO STEVE,STORAGE PRO,MANAGEMENT,WALNUT CREEK,CA,3000,TRUE
+unit_7d1bb55c,indiv_d18f700a,individual,FALSE,MIRABITO STEVE,STORAGEPRO MG,BUSINESS OWNER,LAFAYETTE,CA,3000,TRUE
+unit_d1a8d72c,indiv_d1993775,individual,FALSE,DICKSON MARK,ASTRO ALUMINUM HEAT TREATING,EXECUTIVE,SOUTH GATE,CA,5000,TRUE
+unit_c2136843,indiv_d1a30e54,individual,FALSE,GIBSON JON,JON GIBSON,PRESIDENT,CAMERON PARK,CA,6000,TRUE
+unit_a3929a41,indiv_d1a6a4f2,individual,FALSE,STERLING ROCHELLE,RETIRED,RETIRED,BEVERLY HILLS,CA,39200,TRUE
+unit_bd902bdc,indiv_d232f024,individual,FALSE,GREENWAY COLLEEN,HOMEMAKER,HOMEMAKER,RANCHO SANTA FE,CA,1750,TRUE
+unit_87e23fe8,indiv_d232f024,individual,FALSE,GREENWAY COLLEEN,RETIRED,RETIRED,RANCHO SANTA FE,CA,5000,TRUE
+unit_a4475fba,indiv_d25b268d,individual,FALSE,LI ANGELINA,EFFECTIVE VENTURES US,SPECIALIST,BERKELEY,CA,39200,TRUE
+unit_27478d00,indiv_d2a8d6f4,individual,FALSE,LANCASTER KATHY,KAISER PERMANENTE,FINANCE,DANVILLE,CA,10000,TRUE
+unit_59058d85,indiv_d3421209,individual,FALSE,KOSHLAND PETER,KOSHLAND PHARMACY,PHARMACIST,BERKELEY,CA,4500,TRUE
+unit_778502e9,indiv_d3421209,individual,FALSE,KOSHLAND PETER,KOSHLAND PHARM,PHARMACIST,BERKELEY,CA,500,TRUE
+unit_5afd9ac3,indiv_d38b4934,individual,FALSE,GIBNEY BRUCE,BRUCE GIBNEY,WRITER,SAN FRANCISCO,CA,5000,TRUE
+unit_bb31850b,indiv_d3bbc810,individual,FALSE,ECHEVERRIA RICARDO,SHERNOFF BIDART ECHEVERRIA,ATTORNEY,CLAREMONT,CA,5000,TRUE
+unit_b16f2b2b,indiv_d3dbda36,individual,FALSE,MARTINETTI RONALD,NONE,RETIRED,SIERRA MADRE,CA,5000,TRUE
+unit_81efb17a,indiv_d3f11e19,individual,FALSE,FALLON SHANNON,RETIRED,RETIRED,ATHERTON,CA,5000,TRUE
+unit_bd93c4b6,indiv_d41a13ab,individual,FALSE,LOPEZ VENTURA IVAN,VENTURA LAW APC,ATTORNEY,HAWTHORNE,CA,2500,TRUE
+unit_d739fb25,indiv_d41a13ab,individual,FALSE,LOPEZ VENTURA IVAN,VENTURA LAW,ATTORNEY,HAWTHORNE,CA,2500,TRUE
+unit_3bc48e63,indiv_d42ff03d,individual,TRUE,JOHNS WILLIAM,INLAND ENERGY,PRESIDENT,NEWPORT BEACH,CA,2500,TRUE
+unit_2a9fc2fa,indiv_d42ff03d,individual,TRUE,JONES WILLIAM,JJ FARMS,FARMER,FRESNO,CA,2500,TRUE
+unit_040392d3,indiv_d476b638,individual,FALSE,LANSING LAINEY,LANSING COMPANIES,REAL ESTATE,SOLANA BEACH,CA,24500,TRUE
+unit_87b579c1,indiv_d4b94573,individual,FALSE,KAWASAKI GUY,NONE,NONE,WATSONVILLE,CA,5000,TRUE
+unit_ed13ad71,indiv_d4e8128a,individual,FALSE,PATTON STEPHEN,PATTON REAL ESTATE,REAL ESTATE,SAN FRANCISCO,CA,5000,TRUE
+unit_8da7560c,indiv_d4e99b90,individual,TRUE,MORGAN VAN,DAYBREAK,CO-FOUNDER,LOS ANGELES,CA,8000,TRUE
+unit_499ecc84,indiv_d4e99b90,individual,TRUE,MORGAN VAN,DAYBREAK,FOUNDER,LOS ANGELES,CA,3000,TRUE
+unit_9e076954,indiv_d5073ba5,individual,TRUE,TAYLOR ROBERT,RETIRED,RETIRED,BAKERSFIELD,CA,330,TRUE
+unit_90c68961,indiv_d5073ba5,individual,TRUE,TAYLOR ROBERT,CENTINELA CAPITAL PARTNERS,INVESTMENT MANAGEMENT,LOS ANGELES,CA,2000,TRUE
+unit_98533226,indiv_d5073ba5,individual,TRUE,TAYLOR ROBERT,CENTINELA CAPITAL PARTNERS,INVESTOR,LOS ANGELES,CA,1000,TRUE
+unit_fc88ebc4,indiv_d5073ba5,individual,TRUE,TAYLOR ROBERT,CENTINELA CAPITAL PARTNERS,MANAGER,LOS ANGELES,CA,1000,TRUE
+unit_56211214,indiv_d5073ba5,individual,TRUE,TAYLOR ROBERT,CENTINELA CAPITAL PARTNERS,INVESTMENT MANAGER,LOS ANGELES,CA,1000,TRUE
+unit_b869d7df,indiv_d51c3824,individual,FALSE,BRYAN GREYSON,OMELVENY,ATTORNEY,CARMEL,CA,39200,TRUE
+unit_d76b2f9a,indiv_d547a3c1,individual,TRUE,SILVERMAN KAREN,NONE,NONE,SAN FRANCISCO,CA,10000,TRUE
+unit_ad285b18,indiv_d547a3c1,individual,TRUE,SILVERMAN KAREN,SELF EMPLOYED,ATTORNEY,SAN FRANCISCO,CA,10000,TRUE
+unit_0b5414ae,indiv_d5728f4a,individual,FALSE,LINDSEY KIELLE,LINDSEY FOUNDATION,PRESIDENT,SANTA BARBARA,CA,5000,TRUE
+unit_515f50d6,indiv_d57c8f9a,individual,FALSE,KOLOKOTRONES MARK,SELF EMPLOYED MARK KOLOKOTRONES,INVESTMENT,LA CANADA FLINTRIDGE,CA,34200,TRUE
+unit_01186c52,indiv_d57c8f9a,individual,FALSE,KOLOKOTRONES MARK,SELF EMPLOYED MARK KOLOKOTRONES,INVESTOR,LA CANADA FLINTRIDGE,CA,5000,TRUE
+unit_609b9dab,indiv_d57df4ee,individual,FALSE,TICHY LIGAYA,WILD CHILD,DIRECTOR,SAN FRANCISCO,CA,9800,TRUE
+unit_583986d1,indiv_d5ebebf3,individual,FALSE,DIXON DEBRA,FEROX STRATEGIES,CONSULTANT,WASHINGTON,DC,9792.400000000001,TRUE
+unit_91b41e53,indiv_d68f563e,individual,FALSE,ARABO MARK,REFINED MANAGEMENT,CEO,SAN DIEGO,CA,16170,TRUE
+unit_db297743,indiv_d6fd7078,individual,FALSE,GREWAL DDS HARLEEN,HARLEEN GREWAL DDS,DENTIST,SANTA CLARITA,CA,5000,TRUE
+unit_25782abb,indiv_d70fae4c,individual,FALSE,UNDERHILL ROLAND,RETIRED,RETIRED,NOVATO,CA,20000,TRUE
+unit_520b930f,indiv_d76ba9cc,individual,FALSE,BAUGE HARRY,RETIRED,RETIRED,PLANO,TX,5000,TRUE
+unit_eacfc631,indiv_d76cf27e,individual,FALSE,PYUN WADE,ALTURA CREDIT UNION,ATTORNEY,YORBA LINDA,CA,10000,TRUE
+unit_c8067fa7,indiv_d7a70be7,individual,FALSE,EISLER MICHAEL,BACO PROPERTIES,REAL ESTATE INVESTOR,SAN FRANCISCO,CA,5000,TRUE
+unit_172375b6,indiv_d808aa82,individual,FALSE,MADISON STEVE,SELF EMPLOYED,ATTORNEY,PASADENA,CA,5000,TRUE
+unit_aba12f08,indiv_d849a2db,individual,FALSE,NEVINS HENRY,NALS APARTMENT HOMES,PARTNER,SANTA BARBARA,CA,5000,TRUE
+unit_860a042e,indiv_d8715e4e,individual,FALSE,PERKINS HILARY,NONE,NONE,SAN RAFAEL,CA,5000,TRUE
+unit_2b5afd6e,indiv_d880ad5e,individual,FALSE,TELLES CYNTHIA,NONE,NONE,LOS ANGELES,CA,5000,TRUE
+unit_5e476632,indiv_d880ad5e,individual,FALSE,TELLES CYNTHIA,UNIVERSITY OF CALIFORNIA LOS ANGELES,PROFESSOR,LOS ANGELES,CA,1858.79,TRUE
+unit_78f1fa42,indiv_d8b72d5a,individual,FALSE,THRUN SEBASTIAN,SAGE AI LABS,CEO,SAN FRANCISCO,CA,8000,TRUE
+unit_f5d93bb3,indiv_d95797d7,individual,FALSE,MILSTEIN GILA,HAGER PACIFIC,REAL ESTATE,ENCINO,CA,5000,TRUE
+unit_3b80b398,indiv_d9c1cea7,individual,FALSE,OLUND KATHLEEN,RETIRED,RETIRED,BRENTWOOD,CA,5020.26,TRUE
+unit_8e33045a,indiv_d9ccc9c4,individual,TRUE,HARRIS JIM,ARCHIPELAGO,MANAGING PARTNER,HILLSBOROUGH,CA,15000,TRUE
+unit_83991f9b,indiv_d9ccc9c4,individual,TRUE,HARRIS JIM,ARCHIPELAGO COMPANIES,EXECUTIVE,HILLSBOROUGH,CA,20000,TRUE
+unit_7ab9a78a,indiv_dacdb141,individual,TRUE,MOORE JOHN,RETIRED,RETIRED,LIVERMORE,CA,5500,TRUE
+unit_234f55fb,indiv_dacdb141,individual,TRUE,MOORE JOHN,RETIRED,RETIRED,AUGUSTA,KS,300,TRUE
+unit_a77b2bba,indiv_dacdb141,individual,TRUE,MOORE JOHN,RETIRED,RETIRED,MONTE SERENO,CA,200,TRUE
+unit_c867546a,indiv_dacdb141,individual,TRUE,MOORE JOHN,N A,N/A,TEMECULA,CA,100,TRUE
+unit_11f86616,indiv_db7dfb22,individual,FALSE,ZARUKA JOHN,RETIRED,RETIRED,CAMARILLO,CA,5000,TRUE
+unit_ad04c3f6,indiv_db9f3d99,individual,TRUE,PHILLIPS STEVE,DEMOCRACY IN COLOR,WRITER,SAN FRANCISCO,CA,19600,TRUE
+unit_6ec48872,indiv_db9f3d99,individual,TRUE,PHILLIPS STEVEN,S AND K SERVICES,PRESIDENT,COLORADO SPRINGS,CO,104,TRUE
+unit_6d2a4901,indiv_db9f3d99,individual,TRUE,PHILLIPS STEVEN,S,PRESIDENT,COLORADO SPRINGS,CO,52,TRUE
+unit_3e4c96ca,indiv_dba4d5cb,individual,FALSE,BERLE CARRIE,NONE,HOMEMAKER,PACIFIC PALISADES,CA,5000,TRUE
+unit_9a60aa30,indiv_dbd3a9d8,individual,TRUE,TINSLEY SUZANNE,SUGAR SHACK,OWNER,MENLO PARK,CA,2676,TRUE
+unit_de4758e5,indiv_dbd3a9d8,individual,TRUE,TINSLEY SUZANNE,HOMEMAKER,HOMEMAKER,MENLO PARK,CA,5000,TRUE
+unit_acfa46da,indiv_dc34b805,individual,FALSE,REGAN WILLIAM,RETIRED,RETIRED,SAN MATEO,CA,5000,TRUE
+unit_0ecbfad3,indiv_dc638ae0,individual,FALSE,FOSTER LAUREN,NONE,NONE,SAN FRANCISCO,CA,78400,TRUE
+unit_3cbd7c39,indiv_dcb23af6,individual,FALSE,KITCHEN JONATHAN,KITCHEN LAW GROUP PC,ATTORNEY,SAN FRANCISCO,CA,6000,TRUE
+unit_7464be39,indiv_dda687b9,individual,FALSE,BECK DENNIS,RETIRED,RETIRED,BEVERLY HILLS,CA,5000,TRUE
+unit_cc54c143,indiv_de032514,individual,FALSE,SILBERMAN KAREN,NONE,NONE,SOLANA BEACH,CA,20000,TRUE
+unit_91becb1e,indiv_de4edb8d,individual,FALSE,SAKHRANI LAKHI,SELF EMPLOYED,PHYSICIAN,ALHAMBRA,CA,5000,TRUE
+unit_f28969d4,indiv_de57b883,individual,FALSE,AHRENDTS COUCH ANGELA,NA,NA,SAN MARTIN,CA,39200,TRUE
+unit_cbb38fc6,indiv_dea475ae,individual,FALSE,CARBERRY JOANN,RETIRED,RETIRED,SAN DIEGO,CA,5000,TRUE
+unit_e707efdd,indiv_df0b49ca,individual,TRUE,SURGENER II LESTER,QUANTUMN INDUSTRIES,BUSINESSMAN,BAKERSFIELD,CA,5000,TRUE
+unit_b3386fc4,indiv_df0b49ca,individual,TRUE,SURGENER II LESTER,QUANTUM INDUSTRIES,ELECTRICAL CONTRACTOR,BAKERSFIELD,CA,5000,TRUE
+unit_dd1dba91,indiv_df891bdd,individual,FALSE,ULLOA BRUNO,LATV NETWORKS,EXECUTIVE,LOS ANGELES,CA,16229.01,TRUE
+unit_057afedc,indiv_df8e66d6,individual,FALSE,ROSENBAUM LAUREN,N A,NONE,ALAMEDA,CA,9800,TRUE
+unit_106a1297,indiv_dfccc6b8,individual,TRUE,SALINAS MARIA,LA CHAMBER OF COMMERCE,EXECUTIVE,PASADENA,CA,5000,TRUE
+unit_04a3ef12,indiv_dfccc6b8,individual,TRUE,SALINAS MARIA,LA CHAMBER,EXECUTIVE,PASADENA,CA,1000,TRUE
+unit_c32fbeb8,indiv_dfccc6b8,individual,TRUE,SALINAS MARIA,LOS ANGELES AREA CHAMBER,EXECUTIVE,PASADENA,CA,10000,TRUE
+unit_4f92fa9e,indiv_e070f5db,individual,FALSE,ALEXANDER JOHN,ALEXANDER MORRISON AND FEHR,ATTORNEY,LOS ANGELES,CA,10000,TRUE
+unit_8a6c3594,indiv_e0a9dbd5,individual,FALSE,RASOULI ALEXANDRE,RASOULISPINE,SURGEON,LOS ANGELES,CA,39200,TRUE
+unit_941f6c58,indiv_e0cc7f35,individual,FALSE,RISI ORESTE,NA,NA,BAKERSFIELD,CA,5000,TRUE
+unit_71f90952,indiv_e151e4d4,individual,FALSE,WOODSIDE DENNIS,FRESHWORKS,CEO,ATHERTON,CA,5000,TRUE
+unit_4a43d789,indiv_e245f701,individual,FALSE,FAIN DONNIE,RETIRED,RETIRED,JACKSONVILLE,FL,5000,TRUE
+unit_ea70c0e1,indiv_e28d843d,individual,FALSE,BRICKNER LYNNE,NONE,NONE,LOS ANGELES,CA,500,TRUE
+unit_9422b182,indiv_e28d843d,individual,FALSE,BRICKNER LYNNE,NONE,RETIRED,LOS ANGELES,CA,8175.15,TRUE
+unit_5061f2b8,indiv_e2c9872a,individual,TRUE,MILLER LORI,RETIRED,RETIRED,LOS ANGELES,CA,9000,TRUE
+unit_79325cce,indiv_e2c9872a,individual,TRUE,MILLER LORI,SELF EMPLOYED,FILM PRODUCER,LOS ANGELES,CA,250,TRUE
+unit_3c44c699,indiv_e2cf19a1,individual,FALSE,LASHER MICHAEL,COMMUNITY COMMERCE BANK,BANKER,RIVERSIDE,CA,10000,TRUE
+unit_77080ba0,indiv_e313c8cc,individual,FALSE,KUMPE MATT,FRESNO PLUMBING,VICE PRESIDENT,FRESNO,CA,5000,TRUE
+unit_5bea08c2,indiv_e3b17c9b,individual,FALSE,SANDHU SUKHVINDER,SELF EMPLOYED,REAL ESTATE DEVELOPER,RIPON,CA,39200,TRUE
+unit_e377e4b5,indiv_e3b17c9b,individual,FALSE,SANDHU SUKHVINDER,H S RETAIL MANAGEMENT SERVICES,RETAILER,RIPON,CA,25000,TRUE
+unit_d12af68b,indiv_e3cffd42,individual,FALSE,LUI LAWRENCE,CRESLEIGH MANAGEMENT,REAL ESTATE,SAN FRANCISCO,CA,8800,TRUE
+unit_3679c8cd,indiv_e3ddea8f,individual,FALSE,CLYDE HUNTER,RETIRED,RETIRED,SANTA ROSA,CA,5000,TRUE
+unit_74fe7167,indiv_e3e48690,individual,FALSE,RESNICK STEWART,THE WONDERFUL,CHAIRMAN,LOS ANGELES,CA,39200,TRUE
+unit_4f3e2320,indiv_e3fa30c2,individual,FALSE,MCKEOWN JOHN,Q OIL ADVISORS,CEO,LONG BEACH,CA,15000,TRUE
+unit_4e95aae6,indiv_e4162317,individual,FALSE,TOSETTI PAUL,RETIRED,RETIRED,SAN MARINO,CA,6000,TRUE
+unit_e298239a,indiv_e429fea4,individual,FALSE,VACA NINA,PINNACLE GROUP,CEO,DALLAS,TX,5000,TRUE
+unit_548fee07,indiv_e42c4c92,individual,FALSE,JACOBS JOSEPH,WEXFORD CAPITAL,PRESIDENT,WEST PALM BEACH,FL,10000,TRUE
+unit_500b2e4b,indiv_e435d68a,individual,FALSE,PERENCHIO MARGARET,NONE,PHILANTHROPIST,LOS ANGELES,CA,20000,TRUE
+unit_5c7d1c46,indiv_e450ff8d,individual,FALSE,PASCOE SARAH,RETIRED,RETIRED,CORONA DEL MAR,CA,5000,TRUE
+unit_eccf1232,indiv_e45ef1fd,individual,FALSE,STEPHENS MARY,BAYSIDE REALTY,REAL ESTATE BROKER,CRESCENT CITY,CA,5000,TRUE
+unit_387a2f8d,indiv_e47bd9be,individual,FALSE,SIMONS ELIZABETH,N A,NONE,ATHERTON,CA,9800,TRUE
+unit_88a166b6,indiv_e47bd9be,individual,FALSE,SIMONS ELIZABETH,N A,RETIRED,ATHERTON,CA,3100,TRUE
+unit_4682ce9a,indiv_e47bd9be,individual,FALSE,SIMONS ELIZABETH,NONE,RETIRED,ATHERTON,CA,39200,TRUE
+unit_216f0834,indiv_e4807a95,individual,FALSE,CIRIT OLCAY,UBER TECHNOLOGIES,RESEARCH SCIENTIST,SAN FRANCISCO,CA,5000,TRUE
+unit_a7064d86,indiv_e48a6e6f,individual,FALSE,GILL RICH,WPCG,FOUNDER,SAN FRANCISCO,CA,5000,TRUE
+unit_90ae9a75,indiv_e4a80d0f,individual,FALSE,MASSET JUDY,RETIRED,RETIRED,MANDAN,ND,39200,TRUE
+unit_8b72e2d8,indiv_e4c0c2ce,individual,FALSE,DOMINGUEZ DAVID,DOMINGUEZ HOLDING,EXECUTIVE,SAN DIEGO,CA,5000,TRUE
+unit_869f0de9,indiv_e4d5ec82,individual,FALSE,WHITWORTH ERIC,INDUCTIVEHEALTH INFORMATICS,CEO,CHAMBLEE,GA,39200,TRUE
+unit_d1c510a2,indiv_e4de6a82,individual,FALSE,GOCH DAVID,WEBSTER CHAMBERLAIN AND BEAN,ATTORNEY,WASHINGTON,DC,5000,TRUE
+unit_fd3a2c00,indiv_e5e89c3c,individual,FALSE,TALLARIDA JOHN,HEFFERNAN INSURANCE BROKERS,CHIEF CARRIER OFFICER,OAKLAND,CA,5000,TRUE
+unit_ad0514a1,indiv_e5eb0af1,individual,FALSE,LANHAM TAMERA,ANTHROPIC,MEMBER OF TECHNICAL STAFF,BERKELEY,CA,39200,TRUE
+unit_844eebc7,indiv_e5ecdf59,individual,FALSE,CHANG DEBORAH,CHANG KLEIN,ATTORNEY,REDONDO BEACH,CA,9800,TRUE
+unit_0ad559ae,indiv_e6dd95c5,individual,FALSE,GETZOFF STEPHEN,SELF EMPLOYED,ACCOUNTANT,AGOURA HILLS,CA,9100,TRUE
+unit_086705e0,indiv_e72c6953,individual,FALSE,IREDALE EUGENE,IREDALE AND YOO APC,BUSINESS OWNER,LA JOLLA,CA,5000,TRUE
+unit_d259a496,indiv_e72c6953,individual,FALSE,IREDALE EUGENE,SELF EMPLOYED,ATTORNEY,LA JOLLA,CA,2000,TRUE
+unit_ae9c54b1,indiv_e734e5f1,individual,FALSE,PIRO LAWRENCE,THE ANGELES CLINIC AND RESEARCH INSTITUTE,CEO,LOS ANGELES,CA,5000,TRUE
+unit_04f2ab9a,indiv_e846b2d9,individual,FALSE,CANTU LEONEL,SELF EMPLOYED,PHYSICIAN,MCALLEN,TX,5000,TRUE
+unit_0b188f6e,indiv_e966b3b0,individual,FALSE,BIRMINGHAM ROBERT,SELF EMPLOYED,REAL ESTATE BROKER,SAN FRANCISCO,CA,10000,TRUE
+unit_1de2482d,indiv_e987a5c2,individual,FALSE,FORESTER DIANE,RETIRED,RETIRED,LOS ANGELES,CA,5500,TRUE
+unit_349800e1,indiv_e9e0f895,individual,FALSE,TURTLETAUB MAUREEN,NONE,NONE,SAN FRANCISCO,CA,78400,TRUE
+unit_2c3290bf,indiv_ea32247e,individual,TRUE,BRADY RICHARD,BRADYS,SELF,CORONADO,CA,500,TRUE
+unit_782a8b3b,indiv_ea32247e,individual,TRUE,BARRETT RICHARD,N A,N/A,NEWPORT BEACH,CA,100,TRUE
+unit_d11837fb,indiv_ea32247e,individual,TRUE,BARRETT RICHARD,BARRETT FAMILY HOLDINGS,OWNER,DEL MONTE FOREST,CA,5000,TRUE
+unit_68f5d569,indiv_ea414ac5,individual,FALSE,LOWDER LARRY,LJL FARMING,FARMING/ AGRI-BUSINESS,MADERA,CA,11000,TRUE
+unit_c38bd7b9,indiv_ea5c72bb,individual,TRUE,MARSHALL JOHN,RETIRED,RETIRED,OCEANSIDE,CA,7085,TRUE
+unit_db23f2b8,indiv_ea5c72bb,individual,TRUE,MARSHALL JOHN,RETIRED,RETIRED,ETNA,CA,50,TRUE
+unit_be8f8e7c,indiv_eacd723d,individual,FALSE,STRAUSE GREG,ABERYTHMIC,CEO,FRANKLIN,TN,15000,TRUE
+unit_a9e53f6c,indiv_eaf4a151,individual,FALSE,COSTA DAN,WILD FOX FOODS,FOUNDER,MODESTO,CA,10000,TRUE
+unit_80c486ea,indiv_eb773458,individual,FALSE,NEU JEFFREY,OPERATIONS WC,REAL ESTATE EXECUTIVE,MANHATTAN BEACH,CA,5000,TRUE
+unit_6107c43f,indiv_ebb06478,individual,FALSE,TAORMINO JOSEPH DAVID,DAVID MAR CO,REAL ESTATE DEVELOPER,DAVIS,CA,39000,TRUE
+unit_ba16b3e1,indiv_ec2fe74f,individual,FALSE,MCCARTY HEATHER,OHLONE COLLEGE,HISTORY PROFESSOR,SAN FRANCISCO,CA,5000,TRUE
+unit_7d7f578a,indiv_ec5f8833,individual,FALSE,KULLIGIAN LEE,KULLIGIAN GROUP,REAL ESTATE DEVELOPMENT,FRESNO,CA,5000,TRUE
+unit_ab6a9773,indiv_ec615388,individual,FALSE,BARKER SHANNON,BISNAR CHASE PERSONAL INJURY ATTORNEYS,MANAGING PARTNER,NEWPORT BEACH,CA,5000,TRUE
+unit_923044a6,indiv_ec68d2ac,individual,FALSE,SHALUNOVA ARINA,NONE,NONE,SAN FRANCISCO,CA,39200,TRUE
+unit_a07ab2b6,indiv_ecb79567,individual,FALSE,MATSON HENRY,RETIRED,RETIRED,NEWPORT BEACH,CA,12000,TRUE
+unit_752a00c3,indiv_ece95be3,individual,FALSE,CARUSO RICK,CARUSO,BUSINESS OWNER,LOS ANGELES,CA,49000,TRUE
+unit_2c1ddca5,indiv_ed1a6c03,individual,FALSE,TEETER MARY ELLEN,HOMEMAKER,HOMEMAKER,CORONADO,CA,9800,TRUE
+unit_222181e1,indiv_ed28e851,individual,FALSE,ALVAREZ DAVID,CITY OF SAN DIEGO,COUNCILMEMBER,SAN DIEGO,CA,5000,TRUE
+unit_bd90b009,indiv_ed497205,individual,FALSE,DESCOTO RODRIGO,REFLECTION WINDOW AND WALL,PRESIDENT,CHICAGO,IL,10000,TRUE
+unit_8d7ddbb5,indiv_ede1b111,individual,FALSE,SPINAZZOLA BARBIE,RETIRED,RETIRED,RANCHO SANTA FE,CA,5000,TRUE
+unit_9f7b7efb,indiv_ee19df1d,individual,FALSE,ROBB CELESTINO ABIGAIL,SELF EMPLOYED,PSYCHOTHERAPIST,SAN RAFAEL,CA,5000,TRUE
+unit_ac84da39,indiv_ee7ae330,individual,FALSE,LANDERS RICHARD K,N A,RETIRED,SANTA MONICA,CA,14600,TRUE
+unit_3dbed824,indiv_ee8d845b,individual,FALSE,BEHAR MICHAEL,JULES AND ASSOCIATES,MANAGER,LOS ANGELES,CA,5000,TRUE
+unit_a724721c,indiv_eeedadc7,individual,TRUE,BENABENTE JULIE,CITY OF SAN JOSE,ENVIRONMENTAL,SAN JOSE,CA,50,TRUE
+unit_61484b30,indiv_eeedadc7,individual,TRUE,BUENABENTA JULES,JULES AND ASSOCIATES,CEO,LOS ANGELES,CA,39200,TRUE
+unit_e3247f22,indiv_ef8e88af,individual,FALSE,STEINMETZ MATTHEW,KIRKLAND AND ELLIS,ATTORNEY,CHICAGO,IL,5000,TRUE
+unit_004edb28,indiv_efe0734b,individual,TRUE,CHONG JAN,TILT FINANCE,EXECUTIVE,SAN FRANCISCO,CA,3500,TRUE
+unit_97b1021b,indiv_efe0734b,individual,TRUE,CHUNG JANET,ZOOM COMMUNICATIONS,ATTORNEY,SAN FRANCISCO,CA,2000,TRUE
+unit_f03bd83f,indiv_efe0734b,individual,TRUE,CHUNG JANET,ZOOM,ATTORNEY,SAN FRANCISCO,CA,5000,TRUE
+unit_cda9263a,indiv_f04825a9,individual,FALSE,HESS SUZANNE,N A,NONE,SAN DIEGO,CA,9800,TRUE
+unit_3da0ef0d,indiv_f0d81252,individual,FALSE,RUSSELL JAMES,RETIRED,RETIRED,LOS GATOS,CA,10000,TRUE
+unit_12d2700a,indiv_f0e763b1,individual,FALSE,CAVAZOS NORMA,SELF EMPLOYED,PHYSICIAN,EDINBURG,TX,5000,TRUE
+unit_4a8270f3,indiv_f0f3dd5c,individual,FALSE,KLAIN RONALD,AIRBNB,ATTORNEY,CHEVY CHASE,MD,6000,TRUE
+unit_2bd4270c,indiv_f0f607ae,individual,FALSE,CONSTANCE MARCIA,RETIRED,RETIRED,SANTA BARBARA,CA,5205.08,TRUE
+unit_5a2fabd4,indiv_f1765495,individual,FALSE,DOLLINGER DAVE,DOLLINGER PROPERTIES,REAL ESTATE,REDWOOD CITY,CA,39200,TRUE
+unit_c35a3c97,indiv_f1a01958,individual,FALSE,KHOSLA ANU,ANU KHOSLA,WRITER,PORTOLA VALLEY,CA,5000,TRUE
+unit_413382ba,indiv_f1d9340f,individual,TRUE,SPENCER RICHARD,SPENCER ENTERPRISES,OWNER,FRESNO,CA,35198.09,TRUE
+unit_744598cf,indiv_f1d9340f,individual,TRUE,SPENCER RICHARD F,SPENCER ENTERPRISES,DEVELOPER,FRESNO,CA,10000,TRUE
+unit_19fcc628,indiv_f22b8acc,individual,FALSE,GALICOT GREGORIO,BBG COMMUNICATIONS,PRESIDENT,LA JOLLA,CA,7500,TRUE
+unit_35009543,indiv_f286ac59,individual,FALSE,LENTELL ERIC,ARCHER AVIATION,CHIEF STRATEGY OFFICER,SAN JOSE,CA,39200,TRUE
+unit_693ed4f0,indiv_f380dbbe,individual,FALSE,SCHLOTTERBECK DAVID,RETIRED,RETIRED,LAGUNA NIGUEL,CA,7000,TRUE
+unit_e31c9508,indiv_f381d1ac,individual,FALSE,SILBERSTEIN STEVE,N A,NONE,BELVEDERE TIBURON,CA,18800,TRUE
+unit_9c3597f8,indiv_f38456a4,individual,FALSE,ZIEGLER DANIEL,ANTHROPIC PBC,RESEARCHER,SAN FRANCISCO,CA,39200,TRUE
+unit_65f6a570,indiv_f3948eca,individual,FALSE,SURYAN JR FRANK,LYON LIVING,CHAIRMAN AND CEO,NEWPORT BEACH,CA,39200,TRUE
+unit_9e8a1d74,indiv_f3a2f485,individual,FALSE,KRONENBERG CHET,SIMPSON THACHER AND BARTLETT,ATTORNEY,BEVERLY HILLS,CA,5000,TRUE
+unit_e4548c09,indiv_f3f56f90,individual,FALSE,ZAFFARONI PETER,US DEPT OF COMMERCE,ATTORNEY,PORTOLA VALLEY,CA,8000,TRUE
+unit_79c0c9d3,indiv_f410aa08,individual,FALSE,RENICK RANDY,HADSELL STORMER RENICK AND DAI,ATTORNEY,ALTADENA,CA,9800,TRUE
+unit_cafeeb4c,indiv_f5596b35,individual,FALSE,CONWAY GAYLE,NONE,HOMEMAKER,BELVEDERE,CA,39200,TRUE
+unit_0fb81a22,indiv_f5839913,individual,FALSE,ARIAN ARDI,RENEWABLE AMERICA,CEO,SANTA CLARA,CA,5000,TRUE
+unit_0ea11152,indiv_f68bc541,individual,TRUE,KIESEL PAUL,KIESEL LAW,ATTORNEY,BEVERLY HILLS,CA,20000,TRUE
+unit_693be273,indiv_f68bc541,individual,TRUE,KIESEL PAUL,KIESEL LAW,PARTNER,BEVERLY HILLS,CA,1000,TRUE
+unit_bc1f12ca,indiv_f6abb0e3,individual,FALSE,WALKER RAYMOND,MCALLEN ANESTHESIA CONSULTANTS,NURSE ANESTHETIST,MCALLEN,TX,5000,TRUE
+unit_7c9c7ae7,indiv_f6ac94b0,individual,FALSE,GOODWIN MICHELE,GEORGETOWN UNIVERSITY,PROFESSOR,WASHINGTON,DC,5000,TRUE
+unit_20c23639,indiv_f6fad082,individual,FALSE,YATES SHARI,SHARBRO,OWNER,SCOTTSDALE,AZ,8203.21,TRUE
+unit_7428bb80,indiv_f754c493,individual,FALSE,SIMAN SANAM,SIMAN ENTERPRISES,REAL ESTATE PROFESSIONAL,LOS ANGELES,CA,26826,TRUE
+unit_c4d8fec2,indiv_f7cc20cb,individual,FALSE,MULLENWEG MATT,AUTOMATTIC,CEO,HOUSTON,TX,9800,TRUE
+unit_3d773fe4,indiv_f7e9d0a0,individual,FALSE,CHUNHAN MICHAEL,LIGHTHOUSE WORLDWIDE SOLUTIONS,ENGINEER,JACKSONVILLE,OR,78400,TRUE
+unit_74a7b3eb,indiv_f82fcd7c,individual,FALSE,WONG JOHN,UPWARD HOUSING,REALTOR,SAN MARINO,CA,5000,TRUE
+unit_268217ac,indiv_f8a5c182,individual,FALSE,COLLINS FRANCIS,RETIRED,RETIRED,SONOMA,CA,5000,TRUE
+unit_adddce17,indiv_f8f28ca0,individual,FALSE,TRAMMELL SCHMITT JUDY,RETIRED,RETIRED,ANAHEIM,CA,5200,TRUE
+unit_191d163d,indiv_f8fa23c1,individual,FALSE,SKIDMORE RUTH,RETIRED,RETIRED,SANTA ROSA,CA,5000,TRUE
+unit_b7dc78a9,indiv_f949a3b6,individual,TRUE,DAY KELLY,SHERMCO,PROJECT MANAGER,HOWELL,MI,200,TRUE
+unit_321a6621,indiv_f949a3b6,individual,TRUE,DAY KELLY,SELF EMPLOYED KELLY DAY,INVESTOR,LOS ANGELES,CA,20000,TRUE
+unit_ac6394d1,indiv_f95eb3ac,individual,FALSE,STEIN PERLMAN ZACHARY,AI LAB WATCH,FOUNDER,ANN ARBOR,MI,39200,TRUE
+unit_eb54ad22,indiv_f98b2a11,individual,FALSE,HOLSCHER KELLY,HOMEMAKER,HOMEMAKER,PACIFIC PALISADES,CA,6000,TRUE
+unit_ed7d938e,indiv_fa4c4ce6,individual,FALSE,ULLOA RON,KXLA TV,BROADCASTER,LOS ANGELES,CA,40000,TRUE
+unit_77bbfc01,indiv_fa600423,individual,FALSE,NAGLE KEVIN,JAGUAR VENTURES,CHAIRMAN,EL DORADO HILLS,CA,10000,TRUE
+unit_e9623eb6,indiv_fa9e94c5,individual,FALSE,SCHNUCK CRAIG,RETIRED,RETIRED,ST LOUIS,MO,6500,TRUE
+unit_877a8754,indiv_fae8f109,individual,FALSE,KANG BALDEV,NONE,NONE,RANCHO CUCAMONGA,CA,10000,TRUE
+unit_b6b58c42,indiv_fae8f109,individual,FALSE,KANG BALDEV,CARGO SOLUTION,BUSINESS,RANCHO CUCAMONGA,CA,10000,TRUE
+unit_47107940,indiv_fb4fbc95,individual,FALSE,ADAM MARK,RETIRED,RETIRED,SANTA MARIA,CA,5000,TRUE
+unit_68865736,indiv_fbc15f5a,individual,FALSE,TATOM DAVIS CHRISTINE,CLUB AUTO SPORT AND TMFC,OWNER,SAN JOSE,CA,5202.18,TRUE
+unit_bcd973b7,indiv_fbf80210,individual,FALSE,CONWAY CHRISTOPHER,SV ANGEL,EXECUTIVE,SAN FRANCISCO,CA,39200,TRUE
+unit_4d02a5d8,indiv_fc05d21a,individual,FALSE,SWAN JANET,RETIRED,RETIRED,BENTON,PA,5000,TRUE
+unit_627a5dd4,indiv_fc577bb0,individual,FALSE,SINGH CHATTARPAL,FLEX PARTNERS,ENGINEER,MANTECA,CA,15000,TRUE
+unit_5feaa414,indiv_fd5f01c0,individual,FALSE,WELINSKY HOWARD,N A,RETIRED,LOS ANGELES,CA,10000,TRUE
+unit_6012afb6,indiv_fda52ff6,individual,FALSE,RAMOS JAMES,CALIFORNIA STATE ASSEMBLY,ASSEMBLYMAN,HIGHLAND,CA,10000,TRUE
+unit_fe86fd41,indiv_fde36d8f,individual,FALSE,GREWAL MANI,GREWAL RE HOLDINGS,PRESIDENT,MODESTO,CA,32500,TRUE
+unit_d7893e8d,indiv_fe7e2ddc,individual,FALSE,STONEBANKS FRANKLIN,BLACKCOMB ADVISORS,FOUNDER,DEL MAR,CA,12500,TRUE
+unit_73b2cec7,indiv_fe7e2ddc,individual,FALSE,STONEBANKS FRANKLIN,BLACKCOMB ADVISORS,INVESTOR,DEL MAR,CA,20000,TRUE
+unit_46fd321b,indiv_fe7e2ddc,individual,FALSE,STONEBANKS FRANKLIN,BLACKCOMB ADVISORS,MANAGING PARTNER,DEL MAR,CA,13000,TRUE
+unit_681ce851,indiv_fe889a3c,individual,FALSE,CLEM JOHN,TELACU INDUSTRIES,PRESIDENT,YORBA LINDA,CA,10000,TRUE
+unit_6eaf8836,indiv_fea7302a,individual,TRUE,KIM DONG,STARLIGHT INDUSTRIES,PRESIDENT,PALOS VERDES ESTATES,CA,16000,TRUE
+unit_e579e72a,indiv_fea7302a,individual,TRUE,KIM DONG,STARLIGHT INDUSTRIES,CEO,PALOS VERDES ESTATES,CA,15000,TRUE
+unit_cbce7cc0,indiv_fead4f0b,individual,TRUE,CRAIG STEVEN,X,X,LAGUNA BEACH,CA,30,TRUE
+unit_60f1bccf,indiv_fead4f0b,individual,TRUE,CRAIG STEVEN,CRAIGREALTY GROUP,REAL ESTATE DEVELOPMENT,NEWPORT COAST,CA,39200,TRUE
+unit_e1f0c095,indiv_fec67ebb,individual,FALSE,KALISKI ROBERT,RETIRED,RETIRED,MILL VALLEY,CA,5000,TRUE
+unit_b697940f,indiv_fec67ebb,individual,FALSE,KALISKI ROBERT,NA,NA,MILL VALLEY,CA,1000,TRUE
+unit_b2821ccf,indiv_fede69fa,individual,FALSE,VERTANOUS TOMIK,MARTINIAN LAWYERS,ATTORNEY,LOS ANGELES,CA,5000,TRUE
+unit_96a59bb3,indiv_ff0427ef,individual,FALSE,FOX JAMES,RETIRED,RETIRED,MANTECA,CA,154.1,TRUE
+unit_ed9b44c5,indiv_ff0427ef,individual,FALSE,FOX JAMES,DRILTEK,PETROLEUM ENGINEER,BAKERSFIELD,CA,5000,TRUE
+unit_0c173653,indiv_ff39bafa,individual,TRUE,KROUSE VICTORIA,EL CAMINO HOSPITAL,NURSE,SAN JOSE,CA,100,TRUE
+unit_23b4d1d7,indiv_ff39bafa,individual,TRUE,QUIROZ VICTOR,ST JUDE ENTERPRISES,PRESIDENT,GRANADA HILLS,CA,5000,TRUE
+unit_3c71f538,indiv_ffd1b31b,individual,FALSE,ROSENBAUM MIKE,GUIDEWIRE,EXECUTIVE,ALAMEDA,CA,9800,TRUE

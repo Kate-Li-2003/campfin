@@ -51,11 +51,17 @@ DEFAULT_AUG_OCCUPATIONS = (
     / "data/03_input/training data (manual classifications)/occupation_naics_seed.csv"
 )
 # 05-output files to harvest non-ML-labeled individuals from (employer +
-# occupation + naics assigned by masterfile/keyword/EDD/manual sources).
+# occupation + naics assigned by masterfile/keyword/EDD sources).
 DEFAULT_AUG_LABELED = [
     REPO_ROOT / "output/05_output/donors_classified_with_manual.csv",
 ]
-AUG_ELIGIBLE_SOURCES = {"masterfile", "keyword match", "manual", "edd", "custom rule"}
+# NOTE: "manual" is deliberately EXCLUDED. Rows tagged data_source_1="manual"
+# come from the "Manual NAICS Classifications (+Employer Descriptions)" sheet
+# (via 0502), which uses a retired classification scheme we no longer want in
+# the training base. Its labels are therefore dropped from augmentation. The
+# file may still be used by 0502 for 05-stage classification, but it never
+# becomes a 0701 training example.
+AUG_ELIGIBLE_SOURCES = {"masterfile", "keyword match", "edd", "custom rule"}
 TARGETS = ["level1_category", "level2_category", "naics_code"]
 MIN_CLASS_SUPPORT = 5  # drop classes with fewer than this many examples
 

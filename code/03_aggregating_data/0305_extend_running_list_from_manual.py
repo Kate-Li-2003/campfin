@@ -52,6 +52,14 @@ CUSTOM_LABELS = REPO_ROOT / "data/03_input/masterfile/custom_naics_labels.csv"
 
 MANUAL_SOURCE = "manual"
 
+# Two-masterfile design (see CUSTOM_CODES.md): Masterfile #1
+# (running_list.csv) holds REAL NAICS codes only. Manual rows carrying
+# codes from the custom scheme (76-79, 88-91, 99, 100, and lettered
+# sub-codes like 52a) are diverted to manual_custom_overrides.csv, which
+# 0306_build_custom_masterfile.py applies to Masterfile #2 last.
+CUSTOM_CODE_RE = re.compile(r"^(7[6-9]|8[89]|9[019]|100|\d{2}[a-z])$")
+MANUAL_CUSTOM_OVERRIDES = REPO_ROOT / "data/03_input/masterfile/manual_custom_overrides.csv"
+
 RUNNING_LIST_COLS = [
     "name",
     "name_norm",
@@ -224,6 +232,24 @@ def main(argv: list[str] | None = None) -> None:
     args = p.parse_args(argv)
 
     manual = build_manual_rows(args.manual)
+
+    # Divert custom-scheme codes to Masterfile #2's override file; only
+    # real NAICS rows continue into Masterfile #1.
+    is_custom = manual["naics_code"].str.match(CUSTOM_CODE_RE, na=False)
+    if is_custom.any():
+        div = manual.loc[is_custom, ["name", "name_norm", "naics_code", "naics_label"]]
+        div = div.rename(columns={"naics_code": "custom_code",
+                                  "naics_label": "custom_label"})
+        if MANUAL_CUSTOM_OVERRIDES.exists() and not args.dry_run:
+            prev = pd.read_csv(MANUAL_CUSTOM_OVERRIDES, dtype=str)
+            div = pd.concat([prev, div], ignore_index=True)
+        div = div.drop_duplicates("name_norm", keep="last")
+        if not args.dry_run:
+            div.to_csv(MANUAL_CUSTOM_OVERRIDES, index=False)
+        print(f"  custom-coded manual rows diverted to "
+              f"{MANUAL_CUSTOM_OVERRIDES.name}: {int(is_custom.sum()):,}")
+        manual = manual[~is_custom]
+
     rl = pd.read_csv(args.running_list, dtype=str)
 
     print(f"Manual file:        {args.manual.name}")

@@ -79,6 +79,17 @@ def _load_0504():
 TARGETS = ["level1_category", "level2_category", "naics_code"]
 
 
+def _load_subcode_resolution():
+    """Load the shared sub-code resolver (code/03_aggregating_data/
+    subcode_resolution.py) — maps parent-level NAICS to the custom scheme
+    (see CUSTOM_CODES.md). Digit-prefixed dir -> load by path."""
+    path = REPO_ROOT / "code/03_aggregating_data/subcode_resolution.py"
+    spec = importlib.util.spec_from_file_location("subcode_resolution", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def _load_0501():
     """Load 0501 to reuse apply_custom_label_overrides (the authoritative
     custom-code regex pass; see CUSTOM_CODES.md)."""
@@ -300,21 +311,29 @@ def predict_for_file(
         # (1) High-signal keyword priors: override ML on the previously
         # unmatched rows where naics confidence < prior_threshold.
         out = kp.apply_keyword_priors(out, mask, threshold=prior_threshold)
-    # (2) Authoritative custom-code regex overrides (PAC/union/candidate
-    # committee/etc.). Re-applied here so ML never final-stamps a
-    # political entity, even if 0504's pass predates the current rules.
-    out = _load_0501().apply_custom_label_overrides(out)
+    # (2) Shared sub-code resolver (replaces apply_custom_label_overrides;
+    # see CUSTOM_CODES.md). The regex pass runs inside the resolver with
+    # the same later-rows-win semantics, so ML never final-stamps a
+    # political entity. Partitioned parents (52/56/77) are mapped to
+    # terminal sub-codes, the occupation gate assigns 100, and results
+    # land in custom_code / custom_label / resolution_method.
+    sr = _load_subcode_resolution()
+    schema = sr.load_schema()
+    occ_col = "occupation" if "occupation" in out.columns else None
+    out = sr.resolve_frame(out, schema, name_col="employer", occ_col=occ_col,
+                           parent_col="naics_code", encoder=encoder)
+    newly = out["custom_code"].notna() & out["data_source_1"].isna()
+    out.loc[newly, "data_source_1"] = "custom resolver"
     # (3) 99 fallback: anything still uncoded is Unknown/Uncategorized
     # (per guidance). ml_* columns are preserved for inspection, and 99
     # rows should be re-attempted on future contributions.
-    still = out["data_source_1"].isna()
+    still = out["custom_code"].isna()
     if still.any():
-        out["naics_code"] = out["naics_code"].astype(object)
-        out.loc[still, "naics_code"] = "99"
-        if "naics_label" in out.columns:
-            out.loc[still, "naics_label"] = kp.CODE_LABELS["99"]
-        out.loc[still, "data_source_1"] = "uncategorized fallback"
-        print(f"  99 fallback: {int(still.sum()):,} rows -> Unknown/Uncategorized")
+        out.loc[still, "custom_code"] = "99"
+        out.loc[still, "custom_label"] = "Uncategorized"
+        out.loc[still, "data_source_1"] = out.loc[still, "data_source_1"].where(
+            out.loc[still, "data_source_1"].notna(), "uncategorized fallback")
+        print(f"  99 fallback: {int(still.sum()):,} rows -> Uncategorized")
 
     # Expand the entity-level result back to donation level (one row per
     # qualifying donation) when the raw transactional file is available and

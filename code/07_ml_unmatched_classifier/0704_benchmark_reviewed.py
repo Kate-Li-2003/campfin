@@ -49,6 +49,11 @@ _RANGE_MAP = {"31": "31-33", "32": "31-33", "33": "31-33",
 
 
 def norm2(v):
+    """Normalize to OLD-scheme parent codes for scoring: the benchmark
+    truth predates the custom sub-codes, so 52a/52b collapse to 52,
+    77a/77b to 77, etc., and 100 (Retired/Homemaker/Student) scores as
+    the old 99 bucket. Re-benchmark at sub-code level once a reviewed
+    file exists in the new scheme."""
     if pd.isna(v):
         return None
     s = str(v).strip()
@@ -56,6 +61,10 @@ def norm2(v):
         s = s[:-2]
     if not s:
         return None
+    if re.fullmatch(r"\d{2}[a-z]", s):
+        s = s[:2]
+    if s == "100":
+        return "99"
     if s in ("31-33", "44-45", "48-49"):
         return s
     p = s[:2]
@@ -106,6 +115,10 @@ def main(argv: list[str] | None = None) -> None:
 
     df = load_benchmark(args.benchmark, args.sheet)
     rules = pd.read_csv(args.rules, dtype=str)
+    # New-schema CSVs mark occupation-based rules (e.g. 100); only
+    # employer-name regexes apply to contributor names here.
+    if "applies_to" in rules.columns:
+        rules = rules[rules["applies_to"] != "occupation"]
 
     df["truth"] = df["naics_final_classification"].map(norm2)
     df["ml"] = df["ml_naics_code"].map(norm2)

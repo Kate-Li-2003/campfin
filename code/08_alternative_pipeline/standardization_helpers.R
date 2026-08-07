@@ -2,6 +2,29 @@
 
 # DEFINE FUNCTIONS TO STANDARDIZE NAMES
 
+pac_keyword_pattern <- regex(
+  paste0("\\b(", paste(c(
+    "PAC", "POLITICAL ACTION COMMITTEE", "POLITICAL ACTION LEAGUE", "POLITICAL FUND",
+    "POLITICAL ACTION FUND", "COMMITTEE", "FPPC", "MAJOR DONOR", "SCC", "SMALL CONTRIBUTOR"
+    #"SMALL CONTRIBUTOR COMMITTEE", "SMALL CONT COMMITTEE"
+  ), collapse = "|"), ")\\b"),
+  ignore_case = TRUE
+)
+
+has_pac_language <- function(name) str_detect(toupper(coalesce(name, "")), pac_keyword_pattern)
+
+
+make_row_hash <- function(...) {
+  cols <- list(...)
+  n <- length(cols[[1]])
+  vapply(seq_len(n), function(i) {
+    parts <- vapply(cols, function(col) as.character(col[i]), character(1))
+    digest::digest(paste(parts, collapse = "|"), algo = "xxhash32")
+  }, character(1))
+}
+
+
+
 # mirrors `normalize_name` used across other scripts
 normalize_name_simple <- function(name) {
   name %>%

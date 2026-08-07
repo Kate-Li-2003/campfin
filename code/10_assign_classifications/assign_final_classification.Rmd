@@ -1,0 +1,396 @@
+---
+title: "Assign Final Classifications"
+output: html_notebook
+---
+
+Combines every source the pipeline has for a contributor's industry
+classification -- covers all $5k+ contributors, both direct givers to
+races/props and $5k+ givers to PACs -- and picks one best NAICS code and one
+best category per `classification_unit_id`, weighting sources by how
+reliable they are and by whether they agree with each other. Anything picked
+without solid support gets flagged in `manual_review` for a human to check.
+
+Inputs (see config block below for exact paths/columns expected):
+
+- **LLM classification** -- `09_llm_classifier/classify_web_results.py` output
+- **OpenSecrets match** -- `08_alternative_pipeline/0805_contributor_matching_open_secrets.Rmd` output
+- **Running-list / EDD+H1B / keyword match, and ML classifier** -- `08_alternative_pipeline/0804_classify_contributors.py`
+  this also needs inputs from `07_ml_unmatched_classifier/0702_predict_unmatched.py`
+
+
+# Config
+
+```{r}
+library(dplyr)
+library(readr)
+library(stringr)
+library(tidyr)
+
+source("../08_alternative_pipeline/standardization_helpers.R")
+```
+
+```{r}
+# file paths (placeholders)
+LLM_PATH  <- "09_inputs/classification_slim_full.csv"
+RULE_PATH <- "../08_alternative_pipeline/08_outputs/classified_contributors.csv"
+OS_PATH   <- "../08_alternative_pipeline/08_outputs/contributions_os_matches.csv"
+
+# custom editoral label for each code
+DESC_PATH <- "Campaign Finance Categories - Custom categories - updated.csv"
+
+ML_HIGH_CONF_THRESHOLD <- 0.7
+
+DETERMINISTIC_TIERS <- c("pre_classified", "employer_lookup", "running_list", "keyword match")
+
+NOT_EMPLOYED_CODE <- "100"
+FALLBACK_CODE     <- "99"
+POLITICAL_CODES   <- c("88", "90") # pacs, candidate committees
+
+# update these according to how upstream sources name columns
+LLM_COLS <- c(
+  unit_id    = "classification_unit_id", 
+  name          = "canonical_name",
+  employer      = "employer",
+  code          = "naics_code_llm",
+  naics_conf    = "naics_confidence",
+  category      = "open_secrets_category",
+  category_conf = "open_secrets_confidence",
+  reasoning     = "naics_reasoning"
+)
+
+RULE_COLS <- c(
+  unit_id         = "classification_unit_id",
+  entity_id       = "entity_id",
+  entity_type     = "entity_type",
+  name            = "canonical_name",
+  employer        = "employer",
+  occupation      = "occupation",
+  code            = "naics_code",
+  label           = "naics_label",
+  category        = "level2_category",
+  source1         = "data_source_1",
+  source2         = "data_source_2",
+  ml_code         = "ml_naics_code",
+  ml_conf         = "ml_naics_code_conf",
+  ml_category     = "ml_level2_category",
+  ml_category_conf = "ml_level2_category_conf"
+)
+
+# doesn't currently have a classification_unit_id
+OS_COLS <- c(
+  name       = "canonical_name",
+  employer   = "employer",
+  code       = "naics_code_os",
+  category   = "level2_category",
+  match_conf = "opensecrets_confidence"
+)
+```
+
+```{r}
+# fail if missing a required column
+require_cols <- function(df, required_actual_names, path) {
+  missing <- setdiff(required_actual_names, names(df))
+  if (length(missing) > 0) {
+    stop(sprintf(
+      paste0(
+        "%s is missing expected column(s): %s\n",
+        "Available columns: %s\n",
+        "If the upstream script renamed these, update the matching *_COLS ",
+        "config block at the top of this file to match."
+      ),
+      path, paste(missing, collapse = ", "), paste(names(df), collapse = ", ")
+    ))
+  }
+}
+
+apply_colmap <- function(df, colmap) {
+  for (logical_name in names(colmap)) {
+    actual_name <- colmap[[logical_name]]
+    if (actual_name %in% names(df)) {
+      names(df)[names(df) == actual_name] <- logical_name
+    } else {
+      df[[logical_name]] <- NA
+    }
+  }
+  df[, names(colmap), drop = FALSE]
+}
+```
+
+
+# Load sources
+
+```{r}
+llm_required  <- unname(LLM_COLS[c("unit_id", "code")])
+rule_required <- unname(RULE_COLS[c("unit_id", "code", "source1")])
+
+llm_raw  <- read_csv(LLM_PATH, col_types = cols(.default = "c"))
+rule_raw <- read_csv(RULE_PATH, col_types = cols(.default = "c"))
+os_raw   <- read_csv(OS_PATH, col_types = cols(.default = "c"))
+
+require_cols(llm_raw, llm_required, LLM_PATH)
+require_cols(rule_raw, rule_required, RULE_PATH)
+
+llm  <- apply_colmap(llm_raw, LLM_COLS)
+rule <- apply_colmap(rule_raw, RULE_COLS)
+
+rule <- rule %>% mutate(
+  rule_tier = source1,
+  ml_conf = as.numeric(ml_conf),
+  ml_category_conf = as.numeric(ml_category_conf)
+)
+```
+
+```{r}
+# switch to a direct classification_unit_id join once 0805 carries it through
+
+os_has_unit_id <- "classification_unit_id" %in% names(os_raw)
+
+if (os_has_unit_id) { # join on classification_unit_id if available
+  os_colmap <- c(OS_COLS, unit_id = "classification_unit_id")
+  os <- apply_colmap(os_raw, os_colmap)
+} else {
+  # match on name + employer if classification_unit_id not available
+  os <- apply_colmap(os_raw, OS_COLS) %>%
+    mutate(
+      name_key     = remove_unit_info(remove_pac_info(standardize_names(name))) %>% replace_business_text() %>% str_squish(),
+      employer_key = standardize_occupation_employer(replace_business_text(remove_unit_info(remove_pac_info(standardize_names(employer)))))
+    )
+}
+```
+
+
+# Build the base spine and join sources
+
+```{r}
+# may need to re do this depending on how we end up tracking entities
+base <- rule %>%
+  select(unit_id, entity_id, entity_type, name, employer, occupation) %>%
+  full_join(
+    llm %>% select(unit_id, name, employer) %>% rename(llm_name = name, llm_employer = employer),
+    by = "unit_id"
+  ) %>%
+  mutate(
+    name     = coalesce(name, llm_name),
+    employer = coalesce(employer, llm_employer)
+  ) %>%
+  select(-llm_name, -llm_employer)
+
+combined <- base %>%
+  left_join(
+    rule %>% select(unit_id, code, label, category, source1, source2, rule_tier, ml_code, ml_conf, ml_category, ml_category_conf),
+    by = "unit_id"
+  ) %>%
+  left_join(
+    llm %>% select(unit_id, code, naics_conf, category, category_conf, reasoning) %>%
+      rename(llm_code = code, llm_conf = naics_conf, llm_category = category,
+             llm_category_conf = category_conf, llm_reasoning = reasoning),
+    by = "unit_id"
+  ) %>%
+  rename(rule_code = code, rule_label = label, rule_category = category)
+
+if (os_has_unit_id) {
+  combined <- combined %>%
+    left_join(
+      os %>% select(unit_id, code, category, match_conf) %>%
+        rename(os_code = code, os_category = category, os_conf = match_conf),
+      by = "unit_id"
+    )
+} else {
+  combined <- combined %>%
+    mutate(
+      name_key     = remove_unit_info(remove_pac_info(standardize_names(name))) %>% replace_business_text() %>% str_squish(),
+      employer_key = standardize_occupation_employer(replace_business_text(remove_unit_info(remove_pac_info(standardize_names(employer)))))
+    ) %>%
+    left_join(
+      os %>% select(name_key, employer_key, code, category, match_conf) %>%
+        rename(os_code = code, os_category = category, os_conf = match_conf) %>%
+        distinct(name_key, employer_key, .keep_all = TRUE),
+      by = c("name_key", "employer_key")
+    ) %>%
+    select(-name_key, -employer_key)
+}
+```
+
+
+# Resolve one best code (and, separately, one best category) per unit
+
+```{r}
+conf_is_high <- function(x) {
+  if (length(x) == 0 || is.na(x)) return(FALSE)
+  if (is.character(x)) return(tolower(x) == "high")
+  is.numeric(x) && x >= ML_HIGH_CONF_THRESHOLD
+}
+
+resolve_one <- function(rule_val, rule_tier, rule_conf,
+                         os_val, os_conf,
+                         llm_val, llm_conf,
+                         fallback_value = FALLBACK_CODE) {
+  is_usable <- function(val) { # make sure its not the "unknown" fallback
+    !is.na(val) && val != "" && (is.na(fallback_value) || val != fallback_value)
+  }
+
+  raw <- c(rule = rule_val, opensecrets = os_val, llm = llm_val)
+  codes <- raw[vapply(raw, is_usable, logical(1))]
+
+  rule_is_deterministic <- !is.na(rule_tier) && rule_tier %in% DETERMINISTIC_TIERS # came from reliable source
+  rule_is_strong <- rule_is_deterministic ||
+    (!is.na(rule_tier) && rule_tier == "ml prediction" && conf_is_high(rule_conf))
+
+  # agreement between 2+ independent pipelines
+  if (length(codes) >= 2) {
+    tab <- table(codes)
+    top <- names(tab)[which.max(tab)]
+    if (max(tab) >= 2) {
+      agreeing <- names(codes)[codes == top]
+      return(list(value = top,
+                  source = paste0("agreement (", paste(agreeing, collapse = "+"), ")"),
+                  review = FALSE, reason = NA_character_))
+    }
+  }
+
+  # single strong source wins outright
+  # not sure we want to use high ML confidence outright - maybe update this
+  if (is_usable(rule_val) && rule_is_strong) {
+    tier_label <- if (rule_is_deterministic) rule_tier else "ml prediction, high confidence"
+    return(list(value = rule_val, source = paste0("rule (", tier_label, ")"), review = FALSE, reason = NA_character_))
+  }
+  if (is_usable(os_val) && conf_is_high(os_conf)) {
+    return(list(value = os_val, source = "opensecrets (high confidence)", review = FALSE, reason = NA_character_))
+  }
+  if (is_usable(llm_val) && conf_is_high(llm_conf)) {
+    return(list(value = llm_val, source = "llm (high confidence)", review = FALSE, reason = NA_character_))
+  }
+
+  # exactly one low-confidence source available -- best guess, flag review
+  if (length(codes) == 1) {
+    src <- names(codes)[1]
+    return(list(value = unname(codes[1]), source = paste0(src, " (low confidence, single source)"),
+                review = TRUE, reason = paste0("only ", src, " produced a value, and confidence was not high")))
+  }
+
+  # 2+ sources but disagree and none is high-confidence -- take the most reliable pipeline available (rule > opensecrets > llm), flag for review
+  # make sure this doesn't rank ML > LLM / opensecrets
+  if (length(codes) > 1) {
+    priority <- c("rule", "opensecrets", "llm")
+    winner <- priority[priority %in% names(codes)][1]
+    return(list(value = unname(codes[winner]),
+                source = paste0(winner, " (disagreement, low confidence)"),
+                review = TRUE,
+                reason = paste0("sources disagreed: ",
+                                 paste(names(codes), codes, sep = "=", collapse = ", "))))
+  }
+
+  # nothing reliable to use
+  list(value = fallback_value, source = "uncategorized fallback", review = TRUE,
+       reason = "no source produced a usable value")
+}
+```
+
+```{r}
+# hard overrides
+code_override <- function(rule_val, os_val, llm_val, rule_tier) {
+  vals <- c(rule = rule_val, opensecrets = os_val, llm = llm_val)
+
+  # not-employed: any source saying so is authoritative
+  if (any(vals == NOT_EMPLOYED_CODE, na.rm = TRUE)) {
+    return(list(value = NOT_EMPLOYED_CODE, source = "not-employed override", review = FALSE, reason = NA_character_))
+  }
+
+  # political entities
+  if (!is.na(rule_val) && !is.na(rule_tier) && rule_tier %in% DETERMINISTIC_TIERS && rule_val %in% POLITICAL_CODES) {
+    return(list(value = rule_val, source = "political-entity rule", review = FALSE, reason = NA_character_))
+  }
+
+  NULL  # no override -- fall through to resolve_one()
+}
+
+# per-axis wrappers 
+resolve_code_one <- function(rule_val, rule_tier, ml_conf, os_val, os_conf, llm_val, llm_conf) {
+  override <- code_override(rule_val, os_val, llm_val, rule_tier)
+  if (!is.null(override)) return(override)
+  resolve_one(rule_val, rule_tier, ml_conf, os_val, os_conf, llm_val, llm_conf, fallback_value = FALLBACK_CODE)
+}
+
+resolve_category_one <- function(rule_val, rule_tier, ml_conf, os_val, os_conf, llm_val, llm_conf) {
+  resolve_one(rule_val, rule_tier, ml_conf, os_val, os_conf, llm_val, llm_conf, fallback_value = NA_character_)
+}
+```
+
+```{r}
+resolved <- combined %>%
+  rowwise() %>%
+  mutate(
+    .resolved_code = list(
+      resolve_code_one(rule_code, rule_tier, ml_conf, os_code, os_conf, llm_code, llm_conf)
+    ),
+    .resolved_category = list(
+      resolve_category_one(rule_category, rule_tier, ml_category_conf, os_category, os_conf, llm_category, llm_category_conf)
+    )
+  ) %>%
+  ungroup() %>%
+  unnest_wider(.resolved_code, names_sep = "_") %>%
+  unnest_wider(.resolved_category, names_sep = "_") %>%
+  rename(
+    code_final            = .resolved_code_value,
+    code_final_source     = .resolved_code_source,
+    manual_review_code    = .resolved_code_review,
+    manual_review_reason_code = .resolved_code_reason,
+    category_final            = .resolved_category_value,
+    category_final_source     = .resolved_category_source,
+    manual_review_category    = .resolved_category_review,
+    manual_review_reason_category = .resolved_category_reason
+  ) %>%
+  mutate(
+    manual_review = manual_review_code | manual_review_category,
+    manual_review_reason = case_when(
+      manual_review_code & manual_review_category ~ paste0("code: ", manual_review_reason_code, " | category: ", manual_review_reason_category),
+      manual_review_code                          ~ manual_review_reason_code,
+      manual_review_category                      ~ manual_review_reason_category,
+      TRUE                                         ~ NA_character_
+    )
+  )
+```
+
+
+# Attach the editorial description to the final code
+
+```{r}
+desc <- read_csv(DESC_PATH, col_types = cols(.default = "c"))
+
+# expects columns "Sector" (code) and "Custom.Label" 
+require_cols(desc, c("Sector", "Custom.Label"), DESC_PATH)
+desc <- desc %>% transmute(code_final = Sector, code_final_description = Custom.Label)
+
+resolved <- resolved %>%
+  left_join(desc, by = "code_final")
+```
+
+
+# Review + write output
+
+```{r}
+resolved %>% count(code_final_source, sort = TRUE)
+resolved %>% count(category_final_source, sort = TRUE)
+cat(sprintf("%d / %d units flagged for manual review (%.1f%%)\n",
+            sum(resolved$manual_review), nrow(resolved),
+            100 * mean(resolved$manual_review)))
+```
+
+```{r}
+out_cols <- c(
+  "unit_id", "entity_id", "entity_type", "name", "employer", "occupation",
+  "code_final", "code_final_source", "code_final_description",
+  "category_final", "category_final_source",
+  "manual_review", "manual_review_reason",
+  "rule_code", "rule_label", "rule_tier", "rule_category",
+  "os_code", "os_category", "os_conf",
+  "llm_code", "llm_conf", "llm_category", "llm_category_conf", "llm_reasoning",
+  "ml_code", "ml_conf", "ml_category", "ml_category_conf"
+)
+out_cols <- out_cols[out_cols %in% names(resolved)]
+```
+
+```{r}
+#write_csv(resolved[, out_cols], "10_outputs/final_classifications.csv")
+#write_csv(resolved, "10_outputs/final_classifications_full.csv")
+```

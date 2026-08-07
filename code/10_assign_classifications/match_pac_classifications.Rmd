@@ -1,0 +1,120 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+over_5k_tagged      <- read_csv("../08_alternative_pipeline/08_outputs/over_5k_tagged.csv")
+pac_classifiability <- read_csv("../08_alternative_pipeline/08_outputs/pac_classifiability.csv")
+ordered_pacs        <- read_csv("../08_alternative_pipeline/08_outputs/pac_traversal_order.csv") %>% arrange(order) %>% pull(pac_id)
+stuck_pacs          <- read_csv("../08_alternative_pipeline/08_outputs/pac_stuck_pacs.csv") %>% pull(pac_id)
+classified_out      <- read_csv("../08_alternative_pipeline/08_outputs/classified_contributors.csv")
+
+over_5k_by_pac      <- split(over_5k_tagged, over_5k_tagged$parent_pac_id)
+classifiability_idx <- setNames(seq_len(nrow(pac_classifiability)), pac_classifiability$pac_id)
+pac_deps            <- over_5k_tagged %>%
+  filter(contributor_type %in% c("pac", "major_donor_ie_committee"), !is.na(contributor_id)) %>%
+  distinct(parent_pac_id, contributor_id) %>%
+  group_by(parent_pac_id) %>%
+  summarise(deps = list(contributor_id), .groups = "drop") %>%
+  { setNames(.$deps, .$parent_pac_id) }
+
+```
+
+
+```{r}
+classified_out <- read_csv("../08_alternative_pipeline/08_outputs/classified_contributors.csv")
+
+# rebuild the unit ids to join on
+over_5k_classified <- direct_for_classification %>%
+  mutate(
+    entity_id = if_else(
+      !is.na(std_contributor_id),
+      paste0("id_", std_contributor_id),
+      sapply(contributor_name, function(n) hash_id(n, "indiv"))
+    ),
+    unit_key               = paste(entity_id,
+                                   coalesce(processed_employer_name, ""),
+                                   coalesce(processed_occupation, ""),
+                                   sep = "||"),
+    classification_unit_id = sapply(unit_key, function(k) hash_id(k, "unit"))
+  ) %>%
+  left_join(
+    classified_out %>% select(classification_unit_id, level1_category, level2_category),
+    by = "classification_unit_id"
+  )
+
+# flag entities with industry conflicts across aliases, collapse to one row per entity per PAC
+entity_classifications <- over_5k_classified %>%
+  group_by(parent_pac_id, entity_group) %>%
+  mutate(
+    n_distinct_industries = n_distinct(level1_category, na.rm = TRUE),
+    final_industry = case_when(
+      n_distinct_industries > 1 ~ "CONFLICT_REVIEW",
+      !is.na(level1_category)   ~ level1_category,
+      TRUE                      ~ "UNCLASSIFIED"
+    )
+  ) %>%
+  slice(1) %>%
+  ungroup()
+
+
+direct_by_pac_list <- split(
+  entity_classifications %>%
+    group_by(pac_id = parent_pac_id, industry = final_industry) %>%
+    summarise(amount = sum(contributor_amount, na.rm = TRUE), .groups = "drop"),
+  ~ .$pac_id
+)
+
+industry_distrib <- list()
+
+compute_industry_distrib <- function(pid) {
+  direct <- direct_by_pac_list[[pid]]
+  ind_amounts <- if (!is.null(direct) && nrow(direct) > 0)
+    setNames(direct$amount, direct$industry) else numeric(0)
+
+  pac_rows <- over_5k_by_pac[[pid]] %>%
+    filter(contributor_type %in% c("pac", "major_donor_ie_committee"),
+           !is.na(contributor_id))
+
+  for (i in seq_len(nrow(pac_rows))) {
+    child_id     <- pac_rows$contributor_id[i]
+    child_amount <- pac_rows$contributor_amount[i]
+    child_dist   <- industry_distrib[[child_id]]
+    if (is.null(child_dist) || length(child_dist) == 0) {
+      ind_amounts["UNCLASSIFIED"] <- coalesce(ind_amounts["UNCLASSIFIED"], 0) + child_amount
+      next
+    }
+    child_total <- sum(child_dist)
+    if (child_total <= 0) next
+    scaled <- child_dist / child_total * child_amount
+    for (ind in names(scaled))
+      ind_amounts[ind] <- coalesce(ind_amounts[ind], 0) + scaled[ind]
+  }
+  industry_distrib[[pid]] <<- ind_amounts
+}
+
+for (pid in ordered_pacs) compute_industry_distrib(pid)
+
+remaining_ind <- stuck_pacs
+while (length(remaining_ind) > 0) {
+  ready <- Filter(function(pid) {
+    deps <- pac_deps[[pid]]; is.null(deps) || !any(deps %in% remaining_ind)
+  }, remaining_ind)
+  if (length(ready) == 0) ready <- remaining_ind
+  for (pid in ready) compute_industry_distrib(pid)
+  remaining_ind <- setdiff(remaining_ind, ready)
+}
+
+pac_industry_breakdown <- lapply(names(industry_distrib), function(pid) {
+  ind <- industry_distrib[[pid]]
+  if (length(ind) == 0) return(NULL)
+  tibble(pac_id = pid, industry = names(ind), amount = unname(ind))
+}) %>%
+  bind_rows() %>%
+  left_join(pac_classifiability %>% select(pac_id, total_received), by = "pac_id") %>%
+  mutate(pct_of_total = amount / total_received) %>%
+  arrange(pac_id, desc(amount))
+
+```
+

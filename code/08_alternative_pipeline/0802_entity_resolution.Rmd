@@ -36,6 +36,8 @@ Looks at name, employer, occupation, city, state and zip.
   - also don't want to get major donors confused with PACs / committees
 
 # To Do 
+- add uuid
+- output contribution-level data... 
 - add process for only processing new contributors
 - add process for flagging which entities have already been classified
 - add separate output for committees to send to PAC processing
@@ -54,7 +56,7 @@ Looks at name, employer, occupation, city, state and zip.
 # Load packages
 
 ```{r}
-here::i_am("0801_entity_resolution.Rmd")
+here::i_am("0802_entity_resolution.Rmd")
 library(here)
 library(dplyr)
 library(stringr)
@@ -71,17 +73,6 @@ source("standardization_helpers.R")
 ```
 
 ```{r}
-pac_keyword_pattern <- regex(
-  paste0("\\b(", paste(c(
-    "PAC", "POLITICAL ACTION COMMITTEE", "POLITICAL ACTION LEAGUE", "POLITICAL FUND",
-    "POLITICAL ACTION FUND", "COMMITTEE", "FPPC", "MAJOR DONOR", "SCC", "SMALL CONTRIBUTOR"
-    #"SMALL CONTRIBUTOR COMMITTEE", "SMALL CONT COMMITTEE"
-  ), collapse = "|"), ")\\b"),
-  ignore_case = TRUE
-)
-
-has_pac_language <- function(name) str_detect(toupper(coalesce(name, "")), pac_keyword_pattern)
-
 safe_metaphone <- function(x) {
   clean <- str_replace_all(coalesce(x, ""), "[^A-Za-z]", "")
   ifelse(clean != "", metaphone(clean), NA_character_)
@@ -93,17 +84,30 @@ hash_id <- function(keys, prefix) {
   paste0(prefix, "_", substr(digest::digest(paste(sort(unique(keys)), collapse = "||"), algo = "xxhash32"), 1, 16))
 }
 
+normalize_str <- function(x) {
+  coalesce(x, "") %>% toupper() %>%
+    stringr::str_replace_all("[^A-Z0-9 ]+", " ") %>%
+    stringr::str_replace_all("\\s+", " ") %>%
+    stringr::str_trim()
+}
 ```
 
 
 # Load and standardize all contributors data
 
 ```{r}
-# data from datasette created by Jeremia (only includes 2026 data)
-url <- "https://calmatters-powersearch-2026.fly.dev/powersearch/contributions.csv?_stream=on&_size=max"
-contributions_full <- read.csv(url)
+#contributions_full <- read.csv("08_inputs/contributors_data_full.csv")
+contributions_full <- read.csv("08_inputs/all_contributors_processed.csv")
+nrow(contributions_full)
 ```
 
+
+### load already categorized data
+
+```{r}
+categorized <- read.csv("08_inputs/already_classified_contributions.csv")
+nrow(categorized)
+```
 
 ### look at aliases by contributor id
 
@@ -114,27 +118,32 @@ contributions_full %>% group_by(Contributor.ID) %>% mutate(count = n_distinct(Co
 
 ### filter for contributions data we're interested in
 
-- Becerra and hilton
-- insurance comm.
-- props 40-42
+```{r}
+contributions <- contributions_full %>% filter(
+    Ballot.Measure == "OPPOSED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE." | 
+    Ballot.Measure == "SUPPORTED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE." | 
+    Ballot.Measure == "SUPPORTED: PROPOSITION 041 - REQUIRES AUDITS OF PROGRAMS FUNDED BY NEW STATE SPECIAL TAXES. PROHIBITS NEW STATE TAXES THAT ARE EXCLUDED FROM EXISTING VOTER-APPROVED STATE SPENDING LIMIT..." | 
+    Ballot.Measure == "SUPPORTED: PROPOSITION 042 - PROHIBITS NEW STATE PERSONAL PROPERTY TAXES AND CERTAIN RETROACTIVE STATE TAXES. INITIATIVE CONSTITUTIONAL AMENDMENT." | 
+    Recipient.Name == "BECERRA, XAVIER" | 
+    Recipient.Name == "HILTON, STEVE" | 
+    Office == "Insurance Commissioner"
+) %>%
+  mutate(
+    Amount = as.numeric(Amount)
+  ) #%>% 
+  #rename(
+  #  Ballot.Measure = 'Ballot.Measure(s)'
+  #)
+
+nrow(contributions)
+```
+
+
 
 ```{r}
-# read in data downloaded from powersearch (includes 2025 contributions)
-gov <- read.csv("08_inputs/power_search_gov_race_072426.csv")
-gov <- head(gov,n=-6)
-gov <- gov %>% filter(Recipient.Name == "BECERRA, XAVIER" | Recipient.Name == "HILTON, STEVE") # filter for candidates
-ins <- read.csv("08_inputs/power_search_ins_comiss_072426.csv")
-ins <- head(ins,n=-6)
-
-contributions <- contributions_full %>% filter(
-  Ballot.Measure.s. == "OPPOSED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE."
-)
-nrow(contributions)
-
-# combine all data from races/props we're interested in
-contributions <- bind_rows(gov,ins,contributions)
-
-nrow(contributions[which(contributions$Amount >= 5000 &(contributions$Office == "Governor")),])
+# make sure we' pulled everything (compare to power search)
+contributions %>% filter(Recipient.Name == "BECERRA, XAVIER") %>% summarise(total = sum(Amount))
+contributions %>% filter(Recipient.Name == "HILTON, STEVE") %>% summarise(total = sum(Amount))
 ```
 
 
@@ -143,12 +152,12 @@ nrow(contributions[which(contributions$Amount >= 5000 &(contributions$Office == 
 contributions <- contributions %>%
   mutate(
     race_prop = case_when(
-      Ballot.Measure.Contribution == "Y" ~ Ballot.Measure.s.,
+      Ballot.Measure.Contribution == "Y" ~ Ballot.Measure,
       !is.na(Office) & Office != "" ~ Office,
       TRUE ~ Recipient.Name
     )
   )
-
+unique(contributions$race_prop)
 ```
 
 
@@ -169,7 +178,6 @@ make_row_hash <- function(...) {
 
 
 ```{r}
-
 contributions <- contributions %>%
   filter(Contributor.Name != "Unitemized Contributions") %>%
   mutate(
@@ -199,46 +207,14 @@ contributions <- contributions %>%
 
 ```
 
+```{r}
+contributions <- read.csv("08_inputs/race_contributions_processed.csv")
+```
+
+
 ```{r, eval = FALSE}
 contributions %>% group_by(contribution_id) %>% summarise(count = n()) %>% filter(count > 1)
 ```
-
-### look at individuals with diff employers
-
-```{r}
-# lyons
-contributions %>% filter(grepl("Lyons",Contributor.Name))
-```
-
-Also orgs that are linked, but different
-- Lyons Investments, LP (William J. Lyons Jr)
-- Lyons Land Management, LP (William J. Lyons Jr)
-- Mapes Ranch, LP (William J. Lyons Jr)
-
-```{r}
-contributions %>% filter(entity_type == "individual") %>% group_by(processed_name, Contributor.City) %>% mutate(n = n_distinct(processed_employer_name)) %>% filter(n > 1) %>% select(Contributor.Name,Contributor.Employer) %>% arrange(processed_name)
-```
-
-- UCSD vs University of California San Diego
-
-APARICIO SYLVIA
-- elite medical vs premium urgent care
-
-ACRE JOSHUA
-- 	Northern California District Council of Laborers
-- California Alliance for Jobs
-
-BERGHOFF HERBERT
-- Coldwell banker envision and HJB Management
-
-BOATENG SARAH
-- Hummelstown Municipal Authority
-- Health Management Associates
-
-OR not employed/retired in one and list an employer in another
-
-
-
 
 
 ## manually process edge cases
@@ -419,7 +395,7 @@ orgs %>% group_by(Contributor.Name) %>%
 - pacaso inc. is just a major donor, but ramsey robinson for gov 2025 should defs have a contributor id
 
 
-## ID Propagation
+## ID Propagation - skip for now
 
 - consider whether to do a name variant like name_v5 or a stricter name match
 
@@ -435,8 +411,6 @@ full_id_lookup <- contributions_full %>%
   group_by(name_v5) %>%
   mutate(n_ids = n_distinct(Contributor.ID)) %>%
   ungroup()
-
-
 ```
 
 
@@ -634,7 +608,7 @@ org_pairs %>%
 ```{r}
 # review
 org_pairs %>%
-  filter(link_tier == "review") %>%
+  filter(link_tier == "auto_link") %>%
   left_join(orgs %>% select(row_id, name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
   left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
   select(name_x, name_y, name_jw, name_cosine, name_sim) %>%
@@ -642,6 +616,7 @@ org_pairs %>%
 
 ```
 
+- one of the auto-links we defs don't want. only happening because one org is missing a contributor.id
 - only two of these are worth reviewing and one will get flagged by another one of the matching methods anyways
 
 ```{r}
@@ -819,7 +794,7 @@ bridge_only
 
 
 
-## Step 4: ID propagation — where one side is missing an ID
+## Step 4: ID propagation — where one side is missing an ID - this should happen earlier in the process 
 
 **not sure i should do this based on fuzzy matches, but will do for now just to look at review process**
 
@@ -864,14 +839,15 @@ id_propagation
 ## Combine + cluster
 
 Combine all links, including those that need to be reviewed into a single entity
+- not including fuzzy pairs and bridge pairs for now
 
 ```{r}
 # pairs computed through different linkage methods
 all_org_pairs <- bind_rows(
   id_auto_pairs %>% select(.x, .y, link_tier, match_source),
   exact_pairs,
-  org_pairs    %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim),
-  bridge_only  %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim, canonical_name)
+  #org_pairs    %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim),
+  #bridge_only  %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim, canonical_name)
 )
 
 # build one graph from all non-rejected pairs, treating review links as true
@@ -980,7 +956,7 @@ RARE_NAME_UNCERTAIN_LOW   <- 0.65
 ```
 
 
-```{r}
+```{r,eval = FALSE}
 # compute name frequency
 
 # parse distinct name strings from full dataset
@@ -998,6 +974,13 @@ last_name_freq  <- full_names_parsed %>% count(last,  name = "last_name_freq")
 first_name_freq <- full_names_parsed %>% count(first, name = "first_name_freq")
 
 ```
+
+```{r}
+full_names_parsed <- read.csv("08_inputs/full_names_parsed.csv")
+last_name_freq  <- full_names_parsed %>% count(last,  name = "last_name_freq")
+first_name_freq <- full_names_parsed %>% count(first, name = "first_name_freq")
+```
+
 
 ```{r}
 #last_name_freq %>% arrange(desc(last_name_freq))
@@ -1025,6 +1008,31 @@ individuals <- contributions %>%
 ```
 
 
+### temporary 
+
+- group by individual and employer OR group by invidividual, employer and city (and occupation?)
+- tricky to group people who are not employed...individuals are hard to determine
+
+
+```{r}
+individuals %>% group_by(standardized_name,processed_employer_name) %>% mutate(count = n(), n_city = n_distinct(standardized_city), total = sum(Amount), n_occ = n_distinct(processed_occupation)) %>% filter(n_occ > 1, total >= 5000) %>% select(Contributor.Name,Contributor.Employer,Contributor.City,Contributor.Occupation,Amount) %>%
+  arrange(standardized_name)
+```
+- St. -> Saint
+- Oaklans -> Oakland
+- make sure city is removing zip code
+- feel fine with all the people with diff cities, but same name and employer -> not many
+- retired vs not employed -> don't want to capture that difference i don't think
+  - this seems to account for the vast majority of cases
+- don't want to aggregate based on occupation -> that could miss people who are the same
+- but make sure we classify people with different occupations differently when they are self-employed
+- need to double check how this is being handled.... 
+- think we just group by employer and occupation for now.
+
+
+Robert, Anderson Santa Rosa vs SF, writer vs Physician seems like a different person... 
+
+### record linkage algorithm
 
 ```{r}
 # scoring function
@@ -1697,20 +1705,92 @@ classification_input <- bind_rows(org_units, indiv_units) %>%
   select(classification_unit_id, entity_id, entity_type, needs_review,
          canonical_id, canonical_name, employer, occupation, city, state, zip,
          total_amount, crosses_threshold)
-
-#write_csv(classification_input, "classification_input.csv")
-
 ```
 
 ```{r}
-#write_csv(classification_input, "classification_input.csv")
+# One-time seed: build entity_classification_index.csv from already_classified_contributions.csv.
+# After the index exists this chunk is a no-op.
+if (!file.exists("08_inputs/entity_classification_index.csv")) {
+  already_classified <- read_csv("08_inputs/already_classified_contributions.csv",
+                                  col_types = cols(.default = "c")) %>%
+    mutate(name_norm     = normalize_str(Contributor.Name),
+           employer_norm = normalize_str(Contributor.Employer))
+
+  employer_lookup <- bind_rows(
+    already_classified %>%
+      transmute(employer_norm = name_norm, code_final, code_final_description),
+    already_classified %>%
+      filter(employer_norm != "") %>%
+      transmute(employer_norm, code_final, code_final_description)
+  ) %>%
+    filter(employer_norm != "") %>%
+    distinct(employer_norm, .keep_all = TRUE)
+
+  ci <- classification_input %>%
+    mutate(name_norm     = normalize_str(canonical_name),
+           employer_norm = normalize_str(coalesce(employer, "")))
+
+  org_prior <- ci %>%
+    filter(entity_type == "organization") %>%
+    left_join(
+      already_classified %>% distinct(name_norm, .keep_all = TRUE) %>%
+        select(name_norm, code_final, code_final_description),
+      by = "name_norm"
+    ) %>%
+    filter(!is.na(code_final))
+
+  indiv <- ci %>% filter(entity_type == "individual")
+
+  indiv_direct <- indiv %>%
+    left_join(
+      already_classified %>%
+        distinct(name_norm, employer_norm, .keep_all = TRUE) %>%
+        select(name_norm, employer_norm, code_final, code_final_description),
+      by = c("name_norm", "employer_norm")
+    ) %>%
+    filter(!is.na(code_final))
+
+  indiv_via_employer <- indiv %>%
+    filter(!entity_id %in% indiv_direct$entity_id, employer_norm != "") %>%
+    left_join(employer_lookup, by = "employer_norm") %>%
+    filter(!is.na(code_final))
+
+  prior_seed <- bind_rows(org_prior, indiv_direct, indiv_via_employer) %>%
+    distinct(classification_unit_id, .keep_all = TRUE) %>%
+    transmute(
+      classification_unit_id, entity_id, entity_type, canonical_name,
+      employer, occupation,
+      naics_code             = code_final,
+      naics_label            = code_final_description,
+      level1_category        = NA_character_,
+      level2_category        = NA_character_,
+      classification_source  = "prior",
+      classification_status  = "classified"
+    )
+
+  write_csv(prior_seed, "08_outputs/entity_classification_index.csv")
+  message("Seeded entity_classification_index.csv with ", nrow(prior_seed), " prior classifications.")
+}
 ```
+
 
 ```{r}
-classification_input
+# load index and write only new entities to classification_input.csv
+entity_index <- if (file.exists("08_outputs/entity_classification_index.csv")) {
+  read_csv("08_outputs/entity_classification_index.csv", col_types = cols(.default = "c"))
+} else {
+  tibble(classification_unit_id = character())
+}
+
+new_for_classification <- classification_input %>%
+  filter(!classification_unit_id %in% entity_index$classification_unit_id)
+
+write_csv(new_for_classification, "08_outputs/classification_input.csv")
+message(nrow(new_for_classification), " new entities written to classification_input.csv (",
+        nrow(entity_index), " already in index).")
 ```
 
-
+^ would want to arrange this to be at the begging so we're no re-computing entity groups each time. Just assign new contribs the existing entity id. 
 
 
 

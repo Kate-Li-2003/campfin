@@ -1,4 +1,11 @@
 
+# Summary: 
+# Run FIRST
+# Loads contribution records from the Datasette database
+# Standardizes contribution records including normalization of name, employer, etc.
+# Flags whether the contributor is an org or an individual, which race/prop/committee the contribution went to, etc.
+
+
 # load packages
 library(httr)
 library(jsonlite)
@@ -46,30 +53,36 @@ write.csv(ie_full,"08_inputs/power_search_ie_raw.csv",row.names = FALSE)
 ### apply processing functions to data
 
 contributions_full <- contributions_full %>%
-  filter(Contributor.Name != "Unitemized Contributions") %>%
+  #filter(`Contributor Name` != "Unitemized Contributions") %>%
   mutate(
-    standardized_name = standardize_names(Contributor.Name) %>% fix_typos(),
+    standardized_name = standardize_names(`Contributor Name`) %>% fix_typos(),
     processed_name = standardized_name %>%
-      remove_pac_info() %>% remove_unit_info() %>% 
+      remove_pac_info() %>% remove_unit_info() %>%
       str_remove_all("\\s*\\(.*?\\)") %>% replace_business_text() %>% str_squish(),
-    
-    standardized_employer_name = standardize_names(Contributor.Employer) %>% fix_typos(),
+
+    standardized_employer_name = standardize_names(`Contributor Employer`) %>% fix_typos(),
     processed_employer_name = standardized_employer_name %>% standardize_occupation_employer() %>%
       remove_pac_info() %>% remove_unit_info() %>% str_remove_all("\\s*\\(.*?\\)") %>%
       replace_business_text() %>%
       str_squish(),
-    
-    standardized_occupation = standardize_names(Contributor.Occupation),
+
+    standardized_occupation = standardize_names(`Contributor Occupation`),
     processed_occupation    = standardize_occupation_employer(standardized_occupation),
-    standardized_city       = standardize_names(Contributor.City),
-    zip_code_processed      = substr(Contributor.Zip.Code, 1, 5),
-    
-    has_pac_language = has_pac_language(Contributor.Name),
+    standardized_city       = standardize_names(`Contributor City`),
+    zip_code_processed      = substr(`Contributor Zip Code`, 1, 5),
+
+    has_pac_language = has_pac_language(`Contributor Name`),
     entity_type      = if_else(sapply(standardized_name, is_individual), "individual", "organization"),
+    race_prop = case_when(
+      `Ballot Measure Contribution` == "Y" ~ `Ballot Measure(s)`,
+      !is.na(Office) & Office != ""        ~ Office,
+      TRUE                                 ~ `Recipient Name`
+    ),
     row_id           = row_number(),
-    contribution_id  = make_row_hash(Contributor.Name, Contributor.ID, Amount, race_prop,
-                                     Contributor.City, Contributor.Employer,
-                                     Contributor.Occupation, Contributor.Zip.Code, Start.Date)
+    contribution_id  = make_row_hash(`Contributor Name`, `Contributor ID`, Amount, race_prop,
+                                     `Contributor City`, `Contributor Employer`,
+                                     `Contributor Occupation`, `Contributor Zip Code`, `Start Date`)
   )
+
 
 write.csv(contributions_full,"08_inputs/power_search_contributions_normalized.csv",row.names = FALSE)

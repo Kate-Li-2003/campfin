@@ -29,7 +29,7 @@ FORMAT_VERSION = "v2"
 JUNK_OCCUPATIONS = {
     "", "none", "n/a", "na", "unknown", "not employed", "self",
     "information requested", "requested", "refused", "declined",
-    "refunded",
+    "refunded","self-employed","self employed"
 }
 
 # Employer strings that carry no industry signal. Covers "Self Employed",

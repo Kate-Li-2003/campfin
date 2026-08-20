@@ -1,120 +1,547 @@
 ---
-title: "R Notebook"
+title: "Match PAC Classifications"
 output: html_notebook
 ---
 
+# Summary
+Computes an industry distribution for each PAC by:
+- assigning under-$5k contributors the sector from `industry_override_under_5k` (pac_review)
+- assigning federal PACs their entire amount to that same sector (over-$5k ignored)
+- looking up individually classified over-$5k contributors from final_classifications
+- recursively distributing PAC-type over-$5k contributors using their own distributions
+- leaving PACs flagged `additional_review_req` or `PENDING` as UNCLASSIFIED
+
+# To Do
+- figure out what to do w/ unitemized that aren't directly labeled as unitemized
+- pac_final_classifications.csv only covers PAC-graph donor contributors
+  (pac_classification_input.csv). PACs' own direct giving to races/props
+  (pac_input.csv) still needs its non-PAC rows classified -- see
+  assign_pac_final_classification.Rmd's docstring.
+
+# Load data and packages
+
 ```{r}
-over_5k_tagged      <- read_csv("../08_alternative_pipeline/08_outputs/over_5k_tagged.csv")
-pac_classifiability <- read_csv("../08_alternative_pipeline/08_outputs/pac_classifiability.csv")
-ordered_pacs        <- read_csv("../08_alternative_pipeline/08_outputs/pac_traversal_order.csv") %>% arrange(order) %>% pull(pac_id)
-stuck_pacs          <- read_csv("../08_alternative_pipeline/08_outputs/pac_stuck_pacs.csv") %>% pull(pac_id)
-classified_out      <- read_csv("../08_alternative_pipeline/08_outputs/classified_contributors.csv")
+library(dplyr)
+library(readr)
+library(stringr)
+library(digest)
+library(googlesheets4)
+```
 
-over_5k_by_pac      <- split(over_5k_tagged, over_5k_tagged$parent_pac_id)
-classifiability_idx <- setNames(seq_len(nrow(pac_classifiability)), pac_classifiability$pac_id)
-pac_deps            <- over_5k_tagged %>%
-  filter(contributor_type %in% c("pac", "major_donor_ie_committee"), !is.na(contributor_id)) %>%
-  distinct(parent_pac_id, contributor_id) %>%
-  group_by(parent_pac_id) %>%
-  summarise(deps = list(contributor_id), .groups = "drop") %>%
-  { setNames(.$deps, .$parent_pac_id) }
+```{r}
+hash_id <- function(keys, prefix) {
+  paste0(prefix, "_", substr(
+    digest::digest(paste(sort(unique(keys)), collapse = "||"), algo = "xxhash32"), 1, 16
+  ))
+}
+```
 
+```{r}
+over_5k_tagged      <- read_csv("../08_alternative_pipeline/08_outputs/over_5k_tagged.csv",
+                                 col_types = cols(.default = "c", contributor_amount = "d"))
+pac_classifiability <- read_csv("../08_alternative_pipeline/08_outputs/pac_classifiability.csv",
+                                 col_types = cols(.default = "c", total_received = "d"))
+pac_class_input     <- read_csv("../08_alternative_pipeline/08_outputs/pac_classification_input.csv",
+                                 col_types = cols(.default = "c"))
+ordered_pacs        <- read_csv("../08_alternative_pipeline/08_outputs/pac_traversal_order.csv") %>%
+  arrange(order) %>% pull(pac_id) %>% as.character()
+stuck_pacs          <- read_csv("../08_alternative_pipeline/08_outputs/pac_stuck_pacs.csv") %>%
+  pull(pac_id) %>% as.character()
+pac_final           <- read_csv("10_outputs/final_classifications_full_before_review.csv",
+                                 col_types = cols(.default = "c"))
+pac_review          <- read_csv("10_inputs/pac_manual_review.csv",
+                                 col_types = cols(.default = "c", under_5k_amount = "d"))
+```
+
+```{r}
+nrow(pac_final)
 ```
 
 
 ```{r}
-classified_out <- read_csv("../08_alternative_pipeline/08_outputs/classified_contributors.csv")
+# pac_review rows with no pac_id are PACs that contributed to other PACs but have no
+# CAL-ACCESS committee ID. They cannot be looked up by id — they are matched by
+# Contributor.Name throughout (see pac_name_override below).
+cat(sprintf("pac_review rows with no pac_id (matched by name): %d\n",
+            sum(is.na(pac_review$pac_id) | pac_review$pac_id == "")))
+```
 
-# rebuild the unit ids to join on
-over_5k_classified <- direct_for_classification %>%
-  mutate(
-    entity_id = if_else(
-      !is.na(std_contributor_id),
-      paste0("id_", std_contributor_id),
-      sapply(contributor_name, function(n) hash_id(n, "indiv"))
-    ),
-    unit_key               = paste(entity_id,
-                                   coalesce(processed_employer_name, ""),
-                                   coalesce(processed_occupation, ""),
-                                   sep = "||"),
-    classification_unit_id = sapply(unit_key, function(k) hash_id(k, "unit"))
+# Sector mapping
+
+`industry_override_under_5k` is a sector or subsector description (e.g. "Misc
+Unions") - need to map this to a sector code for consistency. Match against
+the granular `subsector_description` first (unique per row, e.g. "Misc
+Unions" -> subsector 77e -> sector 77), falling back to the broader
+`sector_description` (repeated across a sector's subsectors, but never
+ambiguous -- every sector_description maps to exactly one sector code).
+
+```{r}
+gs4_deauth()
+sector_map_full <- read_sheet(
+  "https://docs.google.com/spreadsheets/d/11QHvNJsdtMlc1YKo_iNvMB_Jfn5Ui-iYdlWhFYjSm9g/edit?gid=605391596#gid=605391596"
+) %>%
+  mutate(across(everything(), as.character))
+
+subsector_lookup <- sector_map_full %>%
+  filter(!is.na(subsector_description)) %>%
+  distinct(subsector_description, .keep_all = TRUE) %>%
+  select(subsector_description, sector)
+
+sector_lookup <- sector_map_full %>%
+  filter(!is.na(sector_description)) %>%
+  distinct(sector_description, .keep_all = TRUE) %>%
+  select(sector_description, sector)
+```
+
+
+# pac_review lookup tables
+
+```{r}
+# PACs (by id) that cannot be classified yet — leave their full amount as UNCLASSIFIED.
+# Rows with no pac_id are excluded here; they are handled via pac_name_override below.
+skip_pac_ids <- pac_review %>%
+  filter(!is.na(pac_id), pac_id != "") %>%
+  filter(
+    unresolvable_reason == "additional_review_req" |
+    is.na(industry_override_under_5k)              |
+    industry_override_under_5k == ""               |
+    industry_override_under_5k == "PENDING"
   ) %>%
+  pull(pac_id) %>%
+  as.character()
+```
+
+```{r}
+pac_review$unitemized_amount <- as.numeric(pac_review$unitemized_amount)
+pac_review$small_dollar_amount <- as.numeric(pac_review$small_dollar_amount)
+
+pac_override <- pac_review %>%
+  filter(!is.na(pac_id), pac_id != "", !pac_id %in% skip_pac_ids) %>%
+  left_join(subsector_lookup, by = c("industry_override_under_5k" = "subsector_description")) %>%
+  left_join(sector_lookup, by = c("industry_override_under_5k" = "sector_description"),
+            suffix = c("", "_broad")) %>%
+  mutate(pac_id = as.character(pac_id)) %>%
+  # use pac_classifiability for amounts — it reflects the most recent data pull;
+  # pac_review amounts may be from an earlier pull
   left_join(
-    classified_out %>% select(classification_unit_id, level1_category, level2_category),
-    by = "classification_unit_id"
-  )
-
-# flag entities with industry conflicts across aliases, collapse to one row per entity per PAC
-entity_classifications <- over_5k_classified %>%
-  group_by(parent_pac_id, entity_group) %>%
-  mutate(
-    n_distinct_industries = n_distinct(level1_category, na.rm = TRUE),
-    final_industry = case_when(
-      n_distinct_industries > 1 ~ "CONFLICT_REVIEW",
-      !is.na(level1_category)   ~ level1_category,
-      TRUE                      ~ "UNCLASSIFIED"
-    )
+    pac_classifiability %>% transmute(
+      pac_id   = as.character(pac_id),
+      under_5k = coalesce(as.numeric(under_5k_amount), 0) +
+                 coalesce(as.numeric(unitemized_amount), 0) +
+                 coalesce(as.numeric(small_dollar_amount), 0)
+    ),
+    by = "pac_id"
   ) %>%
+  mutate(
+    override_sector = coalesce(sector, sector_broad),
+    is_federal      = !is.na(fec_id) & trimws(coalesce(fec_id, "")) != ""
+  ) %>%
+  select(pac_id, override_sector, industry_override_under_5k, under_5k, is_federal)
+
+# warn on descriptions that didn't match any sector code
+unmapped <- pac_override %>% filter(is.na(override_sector))
+if (nrow(unmapped) > 0) {
+  cat("Warning: no sector code found for these industry_override_under_5k values:\n")
+  print(unmapped %>% select(pac_id, industry_override_under_5k))
+}
+
+pac_override_map <- setNames(seq_len(nrow(pac_override)), pac_override$pac_id)
+
+# Name-keyed override for pac_review rows with no pac_id (PACs that contributed to other PACs
+# but have no CAL-ACCESS committee ID). Matched by contributor_name in over_5k_tagged.
+skip_pac_names <- pac_review %>%
+  filter(is.na(pac_id) | pac_id == "") %>%
+  filter(
+    unresolvable_reason == "additional_review_req" |
+    is.na(industry_override_under_5k)              |
+    industry_override_under_5k == ""               |
+    industry_override_under_5k == "PENDING"
+  ) %>%
+  pull(Contributor.Name)
+
+pac_name_override <- pac_review %>%
+  filter(is.na(pac_id) | pac_id == "",
+         !Contributor.Name %in% skip_pac_names) %>%
+  left_join(subsector_lookup, by = c("industry_override_under_5k" = "subsector_description")) %>%
+  left_join(sector_lookup, by = c("industry_override_under_5k" = "sector_description"),
+            suffix = c("", "_broad")) %>%
+  mutate(
+    override_sector = coalesce(sector, sector_broad),
+    under_5k        = coalesce(under_5k_amount, 0) + coalesce(unitemized_amount, 0) + coalesce(small_dollar_amount, 0),
+    is_federal      = !is.na(fec_id) & trimws(coalesce(fec_id, "")) != ""
+  ) %>%
+  filter(!is.na(override_sector)) %>%
+  distinct(Contributor.Name, .keep_all = TRUE) %>%
+  select(name = Contributor.Name, override_sector, industry_override_under_5k, under_5k, is_federal)
+
+pac_name_override_map <- setNames(seq_len(nrow(pac_name_override)), pac_name_override$name)
+
+unmapped_names <- pac_review %>%
+  filter(is.na(pac_id) | pac_id == "",
+         !Contributor.Name %in% skip_pac_names,
+         !Contributor.Name %in% pac_name_override$name)
+if (nrow(unmapped_names) > 0) {
+  cat("Warning: no sector code for these name-only pac_review entries:\n")
+  print(unmapped_names %>% select(Contributor.Name, industry_override_under_5k))
+}
+```
+
+```{r}
+pac_override
+```
+
+```{r}
+pac_name_override
+```
+
+
+# Over-$5k individual/org classification lookup
+
+
+```{r}
+# over_5k_tagged has correct amounts (one row per contributor per PAC, totals
+# match pac_classifiability$total_received). 
+# Use over_5k_tagged for amounts; build a per-entity
+# code lookup from pac_class_input + pac_final (best non-"99" code wins when
+# the same entity_group maps to multiple uuids across different classification runs).
+entity_code_lookup <- pac_class_input %>%
+  filter(contributor_type != "pac") %>%
+  mutate(parent_pac_id = as.character(parent_pac_id)) %>%
+  left_join(pac_final %>% select(unit_id, code_final), by = c("uuid" = "unit_id")) %>%
+  mutate(industry = coalesce(code_final, "99")) %>%
+  group_by(parent_pac_id, entity_group) %>%
+  arrange(industry == "99", .by_group = TRUE) %>%
   slice(1) %>%
-  ungroup()
+  ungroup() %>%
+  select(parent_pac_id, entity_group, industry)
+
+over_5k_direct <- over_5k_tagged %>%
+  filter(contributor_type != "pac") %>%
+  mutate(
+    contributor_amount = as.numeric(contributor_amount),
+    parent_pac_id      = as.character(parent_pac_id)
+  ) %>%
+  left_join(entity_code_lookup, by = c("parent_pac_id", "entity_group")) %>%
+  mutate(industry = coalesce(industry, "99"))
+
+# amount per (pac, industry) for the direct portion
+direct_by_pac_list <- over_5k_direct %>%
+  group_by(parent_pac_id, industry) %>%
+  summarise(amount = sum(contributor_amount, na.rm = TRUE), .groups = "drop") %>%
+  split(~parent_pac_id)
+```
+
+- should we output entity_id instead of re-computing it here? 
+
+```{r}
+over_5k_direct
+```
+
+```{r}
+unique(over_5k_direct$industry)
+```
 
 
-direct_by_pac_list <- split(
-  entity_classifications %>%
-    group_by(pac_id = parent_pac_id, industry = final_industry) %>%
-    summarise(amount = sum(contributor_amount, na.rm = TRUE), .groups = "drop"),
-  ~ .$pac_id
+# Compute PAC industry distributions
+
+```{r}
+over_5k_by_pac <- split(
+  over_5k_tagged %>% mutate(
+    parent_pac_id  = as.character(parent_pac_id),
+    contributor_id = as.character(contributor_id)
+  ),
+  ~ as.character(parent_pac_id)
 )
 
+pac_deps <- over_5k_tagged %>%
+  filter(contributor_type %in% c("pac"), !is.na(contributor_id)) %>%
+  mutate(parent_pac_id  = as.character(parent_pac_id),
+         contributor_id = as.character(contributor_id)) %>%
+  distinct(parent_pac_id, contributor_id) %>%
+  group_by(parent_pac_id) %>%
+  summarise(deps = list(contributor_id), .groups = "drop") %>%
+  { setNames(.$deps, .$parent_pac_id) }
+```
+
+
+
+
+```{r}
 industry_distrib <- list()
 
 compute_industry_distrib <- function(pid) {
-  direct <- direct_by_pac_list[[pid]]
+  pid <- as.character(pid)
+
+  # (1) pending / needs review — entire amount stays uncategorized
+  if (pid %in% skip_pac_ids) {
+    pac_row <- pac_classifiability[pac_classifiability$pac_id == pid, ]
+    total   <- if (nrow(pac_row) > 0) coalesce(pac_row$total_received[1], 0) else 0
+    industry_distrib[[pid]] <<- if (total > 0) c("99" = total) else numeric(0)
+    return(invisible(NULL))
+  }
+
+  ovr <- if (pid %in% names(pac_override_map)) pac_override[pac_override_map[[pid]], ] else NULL
+
+  # (2) federal PAC — entire amount classified by override sector; over-$5k ignored if applicable
+  if (!is.null(ovr) && isTRUE(ovr$is_federal)) {
+    pac_row <- pac_classifiability[pac_classifiability$pac_id == pid, ]
+    total   <- if (nrow(pac_row) > 0) coalesce(pac_row$total_received[1], 0) else 0
+    code    <- coalesce(ovr$override_sector, "99")
+    industry_distrib[[pid]] <<- if (total > 0) setNames(total, code) else numeric(0)
+    return(invisible(NULL))
+  }
+
+  # (3) non-federal PAC: over-$5k direct + recursive PAC-type + under-$5k override
+
+  direct    <- direct_by_pac_list[[pid]]
   ind_amounts <- if (!is.null(direct) && nrow(direct) > 0)
     setNames(direct$amount, direct$industry) else numeric(0)
 
-  pac_rows <- over_5k_by_pac[[pid]] %>%
-    filter(contributor_type %in% c("pac", "major_donor_ie_committee"),
-           !is.na(contributor_id))
+  pac_rows <- over_5k_by_pac[[pid]]
+  if (!is.null(pac_rows)) {
+    all_pac_rows <- pac_rows %>%
+      filter(contributor_type == "pac")
 
-  for (i in seq_len(nrow(pac_rows))) {
-    child_id     <- pac_rows$contributor_id[i]
-    child_amount <- pac_rows$contributor_amount[i]
-    child_dist   <- industry_distrib[[child_id]]
-    if (is.null(child_dist) || length(child_dist) == 0) {
-      ind_amounts["UNCLASSIFIED"] <- coalesce(ind_amounts["UNCLASSIFIED"], 0) + child_amount
-      next
+    # PAC contributors with a committee id: distribute recursively
+    id_rows <- all_pac_rows %>% filter(!is.na(contributor_id) & contributor_id != "")
+    for (i in seq_len(nrow(id_rows))) {
+      child_id     <- id_rows$contributor_id[i]
+      child_amount <- id_rows$contributor_amount[i]
+      child_dist   <- industry_distrib[[child_id]]
+      if (is.null(child_dist) || length(child_dist) == 0) {
+        ind_amounts["99"] <- coalesce(ind_amounts["99"], 0) + child_amount
+        next
+      }
+      child_total <- sum(child_dist)
+      if (child_total <= 0) next
+      scaled <- child_dist / child_total * child_amount
+      for (ind in names(scaled))
+        ind_amounts[ind] <- coalesce(ind_amounts[ind], 0) + scaled[ind]
     }
-    child_total <- sum(child_dist)
-    if (child_total <= 0) next
-    scaled <- child_dist / child_total * child_amount
-    for (ind in names(scaled))
-      ind_amounts[ind] <- coalesce(ind_amounts[ind], 0) + scaled[ind]
+
+    # PAC contributors with no id: look up override sector by name
+    no_id_rows <- all_pac_rows %>% filter(is.na(contributor_id) | contributor_id == "")
+    for (i in seq_len(nrow(no_id_rows))) {
+      child_name   <- no_id_rows$contributor_name[i]
+      child_amount <- no_id_rows$contributor_amount[i]
+      if (child_name %in% skip_pac_names || !child_name %in% names(pac_name_override_map)) {
+        ind_amounts["99"] <- coalesce(ind_amounts["99"], 0) + child_amount
+        next
+      }
+      code <- pac_name_override$override_sector[pac_name_override_map[[child_name]]]
+      code <- coalesce(code, "99")
+      ind_amounts[code] <- coalesce(ind_amounts[code], 0) + child_amount
+    }
   }
+
+  # under-$5k override
+  if (!is.null(ovr) && !is.na(ovr$under_5k) && ovr$under_5k > 0) {
+    code <- coalesce(ovr$override_sector, "99")
+    ind_amounts[code] <- coalesce(ind_amounts[code], 0) + ovr$under_5k
+  } else {
+    # PAC not yet in pac_review (no manual override): classify all under-$5k as 99
+    pac_row <- pac_classifiability[pac_classifiability$pac_id == pid, ]
+    if (nrow(pac_row) > 0) {
+      under_5k_amt <- coalesce(as.numeric(pac_row$under_5k_amount[1]), 0) +
+                      coalesce(as.numeric(pac_row$unitemized_amount[1]), 0) +
+                      coalesce(as.numeric(pac_row$small_dollar_amount[1]), 0)
+      if (under_5k_amt > 0)
+        ind_amounts["99"] <- coalesce(ind_amounts["99"], 0) + under_5k_amt
+    }
+  }
+
   industry_distrib[[pid]] <<- ind_amounts
 }
+```
 
+```{r}
 for (pid in ordered_pacs) compute_industry_distrib(pid)
 
-remaining_ind <- stuck_pacs
-while (length(remaining_ind) > 0) {
+remaining <- stuck_pacs
+while (length(remaining) > 0) {
   ready <- Filter(function(pid) {
-    deps <- pac_deps[[pid]]; is.null(deps) || !any(deps %in% remaining_ind)
-  }, remaining_ind)
-  if (length(ready) == 0) ready <- remaining_ind
+    deps <- pac_deps[[pid]]
+    is.null(deps) || !any(deps %in% remaining)
+  }, remaining)
+  if (length(ready) == 0) ready <- remaining
   for (pid in ready) compute_industry_distrib(pid)
-  remaining_ind <- setdiff(remaining_ind, ready)
+  remaining <- setdiff(remaining, ready)
 }
+```
 
-pac_industry_breakdown <- lapply(names(industry_distrib), function(pid) {
+# Output
+
+```{r}
+pac_name_lookup <- pac_review %>%
+  filter(!is.na(pac_id), pac_id != "") %>%
+  mutate(pac_id = as.character(pac_id)) %>%
+  group_by(pac_id) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(pac_id, pac_name = Contributor.Name)
+
+# id-based PAC distributions
+id_breakdown <- lapply(names(industry_distrib), function(pid) {
   ind <- industry_distrib[[pid]]
   if (length(ind) == 0) return(NULL)
   tibble(pac_id = pid, industry = names(ind), amount = unname(ind))
 }) %>%
   bind_rows() %>%
-  left_join(pac_classifiability %>% select(pac_id, total_received), by = "pac_id") %>%
-  mutate(pct_of_total = amount / total_received) %>%
-  arrange(pac_id, desc(amount))
+  left_join(pac_name_lookup, by = "pac_id") %>%
+  left_join(
+    pac_classifiability %>% transmute(pac_id = as.character(pac_id), total_received),
+    by = "pac_id"
+  ) %>%
+  mutate(pct_of_total = amount / total_received)
 
+# no-id PAC distributions (PACs that contributed to other PACs but have no committee id)
+name_breakdown <- pac_name_override %>%
+  filter(!is.na(under_5k), under_5k > 0) %>%
+  transmute(
+    pac_id       = NA_character_,
+    pac_name     = name,
+    industry     = coalesce(override_sector, "99"),
+    amount       = under_5k,
+    total_received = NA_real_,
+    pct_of_total = NA_real_
+  )
+
+pac_industry_breakdown <- bind_rows(id_breakdown, name_breakdown) %>%
+  select(pac_id, pac_name, industry, amount, total_received, pct_of_total) %>%
+  arrange(pac_id, pac_name, desc(amount))
+```
+
+
+### manual data checks to confirm processing
+```{r}
+pac_industry_breakdown %>% group_by(pac_id) %>% mutate(total = sum(pct_of_total)) %>% arrange(pac_id) 
+```
+1305436	CALIFORNIA ASSOCIATION OF DENTAL PLANS PAC -> was wrong
+
+```{r}
+over_5k_tagged %>%filter(parent_pac_id == "1305436")
+```
+
+```{r}
+pac_industry_breakdown %>% filter(pac_id == "1408990")
+```
+
+
+```{r}
+over_5k_direct %>%filter(parent_pac_id == "1305436") #%>% summarise(total = sum(contributor_amount))
+```
+
+```{r}
+pac_industry_breakdown %>% group_by(pac_id) %>% mutate(total = sum(pct_of_total)) %>% arrange(pac_id) %>% filter(total < 0.999999)
+```
+
+```{r}
+pac_review %>% filter(pac_id == "1305436")
+```
+
+```{r}
+pac_classifiability %>% filter(pac_id == "1305436")
+```
+
+
+```{r}
+over_5k_direct %>% filter(grepl("empower",contributor_name))
+```
+
+```{r}
+over_5k_direct %>% filter(parent_pac_id == "1018355", industry == "76") %>% summarise(total = sum(contributor_amount))
+over_5k_direct %>% filter(parent_pac_id == "1018355", industry == "76") %>% summarise(total = sum(contributor_amount))
+```
+
+```{r}
+#1.182035e+01
+#1.394942e+00
+#1.321530e+01	
+1.321530e+01
+2187603.11	
+(1.975310e+06	+ 1.623288e+05	)	
+```
+
+```{r}
+over_5k_tagged %>% filter(contributor_id == "1467150")
+```
+
+
+Under $5k is ALL 77
+
+```{r}
+52737.13 +	6205.85	+ 520134.1	
+```
+
+
+unitemized, small dollar, under 5k, over 5k
+52737.13	6205.85	520134.1	1371173.59
+
+```{r}
+ids <- pac_class_input %>% filter(parent_pac_id == "1408990") %>% select(uuid)
+ids <- ids$uuid
+length(unique(ids))
+
+pac_final %>% filter(unit_id %in% ids) 
+```
+
+
+llm code is medium -> ml code was chosen??
+os_code was there,
+
+
+Remove regex for code 76 -> associations that are actually unions..
+
+
+```{r}
+pac_final %>% filter(is.na(os_conf) & !is.na(os_code))
+```
+
+
+```{r}
+pac_inputs
+```
+
+
+# WRITE OUTPUT
+```{r}
+write_csv(pac_industry_breakdown, "10_outputs/pac_industry_breakdown.csv")
+```
+
+
+```{r}
+pac_input <- read.csv("../08_alternative_pipeline/08_outputs/pac_input.csv")
+```
+
+pac input = all direct contributor pacs... 
+
+
+```{r}
+pac_ids   <- pac_classifiability %>%
+  pull(pac_id) %>% as.character()
+```
+
+```{r}
+pac_input <- pac_input %>%
+  mutate(is_pac = FILER_ID %in% pac_ids)
+```
+
+
+```{r}
+pac_input %>% filter(!(is_pac))
+```
+
+
+```{r}
+full <- read.csv("../08_alternative_pipeline/08_inputs/power_search_contributions_normalized.csv")
+nrow(full)
+```
+
+```{r}
+full %>% filter(toupper(Recipient.Name) == "HILTON, STEVE"& toupper(Contributor.Name) == "UNITEMIZED CONTRIBUTIONS") %>% summarise(total = sum(Amount))
+```
+
+```{r}
+full %>% filter(toupper(Recipient.Name) == "BECERRA, XAVIER" & toupper(Contributor.Name) == "UNITEMIZED CONTRIBUTIONS") %>% summarise(total = sum(Amount))
 ```
 

@@ -11,3 +11,8 @@ The `05` pipeline generates static classifications (e.g., using EDD, H1B, keywor
 - **text_features**: imported by `0701`, `0702`. For individuals, occupation is weighted relative to employer. Avoids training on non-employers populating the employer field (e.g., self-employed, retired, etc.)
 - **keyword_priors.py**: imported by `0702`. For classifications that have a *low ML confidence score* (e.g., <0.3), assign a classification based on keyword matching. Consists of employer-affiliated keywords and occupation-affiliated keywords.
 
+## Updated process to integrate with 08 pipeline
+- **`build_ml_training_data.py`** builds the ML training data from the new masterfile approach (three separate sources: (1) pre-classified entities that were already fed through the pipeline (2) opensecrets data (3) H1B + EDD employers). The output is fed into `0701_train_classifier.py`
+- **0701: `train_classifier`** is unchanged and runs after the training data is built
+- **`run_ml_on_08_output.py`** runs the trained ML model on the contributor data procued in the 08 pipeline (replaces 0702).
+

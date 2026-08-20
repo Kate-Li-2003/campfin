@@ -124,7 +124,7 @@ def build_system_prompt(digits: int = 2) -> str:
         "- Candidate committees are entities like 'John Duarte for Congress.'\n"
         "- When only an occupation is provided (no industry summary): classify based on that occupation's industry\n"
         "- Native American tribes and tribal governments should be classified as a '92' NAICS code.\n"
-        "- For retired, unemployed, homemaker, or student contributors: always use code '100'.\n"
+        "- For retired, unemployed, homemaker, or student contributors: if an industry summary is provided, classify by their career or former industry. If no useful information is available, use code '100'.\n"
         "- Use code '99' when no useful information is available to determine an industry.\n"
         '- naics_confidence: "high" if the summary is robust and clearly maps to one code; '
         '"medium" if classifying on occupation alone or summary is not specific about the organization\'s products or industry; '
@@ -360,6 +360,12 @@ def main():
     data = pd.concat(frames, ignore_index=True) if len(frames) > 1 else frames[0]
     print(f"{len(data):,} rows from {len(args.input)} file(s)")
 
+    # backfill prominence columns for backward compat with older web_search outputs
+    if "is_prominent" not in data.columns:
+        data["is_prominent"] = False
+    if "prominence_reason" not in data.columns:
+        data["prominence_reason"] = ""
+
     unit_col = COLUMNS["unit_id"]
     name_col = COLUMNS["name"]
     employer_col = COLUMNS["employer"]
@@ -383,9 +389,12 @@ def main():
     not_employed_mask = unique_to_run.apply(
         lambda r: _is_uninformative(r[employer_col]) and _is_uninformative(r[occ_col]), axis=1
     )
-    to_classify = unique_to_run[~not_employed_mask].reset_index(drop=True)
-    auto_retired = unique_to_run[not_employed_mask].reset_index(drop=True)
-    print(f"  {len(to_classify):,} to classify via LLM, {len(auto_retired):,} auto-assigned (not employed)")
+    has_real_summary = ~unique_to_run["industry_summary"].str.strip().str.lower().isin(_NO_SUMMARY)
+
+    # not-employed with a real web summary → send to LLM (classify career/former industry)
+    to_classify = unique_to_run[~not_employed_mask | (not_employed_mask & has_real_summary)].reset_index(drop=True)
+    auto_retired = unique_to_run[not_employed_mask & ~has_real_summary].reset_index(drop=True)
+    print(f"  {len(to_classify):,} to classify via LLM, {len(auto_retired):,} auto-assigned (not employed, no summary)")
 
     results = classify_from_summaries(
         client,
@@ -424,7 +433,7 @@ def main():
 
     slim_cols = [
         unit_col, COLUMNS["entity_id"], name_col, employer_col, occ_col,
-        "industry_summary", "confidence",
+        "industry_summary", "confidence", "is_prominent", "prominence_reason",
         "naics_code_llm", "naics_description", "open_secrets_category",
         "naics_confidence", "open_secrets_confidence", "naics_reasoning",
     ]

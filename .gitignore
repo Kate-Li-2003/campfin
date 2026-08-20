@@ -32,6 +32,10 @@ build/
 venv/
 env/
 
+# ── Environments ──────────────────────────────────────────────────────
+.env
+**/.env
+
 # ── Jupyter ───────────────────────────────────────────────────────────────────
 .ipynb_checkpoints/
 
@@ -41,6 +45,10 @@ env/
 # ── R / RMarkdown ─────────────────────────────────────────────────────────────
 *.nb.html
 *.html
+.Rproj.user/
+*.Rhistory
+*.RData
+
 
 # ── Large data files in 08_alternative_pipeline ─────────────────────────────
 code/08_alternative_pipeline/08_inputs/FILERNAME_CD.TSV
@@ -49,4 +57,10 @@ code/08_alternative_pipeline/08_inputs/power_search_gov_race_072426.csv
 code/08_alternative_pipeline/08_inputs/all_contributors_processed.csv
 code/08_alternative_pipeline/08_inputs/contributors_data_full.csv
 code/08_alternative_pipeline/08_inputs/contributions_raw.csv
+code/08_alternative_pipeline/08_inputs/power_search_contributions_normalized.csv
+code/08_alternative_pipeline/08_inputs/all_contributors_processed_081625.csv
+code/08_alternative_pipeline/08_inputs/power_search_contributions_raw.csv
+code/08_alternative_pipeline/08_inputs/power_search_ie_raw.csv
+
+
 

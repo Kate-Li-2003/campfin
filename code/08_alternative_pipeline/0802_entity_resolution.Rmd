@@ -3,6 +3,8 @@ title: "Entity Resolution"
 output: html_notebook
 ---
 
+# OLD PROCESS - DO NOT USE THIS ONE!
+
 # Purpose
 
 This notebook aims to group contributors that belong to the same entity for the purpose of: 
@@ -100,6 +102,150 @@ normalize_str <- function(x) {
 contributions_full <- read.csv("08_inputs/all_contributors_processed.csv")
 nrow(contributions_full)
 ```
+
+
+### look at processing of individuals
+
+```{r}
+test2 <- test %>% mutate(
+  standardized_name = standardize_names(Contributor.Name),
+  entity_type_alt      = if_else(sapply(standardized_name, is_individual), "individual", "organization")
+)
+```
+
+```{r}
+test2 %>% filter(entity_type != entity_type_alt) %>% select(Contributor.Name,entity_type_alt,standardized_name,Contributor.Name,Contributor.Employer) %>% distinct()
+```
+
+```{r}
+test2 %>% filter(entity_type_alt == "organization" & Contributor.Employer != "" & Contributor.Employer != "." & Contributor.Employer != "N/A") %>% select(standardized_name,"Contributor.Name",Contributor.Employer) %>% distinct()
+```
+
+```{r}
+test2 %>% filter(entity_type_alt == "individual" & (Contributor.Employer == "" | Contributor.Employer == "." | Contributor.Employer == "N/A")) %>% select(standardized_name,"Contributor.Name",Contributor.Employer) %>% distinct()
+```
+
+individuals flagged as orgs: 
+	Corp, Craig -> flagged as org b/c of last name
+	E BRUCE LAYCOOK	
+ALICE VALDER CURRAN
+	BARBARA BRASS, PAT THOMPSON &
+		Danilo & Laureta Cabanayan
+		
+			HARTFORD, DAN&ELLEN
+			FIELDS, CHESTER& MARION
+	
+	
+orgs flagged as individuals: 
+SAN DIEGO-IMPERIAL COUNTIES LABOR COUNCIL, AFL-CIO
+YES ON P FOR SBCC, SPONSORED BY THE SANTA BARBARA COMMUNITY COLLEGE FOUNDATION
+CALIFORNIA TEAMSTERS PUBLIC AFFAIRS COUNCIL, PUBLIC AFFAIRS
+DRS HOLDEN, KNAPP AND LANGSFORD AKA FAMILY OPTOMETRY
+CALIFORNIA LEGISLATIVE CONFERENCE OF THE PLUMBING, HEATING AND PIPING INDUSTRY	
+CA LEGISLATIVE CONFERENCE OF THE PLUMBING, HEATING AND PIPING INDUSTRY - ADMIN
+	
+	
+Drive- Democrat, Republican, Independent Voter Educati -> still flagged as individual
+Democratic, Republican, Independent Voter Education -> flagged as individual
+Fresno-Madera-Tulare-Kings, Central Labor Council, AFL...
+Grisez, Chas, J. Co.
+Chain, Cohn, Clark ALC
+Cash & Personal Checks, Act Blue,
+
+Yin, CC*
+
+COM, JEN_MARCHEK@YAHOO
+FLORES, HMRFLORES@YAHOO.COM
+Bogren, EA, John -> could add EA to list
+
+JUENGER, ANDREW + MAUREEN
+HAWK, CORINNE * JAMES J.
+Barbara Brass, Pat Thompson +
+Oo?=Brien, Greg
+
+MSW, Ed.D, MFCC, DPM, DMD
+
+```{r}
+test <- contributions_full %>% mutate(
+  entity_type_alt      = if_else(sapply(standardized_name, is_individual), "individual", "organization")
+)
+```
+
+
+```{r}
+test %>% filter(entity_type != entity_type_alt) %>% select(Contributor.Name,entity_type_alt,standardized_name,Contributor.Name,Contributor.Employer) %>% distinct()
+```
+
+Stout, Kaufman, Holzman & Sprague -> should be an org
+Shapiro, Galvin, Shapiro & Moran	individual	SHAPIRO, GALVIN, SHAPIRO AND MORAN	
+Manning, Leaver, Bruder, & Berberich	individual	MANNING, LEAVER, BRUDER, AND BERBERICH	
+Atkinson, Andelson, Loya, Ruud & Romo
+Soares, Sandall, Bernacchi & Petrovich, CPAs
+
+PSYD
+
+edge cases: BARBARA BRASS, PAT THOMPSON +
+MITCHELL_RICKS, DIANETTE
+FLORES, HMRFLORES@YAHOO.COM
+Denkow, ?*mil
+MuA+-oz, Rosalinda
+
+```{r}
+contributions_full %>% filter(entity_type == "organization" & Contributor.Employer != "" & Contributor.Employer != "." & Contributor.Employer != "N/A") %>% select(standardized_name,"Contributor.Name",Contributor.Employer) %>% distinct()
+```
+
+
+```{r}
+is_individual("CHAN, O D, EVE")
+```
+
+
+Individuals flagged as orgs: 
+
+KAMIYA`, MARLA
+Weirick, USMC Ret, Lt. Col. James
+Alvarez, Israel, Jr.
+AZZOLA, ND, CRIS
+LIN, ,, SOPHIA
+REINHART, CHRIS+SUZY
+GREEN, COMMANDER USNAVY (RETIRED), DR KENNETH P
+MARTINEZ, JAVIER, JOSE
+CHOI, CHOI, DR YOONNYOUNG
+BARNETT, O D, MELISSA	
+CHAN, O D, EVE	
+CHINEA GENGLER, O D, CHEYENNE CHEYENNE	
+IKEDA, O D, JOHN	
+LEE, O D, JUDY	
+LEW, O D, FELICIA	
+SOUTHAPHANH, O D, PINHKEO	
+SUNG, O D, JENNY
+Charuzi, , MD, Dr. Yzhar	
+CHAWLA, ,, KIRAN	
+Edelson, , MD, Dr. Ronald	
+Gaw Gonzalo, , MD, Irene	
+Hernandez, ,, Ms. Liliana	
+Kim, , CRNA, Jean	
+Lam, , DDS, Dr. Pritchard
+Barnett, O. D., Melissa	
+Chan, O. D., Eve	
+Chinea Gengler, O. D., Cheyenne Cheyenne	
+Ikeda, O. D., John	
+Lee, O. D., Judy	
+Lew, O. D., Felicia	
+Southaphanh, O. D., Pinhkeo	
+Sung, O. D., Jenny
+
+```{r}
+is_individual("KILROY REALTY, LP")
+```
+
+
+
+
+```{r}
+colnames(contributions_full)
+```
+
 
 
 ### load already categorized data

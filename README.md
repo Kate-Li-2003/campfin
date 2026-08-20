@@ -73,15 +73,17 @@ To pull all data for the governor's race _above_ a specific donation amount (e.g
 ```
 
 Filtered contributions data will be stored at `data/04_output_latest_data_pulls/0401_races_5kfilters/governor_race_2026_over_5k.csv`
+Generally speaking, try to keep all data pertaining to donations, such as donations extracted directly from Power Search, stored in one folder: `04_output_latest_data_pulls`. Naming protocol for these files should follow `[race_name]_[mm/dd/yy]' format.  
 
 ### Classifications (Static) 
 
 To generate matches using static/dynamic lookup sources **ONLY**, run:
 ```bash
 python code/05_candidate_industry_affiliations/0504_classify_other_races.py --inputs
-extra/powersearch_2526/power_search_candidates_2526.csv --out-dir output/05_output
+[input_path] --out-dir output/05_output
 ```
-This routes output to `output/05_output`, under `..._classified.csv`
+where input_path should be the directory path to the CSV that needs to be classified (e.g., `data/04_output_latest_data_pulls/0401_races_5kfilters/governor_race_2026_over5k.csv'). 
+Output will be saved in the `output/05_output` directory, as the file `[input_name]_classified.csv`
 
 ### Classifications 
 

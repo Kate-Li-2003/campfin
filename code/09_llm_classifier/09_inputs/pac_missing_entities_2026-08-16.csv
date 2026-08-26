@@ -1,0 +1,139 @@
+classification_unit_id,uuid,entity_id,entity_type,Contributor.Name,standardized_name,standardized_employer_name,standardized_occupation,Contributor.State,Amount,Contributor.Employer,Contributor.Occupation
+unit_b522c642,8672a950-88af-47e6-97f8-6e3710e41baa,indiv_42bfc25a,organization,1PointFive USA LLC,1POINTFIVE USA LLC,,,TX,1500.0,,
+unit_791664c6,332be5ff-6f84-47ae-9b5a-9f1a3c6c1522,indiv_26c32c28,organization,"AMR HoldCo, Inc","AMR HOLDCO, INC",,,CO,5900.0,,
+unit_d6ebcbb0,46e522b9-7098-4861-93c1-cd303b6a0e8b,indiv_78d33d20,organization,"AMR Holdco, Inc.","AMR HOLDCO, INC",,,CO,5900.0,,
+unit_3d3ca908,fb778b57-cadf-4a3c-9eb0-8802c44734cb,indiv_be5f4f2b,organization,"ARB Interactive, Inc.","ARB INTERACTIVE, INC",,,FL,5000.0,,
+unit_893e2de0,e9abd688-a076-4e7e-ac49-18881b228818,indiv_638d3955,organization,AT&T SERVICES INC. AND ITS AFFILIATES,AT&T SERVICES INC AND ITS AFFILIATES,,,CA,1200.0,,
+unit_0d7e00a5,855568ab-ef17-4b28-a05a-70f48cd98141,indiv_afb8aea7,organization,"AT&T Services, Inc. and its Affiliates","AT&T SERVICES, INC AND ITS AFFILIATES",,,CA,2500.0,,
+unit_e7e103dc,4194f2ec-04ab-4cb4-a350-cf11806fddb6,indiv_94c68b79,organization,Acco Management Company,ACCO MANAGEMENT COMPANY,,,CA,134340.0,,
+unit_2818fcc0,08dafa64-6f08-44f5-b2ef-e74b363493c7,indiv_886bb23b,organization,Affirmed Housing Group Inc.,AFFIRMED HOUSING GROUP INC,,,CA,9800.0,,
+unit_719b7e90,fddf36bb-0190-4b99-a587-5ab62bd483f4,indiv_b63be1f4,organization,AllCare IPA,ALLCARE IPA,,,CA,2833.3,,
+unit_47e9e514,2f666c33-873f-4ab9-bb6b-cc0b2578cd7b,indiv_cf237cac,organization,"AlphaX RE Capital, Inc.","ALPHAX RE CAPITAL, INC",,,CA,5900.0,,
+unit_cb75897f,7de1931d-49be-4092-a56c-6aeeab34f01a,indiv_df947441,organization,AlphaX Re Capital Inc,ALPHAX RE CAPITAL INC,,,CA,9800.0,,
+unit_5aabcbc3,c0067cb5-e317-4cc7-80af-9fc5ad2360c6,indiv_9d08ede0,organization,"Angus Asphalt, Inc.","ANGUS ASPHALT, INC",,,CA,5000.0,,
+unit_56f93457,625af261-d7df-452b-9df7-9cd232d7d307,indiv_a84a19aa,organization,Anheuser Busch Companies,ANHEUSER BUSCH COMPANIES,,,MO,9800.0,,
+unit_cc4fb540,c3eca8f3-1459-4229-a1dd-5e339fe9229a,indiv_cf6b9ab6,organization,Anheuser-Busch Companies,ANHEUSER-BUSCH COMPANIES,,,MO,5900.0,,
+unit_2b79fcef,64c1bc87-46c2-41cd-893b-dcab6f3749e3,indiv_64d6ed8d,organization,Aspen Skilled Healthcare Inc,ASPEN SKILLED HEALTHCARE INC,,,CA,103.5,,
+unit_3d76e6e7,a510cfb6-027e-4e9b-9b2c-1fb6773af220,indiv_1d70ce28,organization,Blue Diamond Growers,BLUE DIAMOND GROWERS,,,CA,7000.0,,
+unit_5fdde944,3806986c-fe94-4c51-a0c0-2879531d322a,indiv_6d7deeee,organization,Brownstein Hyatt Farber Schreck LLP,BROWNSTEIN HYATT FARBER SCHRECK LLP,,,CO,9800.0,,
+unit_3d679532,11d6315e-7047-4ae7-8804-acf1527b3f01,indiv_45d203cd,organization,CEMEX Materials LLC,CEMEX MATERIALS LLC,,,FL,5900.0,,
+unit_dd399ab7,b2adc0a9-7d7e-487c-867c-d7f0d8ed6180,indiv_e8575263,organization,CHEVRON,CHEVRON,,,CA,9800.0,,
+unit_3c140eb2,216de342-ed5d-4130-9ad2-8bb8eed32409,indiv_93f0d994,organization,CVS HEALTH,CVS HEALTH,,,RI,3000.0,,
+unit_b166b2f5,205ec7e8-d389-4b01-8cb9-5d885088ae4e,indiv_60321327,individual,"Caldwell, Carolyn","CALDWELL, CAROLYN",DIGNITY HEALTH ST MARY MEDICAL CENTER,HOSPITAL PRESIDENT AND CEO,CA,5000.0,Dignity Health St Mary Medical Center,Hospital President & CEO
+unit_20b02a4a,28ddb4e6-d135-4706-b3af-af55402bf6e2,indiv_1615133c,organization,California Commerce Club Inc.,CALIFORNIA COMMERCE CLUB INC,,,CA,2500.0,,
+unit_66cfcd9e,31aa4f0f-968d-4354-92a6-2228ef3b126f,indiv_16897237,organization,Cannon Management Company*,CANNON MANAGEMENT COMPANY*,,,CA,3334.0,,
+unit_37b8ddab,65eae4f4-a611-4b8b-8eda-69d1ea626b6c,indiv_34264641,organization,Casa de Amigos MHP,CASA DE AMIGOS MHP,,,CA,8181.0,,
+unit_f62a13d6,3ba1370a-9b81-4fab-a12c-0b78f97c7639,indiv_399064eb,organization,Centene and its Affiliate Health Net,CENTENE AND ITS AFFILIATE HEALTH NET,,,MO,1000.0,,
+unit_bbceecf3,a2954d57-d314-4594-81ae-a00b30d67d4a,indiv_eba788e6,organization,"Charter Communications Operating, LLC","CHARTER COMMUNICATIONS OPERATING, LLC",,,CA,6913.62,,
+unit_8ff71abe,897ad95e-44a9-4a11-bdcb-22c3c482eef4,indiv_5f330278,organization,"Charter Communications Operating, LLC (Keri Askew Bailey)","CHARTER COMMUNICATIONS OPERATING, LLC (KERI ASKEW BAILEY)",,,CA,15000.0,,
+unit_ef73c389,0f066221-62a5-43aa-99f2-47df30daa4c7,indiv_66a835a7,organization,"Charter Communications Operating, LLC(Keri Askew Bailey)","CHARTER COMMUNICATIONS OPERATING, LLC(KERI ASKEW BAILEY)",,,CA,9800.0,,
+unit_bfffe77e,5e8a8780-89c8-4c81-a89d-62a9827362a7,indiv_dc8c3c12,organization,Chevron U.S.A Inc.,CHEVRON USA INC,,,CA,9800.0,,
+unit_8b5a8824,be91acba-1846-4018-8330-89600eccb5dc,indiv_8bb325ac,organization,"Chevron U.S.A., Inc.","CHEVRON USA, INC",,,CA,9800.0,,
+unit_a203e383,d7f506d9-b4f5-493e-adfc-9200bf14b768,indiv_4ad11208,individual,"Clifford, James","CLIFFORD, JAMES",GEO DRILLING FLUIDS,OWNER,CA,2500.0,GEO Drilling Fluids,Owner
+unit_111e4e3a,8ac2411b-7953-4f56-b17b-b4f5aa432966,indiv_3cab4d39,organization,Comcast Corporation and Affiliated Entities Including NBCUniversal Media LLC,COMCAST CORPORATION AND AFFILIATED ENTITIES INCLUDING NBCUNIVERSAL MEDIA LLC,,,CA,2000.0,,
+unit_5350948a,b826462f-88d9-413a-8cc8-3b50ee4ac11a,indiv_2f26e863,organization,"Cox Communications, Inc","COX COMMUNICATIONS, INC",,,CA,5000.0,,
+unit_a4167485,1f079da4-4de7-42c9-b639-b63b811b3568,indiv_d711f292,organization,"Cox Communications, Inc.","COX COMMUNICATIONS, INC",,,CA,5000.0,,
+unit_c9b70d7b,85964593-76ad-45a6-b632-c8eba76ecd9e,indiv_bcc64ce4,organization,DANTAR L.P.,DANTAR LP,,,CA,702.07,,
+unit_0a7e6128,7374f20d-2880-43d8-ba40-446ef22a6092,indiv_4cdbf10c,organization,DIAGEO NORTH AMERICA,DIAGEO NORTH AMERICA,,,DC,5000.0,,
+unit_06644432,e4cd8c9e-1cde-4d57-a3fa-e9a81a75653c,indiv_c4075645,organization,DaVita Inc. and Affiliated Entities,DAVITA INC AND AFFILIATED ENTITIES,,,CO,5900.0,,
+unit_9cd930a0,ea168346-0049-431e-8cec-1608b9fa2b50,indiv_ebb610ff,organization,"DaVita, Inc. Including Aggregated Contributions","DAVITA, INC INCLUDING AGGREGATED CONTRIBUTIONS",,,WA,9800.0,,
+unit_e509904f,6e7e0fcf-5503-43d5-9d09-17b6c7e92a62,indiv_98461196,organization,"DaVita, Inc. and Affiliated Entities","DAVITA, INC AND AFFILIATED ENTITIES",,,WA,5900.0,,
+unit_ca3ecbd3,35d88a43-e54b-488d-a4f9-fd2a9fcb2792,indiv_475346e7,organization,Davita,DAVITA,,,CO,5900.0,,
+unit_007a704f,63a40a57-b1ad-4a86-9285-6d752999a53f,indiv_fbd1cae4,individual,"DiBrienza, Jennifer","DIBRIENZA, JENNIFER",JENNIFER DIBRIENZA,CONSULTANT,CA,500.0,Jennifer DiBrienza,Consultant
+unit_97f69b81,de54dad2-80d2-4275-96cf-40256449d8c7,indiv_fbd1cae4,individual,"DiBrienza, Jennifer","DIBRIENZA, JENNIFER",JENNIFER DIBRIENZA,MATH EDUCATION CONSULTANT,CA,1000.0,Jennifer DiBrienza,Math Education Consultant
+unit_ae5dfb4c,e17e297a-b52f-4c9e-8555-1ec005cfdb5b,indiv_6dafd942,organization,E & J GALLO WINERY,E AND J GALLO WINERY,,,CA,3000.0,,
+unit_95f55994,b0854a6e-7399-4750-8283-821b5033d183,indiv_e9cf887e,organization,E & J Gallo Winery,E AND J GALLO WINERY,,,CA,2500.0,,
+unit_73cfb5c0,0f2617f3-b9bc-4773-8ff4-26213eee6737,indiv_bb84f009,organization,E and S Ring Management Corp *,E AND S RING MANAGEMENT CORP *,,,CA,9800.0,,
+unit_a9574530,12b09c61-3f03-4a68-80b7-2c8652bc3af8,indiv_85b25f4c,organization,EDISON INTERNATIONAL & AFFILIATED ENTITIES,EDISON INTERNATIONAL AND AFFILIATED ENTITIES,,,CA,10000.0,,
+unit_8b5f6a16,2bc6517d-0183-44dc-8315-301de68bc67d,indiv_adcef4a7,organization,EDISON INTERNATIONAL AND AFFILIATED ENTITIES,EDISON INTERNATIONAL AND AFFILIATED ENTITIES,,,CA,3500.0,,
+unit_1c320172,d33f9809-169d-40a5-acd9-b9ff288b29a4,indiv_de0b631a,organization,Edison International and Affiliated Entities / Southern California Edison,EDISON INTERNATIONAL AND AFFILIATED ENTITIES / SOUTHERN CALIFORNIA EDISON,,,CA,5900.0,,
+unit_ac2138cb,4fce290b-e792-4951-a9ba-8f8c29e2d1be,indiv_e215fc70,individual,"Eisler, Michael","EISLER, MICHAEL",BACO PROPERTIES,REAL ESTATE INVESTOR,CA,5000.0,Baco Properties,Real Estate Investor
+unit_5113178a,5c5add04-53e5-4574-9a5c-c14329705b04,indiv_0637334e,individual,"Fisher, Robert J","FISHER, ROBERT J","PISCES, INC",MANAGING DIRECTOR,CA,10000.0,"Pisces, Inc",Managing Director
+unit_255fc15e,75918e1c-542a-419d-9279-83b00558779b,indiv_4b2db531,organization,"Five Point Operating Company, LP and Affiliated Entities","FIVE POINT OPERATING COMPANY, LP AND AFFILIATED ENTITIES",,,CA,20200.0,,
+unit_263e38dd,858ccf64-964c-4653-864b-933f85ba48ae,indiv_1d88dcd4,organization,Fox Corporation,FOX CORPORATION,,,NY,500.0,,
+unit_bc49b2b2,115e508f-f8e6-4f21-a316-526a0b7a1f73,indiv_65f762b1,individual,"Garcia, Keith","GARCIA, KEITH",UNITED MECHANICAL INCORPORATED,BUILDING TRADES JOURNEYPERSON,CA,887.68,United Mechanical Incorporated,Building Trades Journeyperson
+unit_e8948033,54019c3e-3a1c-490f-8c35-ed48b09e51c7,indiv_da161cb8,organization,Generations Healthcare,GENERATIONS HEALTHCARE,,,CA,594.0,,
+unit_6d7b1aa5,7bc60f94-f124-4c89-baa3-120d7ca4bdde,indiv_9b1fdbbc,individual,"Gentile, Henry","GENTILE, HENRY",KLEINFELDER,ENGINEER,CA,100.0,Kleinfelder,Engineer
+unit_cd4c2b9f,5a91f50e-e64b-4ee0-99f7-df30300d1709,indiv_568c80a6,organization,Golden State Water Company,GOLDEN STATE WATER COMPANY,,,CA,2450.0,,
+unit_32301f22,22ce2961-8b23-48da-8914-d2adab41e3f2,indiv_2aeb5ddc,organization,"Greene, Broillet & Wheeler, LLP","GREENE, BROILLET AND WHEELER, LLP",,,CA,9800.0,,
+unit_133f895c,0e8513a0-0b33-407f-ba4f-bb0bd5cacd84,indiv_a8aa9fca,organization,"Guenard & Bozarth, LLP","GUENARD AND BOZARTH, LLP",,,CA,9800.0,,
+unit_75149430,aaab1091-fe45-4e68-89e3-f012131e9535,indiv_880c91bb,organization,"HARBOR DISTRIBUTING, LLC","HARBOR DISTRIBUTING, LLC",,,CA,5900.0,,
+unit_86a2a631,c7acafa7-1f8a-43b8-bf19-f4110f41afb7,indiv_e8a1876b,organization,Habematolel Pomo of Upper Lake,HABEMATOLEL POMO OF UPPER LAKE,,,CA,15000.0,,
+unit_6b179967,7426734c-c734-4ab2-8d9f-8b5bd1d8dd93,indiv_bb7806cf,individual,"Hanauer, Jane","HANAUER, JANE",LAGUNA BEACH BOOKS,BOOK STORE OWNER,CA,2500.0,Laguna Beach Books,Book Store Owner
+unit_661b95a1,069a1521-d9fb-4972-9e0c-af8017a3389b,indiv_6ce64c15,organization,Harbor Distributing LLC,HARBOR DISTRIBUTING LLC,,,CA,5900.0,,
+unit_9d9e4351,8f004bb9-3530-4448-be11-75e509d08fb8,indiv_6c9834f0,organization,Harbor Distributing LLC(David K. Reyes),HARBOR DISTRIBUTING LLC(DAVID K REYES),,,CA,9800.0,,
+unit_0d652b68,ffc61095-7e10-4d3b-8cf5-64b152e88160,indiv_431cda45,organization,"Harbor Distributing, LLC(David K. Reyes)","HARBOR DISTRIBUTING, LLC(DAVID K REYES)",,,CA,9800.0,,
+unit_6298db52,cb6f6c25-5c82-42ec-8174-27c98f7870bb,indiv_8ac00fed,organization,"Harbor Distributing, LLC(Lara Dunbar)","HARBOR DISTRIBUTING, LLC(LARA DUNBAR)",,,CA,9800.0,,
+unit_dc3980c4,6f152892-b6b4-472b-a660-48311457ee7f,indiv_52b38ccc,individual,"Hilgert, Michael","HILGERT, MICHAEL",SUPERIOR DUCT FABRICATION,CHIEF EXECUTIVE OFFICER,CA,5000.0,Superior Duct Fabrication,Chief Executive Officer
+unit_ae0f3af8,bd378688-ccf6-45e1-8e5e-808de9dddf07,indiv_e9f6e0c6,organization,Holistic Alternative Recovery Trust Inc.,HOLISTIC ALTERNATIVE RECOVERY TRUST INC,,,KY,5000.0,,
+unit_3ffd5962,405089f7-586b-44f5-ba79-55e0f32d6e88,indiv_19f04604,organization,Irvine Management Company,IRVINE MANAGEMENT COMPANY,,,CA,5800.0,,
+unit_4c78ad57,eaa74fea-5452-431f-ba5d-fa78df263ccc,indiv_708b8558,organization,JMH Engineering And Construction,JMH ENGINEERING AND CONSTRUCTION,,,CA,695.0,,
+unit_792db6f1,d43544c5-e06d-424f-b1b0-25ade7b53cb5,indiv_35de36b2,organization,JMH Engineering and Construction,JMH ENGINEERING AND CONSTRUCTION,,,CA,891.0,,
+unit_3c90a27a,8eb35e46-da3e-4084-84cc-b20da1a7a095,indiv_92576fc5,individual,"Josefowitz, Nicholas","JOSEFOWITZ, NICHOLAS",PERMIT POWER,EXECUTIVE,CA,5900.0,Permit Power,Executive
+unit_a0ab31fc,da683701-3220-42a9-a772-2b4efe7c5fac,indiv_92576fc5,individual,"Josefowitz, Nicholas","JOSEFOWITZ, NICHOLAS",PERMIT POWER,CEO,CA,10000.0,Permit Power,CEO
+unit_5b7ec843,edde5091-cbf0-496d-945f-c126e10d6e4c,indiv_89baf457,organization,Kooth USA LLC(Laura Tully),KOOTH USA LLC(LAURA TULLY),,,IL,9800.0,,
+unit_ee5a8b37,446df607-20d2-4b36-ae17-103734ea7055,indiv_5ba150a5,individual,"Krieger, Kaitlyn J.","KRIEGER, KAITLYN J",KAITLYN J KRIEGER,PHILANTHROPIST,CA,5900.0,Kaitlyn J. Krieger,Philanthropist
+unit_d1179b33,87ca5383-d660-4daa-ae1e-f06ccbbb9949,indiv_79746079,organization,"LEAPDAY ENTERPRISE, INC AND AFFILIATED ENTITIES","LEAPDAY ENTERPRISE, INC AND AFFILIATED ENTITIES",,,CA,775.32,,
+unit_cfeb22db,3c9d1dfc-4c54-459e-a767-ae0f67341a12,indiv_61daa102,individual,"Lujano, Michael R.","LUJANO, MICHAEL R",SOL DYNAMIS LLC,MANAGER,CA,6000.0,Sol Dynamis LLC,Manager
+unit_089cd7e8,5aba08d1-67e4-4c1e-ae60-12f8cc54ce79,indiv_0b10a1df,organization,Lundbeck Inc,LUNDBECK INC,,,VA,9800.0,,
+unit_613d272e,4c3c1e68-5f9e-4e12-86f2-f5e16c488a36,indiv_d9229d9f,organization,"Lundbeck, Inc.","LUNDBECK, INC",,,VA,9800.0,,
+unit_d0f3a98d,bfc2304b-2dd5-45fd-83be-71bf76fa46d2,indiv_d47e5bbf,individual,"Masters, Brian A","MASTERS, BRIAN A",SHEET METAL WORKERS LOCAL UNION NO 104,BUILDING TRADES JOURNEYPERSON,CA,934.4,Sheet Metal Workers' Local Union No. 104,Building Trades Journeyperson
+unit_f112c46a,575b8ea1-af54-46b2-a13c-02751f7c718e,indiv_d47e5bbf,individual,"Masters, Brian A","MASTERS, BRIAN A",SHEET METAL WORKERS LOCAL UNION NO 104,B/T JOURNEY,CA,892.8,Sheet Metal Workers' Local Union No. 104,B/T Journey
+unit_345b3ccc,0c23aa1e-3b3a-4e3a-a2cc-3a4ee4f33368,indiv_330fe5f6,individual,"Matiasic, Paul","MATIASIC, PAUL","THE MATIASIC FIRM, PC",ATTORNEY,CA,300.0,"The Matiasic Firm, PC",Attorney
+unit_46a439a6,cd38727c-3896-4cb1-be20-08895322a5a7,indiv_e6efda19,organization,"McDonald's USA LLC, including McDonald's Corporation","MCDONALDS USA LLC, INCLUDING MCDONALDS CORPORATION",,,IL,5000.0,,
+unit_5624ce97,5d401356-2875-4dbd-a122-b6505bd8c4a9,indiv_9a98c546,organization,"McDonald's USA LLC, including McDonald's Corporation(Lauren Aguilar)","MCDONALDS USA LLC, INCLUDING MCDONALDS CORPORATION(LAUREN AGUILAR)",,,IL,5000.0,,
+unit_40618a0a,97c2d439-f9c7-4cd4-8adb-751357f1c434,indiv_f1fc9185,organization,"McDonald's USA, LLC, including McDonald's Corporation","MCDONALDS USA, LLC, INCLUDING MCDONALDS CORPORATION",,,IL,5000.0,,
+unit_bdc4fa67,93d58fb8-5b19-4537-a803-0896e9bbb092,indiv_1b4df338,organization,Mcguire And Hester,MCGUIRE AND HESTER,,,CA,1431.0,,
+unit_1b6463f1,be6626f9-d54f-444f-bd6f-fc1826e965f7,indiv_823e3ae3,organization,"Meek Ranches, LLC (Samuel H. Meek)","MEEK RANCHES, LLC (SAMUEL H MEEK)",,,CA,1056.42,,
+unit_5e73d032,82ff2bff-49f1-485b-b1a6-d85469f3a99e,indiv_99841195,organization,Merck & Co. Inc,MERCK AND CO INC,,,NJ,65200.0,,
+unit_c0550f6c,ecb8743d-5b2b-43be-9741-ed916ec0fc71,indiv_c8343f15,organization,Meruelo Enterprises Inc.,MERUELO ENTERPRISES INC,,,CA,5500.0,,
+unit_dfe3b7ac,3ae640ad-8348-4e2b-879b-770f8553b913,indiv_5d995b57,organization,"Mike Bubalo Construction Co, Inc","MIKE BUBALO CONSTRUCTION CO, INC",,,CA,891.0,,
+unit_4bac11f2,6a1b37d0-7ee2-48d9-a690-808438d2098b,indiv_913ce72b,individual,"Mojibi, Cyrus","MOJIBI, CYRUS","SAN JOAQUIN REFINING CO, INC",PRESIDENT,CA,9800.0,"San Joaquin Refining Co., Inc",President
+unit_834f8308,93358061-3ed4-4746-8e8b-ec28ede080fd,indiv_421a1983,organization,OneMain General Service Corp.,ONEMAIN GENERAL SERVICE CORP,,,TX,5000.0,,
+unit_f2ef0d09,84ac2c6d-54e7-43c7-a17e-348c12176d6a,indiv_a2cdf5f4,organization,PBF Energy Western Region LLC,PBF ENERGY WESTERN REGION LLC,,,NJ,1500.0,,
+unit_85df28b5,1eec9467-e7f2-4318-8e1d-bc71d279ddc6,indiv_cc99ff13,organization,PG & E Corporation,PG AND E CORPORATION,,,CA,9800.0,,
+unit_1c6232d2,6abb83c5-4fa4-43f8-9e18-3b8eb76ca98d,indiv_4cefdfc5,organization,PG&E CORPORATION AND AFFILIATED ENTITIES,PG&E CORPORATION AND AFFILIATED ENTITIES,,,CA,3900.0,,
+unit_903a797d,d83e7185-c5e2-447f-bf59-107a89674e92,indiv_235fb002,organization,"Panish, Shea & Ravipudi, LLP","PANISH, SHEA AND RAVIPUDI, LLP",,,CA,9800.0,,
+unit_e0c14356,6afe9d48-5073-43b3-9a5e-fc88bfbdcb29,indiv_160e6a4d,organization,"Pepsico, Incorporated and Affiliated Entities","PEPSICO, INCORPORATED AND AFFILIATED ENTITIES",,,NY,5000.0,,
+unit_cfc56fa9,d0a78065-25cf-4fff-9fcc-d9b67e16a87d,indiv_ff44fd1e,organization,Philip Morris USA Inc. and its Affiliates,PHILIP MORRIS USA INC AND ITS AFFILIATES,,,CA,25000.0,,
+unit_e30d9eaa,f84bb8f9-aa11-42c1-bf8b-1f2d40e65d9e,indiv_e38f31f3,organization,"Philip Morris USA Inc., and its Affiliates","PHILIP MORRIS USA INC, AND ITS AFFILIATES",,,CA,9800.0,,
+unit_df96b1bd,0b2570a1-2df8-447c-b2ac-fbd7f22a1555,indiv_5d19e5f5,organization,"Philip Morris USA, Inc. and its Affiliates/Altria Client Services, LLC","PHILIP MORRIS USA, INC AND ITS AFFILIATES/ALTRIA CLIENT SERVICES, LLC",,,VA,5900.0,,
+unit_9968c655,66a18a38-df51-4b93-8947-4e4732c36125,indiv_8bbb14d7,organization,Prodesse Property Group*,PRODESSE PROPERTY GROUP*,,,CA,8429.0,,
+unit_eab043bd,7ac0cc52-6ee5-4b23-90ec-5ee35823a923,indiv_62eddc09,organization,Pursue  Health LLC(Zachary Larson),PURSUE HEALTH LLC(ZACHARY LARSON),,,CA,33.0,,
+unit_2574ac8c,b75a8061-9ae5-4e0a-b971-053598750ee0,indiv_da8b751e,organization,R&V MANAGEMENT LP,R&V MANAGEMENT LP,,,CA,5000.0,,
+unit_3f60562b,660ea813-be6b-4446-a7be-3ba35acdd418,indiv_8585361f,individual,"Roope, Caleb J.","ROOPE, CALEB J",THE PACIFIC COMPANIES,CEO,ID,9800.0,The Pacific Companies,CEO
+unit_576c8d21,fbe3cf71-1712-4618-94de-ddfc9dfa2253,indiv_56e2c5c7,organization,SEMPRA,SEMPRA,,,CA,3500.0,,
+unit_545c564e,78397c6c-b7c2-4f01-ab3a-0c4a1d69269e,indiv_559331ca,organization,San Jose Water Company,SAN JOSE WATER COMPANY,,,CA,2450.0,,
+unit_83d62682,1a940c06-64f8-4185-ad8e-fded8dbe3ad0,indiv_fceddb3c,organization,Sempra Energy,SEMPRA ENERGY,,,CA,3000.0,,
+unit_30e35432,ca6b0b1f-a430-495a-8070-631d6f9f39a3,indiv_0814efb9,organization,Sempra formerly Sempra Energy,SEMPRA FORMERLY SEMPRA ENERGY,,,CA,5900.0,,
+unit_a11d746e,f5bfe285-7273-40ad-8674-e937a87fa733,indiv_c8bd0997,organization,Silicon Valley Village MHP,SILICON VALLEY VILLAGE MHP,,,CA,6507.0,,
+unit_fd270de7,37d404de-3c53-4c67-82be-46ad3b3a2946,indiv_c74a7d69,individual,"Singh, Sarabjeet","SINGH, SARABJEET",DBA: SARABJEET SINGH,PHYSICIAN,CA,1000.0,DBA: Sarabjeet Singh,Physician
+unit_bbfe7599,0fcf4c52-1e75-4e41-8448-651147cd0a12,indiv_dc425f7f,organization,"Singleton & Schreiber, LLP","SINGLETON AND SCHREIBER, LLP",,,CA,9800.0,,
+unit_15fd82b9,10043421-eabc-4c5b-a926-187c05e17870,indiv_fa820daf,organization,"South Cord Management, LLC","SOUTH CORD MANAGEMENT, LLC",,,CA,5900.0,,
+unit_114c7def,0db599a0-245b-40c6-bf7d-267336f4b595,indiv_d98e6e7a,organization,"Southern Glazer's Wine and Spirits, LLC","SOUTHERN GLAZERS WINE AND SPIRITS, LLC",,,FL,2500.0,,
+unit_032e7d4c,b3947d8f-2bad-477a-ae91-1ab005a18d96,indiv_5f3baaa6,individual,"Strauss, Karen","STRAUSS, KAREN",JEWISH COMMUNITY CENTER,TEACHER,CA,1552.75,Jewish Community Center,Teacher
+unit_ad80effc,472274cc-e684-44f0-91e6-e97d2912e915,indiv_d452c23b,individual,"Sugrue, Vincent","SUGRUE, VINCENT",SHEET METAL WORKERS LOCAL UNION NO 104,B/T JOURNEY,CA,892.8,Sheet Metal Workers' Local Union No. 104,B/T Journey
+unit_a5213f02,502fa84c-0fcd-4188-b6c3-7941208d7584,indiv_b26c13b0,individual,"Suntrapak, Todd","SUNTRAPAK, TODD",VALLEY CHILDRENS HEALTHCARE,PRESIDENT AND CEO,CA,454.5,Valley Children's Healthcare,President and CEO
+unit_ae1f2faf,83d190eb-a980-4726-914c-c82ebfd024c9,indiv_4dc17517,individual,"Sylva, Keith","SYLVA, KEITH",UNITED MECHANICAL INCORPORATED,BUILDING TRADES JOURNEYPERSON,CA,934.4,United Mechanical Incorporated,Building Trades Journeyperson
+unit_c6e9809d,ff949307-008b-4f62-9365-0ecfd64f876a,indiv_e671624d,individual,"TIERNEY, DANIEL","TIERNEY, DANIEL",WICKLOW CAPITAL INC,ADMINISTRATOR,IL,500000.0,WICKLOW CAPITAL INC.,ADMINISTRATOR
+unit_52d1ab33,6d8c7768-56df-40f9-b732-d46a01fb2ce0,indiv_c851d637,organization,"Taylor & Ring, LLP","TAYLOR AND RING, LLP",,,CA,9800.0,,
+unit_fac0e560,13e87d6b-a5c9-4e77-a85f-994536020908,indiv_effad70e,organization,Telacu Industries Inc,TELACU INDUSTRIES INC,,,CA,5900.0,,
+unit_eb492af4,5b7353fa-0655-4fca-af57-10a9148d697e,indiv_7a724332,organization,Tenet Healthcare Corporation,TENET HEALTHCARE CORPORATION,,,TX,9800.0,,
+unit_02ba022a,0c00e2e3-fc17-47e8-81b2-a0a1b863eeb7,indiv_115ae865,organization,The Wonderful Company LLC(Stewart A. Resnick),THE WONDERFUL COMPANY LLC(STEWART A RESNICK),,,CA,2500.0,,
+unit_394196b5,e364862f-45ed-4864-ab6b-2ba3a29c199b,indiv_17a24ee2,individual,"Tobin, II, Joseph","TOBIN, II, JOSEPH",DBA: JOE TOBIN II,PROPERTY MANAGEMENT,CA,260.73,DBA: Joe Tobin II,Property management
+unit_79ded4cd,42aa6d87-02b2-430f-b48a-0931e25582e3,indiv_17a24ee2,individual,"Tobin, II, Joseph","TOBIN, II, JOSEPH",TCG,REAL ESTATE,CA,260.73,Tcg,Real estate
+unit_dec940e9,feff6c6e-0bf7-4abc-88da-e11db1d99237,indiv_2d6efb64,individual,"Torreano, Dominic","TORREANO, DOMINIC",SHEET METAL WORKERS LOCAL UNION NO 104,B/T JOURNEY,CA,892.8,Sheet Metal Workers' Local Union No. 104,B/T Journey
+unit_247c3f4e,15324ef1-b19c-4b0c-b062-16aeaaf142df,indiv_b32bab1a,organization,UC-AFT (Unitemized Member Contributions),UC-AFT (UNITEMIZED MEMBER CONTRIBUTIONS),,,CA,7935.0,,
+unit_4bde1da6,9ad0acbc-cb1a-41ce-9639-bcc4b57cfb2b,indiv_cafbcd4d,organization,UnitedHealth Group Inc,UNITEDHEALTH GROUP INC,,,MN,5000.0,,
+unit_5da9e9d9,8e43e20f-8784-46b4-889d-372370399dc0,indiv_e572007f,individual,"Vanrys II, Cornelius R.","VANRYS II, CORNELIUS R",SHEET METAL WORKERS LOCAL UNION NO 104,BUILDING TRADES JOURNEYPERSON,CA,716.8,Sheet Metal Workers' Local Union No. 104,Building Trades Journeyperson
+unit_af32e79a,95bc8827-69fc-4713-9810-1cd8659a1051,indiv_ce68d39f,organization,"Visa, Inc.","VISA, INC",,,CA,5900.0,,
+unit_7ff64e0f,d98d3ed2-de03-43b6-8cf6-84cd42eb3c67,indiv_645988da,individual,"Von Tersch, Michelle","VON TERSCH, MICHELLE",COMMUNITY HEALTH SYSTEM,ACTING CHIEF OF STAFF,CA,1000.0,Community Health System,Acting Chief of Staff
+unit_a2cf400a,7af52981-c544-466e-b5f5-cc3a45c2bfc6,indiv_7eb1a409,organization,WALMART INC.,WALMART INC,,,AR,5900.0,,
+unit_b3a65006,1165106d-86a7-4ebc-a1a5-c4bf425fd4c0,indiv_00d8f95c,organization,WARMEL MANAGEMENT COMPANY AND AFFILIATED ENTITIES,WARMEL MANAGEMENT COMPANY AND AFFILIATED ENTITIES,,,CA,784.87,,
+unit_8a3354d9,5c70d1a5-d27e-4007-80bc-403d602b1c41,indiv_cec4e7a5,organization,WEST COAST UNIVERSITY INC.,WEST COAST UNIVERSITY INC,,,CA,5900.0,,
+unit_835ac6db,9588d287-b710-4551-aa79-3c32f16ba174,indiv_eff2cc29,organization,"WNC & Associates, Inc.","WNC AND ASSOCIATES, INC",,,CA,3000.0,,
+unit_7d34846b,3af9f131-4579-4d2e-a8c3-2a6adc4be059,indiv_3b460350,organization,Walmart Inc.,WALMART INC,,,AR,5900.0,,
+unit_47537a9d,db576d05-1793-4a6c-89fc-2d0a284c7791,indiv_2ce08e02,individual,"Werner, Richard H.","WERNER, RICHARD H",SHEET METAL WORKERS LOCAL UNION NO 104,B/T JOURNEY,CA,892.8,Sheet Metal Workers' Local Union No. 104,B/T Journey
+unit_b5c80201,2383d483-52ee-44ef-be5a-e984dd88fd73,indiv_f80b3632,organization,West Coast University Inc.,WEST COAST UNIVERSITY INC,,,CA,9800.0,,
+unit_b476e575,2c3e2b8d-612e-4417-bef0-df22e69c9fa0,indiv_c80e3158,individual,"Weston Jr, Peter","WESTON JR, PETER",RODRIGUEZ SHEET METAL,BUILDING TRADES JOURNEYPERSON,CA,694.96,Rodriguez Sheet Metal,Building Trades Journeyperson
+unit_ae67c209,c21132cb-2716-4289-96d4-d22e6a75e12e,indiv_9bd12bfc,individual,"Zapata, Manuel J.","ZAPATA, MANUEL J",SHEET METAL WORKERS LOCAL UNION NO 104,BUILDING TRADES JOURNEYPERSON,CA,553.6,Sheet Metal Workers' Local Union No. 104,Building Trades Journeyperson

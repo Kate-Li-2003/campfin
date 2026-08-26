@@ -2,6 +2,27 @@
 
 # DEFINE FUNCTIONS TO STANDARDIZE NAMES
 
+pac_keyword_pattern <- regex(
+  paste0("\\b(", paste(c(
+    "PAC", "POLITICAL ACTION COMMITTEE", "POLITICAL ACTION LEAGUE", "POLITICAL FUND",
+    "POLITICAL ACTION FUND", "COMMITTEE", "FPPC", "SCC", "SMALL CONTRIBUTOR","INDEP EXPENDITURE","INDEPEDENT EXPENDITURE"
+    #"SMALL CONTRIBUTOR COMMITTEE", "SMALL CONT COMMITTEE"
+  ), collapse = "|"), ")\\b"),
+  ignore_case = TRUE
+)
+
+has_pac_language <- function(name) str_detect(toupper(coalesce(name, "")), pac_keyword_pattern)
+
+
+make_row_hash <- function(...) {
+  cols <- list(...)
+  n <- length(cols[[1]])
+  vapply(seq_len(n), function(i) {
+    parts <- vapply(cols, function(col) as.character(col[i]), character(1))
+    digest::digest(paste(parts, collapse = "|"), algo = "xxhash32")
+  }, character(1))
+}
+
 # mirrors `normalize_name` used across other scripts
 normalize_name_simple <- function(name) {
   name %>%
@@ -19,7 +40,7 @@ standardize_names <- function(name) {
     str_replace_all("\\#", "NUMBER") %>%
     str_replace_all(" NO ", " NUMBER ") %>% 
     str_replace_all("[.']", "") %>% # only removing these for now, because there's some punctuation i wanted to preserve, but could try removing all 
-    str_replace_all("\\,\\,", "\\,") %>%
+    str_replace_all(",\\s*,+", ",") %>%
     str_replace_all("\\?\\=s", "\\'") %>% # checked these manually
     str_replace_all("\\?", "") %>% # could remove some spaces between words
     str_replace_all(" \\,", ",") %>%
@@ -171,6 +192,25 @@ standardize_occupation_employer <- function(name){
     str_squish()
 }
 
+# write functions to standardize city and state names
+standardize_city <- function(city) {
+  city %>%
+    str_replace("\\s+[A-Z]{2}$", "") %>% # remove trailing state abbreviation - check for this before converting to all upper, otherwise gets stuff like Rancho Sante Fe
+    str_to_upper() %>%
+    str_replace(",.*$", "") %>%       # remove everything after a comma
+    str_replace("\\s+\\d{5}(-\\d{4})?$", "") %>%  # remove trailing zip code
+    str_replace_all("[^[:alnum:] ]", "") %>% # remove any other punctuation (some have periods in the name)
+    str_squish()
+}
+
+standardize_state <- function(state) {
+  state %>%
+    str_to_upper() %>%
+    str_replace("\\s+\\d{5}(-\\d{4})?$", "") %>%  # remove trailing zip code
+    str_replace_all("[^[:alnum:] ]", "") %>% # remove any other punctuation 
+    str_squish()
+}
+
 
 # FUNCTION TO FLAG INDIVIDUALS VS ORGS
 
@@ -185,9 +225,13 @@ org_keywords <- c(
 ) #"PA", "CO", "STATE"
 
 is_individual <- function(name) {
-  
+
   name_upper <- str_squish(toupper(name))
-  
+
+  # strip characters that cannot appear in valid names (data-entry typos: backticks, etc.)
+  name_upper <- str_replace_all(name_upper, "[`@#$%\\^*_=\\[\\]{}|<>]", "")
+  name_upper <- str_squish(name_upper)
+
   # look for org keywords
   org_pattern <- paste0("\\b(", paste(org_keywords, collapse = "|"), ")\\b")
   if (str_detect(name_upper, org_pattern)) return(FALSE)
@@ -199,13 +243,20 @@ is_individual <- function(name) {
   # "M.D." -> "MD", "J.D." -> "JD", "D.D.S." -> "DDS", "Maj." -> "MAJ"
   name_clean <- str_replace_all(name_clean, "([A-Z])\\.", "\\1")
   name_clean <- str_squish(name_clean)
-  
+
+  # re-check org keywords
+  if (str_detect(name_clean, org_pattern)) return(FALSE)
+
+  # normalize "+" to " AND " for joint contributors (e.g. "REINHART, CHRIS+SUZY")
+  name_clean <- str_replace_all(name_clean, "\\+", " AND ")
+  name_clean <- str_squish(name_clean)
+
   # may need to update this -> could be pattern for law firms or for joint contributors
   after_comma <- str_trim(str_split(name_clean, ",")[[1]][2])
   if (!is.na(after_comma) && str_detect(after_comma, "\\bAND\\b")) return(TRUE) # e.g. Smith, Peggy & Mike
-  
+
   #if (str_detect(name_clean, "AND")) return(TRUE)
-  
+
   # normalize slash in compound last names so patterns match: "Friedli/Giono" -> "Friedli-Giono"
   name_clean <- str_replace_all(name_clean, "/", "-")
   
@@ -215,8 +266,10 @@ is_individual <- function(name) {
     # academic / professional credentials
     "MD", "PHD", "ESQ", "DDS", "DO", "DR", "MR", "MRS", "MS", "HON", "EDS",
     "OD", "CPA", "DVM", "RN", "NP", "FACS", "TTEE", "JD", "MBA", "CFA",
-    # military ranks
+    "ND", "CRNA", "NMD", "DMD", "DC",
+    # military ranks (abbreviated and spelled-out)
     "MAJ", "COL", "CAPT", "GEN", "LT", "LTC", "ADM", "SGT", "CPT", "CDR", "ENS", "SFC",
+    "COMMANDER",
     # military branches / status
     "USAF", "USA", "USN", "USMC", "USCG", "RET",
     sep = "|"
@@ -251,21 +304,61 @@ is_individual <- function(name) {
         str_detect(parts[2], "^[A-Z'\\-\\. ]+$")) return(TRUE)
   }
   
-  # For 2+ commas: first token = last name, last token = first (+ possible title),
-  # ALL middle tokens must be credentials, suffixes, military designations, or single-letter initials.
-  # Handles: "Berra, D.D.S., M., Albert"  "Mitas, II, M.D., John"  "Reiter, USAF (Ret), Maj. Richard"
+  # For 2+ commas: handles several formats:
+  #   "LAST, CRED, FIRST"       e.g. "Berra, D.D.S., Albert"  "Reiter, USAF RET, Richard"
+  #   "LAST, FIRST, SUFFIX"     e.g. "Alvarez, Israel, Jr."
+  #   "LAST, FIRST, MIDDLE"     e.g. "Martinez, Javier, Jose"
+  # Empty comma segments (data-entry artifacts like "LIN, ,, SOPHIA") are dropped first.
   if (n_commas >= 2) {
-    parts        <- str_trim(str_split(name_clean, ",")[[1]])
-    last_part    <- parts[1]
-    first_part   <- parts[length(parts)]
-    middle_parts <- parts[-c(1, length(parts))]
-    
-    cred_or_initial <- paste0("^(", suffix_title_pat, "|[A-Z])$")
-    all_middle_ok   <- all(str_detect(middle_parts, cred_or_initial))
-    
-    if (all_middle_ok &&
-        str_detect(last_part,  "^[A-Z'\\- ]+$") &&
-        str_detect(first_part, "^[A-Z'\\-\\. ]+$")) return(TRUE)
+    parts <- str_trim(str_split(name_clean, ",")[[1]])
+    parts <- parts[nchar(str_squish(parts)) > 0]  # drop blank segments
+
+    cred_pat <- paste0("^(", suffix_title_pat, "|[A-Z])$")
+
+    # each comma-segment may itself be multi-word (e.g. "USMC RET", "O D")
+    cred_tokens_ok <- function(seg) {
+      toks <- str_split(str_squish(seg), "\\s+")[[1]]
+      toks <- toks[nchar(toks) > 0]
+      if (length(toks) == 0) return(TRUE)
+      all(str_detect(toks, cred_pat))
+    }
+
+    # if empty-segment filtering collapsed to two parts, use n_commas==1 logic
+    if (length(parts) == 2) {
+      if (str_detect(parts[1], "^[A-Z'\\- ]+$") &&
+          str_detect(parts[2], "^[A-Z'\\-\\. ]+$")) return(TRUE)
+    }
+
+    if (length(parts) >= 3) {
+      lp  <- parts[1]
+      fp  <- parts[length(parts)]
+      mps <- parts[-c(1, length(parts))]
+
+      lp_ok <- str_detect(lp, "^[A-Z'\\- ]+$")
+      fp_ok <- str_detect(fp, "^[A-Z'\\-\\. ]+$")
+
+      # Check A: all middle segments are credentials (allows multi-word: "USMC RET", "O D")
+      if (lp_ok && fp_ok && all(vapply(mps, cred_tokens_ok, logical(1)))) return(TRUE)
+
+      # Check B: credential/suffix at the END instead of the middle
+      # e.g. "ALVAREZ, ISRAEL, JR" — last segment is the suffix
+      if (lp_ok && str_detect(fp, cred_pat) &&
+          all(str_detect(mps, "^[A-Z'\\-\\. ]+$"))) return(TRUE)
+
+      # Check C: all segments are plain name words (org keywords already filtered above).
+      # Guards: (a) ≤ 3 total parts so multi-partner law firms are excluded;
+      #         (b) no segment contains "AND" so "&"-converted firm names are excluded
+      #             (e.g. "Fitzgerald, Alvarez, AND Ciummo" after standardization);
+      #         (c) last-name segment ≤ 2 words so long org openers like
+      #             "DRIVE - DEMOCRAT, REPUBLICAN, ..." are excluded.
+      all_segs   <- c(lp, mps, fp)
+      no_and     <- !any(str_detect(all_segs, "\\bAND\\b"))
+      lp_words   <- length(str_split(str_squish(lp), "\\s+")[[1]])
+      seg_words  <- vapply(str_split(all_segs, "\\s+"), length, integer(1))
+      if (length(parts) <= 3 && lp_ok && fp_ok && no_and && lp_words <= 2 &&
+          all(str_detect(all_segs, "^[A-Z'\\-\\. ]+$")) &&
+          max(seg_words) <= 3) return(TRUE)
+    }
   }
   
   return(FALSE)

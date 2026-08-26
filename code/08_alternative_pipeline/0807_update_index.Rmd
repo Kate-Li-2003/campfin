@@ -1,0 +1,53 @@
+---
+title: "0805 — Update Entity Classification Index"
+output: html_notebook
+---
+
+Run this after `0804_classify_contributors.py` completes. Appends newly classified
+entities to `entity_classification_index.csv`, which is the persistent source of
+truth for all classifications (prior seed, waterfall output, and manual review).
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_knit$set(root.dir = normalizePath(dirname(rstudioapi::getSourceEditorContext()$path)))
+```
+
+```{r}
+classified_out <- read_csv("08_outputs/classified_contributors.csv",
+                            col_types = cols(.default = "c")) %>%
+  transmute(
+    classification_unit_id,
+    entity_id,
+    entity_type,
+    Contributor.Name,
+    employer,
+    occupation,
+    naics_code,
+    naics_label,
+    level1_category,
+    level2_category,
+    classification_source  = coalesce(data_source_1, "unclassified"),
+    classification_status  = if_else(!is.na(level1_category), "classified", "unclassified")
+  )
+
+entity_index <- if (file.exists("08_outputs/entity_classification_index.csv")) {
+  read_csv("08_outputs/entity_classification_index.csv", col_types = cols(.default = "c"))
+} else {
+  tibble(classification_unit_id = character())
+}
+
+n_before <- nrow(entity_index)
+
+entity_index_updated <- bind_rows(entity_index, classified_out) %>%
+  distinct(classification_unit_id, .keep_all = TRUE)
+
+n_added <- nrow(entity_index_updated) - n_before
+
+write_csv(entity_index_updated, "08_outputs/entity_classification_index.csv")
+message("Index updated: ", n_added, " new rows added (", nrow(entity_index_updated), " total).")
+```
+
+```{r}
+entity_index_updated %>%
+  count(classification_source, classification_status, sort = TRUE)
+```

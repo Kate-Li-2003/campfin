@@ -1,24 +1,25 @@
 """
 0203_evaluate.py
 
-Empirical accuracy of the 0701-trained classifiers, reported on two
+Empirical accuracy of the 0201-trained classifiers, reported on two
 disjoint datasets:
 
   1. TRAIN  — running_list.csv (the data the classifiers were fit on).
               An overfit-sanity check; expect high numbers.
-  2. OOD    — entities in 05_output classified CSVs whose data_source_1
+  2. OOD    — entities in 01_outputs classified CSVs whose data_source_1
               is one of {masterfile, keyword match, manual, edd}. These
               are real-race entities with a label assigned by a non-ML
               source; the ML model has never seen them at training time
               (modulo any name collisions with running_list, which we
               filter out for a clean comparison).
 
+
 For each target column (level1_category, level2_category, naics_code)
 we report top-1 and top-3 accuracy on rows that have a ground-truth
 label for that target. OOD numbers are also broken down by data_source_1.
 
-Run after 0701:
-  python code/07_ml_unmatched_classifier/0203_evaluate.py
+Run after 0201:
+  python code/02_ml_classifier/0203_evaluate.py
 """
 
 from __future__ import annotations
@@ -175,7 +176,7 @@ def main(argv: list[str] | None = None) -> None:
     encoder = _load_encoder(args.model_dir)
     clfs = _load_classifiers(args.model_dir)
     if not clfs:
-        raise SystemExit(f"No classifiers under {args.model_dir}. Run 0701 first.")
+        raise SystemExit(f"No classifiers under {args.model_dir}. Run 0201 first.")
     print(f"  loaded classifiers: {list(clfs.keys())}")
 
     # ----- TRAIN block -----

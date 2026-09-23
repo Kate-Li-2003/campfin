@@ -142,8 +142,8 @@ def main(argv: list[str] | None = None) -> None:
         entity_name = employer if (indiv and employer) else name
 
         # 1. custom-code regexes on the ENTITY name — authoritative,
-        #    mirrors apply_custom_label_overrides: in 0504/0702 the entity
-        #    for an individual donor IS their employer, so the rules see
+        #    mirrors apply_custom_label_overrides: in run_ml_on_01_output the
+        #    entity for an individual donor IS their employer, so the rules see
         #    employer strings there too (e.g. "VAL Property AI" -> 79).
         rule = custom_rule_code(entity_name, rules)
         if rule is not None:
@@ -152,7 +152,7 @@ def main(argv: list[str] | None = None) -> None:
 
         # 2. keyword prior (employer tokens then occupation tokens),
         #    overriding ML only when naics conf < threshold. The prior sees
-        #    the same string 0702's entity-level `employer` column holds:
+        #    the same string run_ml_on_01_output's entity-level `employer` column holds:
         #    the employer for individuals, the org/committee name for orgs.
         cand = employer if (indiv and employer) else entity_name
         emp_for_prior = (

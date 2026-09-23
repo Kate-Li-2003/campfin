@@ -1,12 +1,20 @@
+# data
 pandas>=1.3.0
 numpy>=1.21.0
-scikit-learn>=1.0.0
-nltk>=3.6.0
-uvicorn>=0.31.0
-pydantic>=2.12.5
-fastapi>=0.128.0
-sentence-transformers>5.0
-requests>=2.34.2
-joblib>=1.5.3
 openpyxl>=2.6.4
+
+# ML classifier (02_ml_classifier)
+scikit-learn>=1.0.0
+joblib>=1.5.3
+
+# LLM classifier (03_llm_classifier)
+anthropic
+google-genai
+openai
+python-dotenv
+pydantic>=2.12.5
+tqdm
+
+# Web search / scraping
+requests>=2.34.2
 beautifulsoup4>=4.8.1

@@ -1,0 +1,1530 @@
+---
+title: "Assign Final Classifications"
+output: html_notebook
+---
+
+Combines every source the pipeline has for a contributor's industry
+classification -- covers all $5k+ contributors, both direct givers to
+races/props and $5k+ givers to PACs -- and picks one best NAICS code and one
+best category per `uuid` (the per-contribution record identifier), weighting sources by how
+reliable they are and by whether they agree with each other. Anything picked
+without solid support gets flagged in `manual_review` for a human to check.
+
+Inputs (see config block below for exact paths/columns expected):
+
+- **LLM classification** -- `03_llm_classifier/classify_web_results.py` output
+- **OpenSecrets match** -- `01_contributor_pipeline/0106_match_opensecrets.Rmd` output
+- **Running-list / EDD+H1B / keyword match, and ML classifier** -- `01_contributor_pipeline/0105_classify_contributors.py`
+  this also needs inputs from `02_ml_classifier/0202_predict_unmatched.py`
+
+
+# Load data and packages
+
+```{r}
+library(dplyr)
+library(readr)
+library(stringr)
+library(tidyr)
+
+source("../01_contributor_pipeline/standardization_helpers.R")
+source("resolve_classifications.R")
+```
+
+```{r}
+# file paths
+
+# Direct contributor LLM — uuid-keyed output from 0902; UUIDs match the current rule file
+DIRECT_LLM_PATH <- "../03_llm_classifier/03_outputs/classification_input_combined_expanded_full_2026-09-13.csv"
+CLAUDE_PATH <- "../03_llm_classifier/03_outputs/claude_classification_results.csv"
+
+RULE_PATH <- "../01_contributor_pipeline/01_outputs/classified_contributors_09-13-26.csv"
+OS_PATH   <- "../01_contributor_pipeline/01_outputs/combined_contributions_os_matches_09-11-26.csv"
+ML_PATH   <- "../../data/07_output_ml_classification/08_entities_with_ml_2026-08-15.csv"
+
+input <- read.csv("../01_contributor_pipeline/01_outputs/classification_input_combined_09-08-26.csv")
+```
+
+```{r}
+x <- read.csv("../01_contributor_pipeline/01_outputs/classification_input_combined_09-08-26.csv")
+classified <- read.csv("../01_contributor_pipeline/01_inputs/already_classified_contributions_09-06-26.csv")
+
+label_url <- "https://docs.google.com/spreadsheets/d/11QHvNJsdtMlc1YKo_iNvMB_Jfn5Ui-iYdlWhFYjSm9g/export?format=csv"
+labels <- read.csv(label_url)
+```
+
+
+# Configurations
+
+```{r}
+# update these according to how upstream sources name columns
+
+LLM_COLS <- c(
+  unit_id    = "uuid",
+  name          = "standardized_name",
+  employer      = "standardized_employer_name",
+  code          = "naics_code_llm",
+  naics_conf    = "naics_confidence",
+  category      = "open_secrets_category",
+  category_conf = "open_secrets_confidence",
+  reasoning     = "naics_reasoning"
+)
+
+RULE_COLS <- c(
+  unit_id         = "uuid",
+  entity_id       = "entity_id",
+  entity_type     = "entity_type",
+  name            = "Contributor.Name",
+  employer        = "employer",
+  occupation      = "occupation",
+  code            = "naics_code",
+  label           = "naics_label",
+  category        = "level2_category",
+  source1         = "data_source_1",
+  source2         = "data_source_2",
+  ml_code         = "ml_naics_code",
+  ml_conf         = "ml_naics_code_conf",
+  ml_category     = "ml_level2_category",
+  ml_category_conf = "ml_level2_category_conf"
+)
+
+OS_COLS <- c(
+  unit_id    = "uuid",
+  name       = "standardized_name",
+  employer   = "standardized_employer_name",
+  code       = "naics_code_os",
+  category   = "level2_category",
+  match_conf = "opensecrets_confidence"
+)
+```
+
+# Load sources
+
+
+```{r}
+rule_required <- unname(RULE_COLS[c("unit_id", "code", "source1")])
+os_required   <- unname(OS_COLS[c("unit_id", "code")])
+
+# load rule first — needed to build join maps for LLM expansion
+rule_raw <- read_csv(RULE_PATH, col_types = cols(.default = "c"))
+os_raw   <- read_csv(OS_PATH, col_types = cols(.default = "c"))
+
+# direct contributor LLM: uuid join 
+direct_llm_expanded <- read_csv(DIRECT_LLM_PATH, col_types = cols(.default = "c")) %>%
+  filter(!is.na(naics_code_llm) & naics_code_llm != "")
+
+cat(sprintf("DIRECT-LLM: %d rows\n", nrow(direct_llm_expanded)))
+
+# PAC contributor LLM: entity-level files joined via classification_unit_id
+rule_uid_map <- rule_raw %>%
+  filter(!is.na(classification_unit_id)) %>%
+  select(uuid, classification_unit_id)
+
+# combine -direct takes priority when both cover the same uuid (shouldn't happen
+# since direct/PAC are disjoint)
+llm_raw <- bind_rows(direct_llm_expanded) %>% # , unit_llm_expanded
+  distinct(uuid, .keep_all = TRUE)
+cat(sprintf("LLM total: %d classified uuids\n", nrow(llm_raw)))
+
+llm_required <- unname(LLM_COLS[c("unit_id", "code")])
+require_cols(llm_raw, llm_required, DIRECT_LLM_PATH)
+require_cols(rule_raw, rule_required, RULE_PATH)
+require_cols(os_raw, os_required, OS_PATH)
+
+llm  <- apply_colmap(llm_raw, LLM_COLS)
+rule <- apply_colmap(rule_raw, RULE_COLS)
+os   <- apply_colmap(os_raw, OS_COLS)
+
+# rule_code is already crosswalked to the custom sector scheme (0105); os_code
+# and llm_code are not (see resolve_classifications.R)
+llm$code <- apply_os_llm_crosswalk(llm$code)
+os$code  <- apply_os_llm_crosswalk(os$code)
+
+rule <- rule %>% mutate(
+  rule_tier = source1,
+  ml_conf = as.numeric(ml_conf),
+  ml_category_conf = as.numeric(ml_category_conf)
+)
+```
+
+```{r}
+# bridge: uuid -> search_key comes from the already-loaded expanded Gemini file
+# have to normalize search keys b/c gemini search keys contain city and state
+
+norm_sk <- function(x) {
+  parts <- strsplit(coalesce(x, ""), "|", fixed = TRUE)
+  vapply(parts, function(p) paste0(p[1], "|", if (length(p) >= 2) p[2] else ""), character(1))
+}
+
+uuid_search_bridge <- direct_llm_expanded %>%
+  select(uuid, search_key) %>%
+  filter(!is.na(search_key) & search_key != "") %>%
+  mutate(search_key_2 = norm_sk(search_key))
+
+claude_raw <- read_csv(CLAUDE_PATH, col_types = cols(.default = "c")) %>%
+  filter(!is.na(naics_code_claude) & naics_code_claude != "") %>%
+  mutate(
+    naics_code_claude = apply_os_llm_crosswalk(naics_code_claude),
+    search_key_2 = norm_sk(search_key)
+  )
+
+claude_expanded <- uuid_search_bridge %>%
+  left_join(
+    claude_raw %>% select(search_key_2, claude_code = naics_code_claude,
+                          claude_conf = naics_confidence, claude_reasoning = reasoning),
+    by = "search_key_2"
+  ) %>%
+  select(-search_key_2)
+
+cat(sprintf("CLAUDE: %d search_keys -> %d / %d uuid rows covered\n",
+            nrow(claude_raw), sum(!is.na(claude_expanded$claude_code)), nrow(claude_expanded)))
+
+
+```
+
+Claude classifications were only run on the most recent classifications. 
+
+```{r}
+# join ML predictions
+# ML output has one row per unique classification unit (unique org name, or unique employer+occupation pair for individuals)
+# join key is derived from the standardized employer/occupation columns -- these match between the ML output and rule_raw, unlike the more-processed `employer` col that apply_colmap use
+
+if (file.exists(ML_PATH)) {
+  ml_raw <- read_csv(ML_PATH, col_types = cols(.default = "c"))
+
+  # build ml_unit_key in ML output: orgs -> Contributor.Name, individuals -> employer|occupation
+  # (employer/occupation here are standardized_employer_name/standardized_occupation from the 08 pipeline)
+  ml_keyed <- ml_raw %>%
+    mutate(
+      ml_unit_key = if_else(
+        tolower(entity_type) == "individual",
+        paste0(trimws(employer), "|", trimws(occupation)),
+        trimws(`Contributor.Name`)
+      )
+    ) %>%
+    select(ml_unit_key,
+           ml_code          = ml_naics_code,
+           ml_conf          = ml_naics_code_conf,
+           ml_category      = ml_level2_category,
+           ml_category_conf = ml_level2_category_conf)
+
+  # derive the same key from rule_raw (before apply_colmap stripped columns),
+  # using standardized_employer_name/standardized_occupation which match the ML output
+  rule_keys <- rule_raw %>%
+    select(uuid, entity_type,
+           standardized_employer_name, standardized_occupation,
+           `Contributor.Name`) %>%
+    mutate(
+      ml_unit_key = if_else(
+        tolower(entity_type) == "individual",
+        paste0(trimws(standardized_employer_name), "|", trimws(standardized_occupation)),
+        trimws(`Contributor.Name`)
+      )
+    ) %>%
+    select(uuid, ml_unit_key)
+
+  rule <- rule %>%
+    select(-ml_code, -ml_conf, -ml_category, -ml_category_conf) %>%
+    left_join(rule_keys, by = c("unit_id" = "uuid")) %>%
+    left_join(ml_keyed, by = "ml_unit_key") %>%
+    mutate(
+      ml_conf          = as.numeric(ml_conf),
+      ml_category_conf = as.numeric(ml_category_conf)
+    ) %>%
+    select(-ml_unit_key)
+
+  cat(sprintf("ML predictions joined: %d / %d rows have ml_code\n",
+              sum(!is.na(rule$ml_code)), nrow(rule)))
+} else {
+  warning(sprintf(
+    "ML output not found at %s -- ml_* columns will be NA.\nRun: python code/02_ml_classifier/run_ml_on_01_output.py",
+    ML_PATH
+  ))
+}
+```
+
+
+# Build the base spine and join sources
+
+```{r}
+# may need to re do this depending on how we end up tracking entities
+base <- rule %>%
+  select(unit_id, entity_id, entity_type, name, employer, occupation) %>%
+  left_join(
+    llm %>% select(unit_id, name, employer) %>% rename(llm_name = name, llm_employer = employer),
+    by = "unit_id"
+  ) %>%
+  left_join(
+    rule_raw %>% select(uuid, Recipient.Committee, Normalized) %>%
+      rename(recipient_committee = Recipient.Committee, normalized_name = Normalized),
+    by = c("unit_id" = "uuid")
+  ) %>%
+  mutate(
+    # for PAC-traversal org rows the contributor name is often absent from the source
+    # data; use the parent PAC name as a last-resort label so it's identifiable in review
+    name     = coalesce(
+      name, llm_name,
+      if_else(entity_type == "organization" & !is.na(recipient_committee),
+              paste0("[contributor to PAC: ", recipient_committee, "]"), NA_character_)
+    ),
+    employer = coalesce(employer, llm_employer)
+  ) %>%
+  select(-llm_name, -llm_employer, -recipient_committee)
+
+combined <- base %>%
+  left_join(
+    rule %>% select(unit_id, code, label, category, source1, source2, rule_tier, ml_code, ml_conf, ml_category, ml_category_conf),
+    by = "unit_id"
+  ) %>%
+  left_join(
+    llm %>% select(unit_id, code, naics_conf, category, category_conf, reasoning) %>%
+      rename(llm_code = code, llm_conf = naics_conf, llm_category = category,
+             llm_category_conf = category_conf, llm_reasoning = reasoning),
+    by = "unit_id"
+  ) %>%
+  left_join(
+    os %>% select(unit_id, code, category, match_conf) %>%
+      rename(os_code = code, os_category = category, os_conf = match_conf),
+    by = "unit_id"
+  ) %>%
+  rename(rule_code = code, rule_label = label, rule_category = category) %>%
+  left_join(
+    claude_expanded %>% select(uuid, claude_code, claude_conf, claude_reasoning),
+    by = c("unit_id" = "uuid")
+  )
+```
+
+
+# Resolve one "best" code (and, separately, one best category) per unit
+
+- have not been using the category classifications at all, but here just in case
+- conf_is_high(), resolve_one(), code_override(), resolve_code_one(), and
+- resolve_category_one() are defined in resolve_classifications.R (sourced above).
+
+```{r}
+resolved <- combined %>%
+  rowwise() %>%
+  mutate(
+    .resolved_code = list(
+      resolve_code_one(rule_code, rule_tier, ml_code, ml_conf, os_code, os_conf, llm_code, llm_conf)
+    ),
+    .resolved_category = list(
+      resolve_category_one(rule_category, rule_tier, ml_category_conf, os_category, os_conf, llm_category, llm_category_conf)
+    )
+  ) %>%
+  ungroup() %>%
+  unnest_wider(.resolved_code, names_sep = "_") %>%
+  unnest_wider(.resolved_category, names_sep = "_") %>%
+  rename(
+    code_final            = .resolved_code_value,
+    code_final_source     = .resolved_code_source,
+    manual_review_code    = .resolved_code_review,
+    manual_review_reason_code = .resolved_code_reason,
+    category_final            = .resolved_category_value,
+    category_final_source     = .resolved_category_source,
+    manual_review_category    = .resolved_category_review,
+    manual_review_reason_category = .resolved_category_reason
+  ) %>%
+  mutate(
+    manual_review = manual_review_code,
+    manual_review_reason = manual_review_reason_code
+  )
+
+#flag if LLM disagrees with the chosen final code — LLM is the most reliable
+# independent signal, so any divergence warrants a human check
+# "100" codes are exempt (not-employed/retired): code_override locks those and
+# LLM often misclassifies retired individuals
+resolved <- resolved %>%
+  mutate(
+    .llm_final_disagree = !is.na(llm_code) & !is.na(code_final) &
+                          code_final != llm_code &
+                          !grepl("^100", coalesce(code_final, "")) &
+                          coalesce(rule_tier, "") != "pre_classified",
+    manual_review = if_else(.llm_final_disagree, TRUE, manual_review),
+    manual_review_reason = case_when(
+      .llm_final_disagree & is.na(manual_review_reason) ~ "llm_disagrees_with_final",
+      .llm_final_disagree ~ paste0(manual_review_reason, " | llm_disagrees_with_final"),
+      TRUE ~ manual_review_reason
+    )
+  ) %>%
+  select(-.llm_final_disagree)
+
+resolved <- resolved %>%
+  mutate(
+    .claude_gemini_disagree = !is.na(claude_code) & !is.na(llm_code) &
+                              claude_code != llm_code &
+                              !grepl("^100", coalesce(claude_code, "")),
+    manual_review = if_else(.claude_gemini_disagree, TRUE, manual_review),
+    manual_review_reason = case_when(
+      .claude_gemini_disagree & is.na(manual_review_reason) ~ "claude_gemini_disagree",
+      .claude_gemini_disagree ~ paste0(manual_review_reason, " | claude_gemini_disagree"),
+      TRUE ~ manual_review_reason
+    )
+  ) %>%
+  select(-.claude_gemini_disagree)
+
+# flag associations and unions for subsector review 
+resolved <- resolved %>%
+  mutate(
+    .needs_subsector = coalesce(code_final, "") %in% c("76", "77"),
+    manual_review = if_else(.needs_subsector, TRUE, manual_review),
+    manual_review_reason = case_when(
+      .needs_subsector & is.na(manual_review_reason) ~ "subsector_needed: 76/77 requires more specific code",
+      .needs_subsector ~ paste0(manual_review_reason, " | subsector_needed"),
+      TRUE ~ manual_review_reason
+    )
+  ) %>%
+  select(-.needs_subsector)
+
+cat(sprintf("Flagged for review: %d / %d rows\n",
+            sum(coalesce(resolved$manual_review, FALSE)),
+            nrow(resolved)))
+```
+
+
+```{r}
+# conflicting aliases: flag rows where the same canonical entity (per normalized_name
+# from 0802's Normalized column) or the same entity_id resolves
+# to different final codes across its variants.
+# groups where every alias was already reviewed and accepted in the previous iteration
+# (matched by name|employer|occupation) are skipped so they don't re-enter the queue
+.reviewed_alias_keys <- read_csv("04_inputs/manual_review_queue_reviewed.csv",
+                                  col_types = cols(.default = "c")) %>%
+  filter(grepl("alias_conflict", coalesce(manual_review_reason, "")),
+         coalesce(manually_confirmed, "") == "TRUE") %>%
+  mutate(.key = paste(name, employer, occupation, sep = "|")) %>%
+  pull(.key) %>%
+  unique()
+
+.norm_conflict_summary <- resolved %>%
+  filter(!is.na(code_final) & code_final != FALLBACK_CODE,
+         !is.na(normalized_name)) %>%
+  mutate(
+    .code_cmp  = sub("^100[ab]$", "100", code_final),
+    .match_key = paste(name, employer, occupation, sep = "|")
+  ) %>%
+  group_by(normalized_name) %>%
+  summarise(
+    n_codes        = n_distinct(.code_cmp),
+    codes          = paste(sort(unique(.code_cmp)), collapse = ","),
+    has_unreviewed = any(!(.match_key %in% .reviewed_alias_keys)),
+    .groups        = "drop"
+  ) %>%
+  filter(n_codes > 1)
+
+.norm_conflicts <- .norm_conflict_summary %>%
+  filter(has_unreviewed) %>%
+  pull(normalized_name)
+
+.norm_conflicts_skipped <- .norm_conflict_summary %>%
+  filter(!has_unreviewed)
+
+if (nrow(.norm_conflicts_skipped) > 0) {
+  cat(sprintf("Skipped %d normalized_name conflict(s) — all aliases previously reviewed:\n",
+              nrow(.norm_conflicts_skipped)))
+  print(.norm_conflicts_skipped %>% select(normalized_name, n_codes, codes))
+}
+
+.entity_conflict_summary <- resolved %>%
+  filter(!is.na(code_final) & code_final != FALLBACK_CODE,
+         !is.na(entity_id)) %>%
+  mutate(
+    .code_cmp  = sub("^100[ab]$", "100", code_final),
+    .match_key = paste(name, employer, occupation, sep = "|")
+  ) %>%
+  group_by(entity_id) %>%
+  summarise(
+    n_codes        = n_distinct(.code_cmp),
+    has_unreviewed = any(!(.match_key %in% .reviewed_alias_keys)),
+    .groups        = "drop"
+  ) %>%
+  filter(n_codes > 1)
+
+conflict_entity_ids <- .entity_conflict_summary %>%
+  filter(has_unreviewed) %>%
+  pull(entity_id)
+
+cat(sprintf("%d normalized_name groups and %d entity_ids have alias conflicts\n",
+            length(.norm_conflicts), length(conflict_entity_ids)))
+
+resolved <- resolved %>%
+  mutate(
+    .conflict = (entity_id %in% conflict_entity_ids) |
+                (!is.na(normalized_name) & normalized_name %in% .norm_conflicts),
+    manual_review = if_else(.conflict, TRUE, manual_review),
+    manual_review_reason = case_when(
+      .conflict & is.na(manual_review_reason)
+        ~ "alias_conflict: variants of this entity resolved to different codes",
+      .conflict
+        ~ paste0(manual_review_reason, " | alias_conflict"),
+      TRUE ~ manual_review_reason
+    )
+  ) %>%
+  select(-.conflict)
+
+cat(sprintf("Flagged for review: %d / %d rows\n",
+            sum(coalesce(resolved$manual_review, FALSE)),
+            nrow(resolved)
+))
+```
+
+
+```{r, eval = FALSE}
+# data check 
+resolved %>%
+  filter(grepl("alias_conflict", coalesce(manual_review_reason, "")),
+         !grepl("cross_source", coalesce(manual_review_reason, ""))) %>%
+  group_by(normalized_name) %>%
+  summarise(n_rows = n(), n_codes = n_distinct(code_final), codes = paste(unique(code_final), collapse=",")) %>%
+  filter(n_codes == 1) %>%
+  arrange(desc(n_rows))
+
+```
+
+
+
+## Cross-source entity conflict detection
+
+The same contributor can appear as both a direct contributor and a PAC contributor,
+each getting a different `entity_id` because entity resolution runs independently
+per path. Detect cross-source matches by normalized name (orgs) or
+normalized name|employer (individuals) and flag rows where the matched group
+resolves to different final codes.
+
+Earlies in the process, the "100" code was split into 100a and 100b; this handles any 
+residual cases where someone has that code. 
+
+```{r}
+resolved <- resolved %>%
+  mutate(
+    entity_norm_key = tolower(trimws(coalesce(name, ""))) %>%
+      str_replace_all("[^a-z0-9|]", " ") %>%
+      str_squish()
+  )
+
+# 100/100a/100b are the same entity-type family; normalize to "100" before
+# counting distinct codes so those sub-code differences don't trigger a false conflict
+cross_source_summary <- resolved %>%
+  filter(entity_norm_key != "") %>%
+  mutate(.code_cmp = sub("^100[ab]$", "100", coalesce(code_final, ""))) %>%
+  group_by(entity_norm_key) %>%
+  summarise(
+    n_entity_ids  = n_distinct(entity_id, na.rm = TRUE),
+    n_final_codes = n_distinct(.code_cmp[.code_cmp != "" & .code_cmp != FALLBACK_CODE]),
+    .groups = "drop"
+  ) %>%
+  filter(n_entity_ids > 1 & n_final_codes > 1)
+
+# if one entity in a conflict group was pre_classified by John, propagate that
+# code to non-locked rows where the employers match (after normalization) 
+# OR at least one side has no employer 
+# rows in conflict groups whose employer doesn't
+# match John's row are still flagged for manual review
+# (source2 carries the reviewer name from already_classified_contributions.csv)
+norm_emp <- function(x) {
+  tolower(trimws(coalesce(x, ""))) %>%
+    str_replace_all("[^a-z0-9]", " ") %>%
+    str_squish()
+}
+
+pre_classified_john_codes <- resolved %>%
+  filter(
+    entity_norm_key %in% cross_source_summary$entity_norm_key,
+    rule_tier == "pre_classified",
+    grepl("john", tolower(coalesce(source2, "")))
+  ) %>%
+  mutate(.john_emp = norm_emp(employer)) %>%
+  group_by(entity_norm_key) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(entity_norm_key, .propagated_code = code_final, .john_emp)
+
+resolved <- resolved %>%
+  mutate(.emp_norm = norm_emp(employer)) %>%
+  left_join(pre_classified_john_codes, by = "entity_norm_key") %>%
+  mutate(
+    .employer_ok  = .emp_norm == "" | coalesce(.john_emp, "") == "" | .emp_norm == .john_emp,
+    .in_conflict  = entity_norm_key %in% cross_source_summary$entity_norm_key,
+    .not_locked   = coalesce(code_final_source, "") != "pre_classified (locked)",
+    cross_source_conflict = .in_conflict & (is.na(.propagated_code) | !.employer_ok),
+    .propagated   = .in_conflict & !is.na(.propagated_code) & .not_locked & .employer_ok,
+    code_final        = if_else(.propagated, .propagated_code, code_final),
+    code_final_source = if_else(.propagated, "pre_classified (propagated: John)", code_final_source),
+    manual_review     = if_else(cross_source_conflict, TRUE, manual_review),
+    manual_review_reason = case_when(
+      cross_source_conflict & is.na(manual_review_reason) ~ "cross_source_entity_conflict",
+      cross_source_conflict ~ paste0(manual_review_reason, " | cross_source_entity_conflict"),
+      TRUE ~ manual_review_reason
+    )
+  ) %>%
+  select(-.propagated_code, -.in_conflict, -.not_locked, -.emp_norm, -.john_emp, -.employer_ok)
+
+cat(sprintf(
+  "Cross-source entity conflicts: %d unique norm keys -> %d rows flagged | %d rows auto-resolved by John pre_classified propagation\n",
+  nrow(cross_source_summary),
+  sum(coalesce(resolved$cross_source_conflict, FALSE)),
+  sum(coalesce(resolved$.propagated, FALSE))
+))
+```
+
+```{r}
+# review: all rows where code was propagated from John's pre_classified entry.
+# check that the propagated code is correct before accepting
+propagated_review <- resolved %>%
+  filter(coalesce(.propagated, FALSE)) %>%
+  select(name, employer, occupation, entity_norm_key,
+         code_final, code_final_source,
+         rule_code, rule_tier, source2,
+         llm_code, os_code, ml_code)
+
+cat(sprintf("Propagated-code review: %d rows\n", nrow(propagated_review)))
+propagated_review
+```
+
+```{r}
+resolved <- resolved %>% select(-.propagated)
+```
+
+
+
+### flag self-employed individuals:
+
+John wants to review all self-employed individuals.
+
+```{r}
+# flag self-employed individuals for review: employer field contains "self-employed"
+# (and common variants) or is exactly "self", OR the contributor's own name appears
+# in the employer field. Suppress for contributors already reviewed and confirmed
+.reviewed_confirmed_keys <- read_csv("04_inputs/manual_review_queue_reviewed.csv",
+                                      col_types = cols(.default = "c")) %>%
+  filter(coalesce(manually_confirmed, "") == "TRUE") %>%
+  mutate(.key = paste(name, employer, occupation, sep = "|")) %>%
+  pull(.key) %>%
+  unique()
+
+resolved <- resolved %>%
+  mutate(
+    .name_key = str_squish(str_replace_all(tolower(trimws(coalesce(name, ""))),     "[^a-z0-9]", " ")),
+    .emp_key  = str_squish(str_replace_all(tolower(trimws(coalesce(employer, ""))), "[^a-z0-9]", " ")),
+    .se_key   = paste(name, employer, occupation, sep = "|"),
+    .self_emp = tolower(entity_type) == "individual" &
+      !(.se_key %in% .reviewed_confirmed_keys) & (
+        grepl("\\bself[- ]?employ", coalesce(employer, ""), ignore.case = TRUE, perl = TRUE) |
+        grepl("^self$", trimws(coalesce(employer, "")), ignore.case = TRUE) |
+        (nchar(.name_key) >= 5 & .emp_key != "" & mapply(function(pat, txt) grepl(pat, txt, fixed = TRUE), .name_key, .emp_key, USE.NAMES = FALSE))
+      ),
+    manual_review = if_else(.self_emp, TRUE, manual_review),
+    manual_review_reason = case_when(
+      .self_emp & is.na(manual_review_reason) ~ "self_employed",
+      .self_emp ~ paste0(manual_review_reason, " | self_employed"),
+      TRUE ~ manual_review_reason
+    )
+  ) %>%
+  select(-.name_key, -.emp_key, -.se_key, -.self_emp)
+
+cat(sprintf("Self-employed flagged: %d rows\n",
+            sum(grepl("self_employed", coalesce(resolved$manual_review_reason, "")))))
+```
+
+
+### take pre-classified rows out of the review queue: 
+
+```{r}
+# pre_classified rows are already human-reviewed and should not be
+# in the review queue in most cases. Exceptions:
+#   - alias_conflict: a new name/employer variant may contain new information
+#     that needs reconciling with the pre_classified code
+#   - cross_source_conflict: two pre_classified entries for the same entity
+#     resolved to different codes — a prior-review contradiction worth flagging.
+# All other review flags (LLM disagrees, 76/77 subsector, etc.) are cleared for
+# pre_classified rows since the code has already been human-confirmed
+resolved <- resolved %>%
+  mutate(
+    manual_review = if_else(
+      coalesce(rule_tier, "") == "pre_classified" &
+        !grepl("alias_conflict|cross_source_entity_conflict|self_employed",
+               coalesce(manual_review_reason, ""),
+               fixed = FALSE),
+      FALSE,
+      manual_review
+    ),
+    manual_review_reason = if_else(
+      !coalesce(manual_review, FALSE),
+      NA_character_,
+      manual_review_reason
+    )
+  )
+cat(sprintf("After pre_classified guard — flagged: %d / %d rows\n",
+            sum(coalesce(resolved$manual_review, FALSE)), nrow(resolved)))
+```
+
+
+# Attach the editorial description to the final code
+
+```{r}
+#desc <- read_csv(DESC_PATH, col_types = cols(.default = "c"))
+
+# expects columns "Sector" (code) and "Custom.Label" 
+#require_cols(desc, c("Sector", "Custom.Label"), DESC_PATH)
+labels <- labels %>% select(sector,sector_description) %>% distinct()
+desc <- labels %>% transmute(code_final = sector, code_final_description = sector_description)
+
+resolved <- resolved %>%
+  left_join(desc, by = "code_final")
+```
+
+
+# Review + write output
+
+```{r}
+out_cols <- c(
+  "unit_id", "entity_id", "entity_type", "name", "employer", "occupation",
+  "code_final", "code_final_source", "code_final_description",
+  "category_final", "category_final_source",
+  "manual_review", "manual_review_reason",
+  "suspected_org", "cross_source_conflict",
+  "rule_code", "rule_label", "rule_tier", "rule_category",
+  "os_code", "os_category", "os_conf",
+  "llm_code", "llm_conf", "llm_category", "llm_category_conf", "llm_reasoning",
+  "claude_code", "claude_conf", "claude_reasoning",
+  "ml_code", "ml_conf", "ml_category", "ml_category_conf"
+)
+out_cols <- out_cols[out_cols %in% names(resolved)]
+
+write_csv(resolved[, out_cols], "04_outputs/final_classifications_before_review_09-13-26.csv")
+write_csv(resolved, "04_outputs/final_classifications_full_before_review_09-13-26.csv")
+```
+
+
+# Confidence review sample 
+
+Stratified random sample of confident (non-flagged) classifications, one group
+per `code_final_source`, to check how reliable each source is.
+
+```{r}
+SAMPLE_N_PER_SOURCE <- 20  # rows to draw per code_final_source bucket
+
+set.seed(42)
+confidence_sample <- resolved %>%
+  filter(
+    !manual_review,
+    !is.na(code_final),
+    code_final != FALLBACK_CODE,
+    code_final != NOT_EMPLOYED_CODE,       # these go in the individual review queue
+    code_final_source != "pre_classified (locked)"  # already human-reviewed
+  ) %>%
+  group_by(code_final_source) %>%
+  slice_sample(n = SAMPLE_N_PER_SOURCE) %>%
+  ungroup()
+
+cat(sprintf("Confidence sample: %d rows across %d source buckets\n",
+            nrow(confidence_sample), n_distinct(confidence_sample$code_final_source)))
+confidence_sample %>% count(code_final_source, sort = TRUE)
+```
+
+```{r}
+sample_cols <- c(
+  "unit_id", "entity_id", "entity_type", "name", "employer", "occupation",
+  "code_final", "code_final_source", "code_final_description",
+  "rule_code", "rule_tier",
+  "llm_code", "llm_conf", "llm_reasoning",
+  "claude_code", "claude_conf", "claude_reasoning",
+  "os_code", "os_conf",
+  "ml_code", "ml_conf"
+)
+
+write_csv(
+  confidence_sample %>% select(any_of(sample_cols)),
+  "04_outputs/classification_confidence_sample.csv"
+)
+```
+
+
+
+# Combined manual review queue
+
+All rows flagged for manual review plus the stratified confidence sample, in a
+single file for a reviewer. Includes raw `Contributor.Name` / `Contributor.Employer`
+fields (pre-standardization) alongside standardized columns — the raw fields are
+the most stable keys for matching reviewed decisions back to future data pulls.
+
+```{r}
+# Step 1: derive recipient label and contribution type from raw contribution columns.
+rule_raw_annotated <- rule_raw %>%
+  mutate(
+    # recipient: ballot measure name, candidate name, or committee name (in that priority)
+    recipient_label = case_when(
+      Ballot.Measure.Contribution == "Y" ~
+        coalesce(na_if(trimws(Ballot.Measure), ""), na_if(trimws(Recipient.Committee), "")),
+      !is.na(Recipient.Name) & trimws(Recipient.Name) != "" ~ trimws(Recipient.Name),
+      TRUE ~ na_if(trimws(Recipient.Committee), "")
+    ),
+    # contribution type: pac_contributor (came via PAC traversal) / Ballot.Measure / office
+    contribution_type = case_when(
+      !is.na(parent_pac_id) & parent_pac_id != "" ~ "pac_contributor",
+      Ballot.Measure.Contribution == "Y"           ~ "Ballot.Measure",
+      Candidate.Contribution == "Y"                ~ "office",
+      TRUE ~ NA_character_
+    )
+  )
+
+# Step 2: join raw pre-standardization fields and build a stable dedup key.
+# Key = raw Contributor.Name | raw Contributor.Employer | raw Contributor.Occupation
+# for ALL entity types — avoids dependency on entity_type (which can change) and
+# entity_id (which is reassigned each run). These raw fields come directly from
+# the source data and are stable across processing and standardization changes.
+review_queue_raw <- bind_rows(
+  resolved %>%
+    filter(coalesce(manual_review, FALSE)) %>%
+    mutate(.queue_source = "flagged"),
+  confidence_sample %>%
+    mutate(.queue_source = "confidence_sample")
+) %>%
+  distinct(unit_id, .keep_all = TRUE) %>%
+  left_join(
+    rule_raw %>% select(uuid, any_of(c(
+      "Contributor.Name", "Contributor.Employer", "Contributor.Occupation", "Contributor.Zip.Code"
+    ))),
+    by = c("unit_id" = "uuid"),
+    suffix = c("", ".raw")
+  )
+
+# Ensure raw columns exist even if missing from rule_raw schema
+for (.col in c("Contributor.Name", "Contributor.Employer", "Contributor.Occupation", "Contributor.Zip.Code")) {
+  if (!.col %in% names(review_queue_raw)) review_queue_raw[[.col]] <- NA_character_
+}
+
+review_queue_raw <- review_queue_raw %>%
+  mutate(
+    dedup_key = if_else(
+      tolower(entity_type) == "individual",
+      paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, "")), "|",
+        trimws(coalesce(`Contributor.Zip.Code`, ""))
+      ),
+      paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, ""))
+      )
+    )
+  )
+
+# Step 3: per-dedup-group aggregates — pipe-join unique recipient, contribution type,
+# and location variants so a reviewer sees every race/prop this entity appears in.
+geo_variants <- review_queue_raw %>%
+  select(unit_id, dedup_key) %>%
+  left_join(
+    rule_raw_annotated %>% select(uuid, recipient_label, contribution_type,
+                                  Contributor.City, Contributor.State, Contributor.Zip.Code),
+    by = c("unit_id" = "uuid")
+  ) %>%
+  group_by(dedup_key) %>%
+  summarise(
+    n_contributions    = n(),
+    recipients         = paste(sort(unique(na.omit(trimws(recipient_label)))),   collapse = " | "),
+    contribution_types = paste(sort(unique(na.omit(trimws(contribution_type)))), collapse = " | "),
+    cities    = paste(sort(unique(na.omit(trimws(Contributor.City)))),     collapse = " | "),
+    states    = paste(sort(unique(na.omit(trimws(Contributor.State)))),    collapse = " | "),
+    zip_codes = paste(sort(unique(na.omit(trimws(Contributor.Zip.Code)))), collapse = " | "),
+    .groups = "drop"
+  )
+
+# Step 4: dedup to one row per classification unit; prefer rows with the most source coverage.
+# Then sort for reviewer: group by name so alias variants appear together, then by reason
+# so alias_conflict rows cluster within a name, then by employer to sub-group within a name.
+review_queue <- review_queue_raw %>%
+  left_join(geo_variants, by = "dedup_key") %>%
+  #arrange(desc(!is.na(llm_code)), desc(!is.na(rule_code)), desc(!is.na(ml_code))) %>%
+  distinct(dedup_key, .keep_all = TRUE) %>%
+  arrange(name, manual_review_reason, employer)
+
+review_queue_cols <- c(
+  "dedup_key",
+  "Contributor.Name", "Contributor.Employer", "Contributor.Occupation",  # raw
+  "name", "employer", "occupation",                                        # standardized
+  "n_contributions", "contribution_types", "recipients",
+  "cities", "states", "zip_codes",
+  "code_final", "code_final_source", "code_final_description",
+  "manual_review", "manual_review_reason",
+  "rule_code", "rule_tier",
+  "ml_code", "ml_conf",
+  "llm_code", "llm_conf", "llm_reasoning",
+  "claude_code", "claude_conf", "claude_reasoning",
+  "os_code", "os_conf",
+  ".queue_source"
+)
+
+```
+
+```{r}
+write_csv(
+  review_queue %>% select(any_of(review_queue_cols)),
+  "04_outputs/manual_review_queue_09-13-26.csv"
+)
+cat(sprintf(
+  "Review queue: %d unique entities (from %d raw rows; %d flagged + %d individual_100 + %d confidence sample)\n",
+  nrow(review_queue),
+  nrow(review_queue_raw),
+  sum(coalesce(resolved$manual_review, FALSE)),
+  sum(review_queue$.queue_source == "individual_100", na.rm = TRUE),
+  nrow(confidence_sample)
+))
+```
+
+
+# All-contributors readable output (pre-review)
+
+One row per unique contributor. Two dedup strategies:
+- **entity**: organizations deduped by  name|employer|occupation ; individuals by name|employer|occupation|zip **use this one**
+- **3part**: all entity types deduped by name|employer|occupation 
+
+Includes `manual_review` and `manual_review_reason` so a reviewer can filter to
+flagged rows without needing the separate review queue file.
+
+```{r}
+resolved_annotated_all <- resolved %>%
+  left_join(
+    rule_raw_annotated %>% select(uuid,
+      Contributor.Name, Contributor.Employer, Contributor.Occupation,
+      recipient_label, contribution_type,
+      Contributor.City, Contributor.State, Contributor.Zip.Code
+    ),
+    by = c("unit_id" = "uuid")
+  ) %>%
+  mutate(
+    # option A: orgs deduped by name|employer|occupation; individuals add zip
+    dedup_key_entity = case_when(
+      tolower(entity_type) == "organization" ~
+        paste0(
+          trimws(coalesce(`Contributor.Name`, name, "")), "|",
+          trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+          trimws(coalesce(`Contributor.Occupation`, occupation, ""))
+        ),
+      TRUE ~ paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, "")), "|",
+        trimws(coalesce(`Contributor.Zip.Code`, ""))
+      )
+    ),
+    # option B: uniform name|employer|occupation for all entity types
+    dedup_key_3part = paste0(
+      trimws(coalesce(`Contributor.Name`, name, "")), "|",
+      trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+      trimws(coalesce(`Contributor.Occupation`, occupation, ""))
+    )
+  ) %>%
+  left_join(
+    read_csv("04_inputs/manual_review_queue_reviewed.csv", col_types = cols(.default = "c")) %>%
+      filter(trimws(tolower(manually_confirmed)) == "true") %>%
+      mutate(subsector             = na_if(trimws(subsector), ""),
+             subsector_description = na_if(trimws(subsector_description), "")) %>%
+      select(dedup_key, subsector, subsector_description) %>%
+      distinct(dedup_key, .keep_all = TRUE),
+    by = c("dedup_key_3part" = "dedup_key")
+  )
+
+all_readable_cols <- c(
+  "normalized_name", "name", "employer", "occupation", "entity_type",
+  "n_contributions", "contribution_types", "recipients",
+  "cities", "states", "zip_codes",
+  "code_final", "code_final_description", "subsector", "subsector_description",
+  "code_final_source", "category_final",
+  "manual_review", "manual_review_reason",
+  "rule_code", "rule_tier", "source1", "source2",
+  "llm_code", "llm_conf",
+  "claude_code", "claude_conf",
+  "ml_code", "ml_conf",
+  "os_code", "os_conf"
+)
+
+# Helper: aggregate geo/recipient info by a given dedup key, then dedup to one row.
+make_readable_all <- function(df, key_col) {
+  geo <- df %>%
+    group_by(.data[[key_col]]) %>%
+    summarise(
+      n_contributions    = n(),
+      contribution_types = paste(sort(unique(na.omit(trimws(contribution_type)))), collapse = " | "),
+      recipients         = paste(sort(unique(na.omit(trimws(recipient_label)))),   collapse = " | "),
+      cities    = paste(sort(unique(na.omit(trimws(Contributor.City)))),     collapse = " | "),
+      states    = paste(sort(unique(na.omit(trimws(Contributor.State)))),    collapse = " | "),
+      zip_codes = paste(sort(unique(na.omit(trimws(Contributor.Zip.Code)))), collapse = " | "),
+      .groups = "drop"
+    )
+  df %>%
+    left_join(geo, by = key_col) %>%
+    arrange(desc(!is.na(llm_code)), desc(!is.na(rule_code)), desc(!is.na(ml_code))) %>%
+    distinct(.data[[key_col]], .keep_all = TRUE) %>%
+    select(any_of(all_readable_cols)) %>%
+    arrange(normalized_name, name, employer)
+}
+
+today_all <- format(Sys.Date(), "%m-%d-%y")
+
+# Entity-type-aware dedup
+contributors_entity <- make_readable_all(resolved_annotated_all, "dedup_key_entity")
+cat(sprintf("Entity-aware dedup: %d rows (%d flagged, %.1f%%)\n",
+            nrow(contributors_entity),
+            sum(coalesce(contributors_entity$manual_review, FALSE)),
+            100 * mean(coalesce(contributors_entity$manual_review, FALSE))))
+
+# Uniform 3-part dedup
+contributors_3part <- make_readable_all(resolved_annotated_all, "dedup_key_3part")
+cat(sprintf("3-part dedup:       %d rows (%d flagged, %.1f%%)\n",
+            nrow(contributors_3part),
+            sum(coalesce(contributors_3part$manual_review, FALSE)),
+            100 * mean(coalesce(contributors_3part$manual_review, FALSE))))
+
+write_csv(contributors_entity, sprintf("04_outputs/contributors_classified_entity_%s.csv", today_all))
+write_csv(contributors_entity, "04_outputs/contributors_classified_entity.csv")
+write_csv(contributors_3part,  sprintf("04_outputs/contributors_classified_%s.csv", today_all))
+write_csv(contributors_3part,  "04_outputs/contributors_classified.csv")
+```
+
+
+
+
+# Apply manual review decisions
+
+Run this section after completing `04_inputs/manual_review_queue_reviewed.csv`.
+It can be run standalone (without re-running the full notebook) — the first chunk
+reloads any objects not already in memory.
+
+```{r}
+library(dplyr)
+library(readr)
+library(stringr)
+library(tidyr)
+
+# reload if running standalone (not available after a fresh R session).
+if (!exists("resolved")) {
+  resolved <- read_csv("04_outputs/final_classifications_full_before_review.csv",
+                       col_types = cols(.default = "c")) %>%
+    mutate(manual_review = as.logical(manual_review))
+}
+if (!exists("rule_raw")) {
+  rule_raw <- read_csv("../01_contributor_pipeline/01_outputs/classified_contributors_combined.csv",
+                       col_types = cols(.default = "c"))
+}
+if (!exists("desc") || !is.data.frame(desc)) {
+  label_url <- "https://docs.google.com/spreadsheets/d/11QHvNJsdtMlc1YKo_iNvMB_Jfn5Ui-iYdlWhFYjSm9g/export?format=csv"
+  labels <- read.csv(label_url) %>% select(sector, sector_description) %>% distinct()
+  desc <- labels %>% transmute(code_final = sector, code_final_description = sector_description)
+}
+```
+
+```{r}
+reviewed_raw <- read_csv("04_inputs/manual_review_queue_reviewed.csv",
+                         col_types = cols(.default = "c"))
+
+reviewed_patched <- reviewed_raw %>%
+  filter(trimws(tolower(manually_confirmed)) == "true") %>%
+  mutate(
+    code_final_reviewed     = na_if(trimws(code_final), ""),
+    subsector_reviewed      = na_if(trimws(subsector), ""),
+    subsector_desc_reviewed = na_if(trimws(subsector_description), "")
+  ) %>%
+  select(dedup_key, code_final_reviewed, subsector_reviewed, subsector_desc_reviewed)
+
+cat(sprintf("Manually confirmed rows to patch: %d\n", nrow(reviewed_patched)))
+```
+
+```{r}
+# make sure no classification id has more the one code
+reviewed_raw %>% group_by(Contributor.Name,Contributor.Employer,Contributor.Occupation) %>% filter(n_distinct(code_final) > 1)
+```
+
+```{r}
+# re-derive the same dedup_key used when building the review queue, so we can fan
+# the one-row-per-entity reviewed decisions back to every uuid for that entity.
+resolved_keyed <- resolved %>%
+  left_join(
+    rule_raw %>% select(uuid, Contributor.Name, Contributor.Employer, Contributor.Occupation, Contributor.Zip.Code),
+    by = c("unit_id" = "uuid")
+  ) %>%
+  mutate(
+    dedup_key = if_else(
+      tolower(entity_type) == "individual",
+      paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, "")), "|",
+        trimws(coalesce(`Contributor.Zip.Code`, ""))
+      ),
+      paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, ""))
+      )
+    )
+  )
+
+resolved_final <- resolved_keyed %>%
+  left_join(reviewed_patched, by = "dedup_key") %>%
+  mutate(
+    .has_review           = !is.na(code_final_reviewed),
+    code_final            = if_else(.has_review, code_final_reviewed, code_final),
+    code_final_source     = if_else(.has_review, "manual_review", code_final_source),
+    subsector             = if_else(.has_review, subsector_reviewed, NA_character_),
+    subsector_description = if_else(.has_review, subsector_desc_reviewed, NA_character_),
+    manual_review         = if_else(.has_review, FALSE, manual_review)
+  ) %>%
+  select(-.has_review, -code_final_reviewed, -subsector_reviewed, -subsector_desc_reviewed,
+         -Contributor.Name, -Contributor.Employer, -Contributor.Occupation, -dedup_key) %>%
+  mutate(code_final = case_when(
+    code_final %in% c("100a", "100b") ~ "100",
+    code_final == "31-34"             ~ "31-33",
+    TRUE                              ~ code_final
+  )) %>%
+  select(-any_of("code_final_description")) %>%
+  left_join(desc, by = "code_final")
+
+cat(sprintf("Rows patched from review: %d | still flagged: %d / %d (%.1f%%)\n",
+            sum(resolved_final$code_final_source == "manual_review", na.rm = TRUE),
+            sum(coalesce(resolved_final$manual_review, FALSE)), nrow(resolved_final),
+            100 * mean(coalesce(resolved_final$manual_review, FALSE))))
+```
+
+
+```{r}
+resolved_final %>%
+  filter(coalesce(manual_review, FALSE)) %>%
+  select(name, employer, occupation, entity_type,
+         code_final, code_final_description, code_final_source,
+         manual_review_reason,
+         rule_code, llm_code, ml_code) %>%
+  distinct() %>%
+  arrange(name)
+```
+
+
+```{r}
+final_out_cols <- c(
+  "unit_id", "entity_id", "entity_type", "name", "employer", "occupation",
+  "code_final", "code_final_source", "code_final_description",
+  "subsector", "subsector_description",
+  "category_final", "category_final_source",
+  "manual_review", "manual_review_reason",
+  "suspected_org", "cross_source_conflict",
+  "rule_code", "rule_label", "rule_tier", "rule_category",
+  "os_code", "os_category", "os_conf",
+  "llm_code", "llm_conf", "llm_category", "llm_category_conf", "llm_reasoning",
+  "claude_code", "claude_conf", "claude_reasoning",
+  "ml_code", "ml_conf", "ml_category", "ml_category_conf"
+)
+final_out_cols <- final_out_cols[final_out_cols %in% names(resolved_final)]
+
+write_csv(resolved_final[, final_out_cols], "04_outputs/final_classifications_08-23-25.csv")
+write_csv(resolved_final, "04_outputs/final_classifications_full_08-23-25.csv")
+cat("Wrote final_classifications.csv and final_classifications_full.csv\n")
+```
+
+```{r}
+# row-level classified output — same schema as already_classified_contributions.csv.
+# Joins classification codes from resolved_final back to the raw contribution rows
+# in rule_raw (one row per uuid). Written to a dated file; does not overwrite the
+# existing already_classified_contributions.csv.
+
+row_level_out_cols <- c(
+  "uuid",
+  "Contributor.Name", "Contributor.Employer", "Contributor.Occupation",
+  "Contributor.City", "Contributor.State",
+  "Start.Date", "Amount", "Recipient.Name", "Recipient.Committee","Recipient.Committee.ID","Office","Contributor.ID", "Contributor.Zip.Code",
+  "entity_id", "entity_type",
+  "code_final", "code_final_source", "code_final_description",
+  "category_final", "category_final_source",
+  "manual_review", "manual_review_reason",
+  "rule_code", "rule_tier",
+  "llm_code", "llm_conf", "llm_reasoning",
+  "ml_code", "ml_conf"
+)
+
+already_classified_new <- rule_raw %>%
+  left_join(
+    resolved_final %>% select(any_of(c(
+      unit_id = "unit_id",
+      "entity_id", "entity_type",
+      "code_final", "code_final_source", "code_final_description",
+      "category_final", "category_final_source",
+      "manual_review", "manual_review_reason",
+      "rule_code", "rule_tier",
+      "llm_code", "llm_conf", "llm_reasoning",
+      "ml_code", "ml_conf"
+    ))),
+    by = c("uuid" = "unit_id")
+  ) %>%
+  select(any_of(row_level_out_cols))
+
+already_classified_path <- sprintf(
+  "../01_contributor_pipeline/01_inputs/already_classified_contributions_%s.csv",
+  format(Sys.Date(), "%m-%d-%y")
+)
+write_csv(already_classified_new, already_classified_path)
+cat(sprintf("Wrote row-level classified output: %d rows -> %s\n",
+            nrow(already_classified_new), already_classified_path))
+```
+
+```{r}
+# one-row-per-entity readable summary — dedup on the same key used in the review queue
+
+# join raw contributor + recipient + geo fields from rule_raw, then build dedup_key
+rule_annotated <- rule_raw %>%
+  mutate(
+    recipient_label = case_when(
+      Ballot.Measure.Contribution == "Y" ~
+        coalesce(na_if(trimws(Ballot.Measure), ""), na_if(trimws(Recipient.Committee), "")),
+      !is.na(Recipient.Name) & trimws(Recipient.Name) != "" ~ trimws(Recipient.Name),
+      TRUE ~ na_if(trimws(Recipient.Committee), "")
+    ),
+    contribution_type = case_when(
+      !is.na(parent_pac_id) & parent_pac_id != "" ~ "pac_contributor",
+      Ballot.Measure.Contribution == "Y"           ~ "Ballot.Measure",
+      Candidate.Contribution == "Y"                ~ "office",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  select(uuid,
+         Contributor.Name, Contributor.Employer, Contributor.Occupation,
+         recipient_label, Recipient.Name, Recipient.Committee,
+         contribution_type,
+         Contributor.City, Contributor.State, Contributor.Zip.Code,
+         any_of("Amount"))
+
+# manually_confirmed flag from the reviewed file (TRUE for all rows that went
+# through manual review, NA for rows that were never in the queue).
+review_confirmed_flag <- reviewed_raw %>%
+  select(dedup_key, manually_confirmed)
+
+resolved_final_keyed <- resolved_final %>%
+  left_join(rule_annotated, by = c("unit_id" = "uuid")) %>%
+  mutate(
+    # Option B: individuals split by zip; orgs by name|employer|occupation (used by review_confirmed_flag join)
+    dedup_key = if_else(
+      tolower(entity_type) == "individual",
+      paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, "")), "|",
+        trimws(coalesce(`Contributor.Zip.Code`, ""))
+      ),
+      paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, ""))
+      )
+    ),
+    # Option A: orgs deduped by name only; individuals by name|employer|occupation
+    dedup_key_entity = case_when(
+      tolower(entity_type) == "organization" ~
+        trimws(coalesce(`Contributor.Name`, name, "")),
+      TRUE ~ paste0(
+        trimws(coalesce(`Contributor.Name`, name, "")), "|",
+        trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+        trimws(coalesce(`Contributor.Occupation`, occupation, ""))
+      )
+    )
+  )
+
+geo_agg <- resolved_final_keyed %>%
+  group_by(dedup_key) %>%
+  summarise(
+    n_contributions      = n(),
+    contribution_types   = paste(sort(unique(na.omit(trimws(contribution_type)))), collapse = " | "),
+    recipients           = paste(sort(unique(na.omit(trimws(recipient_label)))),   collapse = " | "),
+    recipient_names      = paste(sort(unique(na.omit(trimws(Recipient.Name)))),    collapse = " | "),
+    recipient_committees = paste(sort(unique(na.omit(trimws(Recipient.Committee)))), collapse = " | "),
+    amounts              = if ("Amount" %in% names(resolved_final_keyed))
+                             paste(sort(unique(na.omit(trimws(Amount)))), collapse = " | ")
+                           else NA_character_,
+    cities    = paste(sort(unique(na.omit(trimws(Contributor.City)))),     collapse = " | "),
+    states    = paste(sort(unique(na.omit(trimws(Contributor.State)))),    collapse = " | "),
+    zip_codes = paste(sort(unique(na.omit(trimws(Contributor.Zip.Code)))), collapse = " | "),
+    .groups = "drop"
+  )
+
+readable_cols <- c(
+  "name", "employer", "occupation", "entity_type",
+  "n_contributions", "contribution_types",
+  "recipients", "recipient_names", "recipient_committees", "amounts",
+  "cities", "states", "zip_codes",
+  "manually_confirmed",
+  "manual_review", "manual_review_reason",
+  "code_final", "code_final_description", "subsector", "subsector_description",
+  "code_final_source", "category_final",
+  "rule_code", "rule_tier",
+  "llm_code", "llm_conf",
+  "claude_code", "claude_conf",
+  "ml_code", "ml_conf",
+  "os_code", "os_conf"
+)
+
+today <- format(Sys.Date(), "%m-%d-%y")
+
+final_readable <- resolved_final_keyed %>%
+  left_join(geo_agg, by = "dedup_key") %>%
+  left_join(review_confirmed_flag, by = "dedup_key") %>%
+  arrange(desc(!is.na(llm_code)), desc(!is.na(rule_code)), desc(!is.na(ml_code))) %>%
+  distinct(dedup_key, .keep_all = TRUE) %>%
+  select(any_of(readable_cols)) %>%
+  arrange(name, employer)
+
+cat(sprintf("Readable (3-part dedup): %d unique entities\n", nrow(final_readable)))
+write_csv(final_readable, sprintf("04_outputs/final_classifications_readable_%s.csv", today))
+
+# entity-type-aware dedup version
+geo_agg_entity <- resolved_final_keyed %>%
+  group_by(dedup_key_entity) %>%
+  summarise(
+    n_contributions      = n(),
+    contribution_types   = paste(sort(unique(na.omit(trimws(contribution_type)))), collapse = " | "),
+    recipients           = paste(sort(unique(na.omit(trimws(recipient_label)))),   collapse = " | "),
+    recipient_names      = paste(sort(unique(na.omit(trimws(Recipient.Name)))),    collapse = " | "),
+    recipient_committees = paste(sort(unique(na.omit(trimws(Recipient.Committee)))), collapse = " | "),
+    amounts              = if ("Amount" %in% names(resolved_final_keyed))
+                             paste(sort(unique(na.omit(trimws(Amount)))), collapse = " | ")
+                           else NA_character_,
+    cities    = paste(sort(unique(na.omit(trimws(Contributor.City)))),     collapse = " | "),
+    states    = paste(sort(unique(na.omit(trimws(Contributor.State)))),    collapse = " | "),
+    zip_codes = paste(sort(unique(na.omit(trimws(Contributor.Zip.Code)))), collapse = " | "),
+    .groups = "drop"
+  )
+
+final_readable_entity <- resolved_final_keyed %>%
+  left_join(geo_agg_entity, by = "dedup_key_entity") %>%
+  left_join(review_confirmed_flag, by = "dedup_key") %>%
+  arrange(desc(!is.na(llm_code)), desc(!is.na(rule_code)), desc(!is.na(ml_code))) %>%
+  distinct(dedup_key_entity, .keep_all = TRUE) %>%
+  select(any_of(readable_cols)) %>%
+  arrange(name, employer)
+
+cat(sprintf("Readable (entity-aware dedup): %d unique entities\n", nrow(final_readable_entity)))
+write_csv(final_readable_entity,
+          sprintf("04_outputs/final_classifications_readable_entity_%s.csv", today))
+```
+
+
+# PAC-org entity group conflict check
+
+Flag org/individual rows in `resolved_final` (the post-review dataframe built in
+"Apply manual review decisions") whose entity group also contains a PAC in
+`pac_industry_breakdown.csv` that shows a classification inconsistency. Two
+conflict types are detected:
+
+- **code_mismatch**: PAC has non-99 industries that differ from the org's code.
+  Partial-99 in PAC industries (from $5k+ contributors still going through
+  review) is excluded from the mismatch check — that 99 should resolve after 
+  those contributors are reviewed.
+- **pac_entirely_uncategorized**:  PAC is classified as 99, while the
+  org has a real code. This signals a missing or PENDING `industry_override_under_5k`
+  in `pac_review`
+  
+Detected conflict doesn't necessarily mean classification are incorrect.
+
+Run order:
+1. Full notebook including "Apply manual review decisions" -> `final_classifications` written
+2. `match_pac_classifications.Rmd` -> `pac_industry_breakdown.csv` written
+3. This chunk
+
+Joins directly on `entity_id_normalized`: PAC rows carry it from
+`pac_classifiability.csv` (via `match_pac_classifications.Rmd`); org/individual
+rows use `entity_id` from `final_classifications`, which is the same UUID
+namespace (both come from `canonical_uuid_map`).
+
+Appends new rows and annotates existing rows in `manual_review_queue.csv`.
+
+```{r}
+PAC_BREAKDOWN_PATH <- "04_outputs/pac_industry_breakdown.csv"
+REVIEW_QUEUE_PATH  <- "04_outputs/manual_review_queue.csv"
+
+if (!file.exists(PAC_BREAKDOWN_PATH)) {
+  message("Skipping PAC-org conflict check: pac_industry_breakdown.csv not found.",
+          " Run match_pac_classifications.Rmd first.")
+} else {
+
+  # resolved_final is the dataframe produced by "Apply manual review decisions".
+  # If running this chunk standalone (fresh session), load from the written CSV.
+  .base <- if (exists("resolved_final") && is.data.frame(resolved_final)) {
+    message("Using resolved_final (post-review classifications).")
+    resolved_final
+  } else {
+    .path <- "04_outputs/final_classifications_full_08-23-25.csv"
+    message("resolved_final not in memory; loading from ", .path)
+    read_csv(.path, col_types = cols(.default = "c")) %>%
+      mutate(manual_review = as.logical(manual_review))
+  }
+
+  if (!exists("rule_raw")) {
+    rule_raw <- read_csv(
+      "../01_contributor_pipeline/01_outputs/classified_contributors_combined.csv",
+      col_types = cols(.default = "c")
+    )
+  }
+
+  pac_bk <- read_csv(PAC_BREAKDOWN_PATH, col_types = cols(.default = "c"))
+
+  # entity_id_normalized per PAC — carried directly from pac_classifiability via
+  # match_pac_classifications. Each PAC row has the same entity_id_normalized, so
+  # one distinct() call gives us the (pac_id, pac_name, entity_id_normalized) lookup.
+  pac_uuids <- pac_bk %>%
+    distinct(pac_id, pac_name, entity_id_normalized) %>%
+    filter(!is.na(entity_id_normalized) & entity_id_normalized != "")
+
+  cat(sprintf("PAC-org check: %d / %d PACs matched to entity_id_normalized\n",
+              n_distinct(pac_uuids$pac_id), n_distinct(pac_bk$pac_id, na.rm = TRUE)))
+
+  # All industries (including 99) aggregated per entity_id_normalized
+  pac_by_uuid <- pac_bk %>%
+    filter(!is.na(industry) & industry != "") %>%
+    inner_join(pac_uuids %>% select(pac_id, entity_id_normalized), by = "pac_id") %>%
+    group_by(entity_id_normalized) %>%
+    summarise(
+      pac_names      = paste(sort(unique(coalesce(pac_name, ""))), collapse = " | "),
+      pac_industries = paste(sort(unique(industry)), collapse = " | "),
+      .groups = "drop"
+    )
+
+  # entity_id_normalized per org/individual — use entity_id from final_classifications
+  # directly; entity_id in that file IS the UUID from canonical_uuid_map (same namespace
+  # as pac_classifiability$entity_id_normalized). Rows with code_final = 99 are skipped:
+  # they are already in review and a re-run will catch conflicts once a real code is assigned.
+  org_with_uuid <- .base %>%
+    filter(
+      !is.na(entity_id) & entity_id != "",
+      !is.na(code_final), code_final != FALLBACK_CODE,
+      tolower(coalesce(entity_type, "")) %in% c("organization", "individual")
+    ) %>%
+    select(unit_id, name, code_final, entity_id_normalized = entity_id)
+
+  # Detect conflicts
+  conflicts <- org_with_uuid %>%
+    inner_join(pac_by_uuid, by = "entity_id_normalized") %>%
+    rowwise() %>%
+    mutate(
+      .org_code       = sub("^100[ab]$", "100", code_final),
+      .all_pac_codes  = strsplit(pac_industries, " \\| ")[[1]],
+      .pac_only_99    = all(.all_pac_codes == FALLBACK_CODE),
+      # Exclude 99 from mismatch check: partial-99 is from pending-review contributors
+      .pac_real_codes = setdiff(.all_pac_codes, FALLBACK_CODE),
+      .conflict_type  = case_when(
+        .pac_only_99                              ~ "pac_entirely_uncategorized",
+        any(.pac_real_codes != .org_code)         ~ "code_mismatch",
+        TRUE                                      ~ "none"
+      )
+    ) %>%
+    ungroup() %>%
+    filter(.conflict_type != "none") %>%
+    select(unit_id, entity_id_normalized, code_final, pac_names, pac_industries, .conflict_type)
+
+  cat(sprintf("PAC-org entity group conflicts: %d rows across %d entity groups (%d code_mismatch, %d pac_entirely_uncategorized)\n",
+              nrow(conflicts),
+              n_distinct(conflicts$entity_id_normalized),
+              sum(conflicts$.conflict_type == "code_mismatch"),
+              sum(conflicts$.conflict_type == "pac_entirely_uncategorized")))
+
+  if (nrow(conflicts) > 0 && file.exists(REVIEW_QUEUE_PATH)) {
+
+    conflict_meta <- conflicts %>%
+      transmute(
+        unit_id,
+        pac_names,
+        pac_industries,
+        .conflict_type,
+        .reason = case_when(
+          .conflict_type == "pac_entirely_uncategorized" ~ paste0(
+            "pac_org_entity_group_conflict [pac_entirely_uncategorized]: org=", code_final,
+            ", PAC(s)=", pac_names, " (all industries=99)"
+          ),
+          TRUE ~ paste0(
+            "pac_org_entity_group_conflict [code_mismatch]: org=", code_final,
+            ", PAC(s)=", pac_names, ", PAC industries=", pac_industries
+          )
+        )
+      )
+
+    # Derive dedup_key matching the construction in the main review queue build
+    conflict_keyed <- conflict_meta %>%
+      left_join(
+        rule_raw %>% select(uuid, Contributor.Name, Contributor.Employer, Contributor.Occupation, Contributor.Zip.Code),
+        by = c("unit_id" = "uuid")
+      ) %>%
+      left_join(
+        .base %>% select(unit_id, name, employer, occupation, entity_type),
+        by = "unit_id"
+      ) %>%
+      mutate(
+        dedup_key = if_else(
+          tolower(entity_type) == "individual",
+          paste0(
+            trimws(coalesce(`Contributor.Name`, name, "")), "|",
+            trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+            trimws(coalesce(`Contributor.Occupation`, occupation, "")), "|",
+            trimws(coalesce(`Contributor.Zip.Code`, ""))
+          ),
+          paste0(
+            trimws(coalesce(`Contributor.Name`, name, "")), "|",
+            trimws(coalesce(`Contributor.Employer`, employer, "")), "|",
+            trimws(coalesce(`Contributor.Occupation`, occupation, ""))
+          )
+        )
+      )
+
+    existing_q <- read_csv(REVIEW_QUEUE_PATH, col_types = cols(.default = "c"))
+
+    # annotate existing rows in the queue
+    reason_patch <- conflict_keyed %>%
+      distinct(dedup_key, .reason) %>%
+      group_by(dedup_key) %>%
+      summarise(.reason = paste(unique(.reason), collapse = " | "), .groups = "drop")
+
+    updated_q <- existing_q %>%
+      left_join(reason_patch, by = "dedup_key") %>%
+      mutate(
+        manual_review_reason = case_when(
+          !is.na(.reason) & is.na(manual_review_reason)  ~ .reason,
+          !is.na(.reason) ~ paste0(manual_review_reason, " | ", .reason),
+          TRUE ~ manual_review_reason
+        )
+      ) %>%
+      select(-.reason)
+
+    n_annotated <- sum(conflict_keyed$dedup_key %in% existing_q$dedup_key, na.rm = TRUE)
+
+    # Rows not yet in the queue at all
+    new_keys <- setdiff(conflict_keyed$dedup_key, existing_q$dedup_key)
+    new_rows <- conflict_keyed %>%
+      filter(dedup_key %in% new_keys) %>%
+      distinct(dedup_key, .keep_all = TRUE) %>%
+      left_join(
+        .base %>% select(
+          unit_id, entity_id, entity_type,
+          code_final, code_final_source, code_final_description,
+          rule_code, rule_tier,
+          llm_code, llm_conf, llm_reasoning,
+          ml_code, ml_conf, os_code, os_conf
+        ),
+        by = "unit_id"
+      ) %>%
+      transmute(
+        dedup_key,
+        Contributor.Name, Contributor.Employer, Contributor.Occupation,
+        name, employer, occupation,
+        code_final, code_final_source, code_final_description,
+        manual_review        = "TRUE",
+        manual_review_reason = .reason,
+        rule_code, rule_tier,
+        llm_code, llm_conf, llm_reasoning,
+        ml_code, ml_conf, os_code, os_conf,
+        .queue_source = "pac_org_conflict"
+      )
+
+    write_csv(bind_rows(updated_q, new_rows), REVIEW_QUEUE_PATH)
+    cat(sprintf(
+      "Review queue updated: %d existing row(s) annotated, %d new row(s) added -> %s\n",
+      n_annotated, nrow(new_rows), REVIEW_QUEUE_PATH
+    ))
+  }
+}
+```
+

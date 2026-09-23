@@ -53,28 +53,57 @@ env/
 .claude/
 **/.claude/
 
-# ── Pipeline output directories (large generated files) ──────────────────────
-code/08_alternative_pipeline/08_outputs/*.csv
-code/09_llm_classifier/09_outputs/*.csv
-code/10_assign_classifications/10_outputs/*.csv
+# ── Pipeline output directories — only large files (>5MB) gitignored ─────────
+# 01_outputs
+code/01_contributor_pipeline/01_outputs/indiv_pairs_tmp.csv
+code/01_contributor_pipeline/01_outputs/combined_contributions_os_matches_09-11-26.csv
+code/01_contributor_pipeline/01_outputs/classified_contributors_09-13-26.csv
+code/01_contributor_pipeline/01_outputs/classification_input_combined_09-08-26.csv
+code/01_contributor_pipeline/01_outputs/race_contributions_processed.csv
+code/01_contributor_pipeline/01_outputs/pac_classification_input_09-08-26.csv
+code/01_contributor_pipeline/01_outputs/pac_contributions_os_matches.csv
+code/01_contributor_pipeline/01_outputs/pac_classified_contributors.csv
+code/01_contributor_pipeline/01_outputs/pac_classification_input.csv
+code/01_contributor_pipeline/01_outputs/individuals_name_parsed_all_contributors_09-08-26.csv
+code/01_contributor_pipeline/01_outputs/archive/
+# 03_outputs
+code/03_llm_classifier/03_outputs/classification_input_combined_expanded_full_2026-09-13.csv
+code/03_llm_classifier/03_outputs/classification_input_combined_expanded_full_2026-08-16.csv
+code/03_llm_classifier/03_outputs/classification_input_combined_august_updated_full_2026-09-13.csv
+code/03_llm_classifier/03_outputs/classification_inpute_combined_full_2026-08-16.csv
+code/03_llm_classifier/03_outputs/pac_classification_batch1_full_expanded_pac_2026-08-13.csv
+# 04_outputs
+code/04_assign_classifications/04_outputs/final_classifications_full_before_review_09-13-26.csv
+code/04_assign_classifications/04_outputs/final_classifications_full_before_review.csv
+code/04_assign_classifications/04_outputs/final_classifications_full_08-23-25.csv
+code/04_assign_classifications/04_outputs/final_classifications_before_review_09-13-26.csv
+code/04_assign_classifications/04_outputs/final_classifications_before_review.csv
+code/04_assign_classifications/04_outputs/final_classifications_08-23-25.csv
+code/04_assign_classifications/04_outputs/race_prop_breakdown_input_indiv100_08-25-26.csv
+code/04_assign_classifications/04_outputs/race_prop_breakdown_input_08-23-25.csv
+code/04_assign_classifications/04_outputs/race_prop_breakdown_input_old.csv
+code/04_assign_classifications/04_outputs/pac_final_classifications.csv
 data/04_output_latest_data_pulls/*.csv
 data/07_output_ml_classification/models*/embeddings_cache.npz
 data/governor_race_*.csv
 
-# ── Large data files in 08_alternative_pipeline ─────────────────────────────
-code/08_alternative_pipeline/08_inputs/FILERNAME_CD.TSV
-code/08_alternative_pipeline/08_inputs/ContributionOpenSecretsCategories.csv
-code/08_alternative_pipeline/08_inputs/power_search_gov_race_072426.csv
-code/08_alternative_pipeline/08_inputs/all_contributors_processed.csv
-code/08_alternative_pipeline/08_inputs/contributors_data_full.csv
-code/08_alternative_pipeline/08_inputs/contributions_raw.csv
-code/08_alternative_pipeline/08_inputs/power_search_contributions_normalized.csv
-code/08_alternative_pipeline/08_inputs/all_contributors_processed_081625.csv
-code/08_alternative_pipeline/08_inputs/power_search_contributions_raw.csv
-code/08_alternative_pipeline/08_inputs/power_search_contributions_raw_08-20-26.csv
-code/08_alternative_pipeline/08_inputs/power_search_contributions_normalized_08-20-26_updated_entity.csv
-code/08_alternative_pipeline/08_inputs/power_search_contributions_normalized_updated_entity_08-20-26.csv
-code/08_alternative_pipeline/08_inputs/power_search_ie_raw.csv
+# ── Large input files  ────────────────
+code/01_contributor_pipeline/01_inputs/FILERNAME_CD.TSV
+code/01_contributor_pipeline/01_inputs/ContributionOpenSecretsCategories.csv
+code/01_contributor_pipeline/01_inputs/power_search_gov_race_072426.csv
+code/01_contributor_pipeline/01_inputs/all_contributors_processed.csv
+code/01_contributor_pipeline/01_inputs/contributors_data_full.csv
+code/01_contributor_pipeline/01_inputs/contributions_raw.csv
+code/01_contributor_pipeline/01_inputs/power_search_contributions_normalized.csv
+code/01_contributor_pipeline/01_inputs/all_contributors_processed_081526.csv
+code/01_contributor_pipeline/01_inputs/all_contributors_processed_081625.csv
+code/01_contributor_pipeline/01_inputs/power_search_contributions_raw.csv
+code/01_contributor_pipeline/01_inputs/power_search_contributions_raw_08-20-26.csv
+code/01_contributor_pipeline/01_inputs/power_search_contributions_normalized_08-20-26_updated_entity.csv
+code/01_contributor_pipeline/01_inputs/power_search_contributions_normalized_updated_entity_08-20-26.csv
+code/01_contributor_pipeline/01_inputs/power_search_ie_raw.csv
+code/01_contributor_pipeline/01_inputs/power_search_ie_raw_08-20-26.csv
+code/01_contributor_pipeline/01_inputs/full_names_parsed.csv
 
 
 

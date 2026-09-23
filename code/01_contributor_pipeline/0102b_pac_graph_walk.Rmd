@@ -1,0 +1,419 @@
+---
+title: "0102b - PAC Graph Walk"
+output: html_notebook
+---
+
+Produces `pac_universe.csv`: the set of PAC FILER_IDs reachable from the seed
+PACs in `pac_input.csv` via recursive Contributor.ID -> Recipient.Committee.ID
+traversal. No $5k threshold is applied — the universe is used by 0802 to scope
+PAC contributor entity resolution before 0803 runs.
+
+PACs classified as Candidates/Political Parties or federal in `pac_manual_review`
+are included in the universe but not traversed (their contributors don't require
+individual classification).
+
+Run order: after 0802 produces `pac_input.csv`, before 0803.
+
+# Setup
+
+```{r}
+library(dplyr)
+library(readr)
+library(stringr)
+library(googlesheets4)
+gs4_deauth()
+
+source("standardization_helpers.R")
+```
+
+# Load data
+
+```{r}
+contributions_full <- read.csv("01_inputs/power_search_contributions_normalized.csv") %>%
+  rename(Ballot.Measure = Ballot.Measure.s.) %>%
+  mutate(
+    Contributor.ID         = as.character(Contributor.ID),
+    Recipient.Committee.ID = as.character(Recipient.Committee.ID)
+  )
+```
+
+```{r}
+# FILERNAME_CD maps XREF_FILER_ID → FILER_ID; used to standardize contributor IDs.
+id_map <- read_tsv("01_inputs/FILERNAME_CD.tsv", col_types = cols(.default = "c")) %>%
+  mutate(FILER_ID = as.character(FILER_ID), XREF_FILER_ID = as.character(XREF_FILER_ID)) %>%
+  filter(!is.na(FILER_ID), !is.na(XREF_FILER_ID)) %>%
+  distinct(XREF_FILER_ID, FILER_ID, FILER_TYPE)
+```
+
+
+```{r}
+id_corrections <- read_sheet(
+  "https://docs.google.com/spreadsheets/d/1UnO3wldvEo84Md0ac5jbpg4SqWzvPle3yh15e_DGAVk",
+  sheet = "corrected_pac_ids",
+  col_types = "c"
+) %>%
+  mutate(
+    Contributor.ID = coalesce(Contributor.ID, ""),
+    resolved       = !is.na(resolved) & tolower(str_trim(resolved)) != "false",
+    is_fed_pac     = tolower(str_trim(coalesce(is_fed_pac, ""))) %in% c("true", "1", "yes")
+  )
+```
+
+
+**update pac_input file**
+
+```{r}
+#pac_input <- read.csv("01_outputs/pac_input_09-07-26.csv", colClasses = "character")
+pac_input <- read.csv("01_outputs/new_prop_pacs.csv", colClasses = "character")
+```
+
+```{r}
+# re-apply corrections in case the sheet was updated after pac_input was written
+pac_input <- pac_input %>%
+  mutate(is_fed_pac = as.logical(coalesce(is_fed_pac, "FALSE")))
+
+pac_input <- apply_contributor_corrections(pac_input, id_corrections)
+
+# re-apply flag
+pac_input <- pac_input %>%
+  mutate(is_fed_pac = is_fed_pac | has_fed_pac_language(Contributor.Name))
+
+# re-derive FILER_ID and FILER_TYPE for any seeds still missing them after corrections
+pac_input <- pac_input %>%
+  left_join(
+    id_map %>%
+      distinct(XREF_FILER_ID, FILER_ID, FILER_TYPE) %>%
+      group_by(XREF_FILER_ID) %>% slice(1) %>% ungroup() %>%
+      rename(derived_filer_id = FILER_ID, derived_filer_type = FILER_TYPE),
+    by = c("effective_Contributor.ID" = "XREF_FILER_ID")
+  ) %>%
+  mutate(
+    FILER_ID   = coalesce(na_if(FILER_ID, ""), derived_filer_id),
+    FILER_TYPE = coalesce(na_if(FILER_TYPE, ""), derived_filer_type, "RECIPIENT COMMITTEE")
+  ) %>%
+  select(-derived_filer_id, -derived_filer_type)
+
+cat(sprintf(
+  "pac_input after corrections: %d rows; %d with FILER_ID; %d flagged is_fed_pac\n",
+  nrow(pac_input),
+  sum(!is.na(pac_input$FILER_ID) & pac_input$FILER_ID != ""),
+  sum(coalesce(pac_input$is_fed_pac, FALSE))
+))
+```
+
+
+```{r, eval = FALSE}
+# data checks
+pac_input %>% filter(is.na(FILER_ID) | is.na(FILER_TYPE))
+pac_input %>% filter(Contributor.Name == "DRIVE Committee" | Contributor.Name == "Elect Dems Now PAC" |Contributor.Name == "International Association of Sheet Metal, Air, Rail and Transportation Workers Political Action League" ) %>% select(is_fed_pac)
+```
+
+
+```{r}
+# real in feedback from manual review of pacs
+pac_manual_review <- read_csv(
+  "../04_assign_classifications/04_inputs/pac_manual_review.csv",
+  col_types = cols(.default = "c")
+) %>%
+  mutate(
+    pac_id           = na_if(trimws(coalesce(pac_id, "")), ""),
+    fec_id           = na_if(trimws(coalesce(fec_id, "")), ""),
+    is_resolved      = !(
+      coalesce(unresolvable_reason, "") == "additional_review_req" |
+      is.na(industry_override_under_5k) |
+      trimws(coalesce(industry_override_under_5k, "")) %in% c("", "PENDING")
+    ),
+    is_candidates_pp = trimws(coalesce(industry_override_under_5k, "")) == "Candidates/Political Parties",
+    is_fec_federal   = !is.na(fec_id)
+  )
+```
+
+
+# Prepare contributions
+
+Apply contributor ID corrections and add PAC flags.
+
+```{r}
+contributions <- apply_contributor_corrections(contributions_full, id_corrections)
+
+# Contributor.ID (XREF_FILER_ID) → std_contributor_id (FILER_ID)
+contributions <- contributions %>%
+  left_join(
+    id_map %>% select(XREF_FILER_ID, FILER_ID, FILER_TYPE) %>%
+      rename(std_contributor_id = FILER_ID),
+    by = c("effective_Contributor.ID" = "XREF_FILER_ID")
+  ) %>%
+  mutate(std_contributor_id = as.character(std_contributor_id))
+```
+
+```{r}
+contributions <- contributions %>%
+  mutate(
+    has_id             = !is.na(effective_Contributor.ID) & effective_Contributor.ID != "",
+    is_fed_pac         = has_fed_pac_language(Contributor.Name) | coalesce(is_fed_pac, FALSE),
+    is_self            = !is.na(std_contributor_id) & std_contributor_id == Recipient.Committee.ID,
+    std_contributor_id = if_else(is_self, NA_character_, std_contributor_id),
+    is_pac             = !is_self & has_id & !is_fed_pac,
+    is_pac_no_id       = !has_id & !is_fed_pac & (
+                           coalesce(has_pac_language, FALSE) |
+                           grepl("\\bPAC\\b|COMMITTEE|POLITICAL ACTION|POLITICAL FUND|ACTION FUND",
+                                 toupper(Contributor.Name))
+                         )
+  )
+```
+
+
+# Define no-traverse PAC sets
+
+PACs classified as Candidates/Political Parties or federal are recorded in the
+universe but not traversed — we do not classify these PACs by their $5k contributors.
+
+```{r}
+no_traverse_from_review <- pac_manual_review %>%
+  filter(!is.na(pac_id), is_resolved, is_candidates_pp | is_fec_federal) %>%
+  pull(pac_id) %>%
+  as.character() %>%
+  unique()
+
+# exclude PACs flagged is_fed_pac in pac_input (via corrections or name
+# pattern) that may not have been reviewed in pac_manual_review yet.
+fed_pac_from_input <- pac_input %>%
+  filter(is_fed_pac == TRUE, !is.na(FILER_ID), FILER_ID != "") %>%
+  pull(FILER_ID) %>%
+  unique()
+
+# exclude candidate PACs identified by recipient name pattern that haven't
+# been reviewed in pac_manual_review yet.
+candidate_pac_ids_by_name <- contributions %>%
+  distinct(Recipient.Committee.ID, Recipient.Committee) %>%
+  filter(is_candidate_pac(Recipient.Committee)) %>%
+  pull(Recipient.Committee.ID) %>%
+  unique()
+
+no_traverse_pac_ids <- unique(c(no_traverse_from_review, fed_pac_from_input, candidate_pac_ids_by_name))
+
+cat(sprintf(
+  "No-traverse PACs: %d total (%d from pac_manual_review; %d is_fed_pac; %d candidate by name)\n",
+  length(no_traverse_pac_ids),
+  length(no_traverse_from_review),
+  length(setdiff(fed_pac_from_input, no_traverse_from_review)),
+  length(setdiff(candidate_pac_ids_by_name, c(no_traverse_from_review, fed_pac_from_input)))
+))
+```
+
+
+
+# Define PAC graph
+
+Starting from the seed PAC FILER_IDs in `pac_input.csv`, follow non-federal
+PAC contributor edges recursively. No threshold applied - need all contributors
+to do entity resolution. 
+
+```{r}
+walk_pac_graph <- function(seed_filer_ids, prepped, no_traverse_ids,
+                           max_depth = 5) {
+  seeds   <- seed_filer_ids[!is.na(seed_filer_ids) & seed_filer_ids != ""]
+  queue   <- lapply(seeds, function(id) list(id = id, depth = 0L, is_seed = TRUE))
+  visited <- tibble(pac_id = character(), depth = integer(), is_seed = logical(),
+                    traversed = logical(), has_pac_no_id_contributors = logical())
+  visited_ids <- character()
+
+  while (length(queue) > 0) {
+    node   <- queue[[1]]; queue <- queue[-1]
+    pac_id <- node$id;    depth <- as.integer(node$depth)
+
+    if (pac_id %in% visited_ids || depth > max_depth) next
+    visited_ids <- c(visited_ids, pac_id)
+
+    contribs <- prepped %>%
+      filter(Recipient.Committee.ID == pac_id)
+
+    # PACs classified as candidates/PP or federal: record but don't traverse
+    pac_name <- contribs$Recipient.Committee[1]
+    is_federal_by_name   <- !is.na(pac_name) && has_fed_pac_language(pac_name)
+    is_candidate_by_name <- !is.na(pac_name) && is_candidate_pac(pac_name)
+
+    if (pac_id %in% no_traverse_ids || is_federal_by_name || is_candidate_by_name) {
+      visited <- bind_rows(visited,
+                           tibble(pac_id = pac_id, depth = depth,
+                                  is_seed = isTRUE(node$is_seed),
+                                  traversed = FALSE,
+                                  has_pac_no_id_contributors = FALSE))
+      next
+    }
+
+    # non-federal, non-candidate PAC contributors with a resolved ID are queued
+    to_traverse <- contribs %>%
+      filter(!is_fed_pac, !is_candidate_pac(Contributor.Name), !is.na(std_contributor_id)) %>%
+      pull(std_contributor_id) %>%
+      unique()
+
+    for (cid in to_traverse) {
+      if (!cid %in% visited_ids)
+        queue <- append(queue, list(list(id = cid, depth = depth + 1L, is_seed = FALSE)))
+    }
+
+    has_no_id <- any(contribs$is_pac_no_id, na.rm = TRUE)
+
+    visited <- bind_rows(visited,
+                         tibble(pac_id = pac_id, depth = depth,
+                                is_seed = isTRUE(node$is_seed),
+                                traversed = TRUE,
+                                has_pac_no_id_contributors = has_no_id))
+  }
+
+  visited
+}
+```
+
+```{r}
+# Patch known FILER_ID gaps
+pac_input <- pac_input %>%
+  mutate(FILER_ID = case_when(
+    effective_Contributor.ID == "1479934" ~ "1479934", 
+    effective_Contributor.ID == "1049814" ~ "1049814",
+    TRUE ~ FILER_ID
+  ))
+
+seed_ids <- pac_input %>%
+  filter(!is.na(FILER_ID), FILER_ID != "") %>%
+  pull(FILER_ID) %>%
+  unique()
+
+cat(sprintf("Seeds: %d PAC FILER_IDs from pac_input.csv\n", length(seed_ids)))
+```
+
+
+### Walk PAC graph
+
+```{r}
+pac_universe <- walk_pac_graph(seed_ids, contributions, no_traverse_pac_ids,
+                               max_depth = 5)
+
+cat(sprintf(
+  "PAC universe: %d PACs (%d seeds, %d discovered; %d traversed, %d not traversed)\n",
+  nrow(pac_universe),
+  sum(pac_universe$is_seed),
+  sum(!pac_universe$is_seed),
+  sum(pac_universe$traversed),
+  sum(!pac_universe$traversed)
+))
+
+pac_universe %>%
+  count(depth) %>%
+  rename(n_pacs = n) %>%
+  print()
+
+no_id_pacs <- pac_universe %>% filter(traversed, has_pac_no_id_contributors)
+if (nrow(no_id_pacs) > 0) {
+  cat(sprintf(
+    "Note: %d traversed PAC(s) have contributors with PAC language but no Contributor.ID —",
+    nrow(no_id_pacs)
+  ))
+  cat(" indirect contributors may be missed.\n")
+}
+```
+
+```{r}
+# data check: review candidate PACs
+candidate_pac_in_universe <- pac_universe %>%
+  filter(!traversed) %>%
+  left_join(
+    contributions %>% distinct(Recipient.Committee.ID, Recipient.Committee),
+    by = c("pac_id" = "Recipient.Committee.ID")
+  ) %>%
+  filter(is_candidate_pac(coalesce(Recipient.Committee, pac_id))) %>%
+  select(pac_id, Recipient.Committee, depth, is_seed)
+cat(sprintf("%d PAC(s) in universe flagged as candidate committees\n",
+            nrow(candidate_pac_in_universe)))
+print(candidate_pac_in_universe)
+```
+
+
+# Look at missing ids
+
+```{r}
+no_id_pacs <- pac_universe %>% filter(traversed, has_pac_no_id_contributors)
+
+contributions %>%
+  filter(is_pac_no_id, Recipient.Committee.ID %in% no_id_pacs$pac_id) %>%
+  distinct(Contributor.Name, Recipient.Committee.ID, Recipient.Committee,Amount) %>%
+  arrange(Contributor.Name) %>% distinct(Contributor.Name)
+
+```
+
+```{r}
+traversed_ids <- pac_universe %>% filter(traversed) %>% pull(pac_id)
+
+# Candidate/ballot measure committee IDs : what seed PACs contributed to
+tracked_committee_ids <- contributions %>%
+  filter(std_contributor_id %in% seed_ids) %>%
+  pull(Recipient.Committee.ID) %>%
+  unique()
+
+# Traversed PACs that gave $5k+ to a relevant downstream recipient
+qualifying_recipient_pacs <- contributions %>%
+  filter(
+    !is.na(std_contributor_id),
+    std_contributor_id %in% traversed_ids,
+    Recipient.Committee.ID %in% c(traversed_ids, tracked_committee_ids)
+  ) %>%
+  group_by(std_contributor_id, Recipient.Committee.ID) %>%
+  summarise(total_given = sum(as.numeric(Amount), na.rm = TRUE), .groups = "drop") %>%
+  filter(total_given >= 5000) %>%
+  pull(std_contributor_id) %>%
+  unique()
+
+no_id_for_review <- contributions %>%
+  filter(
+    is_pac_no_id,
+    Recipient.Committee.ID %in% qualifying_recipient_pacs
+  ) %>%
+  group_by(Contributor.Name, Recipient.Committee.ID, Recipient.Committee) %>%
+  summarise(total_amount = sum(as.numeric(Amount), na.rm = TRUE), .groups = "drop") %>%
+  filter(total_amount >= 5000) %>%
+  arrange(desc(total_amount))
+
+```
+
+
+# Write output
+
+```{r}
+# flag candidate and federal PACs so 0802 can exclude them from
+# relevant_recipient_ids 
+all_candidate_pac_ids <- unique(c(
+  pac_manual_review %>% filter(!is.na(pac_id), is_candidates_pp) %>% pull(pac_id),
+  candidate_pac_ids_by_name
+))
+
+fed_pac_ids_by_name <- contributions %>%
+  distinct(Recipient.Committee.ID, Recipient.Committee) %>%
+  filter(has_fed_pac_language(Recipient.Committee)) %>%
+  pull(Recipient.Committee.ID) %>%
+  unique()
+
+all_federal_pac_ids <- unique(c(
+  fed_pac_from_input,
+  pac_manual_review %>% filter(!is.na(pac_id), is_fec_federal) %>% pull(pac_id),
+  fed_pac_ids_by_name
+))
+
+pac_universe <- pac_universe %>%
+  mutate(
+    is_candidate_pac = pac_id %in% all_candidate_pac_ids,
+    is_federal_pac   = pac_id %in% all_federal_pac_ids
+  )
+
+cat(sprintf(
+  "%d PAC(s) flagged is_candidate_pac; %d flagged is_federal_pac\n",
+  sum(pac_universe$is_candidate_pac),
+  sum(pac_universe$is_federal_pac)
+))
+```
+
+```{r}
+#write.csv(pac_universe, "01_outputs/pac_universe.csv", row.names = FALSE)
+write.csv(pac_universe, "01_outputs/pac_universe_new_props.csv", row.names = FALSE)
+cat(sprintf("pac_universe.csv written: %d rows\n", nrow(pac_universe)))
+```

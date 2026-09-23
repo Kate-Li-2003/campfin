@@ -1,0 +1,269 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Purpose
+Configure descriptions for each custom NAICS code for the LLM to reference when assigning codes.
+
+
+```{r}
+library(readxl)
+library(dplyr)
+library(stringr)
+```
+
+### Add more information to the titles
+
+```{r}
+codes <- read_excel("03_inputs/digit_2022_Codes.xlsx")
+
+# remove blank rows and columns
+codes <- codes[-1,]
+codes <- codes[,-c(4,5)]
+
+colnames(codes)[c(2,3)] <- c("Code","Title")
+
+```
+
+```{r}
+# expand two digit codes with a dash
+
+codes[which(codes$Code == "31-33"),]$Code <- "31"
+codes <- rbind(codes,c(NA,"32","Manufacturing"))
+codes <- rbind(codes,c(NA,"33","Manufacturing"))
+
+codes[which(codes$Code == "44-45"),]$Code <- "44"
+codes <- rbind(codes,c(NA,"45","Retail Trade"))
+
+codes[which(codes$Code == "48-49"),]$Code <- "48"
+codes <- rbind(codes,c(NA,"49","Transportation and Warehousing"))
+
+tail(codes)
+```
+
+
+```{r}
+sector_expanded <- codes %>%
+  filter(nchar(Code) == 2) %>%
+  mutate(expanded_title = 
+    sapply(Code, function(code) {
+      parent_title <- codes %>%
+        filter(Code == code) %>%
+        pull(Title)
+      
+      sub_titles <- codes %>%
+        filter(str_starts(Code, code), nchar(Code) == 4) %>%
+        distinct(Title) %>%
+        pull(Title)
+      
+      if (length(sub_titles) == 0) return(parent_title)
+      
+      all_titles <- c(parent_title, sub_titles)
+    
+      paste0(parent_title, ", including: ", paste(sub_titles, collapse = "; "))
+    })
+  )
+
+```
+
+
+### Collapse descriptions for combined categories: 
+
+40: Combines 53 and 23
+50: Combines 54, 55 and 56a
+60: Combines 62, 61 and lirbaries and archives
+70: Combines 71 + parts of 51
+76: Remove association description from relvant naics code? 
+77: Remove assocition description from relevant naics code
+80: 44-45, 42, 92, parts of 81
+92: 92 + defense contractors, take out tribes
+
+```{r}
+# helper function to combine sector descriptions
+combine_sectors <- function(new_code, new_title, source_codes = character(0), extra_subtitles = character(0)) {
+  if (length(source_codes) > 0) {
+    sub_titles <- codes %>%
+      filter(sapply(Code, function(c) any(str_starts(c, source_codes))) & nchar(Code) == 4) %>%
+      distinct(Title) %>%
+      pull(Title)
+  } else {
+    sub_titles <- character(0)
+  }
+
+  all_subs <- c(sub_titles, extra_subtitles)
+
+  description <- if (length(all_subs) == 0) {
+    new_title
+  } else {
+    paste0(new_title, ", including: ", paste(all_subs, collapse = "; "))
+  }
+
+  data.frame(naics_sector = new_code, description = description, stringsAsFactors = FALSE)
+}
+
+```
+
+
+```{r}
+x <- sector_expanded[,c("Code","expanded_title"),]
+colnames(x) <- c("naics_sector","description")
+
+x <- rbind(x,c("99","Unknown"))
+x <- rbind(x,c("90","Candidates/Political Parties"))
+x <- rbind(x,c("88","Political Actions Committees (PACs), contributor committees and political action funds"))
+x <- rbind(x,c("76","Business, professional and trade associations"))
+x <- rbind(x,c("77","Unions"))
+x <- rbind(x,c("92a","Native American tribes"))
+x <- rbind(x,c("100","Retired/Homemaker/Student/Unemployed"))
+
+# remove source codes that get merged into combined categories
+x <- x %>% filter(!naics_sector %in% c("22","23", "53","42","44","45","48","49","51","53","54","55","56","61","62","71","72","81"))
+
+# add combined categories
+x <- rbind(x, combine_sectors("20", "Utilities, infrastructure, telecommunications, renewable energy, transportation and warehousing", 
+                              source_codes = c("22","48","49"),
+                              extra_subtitles = c("Wired and Wireless Telecommunications (except Satellite)",
+                                                  "Satellite Telecommunications","All Other Telecommunications",
+                                                  "Waste Collection","Waste Treatment and Disposal","Remediation and Other Waste Management Services")),
+              combine_sectors("40", "Construction/Real Estate", source_codes = c("23", "53")),
+              combine_sectors("50", "Professional/Legal", source_codes = c("54", "55"),
+                              extra_subtitles = c("Management and Holding Companies",
+                                                  "Office Administrative Services",
+                                                  "Employment Services",
+                                                  "Facilities Support Services",
+                                                  "Business Support Services",
+                                                  "Travel Arrangement and Reservation Services",
+                                                  "Investigation and Security Services",
+                                                  "Services to Buildings and Dwellings")),
+              combine_sectors("60", "Healthcare/Education", source_codes = c("61", "62"),
+                              extra_subtitles = c("Libraries and archives")),
+              combine_sectors("70", "Entertainment, Media and Gambling", source_codes = c("71"),
+                  extra_subtitles = c("Motion Picture and Video Industries", "Sound Recording Industries","Newspaper, Periodical, Book, and Directory Publishers",
+                      "Radio and Television Broadcasting Stations")),
+              combine_sectors("79", "Technology, software and AI companies", source_codes = character(0),
+                  extra_subtitles = c("AI services","Software Publishers",
+                                      "Media Streaming Distribution Services, Social Networks, and Other Media Networks and Content Providers",
+                                      "Computing Infrastructure Providers, Data Processing, Web Hosting, and Related Services")),
+              
+              combine_sectors("80", "Other Industries",  source_codes = c("44","45","42","72"),
+                  extra_subtitles = c("Automotive Repair and Maintenance","Electronic and Precision Equipment Repair and Maintenance",
+                                      "Commercial and Industrial Machinery and Equipment (except Automotive and Electronic) Repair and Maintenance",
+                                      "Personal and Household Goods Repair and Maintenance","Personal Care Services", "Death Care Services",
+                                      "Drycleaning and Laundry Services","Other Personal Services","Religious Organizations","Grandmaking and Giving Services",
+                                      "Social Advocacy Organizations","Civic and Social Organizations"))             
+)
+
+
+```
+
+
+### Expand descriptions after manual review feedback 
+
+```{r}
+x$description[x$naics_sector == "21"] <- paste0(
+  x$description[x$naics_sector == "21"],
+  " Also use this code for any company primarily in the oil/gas/petroleum business -- ",
+  "extraction, drilling, refining, or distribution -- even if its formal NAICS ",
+  "classification would otherwise be manufacturing (31/32) or wholesale trade (80)."
+)
+
+x$description[x$naics_sector == "92"] <- paste0(
+  x$description[x$naics_sector == "92"],
+  " Also use this code for defense contractors and companies whose primary business is ",
+  "military/defense products or services, even if their formal NAICS code would ",
+  "otherwise be manufacturing (31-33). Also use this code for ambulance and ambulance ",
+  "services, even though this might otherwise suggest Healthcare (60)."
+)
+
+x$description[x$naics_sector == "88"] <- paste0(
+  "Entities EXPLICITLY registered or identified as a Political Action Committee (PAC), ",
+  "contributor committee, or political action fund -- e.g. name contains 'PAC', ",
+  "'Political Action Committee', 'COPE', or confirmed via research to be a distinct ",
+  "registered political committee. Do NOT use this code for a union, trade association, ",
+  "corporation, or other organization just because it is politically active, lobbies, or ",
+  "has a separately-registered affiliated PAC -- classify the parent organization by its ",
+  "own actual industry instead (e.g. a union is '77', not '88'). Unitemized dues or ",
+  "intermediary contributions passed through a PAC should be classified by the underlying ",
+  "organization's actual industry when it can be determined (e.g. a union's PAC dues -> ",
+  "'77'), not as '88'."
+)
+
+x$description[x$naics_sector == "76"] <- paste0(
+  x$description[x$naics_sector == "76"],
+  " Use this code even if the association has an affiliated PAC or engages in political ",
+  "or lobbying activity -- the association itself is '76', not '88'; only a separately-",
+  "registered PAC entity gets '88'."
+)
+
+x$description[x$naics_sector == "79"] <- paste0(
+  x$description[x$naics_sector == "79"],
+  " Use this code regardless of which industry vertical the technology serves -- e.g. ",
+  "health-tech, fintech, and ad-tech companies are '79', not the industry they serve."
+)
+
+x$description[x$naics_sector == "100"] <- paste0(
+  x$description[x$naics_sector == "100"],
+  " Family trusts -> '100' ONLY when the contributor is literally the trust itself ",
+  "(name reads as a trust, e.g. 'The Smith Family Trust,' 'Jane Doe 1992 Revocable ",
+  "Trust') -- narrow; do not extend to LLCs/holding companies merely owned by or ",
+  "affiliated with a trust."
+)
+
+x$description[x$naics_sector == "11"] <- paste0(
+  x$description[x$naics_sector == "11"],
+  " Includes vineyards, even though winemaking might otherwise suggest Beverage ",
+  "Manufacturing (31) -- classify a vineyard's primary grape-growing/farming ",
+  "operation as agriculture."
+)
+
+x$description[x$naics_sector == "52"] <- paste0(
+  x$description[x$naics_sector == "52"],
+  " Also use this code for integrated health systems that are both a health insurer ",
+  "and a hospital/care operator (e.g. Kaiser Permanente, Sutter Health) -- classify ",
+  "by their insurance function, not '60'."
+)
+
+x$description[x$naics_sector == "92a"] <- paste0(
+  x$description[x$naics_sector == "92a"],
+  " Includes tribal casinos and other tribal gaming operations -- classify by tribal ",
+  "ownership ('92a'), not as gambling/entertainment ('70')."
+)
+```
+
+```{r}
+# write to file
+write_csv(x,"03_inputs/naics_sector_title_expanded_with_custom_codes.csv")
+```
+
+
+### write OS level2 categories to csv
+
+```{r}
+categories <- read.csv("../01_contributor_pipeline/01_inputs/ContributionOpenSecretsCategories.csv")
+```
+
+```{r}
+# take out uncoded and unitemized contributions
+level2_categories <- unique(categories$level2_category)
+level2_categories <- level2_categories[-which(level2_categories == "Uncoded")]
+level2_categories <- level2_categories[-which(level2_categories == "Unitemized Contributions")]
+level2_categories <- level2_categories[-which(level2_categories == "No Employer Listed or Found")] # also have a different category for this
+level2_categories <- level2_categories[-which(level2_categories == "Homemakers/Non-income earners")] # we have a different category for this
+level2_categories <- level2_categories[-which(level2_categories == "Employer Listed/Category Unknown")] # we have a different category for this
+level2_categories <- level2_categories[-which(level2_categories == "Generic Occupation/Category Unknown")] # we have a different category for this
+```
+
+```{r}
+# add in relevant custom categories
+level2_categories <- c(level2_categories,"Retired/Homemaker/Student/Unemployed","Unknown","Political Actions Committees (PACs), contributor committees and political action funds")
+```
+
+```{r}
+write_csv(level2_categories, "../open_secrets_level2_categories.csv")
+```
+
+
+
+
+

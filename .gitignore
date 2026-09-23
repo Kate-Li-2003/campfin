@@ -53,6 +53,14 @@ env/
 .claude/
 **/.claude/
 
+# ── Pipeline output directories (large generated files) ──────────────────────
+code/08_alternative_pipeline/08_outputs/*.csv
+code/09_llm_classifier/09_outputs/*.csv
+code/10_assign_classifications/10_outputs/*.csv
+data/04_output_latest_data_pulls/*.csv
+data/07_output_ml_classification/models*/embeddings_cache.npz
+data/governor_race_*.csv
+
 # ── Large data files in 08_alternative_pipeline ─────────────────────────────
 code/08_alternative_pipeline/08_inputs/FILERNAME_CD.TSV
 code/08_alternative_pipeline/08_inputs/ContributionOpenSecretsCategories.csv

@@ -177,6 +177,104 @@ x[which(x$naics_sector == "50"),]$description
 ```
 
 
+### Behavioral corrections from manual-review feedback (2026-09-10)
+
+- **21 (Oil and Gas):** oil/refining/distribution companies were sometimes classified
+  by their formal manufacturing or wholesale NAICS code instead.
+- **92 (Public Administration):** defense contractors were being classified as plain
+  manufacturing (31-33) instead of grouped with national security.
+- **88 (PACs):** far too many politically-active orgs (unions, associations, any org
+  with an affiliated PAC) were being labeled 88 outright; 88 should be reserved for
+  entities explicitly identified as a PAC, and unitemized/intermediary dues passed
+  through a PAC should reflect the underlying org's industry, not "PAC" as a label.
+- **76 (Associations):** associations were frequently mislabeled as 88 due to
+  PAC-adjacent political activity.
+- **79 (Technology):** tech/software/AI companies were sometimes classified by the
+  industry vertical their product serves (e.g. health-tech -> 60) instead of 79.
+- **100 (Retired/Homemaker/Student/Unemployed):** applies only when the contributor
+  is literally the trust itself (e.g. "The Smith Family Trust") -- NOT to LLCs or
+  holding companies merely owned by or affiliated with a family trust (a mistake this
+  same correction round initially introduced and had to narrow back down).
+- **11 (Agriculture):** vineyards were sometimes classified as Beverage Manufacturing
+  (31) instead of by their underlying farming operation.
+- **52 (Finance and Insurance):** integrated health systems that are both insurer and
+  hospital operator (e.g. Kaiser, Sutter) were being classified as Healthcare (60).
+- **92a (Tribes):** tribal casinos were sometimes classified as gambling/entertainment
+  (70) instead of by tribal ownership.
+- **92 (Public Administration):** ambulance services weren't consistently grouped here
+  rather than under Healthcare (60).
+
+```{r}
+x$description[x$naics_sector == "21"] <- paste0(
+  x$description[x$naics_sector == "21"],
+  " Also use this code for any company primarily in the oil/gas/petroleum business -- ",
+  "extraction, drilling, refining, or distribution -- even if its formal NAICS ",
+  "classification would otherwise be manufacturing (31/32) or wholesale trade (80)."
+)
+
+x$description[x$naics_sector == "92"] <- paste0(
+  x$description[x$naics_sector == "92"],
+  " Also use this code for defense contractors and companies whose primary business is ",
+  "military/defense products or services, even if their formal NAICS code would ",
+  "otherwise be manufacturing (31-33). Also use this code for ambulance and ambulance ",
+  "services, even though this might otherwise suggest Healthcare (60)."
+)
+
+x$description[x$naics_sector == "88"] <- paste0(
+  "Entities EXPLICITLY registered or identified as a Political Action Committee (PAC), ",
+  "contributor committee, or political action fund -- e.g. name contains 'PAC', ",
+  "'Political Action Committee', 'COPE', or confirmed via research to be a distinct ",
+  "registered political committee. Do NOT use this code for a union, trade association, ",
+  "corporation, or other organization just because it is politically active, lobbies, or ",
+  "has a separately-registered affiliated PAC -- classify the parent organization by its ",
+  "own actual industry instead (e.g. a union is '77', not '88'). Unitemized dues or ",
+  "intermediary contributions passed through a PAC should be classified by the underlying ",
+  "organization's actual industry when it can be determined (e.g. a union's PAC dues -> ",
+  "'77'), not as '88'."
+)
+
+x$description[x$naics_sector == "76"] <- paste0(
+  x$description[x$naics_sector == "76"],
+  " Use this code even if the association has an affiliated PAC or engages in political ",
+  "or lobbying activity -- the association itself is '76', not '88'; only a separately-",
+  "registered PAC entity gets '88'."
+)
+
+x$description[x$naics_sector == "79"] <- paste0(
+  x$description[x$naics_sector == "79"],
+  " Use this code regardless of which industry vertical the technology serves -- e.g. ",
+  "health-tech, fintech, and ad-tech companies are '79', not the industry they serve."
+)
+
+x$description[x$naics_sector == "100"] <- paste0(
+  x$description[x$naics_sector == "100"],
+  " Family trusts -> '100' ONLY when the contributor is literally the trust itself ",
+  "(name reads as a trust, e.g. 'The Smith Family Trust,' 'Jane Doe 1992 Revocable ",
+  "Trust') -- narrow; do not extend to LLCs/holding companies merely owned by or ",
+  "affiliated with a trust."
+)
+
+x$description[x$naics_sector == "11"] <- paste0(
+  x$description[x$naics_sector == "11"],
+  " Includes vineyards, even though winemaking might otherwise suggest Beverage ",
+  "Manufacturing (31) -- classify a vineyard's primary grape-growing/farming ",
+  "operation as agriculture."
+)
+
+x$description[x$naics_sector == "52"] <- paste0(
+  x$description[x$naics_sector == "52"],
+  " Also use this code for integrated health systems that are both a health insurer ",
+  "and a hospital/care operator (e.g. Kaiser Permanente, Sutter Health) -- classify ",
+  "by their insurance function, not '60'."
+)
+
+x$description[x$naics_sector == "92a"] <- paste0(
+  x$description[x$naics_sector == "92a"],
+  " Includes tribal casinos and other tribal gaming operations -- classify by tribal ",
+  "ownership ('92a'), not as gambling/entertainment ('70')."
+)
+```
+
 
 ```{r}
 x %>% arrange((naics_sector))

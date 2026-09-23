@@ -14,13 +14,21 @@ library(readr)
 
 # config
 
+today <- format(Sys.Date(), "%m-%d-%y")
+
 # built by build_race_prop_breakdown_input.R -- combines direct $5k+ givers
 # (final_classifications.csv) with PAC-to-race giving split by each PAC's own
 # industry breakdown (pac_industry_breakdown.csv)
-INPUT_PATH  <- "10_outputs/race_prop_breakdown_input.csv"
-OUTPUT_PATH <- "10_outputs/industry_breakdown_by_race.csv"
+INPUT_PATH  <- paste0("10_outputs/race_prop_breakdown_input_", today, ".csv")
+OUTPUT_PATH <- paste0("10_outputs/industry_breakdown_by_race_", today, ".csv")
+
 
 UNCATEGORIZED_CODE <- "99"
+
+
+# Qs
+# race_prop still what we need and is working as expected
+# may need updated data files to test this
 
 # update column names here depending on upstream processing
 COLS <- c(
@@ -76,6 +84,10 @@ if (n_bad_amount > 0) {
 x <- x %>% filter(!is.na(amount))
 
 
+# Qs
+# why is this filtering for no candidate?? what does that mean/do? 
+
+
 n_before <- nrow(x)
 x <- x %>% filter(!is.na(candidate) & candidate != "")
 message(sprintf("Excluded %d row(s) (no candidate); %d remain.", n_before - nrow(x), nrow(x)))
@@ -90,11 +102,16 @@ x <- x %>%
   )
 
 
-# breakdown by candidate as a % of TOTAL contributions received -- one row
-# per candidate + code
+# breakdown by candidate as a % of TOTAL contributions received - one row
+# per candidate/code
+
+# Qs
+# is candidate what we want to group on - what happens for props? 
+# why is it choosing the first code label? 
+# race_prop still the right thing to group on? 
 
 breakdown <- x %>%
-  group_by(candidate) %>%
+  group_by(race_prop, candidate) %>%
   mutate(candidate_total = sum(amount)) %>%
   group_by(race_prop, candidate, code) %>%
   summarise(
@@ -119,3 +136,4 @@ breakdown %>%
 dir.create(dirname(OUTPUT_PATH), showWarnings = FALSE, recursive = TRUE)
 write_csv(breakdown, OUTPUT_PATH)
 message(sprintf("Wrote %d row(s) to %s", nrow(breakdown), OUTPUT_PATH))
+

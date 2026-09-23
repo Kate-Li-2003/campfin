@@ -256,17 +256,15 @@ resolve_code_one <- function(rule_val, rule_tier, ml_val, ml_conf, os_val, os_co
                 review = TRUE, reason = "no rule; sources inconsistent"))
   }
   if (llm_usable && conf_is_high(llm_conf)) {
-    
-    if (ml_usable && !conf_is_high(ml_conf)) {
-      return(list(value = llm_val, source = "llm (high confidence)",
-                  review = TRUE, reason = "llm only source"))
-    }
-    
-    else{
+    if (ml_usable && conf_is_high(ml_conf)) {
+      # ML and LLM both high-confidence but disagree (agreement was already handled above).
+      # Two confident sources conflict with no rule to break the tie → fallback.
       return(list(value = FALLBACK_CODE, source = "uncategorized fallback",
-                  review = TRUE, reason = "no rule; sources inconsistent"))
+                  review = TRUE, reason = "no rule; ml_and_llm_high_conf_disagree"))
     }
-    
+    # ML absent or low-confidence → trust high-confidence LLM.
+    return(list(value = llm_val, source = "llm (high confidence)",
+                review = TRUE, reason = "llm only source"))
   }
 
   if (ml_usable && conf_is_high(ml_conf)) {

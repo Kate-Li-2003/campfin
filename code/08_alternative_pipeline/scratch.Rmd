@@ -1,0 +1,682 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+source("standardization_helpers.R")
+```
+
+
+```{r}
+contributions_full
+```
+
+
+# Resolve same name, different individuals
+
+Output ALL demographic info
+- not sure I want to output the recipient committee tbh -> that would be a lot
+- Could leave in Recipient committee (id or name?) just to flag which ones I've resolved. Look at ones relevant to me at least to start...
+
+
+Don't forget to incorporate manual feedback: many of these people likely gave to DIFFERENT committees though, so may not need to resolve, but would be nice to have different ids for them...
+
+
+```{r}
+# make name list: generate output of people in THIS data with any of these names and flag manually
+
+name_list <- c("SMITH, STEVE","DAVIS, JOHN","KING, JUSTIN","SPENCER, RICHARD","FISHER, ROBERT", "ROBERTSTON, CARL", "ROBERTSON, CHIP", "W ROBERTSON, CARL")
+```
+
+
+```{r}
+contribs %>% filter(grepl("ROBERTSON, CHIP",toupper(Contributor.Name))) %>% arrange(Recipient.Committee,Contributor.Name) %>% select(Recipient.Committee,Contributor.Name,Contributor.Employer, Contributor.Occupation, Contributor.City,Contributor.State,Contributor.Zip.Code) %>% distinct()
+```
+
+```{r}
+contribs %>% filter(grepl("DAVIS, JOHN",toupper(Contributor.Name))) %>% arrange(Recipient.Committee,Contributor.Name) %>% select(Recipient.Committee,Contributor.Name,Contributor.Employer, Contributor.Occupation, Contributor.City,Contributor.State,Contributor.Zip.Code) %>% distinct()
+```
+
+- Think I can ignore ActBlue as a recipient.committee - don't think we use that
+- What committees can I leave out? 
+
+
+- How to know how to aggregate contributors when there is MORE THAN ONE row for one individual
+
+
+# NAME CHECK to fill in missing ids
+
+
+```{r}
+# read in id map
+# data to map contributor ids
+id_map_full <- read_tsv("08_inputs/FILERNAME_CD.tsv")
+id_map <- unique(id_map_full[,c("XREF_FILER_ID","FILER_ID","FILER_TYPE")]) # get unique xref id / filer ids combos
+
+# convert all ids to character strings
+id_map$FILER_ID         <- as.character(id_map$FILER_ID)   
+id_map$XREF_FILER_ID <- as.character(id_map$XREF_FILER_ID)
+```
+
+
+
+```{r}
+# read in most up-to-date data
+c <- read.csv("08_inputs/power_search_contributions_normalized.csv")
+```
+
+```{r}
+nrow(c)
+nrow(contributions_full)
+```
+
+
+
+```{r}
+#c %>% filter(toupper(Contributor.Name) == "FRONTWAVE CREDIT UNION (INDEPENDENT EXPENDITURE ACCOUNT)")
+#c %>% filter(grepl("lockheed martin",tolower(Contributor.Name))) %>% select(Contributor.Name, Contributor.ID, Contributor.City, Contributor.Zip.Code,Recipient.Committee, Recipient.Committee.ID) %>% distinct()
+c %>% filter(grepl("international brotherhood of electrical workers",tolower(Contributor.Name))) %>% select(Contributor.Name, Contributor.ID, Contributor.City, Contributor.Zip.Code,Recipient.Committee, Recipient.Committee.ID) %>% distinct()
+```
+
+
+```{r}
+c %>% filter()
+```
+
+
+Johnson & JOhnson
+#C00010983
+
+
+AbbVie Political Action Committee (Fed PAC ID C00536573)
+ABBVIE PAC
+
+```{r}
+c %>% filter(Recipient.Committee.ID == "880969")
+```
+
+
+```{r}
+c %>% filter(Recipient.Committee.ID == 1045835 & Recipient.Committee == Contributor.Name)
+```
+
+
+
+```{r}
+c %>% filter(Contributor.State == "DC") %>% distinct(Contributor.City)
+```
+
+```{r}
+c %>% filter(Contributor.City == "Washington") %>% distinct(Contributor.State)
+```
+
+```{r}
+unique(c$Contributor.State)
+```
+
+
+880969
+Should we flag this id more generally? 
+
+
+DRIVE Committee
+DRIVE Committee (FEC ID# C00032979)
+DRIVE - Democrat, Republican, Independent Voter Education (The PAC of the International Brotherhood of Teamsters)
+Drive- Democrat, Republican, Independent Voter Education
+DRIVE - Dem, Rep, Ind Voter Education (The PAC of the Int'l Brhd of Teamsters)
+
+```{r}
+id_map_full %>% filter(grepl("DENTAQUEST",toupper(NAML))) %>% select(NAML,FILER_ID,XREF_FILER_ID,FILER_TYPE,STATUS,EFFECT_DT,NAMF) %>% distinct()
+```
+
+
+1049814	900161
+
+```{r}
+id_map_full %>% filter(FILER_ID == 880969 | XREF_FILER_ID == 880969)
+```
+
+
+```{r}
+head(id_map_full)
+head(id_map)
+```
+
+# LOOK AT EMPLOYERS in 
+
+```{r}
+contribs <- c %>% 
+  rename(
+    Ballot.Measure = `Ballot.Measure.s.`
+  ) %>% 
+  filter(
+    Ballot.Measure == "OPPOSED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE." | 
+    Ballot.Measure == "SUPPORTED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE." | 
+    Ballot.Measure == "SUPPORTED: PROPOSITION 041 - REQUIRES AUDITS OF PROGRAMS FUNDED BY NEW STATE SPECIAL TAXES. PROHIBITS NEW STATE TAXES THAT ARE EXCLUDED FROM EXISTING VOTER-APPROVED STATE SPENDING LIMIT..." | 
+    Ballot.Measure == "SUPPORTED: PROPOSITION 042 - PROHIBITS NEW STATE PERSONAL PROPERTY TAXES AND CERTAIN RETROACTIVE STATE TAXES. INITIATIVE CONSTITUTIONAL AMENDMENT." | 
+    Recipient.Name == "BECERRA, XAVIER" | 
+    Recipient.Name == "HILTON, STEVE" | 
+    (Recipient.Name == "ALLEN, BEN" & Office == "Insurance Commissioner") | 
+    Recipient.Name == "KIM, JANE" 
+)
+nrow(contribs)
+```
+
+
+```{r}
+contribs %>% filter(entity_type == "organization") %>% distinct(Contributor.Occupation)
+```
+
+
+C00076810
+C00219642
+# C00128512
+C00168864
+ID# C00836866
+
+
+
+# FLAG ORGS FUNCTION
+
+- look at cases with an employer that were flagged as orgs
+- look at cases without an employer that were flagged as individuals
+
+```{r}
+contributions %>% filter(grepl("JV",toupper(Contributor.Name)))
+```
+
+
+**issues**
+- no good way to resolve individuals without a comma in their name
+
+
+### apply updated function for comparison
+
+```{r}
+c <- contributions_full
+```
+
+```{r}
+c <- contributions
+nrow(c)
+```
+
+
+
+```{r}
+c <- c %>% 
+  mutate(entity_type_alt = if_else(
+      mapply(is_individual, standardized_name, `Contributor.Employer`, `Contributor.Occupation`),
+      "individual", "organization"),
+      entity_type_ambiguous = entity_type_looks_ambiguous(entity_type, `Contributor.Employer`, `Contributor.Occupation`)
+  )
+```
+
+```{r}
+c %>% filter(entity_type_alt != entity_type) %>% select(Contributor.Name, entity_type_alt, Contributor.Employer, Contributor.Occupation, Contributor.City) %>% distinct()
+```
+
+**last round remaining errors (to address manually):**
+
+Last0b6df6bd, First7606aee3
+Lastcbea8f37, Firstd599d312
+Associates, Sonny
+Drilling, Dr. Patricia
+Phan, The
+Labor, Wilmot
+
+
+- de los angeles last name
+- vineyard last name
+- Associates, Sonny -> confused about this
+- Garcia, Sacramento
+- Drilling, Dr. Patricia
+- Phan, The
+- Labor, Wilmot
+
+more keywords: 
+- motel
+- would be good to figure out 'inn'
+- inn & spa
+- inn at
+
+
+actually confused about what the centers are... 
+
+- Nguyen, Dr. Loan
+- Phan, Thuy-Loan
+- Luu, Dr. Loan
+- Huynh, Loan
+ - remove loan as keyword I guess? 
+- CENTER, SCOTT
+- Center, Jay
+- Center, Lynda
+  - center as keyword, but has non-empty employer
+- Drilling, Dr. Patricia
+- Phan, The
+  - dentist, outliter
+- Manchester, including aggregated contributions and independent expenditures, Craig
+  - don't know what this means
+
+- Holdenried, Brent and Debra: now flagged as org even though theyre individuals, emplyer and occ empty though... 
+- CENTER, LYNDA
+- CENTER, ED
+- CONGRESS, MILES
+- CONGRESS, PATRICIA
+  - seems like a last name? 
+-STAHL FAMILY, THE
+  - this and some other cases where ,the at the end doesn't work
+  - but helpful in LOTS of cases
+  - could put this in ambiguous and have employer decide
+- CALLAWAY, THE
+  - not sure what this is... 
+- COUNCIL, SANDRA L
+- RANCH, KELLEY
+- HOENIGMAN FAMILY, THE
+- PIMENTEL, CCTV OUTLET CORP
+
+- Centene Corp, HealthNet: now and individual!!!
+
+```{r}
+c %>% filter(grepl("LABOR, ", toupper(Contributor.Name))) %>% select(Contributor.Name, Contributor.Employer) %>% distinct()
+```
+
+- can we not include "labor, "
+- 
+
+keywords to add: 
+- associates
+- business
+- AFL-CIO
+- investment
+- professional
+- DBA surrounded by spaces? 
+- Corp at the end instead? 
+- accountacy 
+- centene
+- healthnet (health?)
+
+### look at remaining ambiguous cases
+
+```{r}
+unique(c$entity_type_ambiguous)
+c %>% filter(entity_type_ambiguous == TRUE) %>% select(Contributor.Name, entity_type_alt, Contributor.Employer, Contributor.Occupation) %>% distinct()
+```
+```{r}
+is_individual("BERRY & SONS, RICHARD")
+```
+
+
+```{r}
+#contributions %>% filter(Contributor.Name == "Barr Co., Bill")
+contributions %>% filter(grepl("INN AT",toupper(Contributor.Name))) %>% select(Contributor.Name, Contributor.Employer,Contributor.Occupation,Contributor.City) %>% distinct()
+```
+
+**remaining errors (to address manually)**
+Goldberg & Loren, PA
+Alice Valder Curran
+LA3pez, Carlos
+Bosch, Thermador, Gaggenau
+Dr. B. Kamkar, A Prof Opto
+Joseph Marchionna & Mike Delapena, OD's
+B;izzard, Deb
+Eric Michael Rudnick
+Berry & Sons, Richard
+Barr Co., Bill
+
+
+UNCERTAIN Cases
+- Arthur Friedman, O.D.
+- Keith Lesar, Attorney at Law
+- Joseph Metz, Broker
+- Lisa B Stephenson, Realtor
+
+- not sure what to do w/ family trusts
+- all brokers now flagged as indivdiuals -> not sure what to do with them
+  - could flag by looking for ,broker at tthe end
+  
+remaining errors: 
+- HCSS - Sugarland, TX -> flagged as individual
+- Goldberg & Loren, PA -> should be an org
+- Rush Truck Center, Pico Rivera
+- Alice Valder Curran -> not sure what to do w/ individuals w/out a comma
+- LA3pez, Carlos -> not sure why flagged as an org? 
+- Danilo & Laureta Cabanayan
+- An York, dba Dr Lee Acupuncture -> should be an org? 
+- Becker, Todd B Law Offices of
+- Bosch, Thermador, Gaggenau -> flagged as individual
+- Avi Kram
+- Mai Lor
+- Palmetto Digestive Disease, PA
+- LOCKER, RICHARD 5
+- The Ritz-Carlton, San Francisco
+- B;izzard, Deb
+- Gless - Caliente, John J. -> flagged as individual, but others are flagged orgs
+  - Gless - P13 Ranch, John J. and Gless - Sunshine Ranch, John J.
+- Meadowood, Napa Valley	individual			
+- Meier Citrus, Steve -> looks like this is his name and not a citrus grower
+- Berry & Sons, Richard -> should be org
+- Poon and Son, P.A.
+- Barr Co., Bill
+- T-Mobile, USA
+
+keywrods
+- law offices & law office
+- Optometrists
+- neurology
+- co. 
+- change to vineyards
+
+errors: 
+- Young Vineyards, Robert
+- Democrats in Sun City, Palm Desert
+- Penny for Progress, Yes on Measure E
+- Lifetime Green Coatings, Sacramento
+- California Alliance for Progress and Education, an alliance of business organizations
+E. Bruce Laycook : still an org
+
+- update keywords
+- run on contributions only
+- decide what to do w/ ambiguous keywords like ', the' , 'center' and 'congress'
+  - also look at centers specifically. 
+
+keywords to add: 
+- alliance
+- business
+- organization
+- vineyards
+- democrat
+- republican 
+- yes on measure
+- attorney at law? not sure what to do with these if they are law offices or not
+- sacramento, los angeles, california
+- lifetime? coatings? 
+
+### earlier pass
+
+- look at contributor id - could be another indicator
+
+```{r}
+c %>% filter(Contributor.Name == "American Federation of State County & Municipal Employees, AFL-CIO")
+```
+
+American Federation of State County & Municipal Employees, AFL-CIO: is this a pac? should it have a contributor id? wouldn't impact how we classify I dont think
+
+
+
+```{r}
+contributions %>% filter(entity_type == "organization") %>% distinct(Contributor.Employer)
+```
+No Separate Business Name, Committee
+
+```{r}
+contributions %>% filter(Contributor.Employer == "Committee")
+```
+
+
+```{r}
+contributions %>% filter(entity_type == "organization" & (Contributor.Employer != "" & Contributor.Employer != "." & Contributor.Employer != "N/A" )) %>% select(Contributor.Name,Contributor.Employer, Contributor.Occupation) %>% distinct()
+```
+
+```{r}
+contributions %>% filter(entity_type == "individual" & (Contributor.Employer == "" | Contributor.Employer == ".")) %>% select(Contributor.Name,Contributor.Employer, Contributor.Occupation) %>% distinct()
+```
+
+keywords to add:
+- resort
+- coalition
+- government
+- sponsored
+- pediatrics
+- expenditures
+- usa (eg t0mobile usa)
+- joint venture
+- insurance
+- visit 
+- farms
+- institute
+- center
+- chapter
+- federation
+- employee
+- industry
+- conference
+- council
+- drilling
+- ranch? / ranches
+- buildings
+- laboratory
+- pawn shop
+- realty
+- ALC (a law corporation)
+- chamber
+- DBA
+- office 
+- law office
+- medical
+- congress
+- loan
+- jewelry
+- attorney at law?
+- apartment / apartments
+- hotel 
+- resort
+- optometrists
+- optometry
+- dairy
+- international
+- sponsored
+- ,the
+- inn / spa
+- properties
+- residences
+- maufacturing
+ - aggregated
+ - contributors
+
+Orgs flagged as individuals: 
+Powering California's Future, Sponsored by Edison International
+Medici at South Hills, The
+Fairmont Miramar Hotel, The
+The Waterfront Beach Resort, a Hilton Hotel
+A Cash Buyer Jewelry, Watch and Loan
+- Drs. Holden, Knapp & Langsford AKA Family Optometry -> not sure what to do with this one
+- American Federation of State County & Municipal Employees, AFL-CIO
+- California Legislative Conference of the Plumbing, Heating & Piping Industry
+- CA Legislative Conference of the Plumbing, Heating & Piping Industry - Admin
+- Pearlman, Borska & Wax
+- California Teamsters Public Affairs Council, Public Affairs
+- Mahaffey Drilling Co., Don H.
+- Campagnoli, Abelson & Campagnoli -> law firm or couple? 
+- American Federation of State, County and Municipal Employees, AFL-CIO
+- Borchard-DJB Ranch, David
+- Brucker Ranch Co., Mike
+- Road Ranch, Fairview
+-HCSS - Sugarland, TX  
+- Last, Faoro & Whitehorn -> law office
+- Stacy and Witbeck/Herzog, a JV
+- Eason & Tambornini, ALC
+- Redwoods Retirement Community, The
+- Karen Tabler, Broker -> unclear whether to flag these as orgs or individuals anyways...
+- Hills of Corona - Afton Properties, The
+- Mackaig Realty, R A
+- Row at Redhill - Greystar, The
+- Vilara - Greystar, The
+- Southern Sierras Chapter, NECA
+- USW 474 G Aluminum, Brick & Gl (intermediary for unitemized member dues)
+- Hooper, Lundy & Bookman
+Air-Conditioning, Heating & Refrigeration Institute				
+Su, Huachang CA Medical Therapeutic Center
+An York, dba Dr Lee Acupuncture
+Becker, Todd B Law Offices of
+
+Individuals flagged a org: 
+- B;izzard, Deb
+- Long Family Trust
+- Corp, Craig
+- E. Bruce Laycook	
+- Alice Valder Curran
+- CC\003B!rdenas, Jeffrey	; Democratic Party of Orange County
+- BARBARA BRASS, PAT THOMPSON &
+- LA3pez, Carlos ;	Werner
+- Danilo & Laureta Cabanayan
+- SPIEKER, JR., INCLUDING SPIEKER REALTY INVESTMENTS, WARREN E.
+- Colatruglio, CFA, CFP, Mr. Frank ; wells fargo advisors
+- Hone, Md, Ma, Face, Jennifer ;	Optum
+- VLASAK P.C., BRACAMONTES	BRACAMONTES & VLASAK PC
+- MCMORRIN COMMITTEE, YASMINE	CULVER CITY
+- Assemblymember Schultz
+- The Pera Nieh Trust (Charlotte & David)
+- Dawniel Garcia
+- Joseph Musquiz
+- Stephen Brazeel
+- Schreiber, LLP, Singleton ;	Singleton Schreiber Law Firm	
+- Zaidal Obagi
+- Trowbridge and affiliated entity Auburn manor Holding Corporation, Donald T.	Western Care Construction Company, Inc. -> weird case generally
+- Avi Kram
+- Heather Mulholland
+- Mai Lor
+- HOWARD, EDDIE&ALI
+- G. Lowe Chang
+- Quillin (Meadow Fund), Patty
+- LOCKER, RICHARD 5
+- YEE, EDISON& JANICE
+- PETO~LEVICKI, SHEILA
+- BENNETT, DAOM, L.AC, JOANN W.
+SCHREEDER, MARIANNE (USE THIS A
+YEE, EDISON& JANICE	NOT EMPLOYED	
+TALIFER, T & N CHICAGO INC.	NOT EMPLOYED	
+WIRELESS, 2X	2X WIRELESS	
+ASKENASE, PHIL 2016	YALE U	
+BENNETT, DAOM, L.AC, JOANN W.	SELF	
+PETO~LEVICKI, SHEILA	GB	
+SCHREEDER, MARIANNE (USE THIS A	NOT EMPLOYED	
+SCHWARTZ, LISA &
+MARTIN, ELAINE &EUGENE
+HARTFORD, DAN&ELLEN	NOT EMPLOYED	
+FIELDS, CHESTER& MARION
+ABRONS, MD, MPH, HENRY
+ABSEY, RN, HN-BC, CMT, JENNIFER
+GILBERT, PHD, LMFT, KRISTA
+Murphy~Bryner, Jayne
+Peto~Levicki, Sheila
+
+
+### check added names
+
+1. no duplciate raw names
+2. single uuid per canonical name
+3. same # unique uuids and canonical names
+4. one canonical name per raw name
+5. no double spaces in canonical names
+5. what else? 
+
+```{r}
+new_names <- read.csv("08_inputs/name_entity_mapping_rebuilt_to_add.csv")
+nrow(new_names)
+```
+
+```{r}
+# no duplicate raw names
+new_names %>% group_by(raw_name) %>% filter(n() > 1) %>% arrange(raw_name)
+```
+
+- all other cases are those that have two canonical names per raw_name
+
+
+```{r}
+# one uuid per raw name
+new_names %>% group_by(raw_name) %>% filter(n_distinct(canonical_name) > 1) %>% arrange(raw_name)
+```
+
+- these are the same 12 we already knew about.
+
+```{r}
+# one uuid per canonical
+new_names %>% group_by(canonical_name) %>% filter(n_distinct(entity_uuid) > 1) %>% arrange(canonical_name)
+```
+
+```{r}
+# no double spaces in canonical name
+new_names %>% filter(grepl("  ",canonical_name))
+new_names %>% filter(grepl("  ",raw_name))
+```
+
+```{r}
+length(unique(new_names$canonical_name))
+length(unique(new_names$entity_uuid))
+```
+
+```{r}
+existing_names <- new_names %>% filter(source != "manual_confirmation")
+added_names    <- new_names %>% filter(source == "manual_confirmation")
+```
+
+```{r}
+# leading/trailing whitespace on raw_name or canonical_name
+existing_names %>%
+  filter(raw_name != trimws(raw_name) | canonical_name != trimws(canonical_name)) %>%
+  select(raw_name, canonical_name, source)
+```
+
+```{r}
+# leading/trailing whitespace on raw_name or canonical_name
+added_names %>%
+  filter(raw_name != trimws(raw_name) | canonical_name != trimws(canonical_name)) %>%
+  select(raw_name, canonical_name, source)
+```
+
+```{r}
+# new raw names already in existing map with a DIFFERENT canonical name (silent override)
+added_names %>%
+  inner_join(
+    existing_names %>% select(raw_name, existing_canonical = canonical_name),
+    by = "raw_name"
+  ) %>%
+  filter(canonical_name != existing_canonical) %>%
+  select(raw_name, canonical_name, existing_canonical)
+```
+
+```{r}
+# new canonical names that already exist in the map — UUID must match
+added_names %>%
+  inner_join(
+    existing_names %>% distinct(canonical_name, existing_uuid = entity_uuid),
+    by = "canonical_name"
+  ) %>%
+  filter(entity_uuid != existing_uuid) %>%
+  select(raw_name, canonical_name, entity_uuid, existing_uuid)
+```
+
+```{r}
+# raw_name == canonical_name (no-op entries) -> these are okay
+added_names %>%
+  filter(raw_name == canonical_name) %>%
+  select(raw_name, canonical_name)
+```
+
+```{r}
+# UUID format check
+uuid_pattern <- "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+added_names %>%
+  filter(!grepl(uuid_pattern, entity_uuid, ignore.case = TRUE)) %>%
+  select(raw_name, canonical_name, entity_uuid)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

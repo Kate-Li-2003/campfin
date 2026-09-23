@@ -59,6 +59,7 @@ import argparse
 import re
 import sys
 import warnings
+from datetime import date
 from pathlib import Path
 
 import pandas as pd
@@ -70,8 +71,10 @@ EDD_CACHE_PATH = REPO_ROOT / "code/03_aggregating_data/.edd_naics_cache.json"
 
 DEFAULT_INPUT = OUTPUTS_DIR / "classification_input.csv"
 DEFAULT_RUNNING_LIST = REPO_ROOT / "data/03_input/masterfile/running_list_alt.csv"
-DEFAULT_OUT = OUTPUTS_DIR / "classified_contributors.csv"
-DEFAULT_PRE_CLASSIFIED = INPUTS_DIR / "already_classified_contributions.csv"
+_TODAY = date.today().strftime("%m-%d-%y")
+DEFAULT_OUT = OUTPUTS_DIR / f"classified_contributors_{_TODAY}.csv"
+# update this when necessary
+DEFAULT_PRE_CLASSIFIED = INPUTS_DIR / "already_classified_contributions_09-06-26.csv"
 
 _KEYWORD_SHEET_ID = "1WN3KQt9S3Xn5mT2kZxinQ5OYhgCmldA-Q8d5VDXoEg0"
 KEYWORD_SHEET_URLS = {
@@ -1080,6 +1083,11 @@ def main(argv: list[str] | None = None) -> None:
     ]
     df[cols].to_csv(args.out, index=False)
     print(f"\nWrote: {args.out}  ({len(df):,} rows)")
+
+    # also keep an undated "latest" copy for downstream scripts
+    latest = OUTPUTS_DIR / "classified_contributors_last_iteration.csv"
+    df[cols].to_csv(latest, index=False)
+    print(f"Wrote: {latest}  (latest copy)")
 
 
 if __name__ == "__main__":

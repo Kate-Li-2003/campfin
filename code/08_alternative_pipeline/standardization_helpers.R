@@ -3,15 +3,75 @@
 # DEFINE FUNCTIONS TO STANDARDIZE NAMES
 
 pac_keyword_pattern <- regex(
-  paste0("\\b(", paste(c(
-    "PAC", "POLITICAL ACTION COMMITTEE", "POLITICAL ACTION LEAGUE", "POLITICAL FUND",
-    "POLITICAL ACTION FUND", "COMMITTEE", "FPPC", "SCC", "SMALL CONTRIBUTOR","INDEP EXPENDITURE","INDEPEDENT EXPENDITURE"
-    #"SMALL CONTRIBUTOR COMMITTEE", "SMALL CONT COMMITTEE"
-  ), collapse = "|"), ")\\b"),
+  paste0(
+    "\\b(", paste(c(
+      "PAC", "POLITICAL ACTION COMMITTEE", "POLITICAL ACTION LEAGUE", "POLITICAL FUND",
+      "POLITICAL ACTION FUND", "COMMITTEE", "FPPC", "SCC", "SMALL CONTRIBUTOR",
+      "INDEP EXPENDITURE COMMITTEE", "INDEPEDENT EXPENDITURE COMMITTEE", "INDEPENDENT EXPENDITURE COMMITTEE", "IE COMMITTEE",
+      # federal PAC indicators
+      "FED PAC", "FEC PAC","FEDERAL PAC", "FEC ID", "FEC REPORT", "FED FORM","FEDERAL POLITICAL ACTION"
+    ), collapse = "|"), ")\\b",
+    "|#C|ID#|COMMITTEE/FEDERAL|IDNUMBER"
+  ),
   ignore_case = TRUE
 )
 
-has_pac_language <- function(name) str_detect(toupper(coalesce(name, "")), pac_keyword_pattern)
+# federal-PAC-specific patterns only (subset of pac_keyword_pattern)
+fed_pac_pattern <- regex(
+  paste(
+    "\\b(FED PAC|FEC PAC|PAC ID|FEDERAL PAC|FEC ID|FED ID|FEC REPORT|FED FORM|FEDERAL POLITICAL ACTION)\\b",
+    "#C|ID#|ID\\s*NUMBER|IDNUMBER|COMMITTEE/FEDERAL",
+    "\\bC00\\d{6}\\b",   # bare FEC committee ID (e.g. C00639229)
+    sep = "|"
+  ),
+  ignore_case = TRUE
+)
+
+has_pac_language     <- function(name) str_detect(coalesce(name, ""), pac_keyword_pattern)
+has_fed_pac_language <- function(name) str_detect(coalesce(name, ""), fed_pac_pattern)
+
+# candidate_pac_pattern: catches candidate/officeholder committee names.
+# Signals: "FOR <office>", ELECT/RE-ELECT, COMMITTEE TO ELECT.
+# Excluded: "FRIENDS OF" (too broad — catches non-candidate PACs), "SPONSORED BY" (IE/coalition).
+# A year alone is not flagged — too common in non-candidate PAC names.
+# Double-FOR names (e.g. "X FOR [CANDIDATE] FOR SENATE") are IE committees, not candidate PACs.
+candidate_office_terms <- paste(c(
+  "GOVERNOR", "SENATE", "ASSEMBLY", "CONGRESS", "SUPERVISOR",
+  "MAYOR", "TREASURER", "CONTROLLER", "COMPTROLLER",
+  "ATTORNEY\\s+GENERAL", "INSURANCE\\s+COMMISSIONER",
+  "SECRETARY\\s+OF\\s+STATE", "CITY\\s+COUNCIL",
+  "DISTRICT\\s+ATTORNEY", "STATE\\s+SENATE", "STATE\\s+ASSEMBLY",
+  "BOARD\\s+OF\\s+EQUALIZATION", "LIEUTENANT\\s+GOVERNOR",
+  "LT\\s+GOVERNOR", "AUDITOR", "JUDGE",
+  "SHERIFF", "ASSESSOR", "SCHOOL\\s+BOARD",
+  "WATER\\s+BOARD", "PUBLIC\\s+UTILITIES", "COMMUNITY\\s+COLLEGE"
+), collapse = "|")
+
+candidate_pac_pattern <- regex(
+  paste(
+    paste0("\\bFOR\\s+(", candidate_office_terms, ")\\b"),
+    "\\b(RE-ELECT|REELECT)\\b",
+    "\\bCOMMITTEE\\s+TO\\s+(ELECT|RE-ELECT|REELECT)\\b",
+    "\\bCAMPAIGN\\s+COMMITTEE\\b",
+    sep = "|"
+  ),
+  ignore_case = TRUE
+)
+
+# IE/coalition committees name a supported candidate in the form "[group] FOR [person] FOR [office]".
+# Exclude these: the double-FOR pattern signals it's not the candidate's own committee.
+candidate_pac_double_for_pat <- regex(
+  paste0("\\bFOR\\b.+\\bFOR\\s+(", candidate_office_terms, ")\\b"),
+  ignore_case = TRUE
+)
+
+is_candidate_pac <- function(name) {
+  name_safe  <- coalesce(name, "")
+  name_upper <- toupper(str_squish(name_safe))
+  str_detect(name_safe, candidate_pac_pattern) &
+    !str_detect(name_upper, "\\bSPONSORED\\s+BY\\b") &
+    !str_detect(name_upper, candidate_pac_double_for_pat)
+}
 
 
 make_row_hash <- function(...) {
@@ -36,17 +96,18 @@ normalize_name_simple <- function(name) {
 standardize_names <- function(name) {
   name %>%
     str_to_upper() %>%
-    str_replace_all(" \\& ", " AND ") %>% # this may make some names weird e.g. M&D Inc -> MANDD Inc.
-    str_replace_all("\\#", "NUMBER") %>%
-    str_replace_all(" NO ", " NUMBER ") %>% 
-    str_replace_all("[.']", "") %>% # only removing these for now, because there's some punctuation i wanted to preserve, but could try removing all 
+    str_replace_all("[.']", "") %>% # want to preserve some punctuation (like commas) for processing names
     str_replace_all(",\\s*,+", ",") %>%
-    str_replace_all("\\?\\=s", "\\'") %>% # checked these manually
+    str_replace_all("\\?\\=s", "\\'") %>% # some special characters were recorded as question marks
     str_replace_all("\\?", "") %>% # could remove some spaces between words
-    str_replace_all(" \\,", ",") %>%
+    str_replace_all(" \\,", ",") %>% # remove space before comma
+    str_squish()
+  
     #str_replace_all("\\ + ", " AND ") %>%
     #str_replace_all("[-]", " ") %>% # don't want to take hyphens out of people's names for now (last names in particular)
-    str_squish()
+    #str_replace_all(" \\& ", " AND ") %>% # this may make some names weird e.g. M&D Inc -> MANDD Inc.
+    #str_replace_all("\\#", "NUMBER") %>%
+    #str_replace_all(" NO ", " NUMBER ") %>% 
 }
 
 # fix typos found in names
@@ -122,15 +183,25 @@ replace_committee_text <- function(name){
     str_replace_all("FPPC", "") 
 }
 
-remove_pac_info <- function(name){ 
+
+remove_pac_info <- function(name){
   name %>%
-    str_remove("FED\\s*ID\\s*NUMBER\\s*[C]\\d+") %>% 
-    str_remove_all("\\s*\\([^)]*(ID|FPPC|FEC)[^)]*\\)") %>%
-    str_remove("\\s*(ID(?:\\s*NUMBER)?|FPPC|FEC)\\s*[A-Z0-9]+$") %>%
-    #str_remove("(\\s+(FED\\s+PAC|PAC))+$") %>%
+    # Parenthesized blocks: (FEC ID C00834291), (Major Donor # 1440663), (#C00084475), etc.
+    str_remove_all(
+      "(?i)\\s*\\((?:(?:(?:FEDERAL|FED|FEC)(?:\\s+PAC)?|(?:CALIFORNIA\\s+)?MAJOR\\s+DONOR)(?:\\s+(?:ID|ACCOUNT))?[\\s#:]*[A-Z]?\\d*|[#]?[A-Z]\\d{6,})\\)"
+    ) %>%
+    # Clean up empty parens left behind: () or ( )
+    str_remove_all("\\s*\\(\\s*\\)") %>%
+    # Bare "ID XXXXXXX" — California Major Donor numeric ID (6–7 digits)
+    str_remove("(?i),?\\s*\\bID\\s+\\d{6,7}$") %>%
+    # Trailing FEC/Federal/Major Donor references with optional preceding separator
+    str_remove(
+      "(?i)[\\s,\\-]*\\b(?:(?:STATE\\s+(?:AND|&)\\s+)?(?:FEDERAL|FED|FEC)(?:\\s+PAC)?|(?:CALIFORNIA\\s+)?MAJOR\\s+DONOR)(?:\\s+(?:ID|ACCOUNT))?[\\s#:]*[A-Z]?\\d*$"
+    ) %>%
+    # Clean up trailing open paren left behind: " ("
+    str_remove("\\s*\\($") %>%
     str_squish()
 }
-
 
 remove_unit_info <- function(name) {
   name %>%
@@ -215,47 +286,105 @@ standardize_state <- function(state) {
 # FUNCTION TO FLAG INDIVIDUALS VS ORGS
 
 org_keywords <- c(
-  "INC", "LLC", "CORP", "INCORPORATED", "CORPORATION", "COMPANY", "LTD", "LLP", "PLC",
-  "AND CO", "PARTNERSHIP", "LTC", "MGMT", "MANAGEMENT", "SERVICES", "ENTITIES", "LP",
-  "ASSOCIATION", "ASSOC", "ASSN", "AFFILIATED", "AFFILIATES",
-  "PAC", "COMMITTEE", "UNION", "POLITICAL", "ACTION","FPPC",
-  "LOCAL", "FUND", "GROUP", "PARTNERS",
-  "ENGINEERING", "ARCHITECTS", "CONSULTING", "CONSTRUCTION", "ATTORNEYS", "SOLUTIONS", "INDUSTRIES",
-  "PC", "APC", "FIRM"
-) #"PA", "CO", "STATE"
+  "INC", "LLC", "INCORPORATED", "CORPORATION", "COMPANY", "LTD", "LLP", "PLC", "OFFICE", "OFFICES","INTERNATIONAL", "CO\\.",
+  "BUSINESS", "ORGANIZATION", "PROFESSIONAL", "INVESTMENT", "LAW OFFICE", "LAW OFFICES",
+  "AND CO", "PARTNERSHIP", "LTC", "MGMT", "MANAGEMENT", "SERVICES", "ENTITIES", "LP", "AND SON", "AND SONS",
+  "ASSOCIATION", "ASSOC", "ASSN", "AFFILIATED", "AFFILIATES", "ASSOCIATES",
+  "PAC", "COMMITTEE", "UNION", "POLITICAL", "ACTION","FPPC", "AFL-CIO", "DEMOCRAT","REPUBLICAN", "YES ON MEASURE",
+  "EXPENDITURE", "EXPENDITURES","COALITION", "GOVERNMENT", "SPONSOR", "SPONSORED","AGGREGATED","CONTRIBUTOR", "ALLIANCE",
+  "INTERMEDIARY","UNITEMIZED", "LABOR",
+  "LOCAL", "FUND", "GROUP", "PARTNERS","ALC$", 
+  "ENGINEERING", "ARCHITECTS", "CONSULTING", "CONSTRUCTION", "ATTORNEYS", "SOLUTIONS", "INDUSTRIES", "INDUSTRY", "MANUFACTURING", "ACCOUNTANCY",
+  "INSTITUTE", "CENTER$", "CHAPTER","FEDERATION", "EMPLOYEE", "INDUSTRY", "CONFERENCE", "CITY COUNCIL", "TRADES COUNIL","CHAMBER", "FOR CONGRESS", "CONGRESS$",
+  "JOINT VENTURE", "JV$", "A JV",
+  "PROPERTIES", "PROPERTY","REALTY", "INSURANCE","BUILDINGS","APARTMENT", "RESIDENCES",
+  "RESORT","HOTEL","MOTEL", "VISIT",'INN AND SPA', "INN AT",
+  "PC", "APC", "FIRM",
+  "RANCH", "RANCHES", "FARM$", "FARMS", "DAIRY", "DAIRIES", "DRILLING","VINEYARDS","COATINGS",
+  "PEDIATRICS", "OPTOMETRY", "OPTOMETRIST","OPTOMETRISTS" , "MEDICAL", "LABORATORY","MEDICAL", "NEUROLOGY", "ACUPUNCTURE", "DISEASE",
+  "PAWN SHOP", "JEWELRY", 
+  ", THE$", " CORP$", " DBA ",
+  "CALIFORNIA", "NAPA VALLEY", "SUGARLAND",
+  "CENTENE", "HEALTHNET", "RITZ-CARLTON","T-MOBILE", "TRUCK CENTER"
+) #"PA", "CO", "STATE", "CORP","LOAN","LOS ANGELES", "SACRAMENTO",
 
-is_individual <- function(name) {
-
+# shared preprocessing for is_individual():
+# uppercase, strip data-entry junk characters, resolve org keywords, strip parens,
+# collapse dotted abbreviations, re-check org keywords, normalize "+" to " AND "
+prep_name_for_classification <- function(name) {
   name_upper <- str_squish(toupper(name))
-
-  # strip characters that cannot appear in valid names (data-entry typos: backticks, etc.)
-  name_upper <- str_replace_all(name_upper, "[`@#$%\\^*_=\\[\\]{}|<>]", "")
+  # strip characters that cannot appear in valid names (data-entry typos:
+  # backticks, semicolons, etc.)
+  name_upper <- str_replace_all(name_upper, "[`@#$%\\^*_=\\[\\]{}|<>;]", "")
   name_upper <- str_squish(name_upper)
 
-  # look for org keywords
   org_pattern <- paste0("\\b(", paste(org_keywords, collapse = "|"), ")\\b")
-  if (str_detect(name_upper, org_pattern)) return(FALSE)
-  
+  if (str_detect(name_upper, org_pattern)) return(list(name_clean = name_upper, is_org_keyword = TRUE))
+
   # strip anything in parentheses: "(Ret)", "(PhD)", nicknames, etc.
   name_clean <- str_squish(str_remove_all(name_upper, "\\s*\\([^)]*\\)"))
-  
+
   # collapse dotted abbreviations:
   # "M.D." -> "MD", "J.D." -> "JD", "D.D.S." -> "DDS", "Maj." -> "MAJ"
   name_clean <- str_replace_all(name_clean, "([A-Z])\\.", "\\1")
   name_clean <- str_squish(name_clean)
 
-  # re-check org keywords
-  if (str_detect(name_clean, org_pattern)) return(FALSE)
+  if (str_detect(name_clean, org_pattern)) return(list(name_clean = name_clean, is_org_keyword = TRUE))
 
   # normalize "+" to " AND " for joint contributors (e.g. "REINHART, CHRIS+SUZY")
   name_clean <- str_replace_all(name_clean, "\\+", " AND ")
   name_clean <- str_squish(name_clean)
 
-  # may need to update this -> could be pattern for law firms or for joint contributors
-  after_comma <- str_trim(str_split(name_clean, ",")[[1]][2])
-  if (!is.na(after_comma) && str_detect(after_comma, "\\bAND\\b")) return(TRUE) # e.g. Smith, Peggy & Mike
+  list(name_clean = name_clean, is_org_keyword = FALSE)
+}
 
-  #if (str_detect(name_clean, "AND")) return(TRUE)
+# Employer/Occupation are typically blank/uninformative for orgs but filled in for
+# individuals - used below as a tiebreaker for the one pattern that's structurally
+# identical between joint individual contributors and multi-partner law firms.
+# Checked against RAW employer/occupation (before standardize_occupation_employer
+# collapses "NOT EMPLOYED"/"UNEMPLOYED"/"N/A" into "NONE"), so an actually-filled-in
+# "not employed" / "retired" response for an individual doesn't get mistaken for a
+# blank org field.
+blank_occ_emp_values <- c("", "N/A", "NA", "N A", ".")
+is_blank_or_uninformative <- function(x) {
+  toupper(str_squish(coalesce(x, ""))) %in% blank_occ_emp_values
+}
+
+# stricter than is_blank_or_uninformative(): only literal emptiness, excludes "N/A"
+is_literally_empty <- function(x) {
+  is.na(x) | str_squish(coalesce(x, "")) == ""
+}
+
+# TRUE when the final entity_type classification looks inconsistent with the raw
+# Employer/Occupation fields: an org with real employer/occupation info, or an
+# individual with both fields completely empty. Meant to flag rows for optional
+# manual review without blocking the automatic classification.
+entity_type_looks_ambiguous <- function(entity_type, employer, occupation) {
+  org_with_info   <- entity_type == "organization" &
+    (!is_blank_or_uninformative(employer) | !is_blank_or_uninformative(occupation))
+  indiv_all_blank <- entity_type == "individual" &
+    is_literally_empty(employer) & is_literally_empty(occupation)
+  org_with_info | indiv_all_blank
+}
+
+is_individual <- function(name, employer = NA_character_, occupation = NA_character_) {
+
+  prep <- prep_name_for_classification(name)
+  if (prep$is_org_keyword) return(FALSE)
+  name_clean <- prep$name_clean
+
+  # "LAST, FIRST AND FIRST2" - ambiguous between joint individual contributors
+  # (e.g. "Smith, Peggy AND Mike") and multi-partner law firms (e.g. "Koszdin, Fields
+  # AND Sherry"). When employer/occupation are supplied, use them as a tiebreaker:
+  # both blank/uninformative -> org; otherwise -> individual. Without them, default
+  # to individual (prior behavior, kept for callers that don't pass this info).
+  after_comma <- str_trim(str_split(name_clean, ",")[[1]][2])
+  if (!is.na(after_comma) && str_detect(after_comma, "\\bAND\\b")) {
+    if (!is.na(employer) || !is.na(occupation)) {
+      return(!(is_blank_or_uninformative(employer) && is_blank_or_uninformative(occupation)))
+    }
+    return(TRUE)
+  }
 
   # normalize slash in compound last names so patterns match: "Friedli/Giono" -> "Friedli-Giono"
   name_clean <- str_replace_all(name_clean, "/", "-")
@@ -263,10 +392,13 @@ is_individual <- function(name) {
   suffix_title_pat <- paste(
     # standard suffixes
     "JR", "SR", "I", "II", "III", "IV",
+    "MR", "MRS", "MS", 
     # academic / professional credentials
-    "MD", "PHD", "ESQ", "DDS", "DO", "DR", "MR", "MRS", "MS", "HON", "EDS",
-    "OD", "CPA", "DVM", "RN", "NP", "FACS", "TTEE", "JD", "MBA", "CFA",
+    "MD", "PHD", "ESQ", "DDS", "DO", "DR", "MPH",
+    "HON", "EDS",
+    "OD", "CPA", "DVM", "RN", "NP", "FACS", "TTEE", "JD", "MBA", "CFA","CFP",
     "ND", "CRNA", "NMD", "DMD", "DC",
+    "LMFT","HN-BC","CMT",
     # military ranks (abbreviated and spelled-out)
     "MAJ", "COL", "CAPT", "GEN", "LT", "LTC", "ADM", "SGT", "CPT", "CDR", "ENS", "SFC",
     "COMMANDER",
@@ -362,6 +494,62 @@ is_individual <- function(name) {
   }
   
   return(FALSE)
+}
+
+
+# Apply contributor ID corrections and federal PAC flags from a review sheet.
+# Creates effective_Contributor.ID (corrected value, or original when no correction applies)
+# and adds/updates is_fed_pac. Contributor.ID is never modified.
+#
+# corrections columns: Contributor.Name, Contributor.ID (original; "" = missing/NA in data),
+#                      corrected_id, is_fed_pac (logical), resolved (logical)
+#
+# ID correction: only rows with a non-blank corrected_id are applied.
+#   Sheet Contributor.ID == "" matches data rows where Contributor.ID is NA/"".
+# is_fed_pac: applied only when resolved == TRUE; matched on name only.
+# Name matching uses toupper(str_squish()) throughout.
+apply_contributor_corrections <- function(df, corrections) {
+  df$Contributor.ID           <- as.character(df$Contributor.ID)
+  df$effective_Contributor.ID <- df$Contributor.ID
+  df$name_key                 <- toupper(str_squish(df$Contributor.Name))
+
+  corrections <- corrections %>%
+    mutate(name_key = toupper(str_squish(Contributor.Name)))
+
+  # ── Part 1: apply corrected IDs into effective_Contributor.ID ──────────────
+  id_rows <- corrections %>%
+    filter(!is.na(corrected_id) & str_trim(as.character(corrected_id)) != "")
+
+  for (i in seq_len(nrow(id_rows))) {
+    row      <- id_rows[i, ]
+    sheet_id <- str_trim(as.character(coalesce(row$Contributor.ID, "")))
+    name_match <- df$name_key == row$name_key
+
+    if (sheet_id == "") {
+      id_match <- is.na(df$Contributor.ID) | str_trim(df$Contributor.ID) == ""
+    } else {
+      id_match <- !is.na(df$Contributor.ID) & str_trim(df$Contributor.ID) == sheet_id
+    }
+
+    idx <- which(name_match & id_match)
+    if (length(idx) > 0) {
+      df$effective_Contributor.ID[idx] <- str_trim(as.character(row$corrected_id))
+    }
+  }
+
+  # ── Part 2: flag federal PACs ───────────────────────────────────────────────
+  fed_pac_name_keys <- corrections %>%
+    filter(resolved, is_fed_pac) %>%
+    pull(name_key) %>%
+    unique()
+
+  if (!"is_fed_pac" %in% names(df)) df$is_fed_pac <- FALSE
+
+  if (length(fed_pac_name_keys) > 0) {
+    df$is_fed_pac <- df$is_fed_pac | (df$name_key %in% fed_pac_name_keys)
+  }
+
+  df %>% select(-name_key)
 }
 
 

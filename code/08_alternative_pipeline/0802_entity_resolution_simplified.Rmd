@@ -4,13 +4,36 @@ output: html_notebook
 ---
 
 # Summary: 
-This notebook reads in the data pulled in `0801_data_pull.R` and outputs a dataset of contributors that need to be classified.
-- Notebook aggregated contributors to determine which ones meet the $5k threshold.
-- Matches back uuids from previously classified contribution records (records that already went through the pipeline)
-- Propagates Contributor.ID to contributions with a missing contributor.id
-- Outputs a file of org/individual contributors and a file of PAC contributors that needs to go through PAC processing
-- This notebook also currently does records linkage with fuzzy matching, name variant matching and a custom record linkage 
-  algorithm for individuals to surface name variants to review (this is going to be moved into a separate notebook)
+
+This notebook performs entity resolution over contributors and attempts to identify 
+name variants of orgs and individuals as well as identify cases where different individuals
+share the same name. 
+
+The entity resolution process is designed to be compatible with what is already being done 
+for the campaign finance data on the Voter Guide. The approach for the voter guide 
+groups contributors by name to determine how much that contributor gave in aggregate. Known name
+variants of individuals and orgs are mapped to a `Normalized` name in a Google Sheet.
+
+The notebook uses name variant matching, fuzzy matching and a custom record linkage algorithm
+to try to identify name variants. Name variants are manually reviewed and added to the map that
+is also used for the Voter Guide. 
+
+For this project, we are not classifying entities that gave less than $5k to a race/prop/pac,
+so entity resolution / manual name variant review are only performed for entities that have 
+the potential to cross this threshold. Entity resolution also focuses on within-race/pac 
+contributions; not all name variants across all recipient committees are tracked since we 
+aggregate within each prop/candidate race. 
+
+Processing steps: 
+
+(1) Download the latest 2026 name entity map (https://docs.google.com/spreadsheets/d/1THwQtvw5s9ZO9n7QHncekl4kRMc1Nf3MJHViSYALDps/edit?gid=897118445#gid=897118445) 
+    and feedback from manual reviews of name variants (should already be in the directory).
+(2) Run name variant linkage and fuzzy matching on all organizations. Surface potential name variants of organizations for manual review.
+    After manual review is finished, new name variants are added to the 2026 name map. 
+(3) Run record linkage algorithm on individuals to surface name variants for manual review AND surface potential cases
+    of diferent individuals who share the same name. After manual review, add name variants and disambiguation cases to the
+    2026 name map.
+ 
 
 # Load packages
 
@@ -20,6 +43,7 @@ library(here)
 library(dplyr)
 library(stringr)
 library(stringdist)
+library(fuzzyjoin)
 library(reclin2)
 library(phonics)
 library(igraph)
@@ -32,7 +56,10 @@ library(uuid)
 source("standardization_helpers.R")
 ```
 
+## Define helper functions
+
 ```{r}
+# functions used in record linkage
 safe_metaphone <- function(x) {
   clean <- str_replace_all(coalesce(x, ""), "[^A-Za-z]", "")
   ifelse(clean != "", metaphone(clean), NA_character_)
@@ -40,22 +67,40 @@ safe_metaphone <- function(x) {
 
 bigram_cosine <- function(a, b) stringsim(a, b, method = "cosine", q = 2)
 
+# creates unique hash-based key for contributors
 hash_id <- function(keys, prefix) {
   paste0(prefix, "_", substr(digest::digest(paste(sort(unique(keys)), collapse = "||"), algo = "xxhash32"), 1, 16))
 }
 
-normalize_str <- function(x) {
-  coalesce(x, "") %>% toupper() %>%
-    stringr::str_replace_all("[^A-Z0-9 ]+", " ") %>%
-    stringr::str_replace_all("\\s+", " ") %>%
-    stringr::str_trim()
+# makes contributor_id
+make_row_hash <- function(...) {
+  cols <- list(...)
+  n <- length(cols[[1]])
+  vapply(seq_len(n), function(i) {
+    parts <- vapply(cols, function(col) as.character(col[i]), character(1))
+    digest::digest(paste(parts, collapse = "|"), algo = "xxhash32")
+  }, character(1))
+}
+
+# recipient_key for applying threshold checks:
+#   PAC contributions        -> Recipient.Committee.ID (each PAC evaluated separately)
+#   ballot measure           -> name of Ballot.Measure (groups all committees for same measure/side)
+#   candidate with Office    -> "Recipient.Name | Office" key for candidate race (Ben Allen has more than one committee)
+add_recipient_key <- function(df) {
+  df %>% mutate(
+    recipient_key = case_when(
+      coalesce(is_pac_contribution, FALSE)          ~ as.character(Recipient.Committee.ID),
+      !is.na(Ballot.Measure) & Ballot.Measure != "" ~ Ballot.Measure,
+      !is.na(Office) & Office != ""                 ~ paste(Recipient.Name, Office, sep = " | "),
+      TRUE                                          ~ Recipient.Name
+    )
+  )
 }
 
 # look up contributor name in entity registry
 # returns entity_id, is_conflict and is_new
-
 lookup_cluster_uuid <- function(raw_names, mapping_df) {
-  clean <- unique(str_squish(toupper(raw_names)))
+  clean <- unique(toupper(raw_names))
   matched_uuids <- mapping_df %>%
     filter(raw_name %in% clean) %>%
     pull(entity_uuid) %>%
@@ -71,112 +116,165 @@ lookup_cluster_uuid <- function(raw_names, mapping_df) {
 }
 ```
 
-# Load and standardize all contributors data
+# Load and standardize data
+
+**Name of already-classified data file needs to be updated manually with the most recent classifications.**
 
 ```{r}
-#contributions_full <- read.csv("08_inputs/contributors_data_full.csv")
-#contributions_full <- read.csv("08_inputs/all_contributors_processed.csv")
+# full contributions dataset generated in 0801
 contributions_full <- read.csv("08_inputs/power_search_contributions_normalized.csv")
 nrow(contributions_full)
-```
 
-- need to deal with unitemized contributions
-
-
-### load already categorized data
-
-```{r}
-categorized <- read.csv("08_inputs/already_classified_contributions.csv")
+# already classified contributors
+categorized <- read.csv("08_inputs/already_classified_contributions_09-06-26.csv")
 nrow(categorized)
 ```
 
-### filter for contributions data we're interested in
+```{r}
+# load ID corrections data
+library(googlesheets4)
+gs4_deauth()
+
+id_corrections <- read_sheet(
+  "https://docs.google.com/spreadsheets/d/1UnO3wldvEo84Md0ac5jbpg4SqWzvPle3yh15e_DGAVk",
+  sheet = "corrected_pac_ids",
+  col_types = "c"
+) %>%
+  mutate(
+    Contributor.ID = coalesce(Contributor.ID, ""),
+    resolved       = !is.na(resolved) & tolower(str_trim(resolved)) != "false",
+    is_fed_pac     = tolower(str_trim(coalesce(is_fed_pac, ""))) %in% c("true", "1", "yes")
+  )
+
+contributions_full <- apply_contributor_corrections(contributions_full, id_corrections)
+```
+
+
+### filter for races and props we are classifying
 
 ```{r}
+# filter for gov and IC race + ALL props (not including prop 50)
 contributions <- contributions_full %>% 
   rename(
     Ballot.Measure = `Ballot.Measure.s.`
   ) %>% 
   filter(
-    Ballot.Measure == "OPPOSED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE." | 
-    Ballot.Measure == "SUPPORTED: PROPOSITION 040 - IMPOSES ONE-TIME TAX ON CERTAIN INDIVIDUALS AND TRUSTS. INITIATIVE CONSTITUTIONAL AMENDMENT AND STATUTE." | 
-    Ballot.Measure == "SUPPORTED: PROPOSITION 041 - REQUIRES AUDITS OF PROGRAMS FUNDED BY NEW STATE SPECIAL TAXES. PROHIBITS NEW STATE TAXES THAT ARE EXCLUDED FROM EXISTING VOTER-APPROVED STATE SPENDING LIMIT..." | 
-    Ballot.Measure == "SUPPORTED: PROPOSITION 042 - PROHIBITS NEW STATE PERSONAL PROPERTY TAXES AND CERTAIN RETROACTIVE STATE TAXES. INITIATIVE CONSTITUTIONAL AMENDMENT." | 
     Recipient.Name == "BECERRA, XAVIER" | 
     Recipient.Name == "HILTON, STEVE" | 
-    Office == "Insurance Commissioner"
-) #%>%
-  #mutate(
-  #  Amount = as.numeric(Amount)
-  #) #%>% 
-
-nrow(contributions)
-
-# flag contributions by race/prop
-#contributions <- contributions %>%
-#  mutate(
-#    race_prop = case_when(
-#      Ballot.Measure.Contribution == "Y" ~ Ballot.Measure,
-#      !is.na(Office) & Office != "" ~ Office,
-#      TRUE ~ Recipient.Name
-#    )
-#  )
-unique(contributions$race_prop)
+    (Recipient.Name == "ALLEN, BEN" & Office == "Insurance Commissioner") | 
+    Recipient.Name == "KIM, JANE" | 
+    (Ballot.Measure != "" & Ballot.Measure != "SUPPORTED: PROPOSITION 050 - ACA 8 (RIVAS) CONGRESSIONAL REDISTRICTING. (RES. CH. 156, 2025)" & Ballot.Measure != "OPPOSED: PROPOSITION 050 - ACA 8 (RIVAS) CONGRESSIONAL REDISTRICTING. (RES. CH. 156, 2025)")
+) 
 ```
 
 ```{r}
-# make sure we' pulled everything (compare to power search)
+# data check : compare to power search to make sure the amounts match
 contributions %>% filter(Recipient.Name == "BECERRA, XAVIER") %>% summarise(total = sum(Amount))
 contributions %>% filter(Recipient.Name == "HILTON, STEVE") %>% summarise(total = sum(Amount))
 ```
-- not fully updated maybe? 
-
-# Load PACs from graph traversal
-
-PAC graph traversal is run in 0803 and will need to be completed before loading this.
 
 ```{r}
-pacs <- read.csv("08_outputs/pac_classifiability.csv")
-nrow(pacs)
+# id_map maps XREF_FILER_ID (Contributor.ID) -> FILER_ID (Recipinet.Committee.ID)
+id_map_early <- read_tsv("08_inputs/FILERNAME_CD.tsv", col_types = cols(.default = "c")) %>%
+  mutate(FILER_ID = as.character(FILER_ID), XREF_FILER_ID = as.character(XREF_FILER_ID)) %>%
+  filter(!is.na(FILER_ID), !is.na(XREF_FILER_ID)) %>%
+  distinct(XREF_FILER_ID, FILER_ID,FILER_TYPE)
+
+
+contributions <- contributions %>% 
+  left_join(id_map_early, by = c("Contributor.ID" = "XREF_FILER_ID")) %>%
+  mutate(FILER_ID = as.character(FILER_ID))
 ```
 
-This includes both seed PACs and PACs that contributed to other PACs (surface in graph traversal)
+
+
+# Load PACs from previous run 
+
+On the first run `pac_universe.csv` will be stale — it is generated in 0802b.
+0802b runs the PAC graph over all PACs that contributed to the gov/IC race or one of the props.
+`pac_universe.csv` include ALL PACs, regardless of contribution amount that are 
+surfaced in the PAC graph in 0802b (all PACs indirectly connected to one of our 
+prop/candidate committees). Matching algorithms are applied across all contributors to these PACs
+to make sure we're properly aggregating all name variants of the same individual/organization.
 
 ```{r}
-#pacs %>% filter(pac_id %in% contributions$Contributor.ID)
+if (file.exists("08_outputs/pac_universe.csv")) {
+  pac_universe     <- read.csv("08_outputs/pac_universe.csv", colClasses = "character")
+  known_pacs       <- pac_universe %>% filter(as.logical(traversed))
+  pac_contributors <- contributions_full %>%
+    filter(Recipient.Committee.ID %in% known_pacs$pac_id)
+  cat(sprintf("Loaded %d traversed PACs from pac_universe.csv (%d contributor rows)\n",
+              nrow(known_pacs), nrow(pac_contributors)))
+} else {
+  known_pacs       <- data.frame(pac_id = character())
+  pac_contributors <- contributions_full[0, ]
+  cat("pac_universe.csv not found — run 0802b first, then re-run this notebook.\n")
+}
 
-# pull all contributors to these PACs
-pac_contributors <- contributions_full %>% filter(Recipient.Committee.ID %in% pacs$pac_id)
+# temporary fix to add pacs for props that were not previously being classified
+if (file.exists("08_outputs/pac_universe_new_props.csv")) {
+  pac_universe_new_props_raw <- read.csv("08_outputs/pac_universe_new_props.csv",
+                                          colClasses = "character")
+  pac_universe <- bind_rows(pac_universe, pac_universe_new_props_raw) %>%
+    group_by(pac_id) %>%
+    summarise(
+      depth                      = min(as.integer(depth), na.rm = TRUE),
+      is_seed                    = any(as.logical(is_seed),                    na.rm = TRUE),
+      traversed                  = any(as.logical(traversed),                  na.rm = TRUE),
+      has_pac_no_id_contributors = any(as.logical(has_pac_no_id_contributors), na.rm = TRUE),
+      is_candidate_pac           = any(coalesce(as.logical(is_candidate_pac), FALSE)),
+      is_federal_pac             = any(coalesce(as.logical(is_federal_pac),   FALSE)),
+      .groups = "drop"
+    )
+}
+
+```
+
+```{r}
+# derive known_pacs and pac_contributors from merged pac lists
+known_pacs <- pac_universe %>%
+  filter(
+    coalesce(as.logical(traversed),        FALSE),
+    !coalesce(as.logical(is_candidate_pac), FALSE),
+    !coalesce(as.logical(is_federal_pac),   FALSE)
+  )
+
+pac_contributors <- contributions_full %>%
+  rename(Ballot.Measure = Ballot.Measure.s.) %>%
+  filter(Recipient.Committee.ID %in% known_pacs$pac_id)
+
+cat(sprintf("Merged universe: %d traversed non-candidate/non-federal PACs (%d contributor rows)\n",
+            nrow(known_pacs), nrow(pac_contributors)))
 ```
 
 
 # Combine direct and pac contributor data
 
+Add PAC contributors to the `contributions` data to do entity resolution. 
+It is possible a direct contributor can also be counted under PAC contributions
+this happens when a ballot measure committee (e.g. YES ON 41 - CALIFORNIANS FOR TRANSPARENCY AND ACCOUNTABILITY, A COALITION OF SMALL BUSINESSES, TAXPAYERS, GOOD GOVERNMENT ADVOCATES, ACCOUNTANTS AND AUDITING EXPERTS)
+contributes to a PAC. 
+
 ```{r}
-contributions <- bind_rows(contributions,pac_contributors)
+n_direct <- nrow(contributions)
+n_pac    <- nrow(pac_contributors)
+contributions <- bind_rows(
+  contributions    %>% mutate(is_pac_contribution = FALSE), # flag for distinguishing direct contributors from PAC contributors. direct wins
+  pac_contributors %>% mutate(is_pac_contribution = TRUE)
+) %>%
+  distinct(rowid, .keep_all = TRUE)  # rowid is the source row number; both datasets share it b/c they are derived from contributions_full, so this drops PAC rows that duplicate a direct-contributor row
+cat(sprintf("%d direct + %d pac → %d combined (%d duplicate rows dropped)\n",
+            n_direct, n_pac, nrow(contributions),
+            n_direct + n_pac - nrow(contributions)))
 nrow(contributions)
 ```
 
 
-### standardize contributions data
+# Data processing
 
+## manually process edge cases to correctly flag orgs vs individuals
 
-```{r}
-make_row_hash <- function(...) {
-  cols <- list(...)
-  n <- length(cols[[1]])
-  vapply(seq_len(n), function(i) {
-    parts <- vapply(cols, function(col) as.character(col[i]), character(1))
-    digest::digest(paste(parts, collapse = "|"), algo = "xxhash32")
-  }, character(1))
-}
-
-```
-
-
-## manually process edge cases
-
-Manually verified each of these. 
+Correct cases that the is_individual() function got wrong. 
 
 ```{r}
 contributions[which(contributions$Contributor.Name == "Lovecchio, US Navy (R, CDR Peter"),]$entity_type <- "individual"
@@ -195,11 +293,11 @@ contributions[which(contributions$Contributor.Name == "Last0b6df6bd, First7606ae
 contributions[which(contributions$Contributor.Name == "Lastcbea8f37, Firstd599d312"),]$entity_type <- "individual"
 ```
 
-## individuals
+## standardize employer + occupation for individuals
 
-- Make sure employer and occupation are NONE for individuals where these columns are blank 
-- Could also update employer to UNKNOWN for individuals where employer is N/A, but occupation specifies they're self-employed
-  - Are cases where employer is N/A, but occupation indicates they have a job.
+For individuals that are missing employer/occupation info, standardize employer/occupation to be `NONE` 
+Note: there are edge cases where employer is N/A, but occupation indicates there are employed or self-employed. 
+These individuals are tagged as major donors. 
 
 ```{r}
 contributions <- contributions %>%
@@ -215,6 +313,12 @@ contributions <- contributions %>%
 
 # Load and standardize name maps
 
+Load Digital Democracy's org concept map. 
+This is used in entity resolution to tentatively link organizations belonging to the same org concept
+that would not otherwise be linked through fuzzy matching or name variant matching. To be consistent
+with the Voter Guide, we don't use all of the same groupings as the org concept map (e.g. chapters
+of unions are kept separate). 
+
 ```{r}
 map1 <- read.csv("08_inputs/dd_names_mapped_to_org_concepts_3_18_2026.csv") %>%
   rename(canonical_name = org_concept_name, alias_group_id = oid) %>%
@@ -224,49 +328,59 @@ map1 <- read.csv("08_inputs/dd_names_mapped_to_org_concepts_3_18_2026.csv") %>%
     mapping_source = "dd_name_mapping",
     confirmed      = TRUE
   )
-
-map2 <- read.csv("08_inputs/2026 Contributor name mapping and descriptions - Names.csv") %>%
-  select(record_name = Original, canonical_name = Normalized) %>%
-  filter(!is.na(record_name) & record_name != "") %>%
-  mutate(
-    record_name    = str_squish(record_name),
-    canonical_name = str_squish(canonical_name),
-    alias_group_id = NA_integer_,
-    mapping_source = "2024_combined",
-    confirmed      = TRUE
-  )
-
-# combine — prefer map1 when both have same record_name
-reference_mapping <- bind_rows(map1, map2) %>%
-  group_by(record_name) %>%
-  slice(1) %>%
-  ungroup() %>%
-  mutate(record_name_std = standardize_names(record_name) %>% fix_typos())
-
 ```
 
-# Entity Registry
+
+# Update entity registry and no-link pairs
 
 Syncs the 2026 Names CSV (used for normalization) and the name_entity_mapping.csv (tracks uuids per entity).
+Dataset descriptions: 
+`2026 Contributor name mapping and descriptions - Names.csv` : Official source of truth - maps record name to normalized name. Shared by the team. 
+`entity_registry.csv` : keeps track of each canonical name that links name variants within an entity and the corresponding uuid.
+`name_entity_mapping_rebuilt.csv` : essentially a copy of the Name 2026 data, but has a uuid for each row to keep track of unique entities (one uuid per `Normalized` name).
+                                    updated manually with each review queue. 
+`no_link_registry.csv` : feedback from each manual review. org names that were compared and determined not to be a link added to the registry.
+                         note that only names w/in a review group are compared, may miss some name variants that weren't grouped in the same review group 
+                         (which is why only names within a review group are added to the no-link registry).
+                         
+Download latest version of 2026 names map at: https://docs.google.com/spreadsheets/d/1THwQtvw5s9ZO9n7QHncekl4kRMc1Nf3MJHViSYALDps/edit?gid=897118445#gid=897118445 
+
 
 ```{r}
-ENTITY_REGISTRY_PATH     <- here("08_inputs/entity_registry.csv")
-NAME_ENTITY_MAPPING_PATH <- here("08_inputs/name_entity_mapping.csv")
-FEEDBACK_PATH            <- here("08_inputs/org_name_variant_review_queue_w_review.csv")
+ENTITY_REGISTRY_PATH     <- here("08_inputs/entity_registry.csv") 
+NAME_ENTITY_MAPPING_PATH <- here("08_inputs/name_entity_mapping_rebuilt.csv") # updated with each entity resolution review queue. 
+NO_LINK_REGISTRY_PATH <- here("08_inputs/no_link_registry.csv")
+registry_mtime <- if (file.exists(NO_LINK_REGISTRY_PATH)) file.mtime(NO_LINK_REGISTRY_PATH) else as.POSIXct(0, origin = "1970-01-01")
 
-# official source of truth
+# only load feedback files newer than the registry's last write
+# all historical files are loaded as a one-time backfill
+NEW_ORG_FEEDBACK_FILES <- {
+  f <- list.files(here("08_inputs"), pattern = "^org_name_variant_review_queue_w_review.*\\.csv$", full.names = TRUE)
+  f[file.mtime(f) > registry_mtime]
+}
+NEW_INDIV_FEEDBACK_FILES <- {
+  f <- list.files(here("08_inputs"), pattern = "^indiv_name_variant_review_queue_w_review.*\\.csv$", full.names = TRUE)
+  f[file.mtime(f) > registry_mtime]
+}
+
+print(NEW_ORG_FEEDBACK_FILES)
+print(NEW_INDIV_FEEDBACK_FILES)
+```
+
+```{r}
+# official source of truth - shared by voter guide team 
 names_2026 <- read.csv(
   here("08_inputs/2026 Contributor name mapping and descriptions - Names.csv"),
   stringsAsFactors = FALSE
 ) %>%
-  rename(raw_name = Original, canonical_name = Normalized) %>%
+  rename(raw_name = Original, canonical_name = Normalized) %>% # rename columns so all dataframes share col names
   filter(!is.na(raw_name), raw_name != "", !is.na(canonical_name), canonical_name != "") %>%
   mutate(
-    raw_name       = str_squish(toupper(raw_name)),
-    canonical_name = str_squish(canonical_name)
+    raw_name       = (toupper(raw_name)), 
+    canonical_name = str_squish(canonical_name) # canonical name shouldn't have any double spaces
   )
 
-# persistent UUID store — updated by manual review
+# persistent UUID registry — updated by manual review (should be a copy of Names 2026, but tracks uuid)
 if (file.exists(NAME_ENTITY_MAPPING_PATH)) {
   name_entity_mapping_existing <- read.csv(NAME_ENTITY_MAPPING_PATH, stringsAsFactors = FALSE) %>%
     mutate(confirmed = as.logical(confirmed))
@@ -277,113 +391,255 @@ if (file.exists(NAME_ENTITY_MAPPING_PATH)) {
 }
 ```
 
+
 ```{r}
+# create uuid lookup - matches canonical name to its uuid
+canonical_uuid_conflicts <- name_entity_mapping_existing %>%
+  filter(!is.na(canonical_name), confirmed == TRUE) %>%
+  mutate(canonical_name = str_squish(canonical_name)) %>%
+  group_by(canonical_name) %>%
+  summarise(n_uuids = n_distinct(entity_uuid), uuids = paste(unique(entity_uuid), collapse = " | "), .groups = "drop") %>%
+  filter(n_uuids > 1)
+
+if (nrow(canonical_uuid_conflicts) > 0) {
+  print(canonical_uuid_conflicts)
+  stop(sprintf("%d canonical name(s) are mapped to more than one entity_uuid — resolve conflicts before proceeding.", nrow(canonical_uuid_conflicts)))
+}
+
 canonical_uuid_lookup <- name_entity_mapping_existing %>%
   filter(!is.na(canonical_name), confirmed == TRUE) %>%
   mutate(canonical_name = str_squish(canonical_name)) %>%
-  group_by(canonical_name) %>% # make sure multiple uuids are never used per canonical name - this needs updates
-  slice(1) %>%
-  ungroup() %>%
+  distinct(canonical_name, entity_uuid) %>%
   select(canonical_name, entity_uuid)
 
+# add uuids to any new entities added to the 2026 Names map (added by someone else on the team.)
 canonical_uuid_map <- names_2026 %>%
   mutate(canonical_name = str_squish(canonical_name)) %>%
   distinct(canonical_name) %>%
-  left_join(canonical_uuid_lookup, by = "canonical_name") %>%
-  mutate(entity_uuid = coalesce(entity_uuid, UUIDgenerate(n = n())))
+  left_join(canonical_uuid_lookup, by = "canonical_name") %>% # join uuids to already known canonical names 
+  mutate(entity_uuid = coalesce(entity_uuid, UUIDgenerate(n = n()))) # create new uuids for new canonical names
 
 cat(sum(is.na(left_join(names_2026 %>% distinct(canonical_name),
                          canonical_uuid_lookup, by="canonical_name")$entity_uuid)),
     "new canonical groups in 2026 Names CSV assigned fresh UUIDs\n")
+
 ```
 
-New entities added since last time (not by me)
-
-
-### data checks
 
 ```{r}
-temp <- left_join(names_2026 %>% distinct(canonical_name),
-          canonical_uuid_lookup, by = "canonical_name")
-temp %>% filter(is.na(entity_uuid))
-```
-- others are new..
-
-```{r}
-name_entity_mapping_existing %>%
-  filter(!is.na(canonical_name), confirmed == TRUE) %>%
-  group_by(canonical_name) %>% filter(n_distinct(entity_uuid) > 1) %>% arrange(canonical_name)
+#write.csv(canonical_uuid_map, "08_outputs/canonical_uuid_map.csv", row.names = FALSE)
 ```
 
-- Need to address these cases. 
-  - think ones i had to address came from mistakes of not updating uuid when i found is actually matched to an existing entity that wasn't originally flagged
+
+## Individual disambiguation subgroups
+
+Contributors are aggregated based on their names; individual disambiguation separates individuals 
+with the same name who have been manually confirmed to be different people by adding other variables
+(employer, occupation, etc.) to the map and assigning a subgroup to these individuals. 
+
+`subgroup_id` (A, B, C, etc.) distinguishes rows *within* one `canonical_name` — the same letter reused
+under a different `canonical_name` is unrelated. Each confirmed `(canonical_name, subgroup_id)`
+pair is a distinct person; give contributor their own persistent uuid, tracked in `name_entity_mapping.csv`
+under a synthetic `canonical_name::subgroup_id` key. 
+
+Records that don't match any subgroup's profile keep the plain canonical name uui.
 
 ```{r}
-# Reviewed names registry: tracks ALL names where a review decision was made.
-# Covers canonical names and singletons that don't need an entry in name_entity_mapping.
-REVIEWED_NAMES_PATH <- here("08_inputs/reviewed_names.csv")
+if (!"subgroup_id" %in% names(names_2026)) names_2026$subgroup_id <- NA_character_
 
-if (file.exists(FEEDBACK_PATH)) {
-  feedback_raw <- read.csv(FEEDBACK_PATH, stringsAsFactors = FALSE)
-  req_cols     <- c("to_add_status", "entity_name", "canonical_name", "review_group_id", "confirmed_link")
-  if (nrow(feedback_raw) > 0 && all(req_cols %in% names(feedback_raw))) {
+subgroup_profiles <- names_2026 %>%
+  filter(!is.na(subgroup_id), subgroup_id != "") %>%
+  transmute(
+    canonical_name     = canonical_name,
+    subgroup_id        = as.character(subgroup_id),
+    profile_employer   = na_if(toupper(str_squish(coalesce(Contributor.Employer, ""))), ""),
+    profile_occupation = na_if(toupper(str_squish(coalesce(Contributor.Occupation, ""))), ""),
+    profile_city       = na_if(toupper(str_squish(coalesce(Contributor.City, ""))), ""),
+    profile_state      = na_if(toupper(str_squish(coalesce(Contributor.State, ""))), ""),
+    profile_zip        = na_if(coalesce(as.character(Contributor.Zip.Code), ""), ""),
+    profile_committee  = na_if(coalesce(as.character(Recipient.Committee.ID), ""), "")
+  ) %>%
+  distinct()
 
-    # rrefer canonical_uuid_map (canonical_name → stable UUID).
-    # for rows not matched to a canonical (rejected links, singletons), assign a UUID per
-    # review_group_id — NOT entity_id, which is shared across split sub-groups in the spreadsheet.
-    feedback_settled <- feedback_raw %>%
-      filter(
-        to_add_status %in% c("in existing map", "name is already canonical", "add to map", "don't add"),
-        coalesce(confirmed_link, "") %in% c("yes", "no")
-      ) %>%
-      mutate(raw_name = str_squish(toupper(entity_name))) %>%
-      left_join(canonical_uuid_map %>% select(canonical_name, canonical_uuid = entity_uuid),
-                by = "canonical_name")
+# assign a uuid per (canonical_name, subgroup_id)
+subgroup_keys <- subgroup_profiles %>%
+  distinct(canonical_name, subgroup_id) %>%
+  mutate(raw_name = paste(canonical_name, subgroup_id, sep = "::"))
 
-    group_uuid_map <- feedback_settled %>%
-      filter(is.na(canonical_uuid)) %>% # no canonical uuid matched from the official registry
-      distinct(review_group_id) %>% # new uuids assigned per group id
-      mutate(group_uuid = UUIDgenerate(n = n()))
+known_subgroup_uuids <- name_entity_mapping_existing %>%
+  filter(source == "subgroup_disambig") %>%
+  distinct(raw_name, entity_uuid)
 
-    reviewed_from_feedback <- feedback_settled %>%
-      left_join(group_uuid_map, by = "review_group_id") %>%
-      transmute(
-        raw_name      = raw_name,
-        entity_uuid   = coalesce(canonical_uuid, group_uuid),
-        reviewed_date = as.character(Sys.Date()),
-        source        = "manual_review"
-      ) %>%
-      filter(!is.na(raw_name), raw_name != "", !is.na(entity_uuid), entity_uuid != "")
+new_subgroup_keys <- subgroup_keys %>%
+  filter(!raw_name %in% known_subgroup_uuids$raw_name) %>%
+  mutate(
+    entity_uuid    = UUIDgenerate(n = n()),
+    canonical_name = NA_character_, # composite key, not a real canonical name - excluded from the canonical/uuid checks above
+    confirmed      = TRUE,
+    added_date     = as.character(Sys.Date()),
+    source         = "subgroup_disambig"
+  ) %>%
+  select(raw_name, entity_uuid, canonical_name, confirmed, added_date, source)
 
-  } else {
-    reviewed_from_feedback <- tibble(raw_name=character(), entity_uuid=character(),
-                                      reviewed_date=character(), source=character())
+if (nrow(new_subgroup_keys) > 0) {
+  name_entity_mapping_existing <- bind_rows(name_entity_mapping_existing, new_subgroup_keys)
+  write.csv(name_entity_mapping_existing, NAME_ENTITY_MAPPING_PATH, row.names = FALSE)
+  cat("Assigned", nrow(new_subgroup_keys), "new subgroup uuid(s) for disambiguated individuals\n")
+}
+
+subgroup_uuid_lookup <- bind_rows(
+    known_subgroup_uuids,
+    new_subgroup_keys %>% select(raw_name, entity_uuid)
+  ) %>%
+  separate(raw_name, into = c("canonical_name", "subgroup_id"), sep = "::", extra = "merge")
+```
+
+```{r}
+# match a contribution record to a subgroup: it matches subgroup S if it agrees with AT LEAST
+# ONE of S's profile rows on every field that row has filled in
+# records matching more than one subgroup are left unresolved 
+# records matching none keep the default canonical-name-level uuid
+assign_subgroup_entity_id <- function(df, default_col = "entity_uuid") {
+  if (nrow(subgroup_profiles) == 0) return(df)
+
+  df <- df %>% mutate(.match_row_id = row_number())
+
+  candidates <- df %>%
+    filter(Normalized %in% subgroup_profiles$canonical_name) %>%
+    transmute(
+      .match_row_id,
+      canonical_name  = Normalized,
+      cand_employer   = toupper(str_squish(coalesce(Contributor.Employer, ""))),
+      cand_occupation = toupper(str_squish(coalesce(Contributor.Occupation, ""))),
+      cand_city       = toupper(str_squish(coalesce(Contributor.City, ""))),
+      cand_state      = toupper(str_squish(coalesce(Contributor.State, ""))),
+      cand_zip        = coalesce(as.character(Contributor.Zip.Code), ""),
+      cand_committee  = coalesce(as.character(Recipient.Committee.ID), "")
+    ) %>%
+    inner_join(subgroup_profiles, by = "canonical_name", relationship = "many-to-many") %>%
+    mutate(
+      is_match =
+        (is.na(profile_employer)   | profile_employer   == cand_employer)   &
+        (is.na(profile_occupation) | profile_occupation == cand_occupation) &
+        (is.na(profile_city)       | profile_city       == cand_city)       &
+        (is.na(profile_state)      | profile_state       == cand_state)      &
+        (is.na(profile_zip)        | profile_zip        == cand_zip)        &
+        (is.na(profile_committee)  | profile_committee  == cand_committee)
+    ) %>%
+    filter(is_match) %>%
+    distinct(.match_row_id, canonical_name, subgroup_id)
+
+  ambiguous <- candidates %>%
+    group_by(.match_row_id) %>%
+    filter(n_distinct(subgroup_id) > 1) %>%
+    ungroup()
+
+  if (nrow(ambiguous) > 0) {
+    warning(sprintf(
+      "%d contribution record(s) matched more than one disambiguation subgroup -- left unresolved (default uuid used). Review:",
+      n_distinct(ambiguous$.match_row_id)
+    ))
+    print(
+      df %>% inner_join(ambiguous %>% distinct(.match_row_id), by = ".match_row_id") %>%
+        select(Contributor.Name, Contributor.Employer, Contributor.Occupation,
+               Contributor.City, Contributor.State, Contributor.Zip.Code, Recipient.Committee.ID)
+    )
   }
-} else {
-  reviewed_from_feedback <- tibble(raw_name=character(), entity_uuid=character(),
-                                    reviewed_date=character(), source=character())
+
+  resolved <- candidates %>%
+    anti_join(ambiguous, by = ".match_row_id") %>%
+    distinct(.match_row_id, canonical_name, subgroup_id) %>%
+    left_join(subgroup_uuid_lookup, by = c("canonical_name", "subgroup_id")) %>%
+    select(.match_row_id, subgroup_entity_uuid = entity_uuid)
+
+  df %>%
+    left_join(resolved, by = ".match_row_id") %>%
+    mutate(!!default_col := coalesce(subgroup_entity_uuid, .data[[default_col]])) %>%
+    select(-.match_row_id, -subgroup_entity_uuid)
+}
+```
+
+```{r}
+# anyhing in names 2026 that's not in entity mapping?
+names_2026 %>% filter(!(str_squish(toupper(raw_name)) %in% str_squish(toupper(name_entity_mapping_existing$raw_name))))
+```
+
+
+```{r}
+org_req_cols   <- c("to_add_status", "entity_name", "canonical_name", "review_group_id", "confirmed_link")
+indiv_req_cols <- c("entity_name", "canonical_name", "entity_group_id", "confirmed_link")
+
+# load feedback from review queues
+load_feedback <- function(path, req_cols) {
+  if (is.null(path) || !file.exists(path)) return(NULL)
+  df <- read.csv(path, stringsAsFactors = FALSE)
+  if (nrow(df) == 0 || !all(req_cols %in% names(df))) return(NULL)
+  out      <- df[, req_cols]
+  out$flag              <- if ("flag"              %in% names(df)) df$flag              else NA_character_
+  out$original_group_id <- if ("original_group_id" %in% names(df)) df$original_group_id else NA_character_ # original review groups as an indicator for what was compared
+  out
 }
 
-if (file.exists(REVIEWED_NAMES_PATH)) {
-  reviewed_names_existing <- read.csv(REVIEWED_NAMES_PATH, stringsAsFactors = FALSE)
+# no-link registry: all confirmed pairs from reviews that reviewer determined should
+# not be liked under the same registry
+# for each reviewed group, any two names in DIFFERENT subgroups are a confirmed not-linked
+# pair — this includes singletons vs. sub-entities AND pairs across different sub-entities
+# Pairs are stored and used to suppress already-reviewed pairs from future review queues
+if (file.exists(NO_LINK_REGISTRY_PATH)) {
+  no_link_registry <- read.csv(NO_LINK_REGISTRY_PATH, stringsAsFactors = FALSE)
 } else {
-  reviewed_names_existing <- tibble(raw_name=character(), entity_uuid=character(),
-                                     reviewed_date=character(), source=character())
+  no_link_registry <- tibble(name_a = character(), name_b = character(),
+                              entity_type = character(), reviewed_date = character())
 }
-reviewed_names <- bind_rows(
-  reviewed_from_feedback,
-  reviewed_names_existing %>% filter(!raw_name %in% reviewed_from_feedback$raw_name)
+
+# each file is processed independently — group IDs are only compared within the same review queue file
+# original_group_id column (added to queue outputs going forward) identifies the pre-split
+# group; falls back to stripping the reviewer-added suffix letter(s) for older files.
+extract_no_link_pairs <- function(fb, group_id_col, entity_type_label) {
+  empty <- tibble(name_a = character(), name_b = character(),
+                  entity_type = character(), reviewed_date = character())
+  if (is.null(fb) || nrow(fb) == 0) return(empty)
+  grp <- fb %>%
+    filter(tolower(trimws(coalesce(confirmed_link, ""))) != "uncertain") %>%
+    mutate(
+      raw_name    = toupper(entity_name),
+      subgroup_id = .data[[group_id_col]], # subgroup ids reflect which name variants were determined to be linked
+      orig_grp    = coalesce(original_group_id, sub("_[a-z]+$", "", .data[[group_id_col]])) # replace added suffixes to reconstruct original review group ids
+    ) %>%
+    distinct(raw_name, subgroup_id, orig_grp)
+  left  <- grp %>% rename(name_a = raw_name, sg_a = subgroup_id)
+  right <- grp %>% rename(name_b = raw_name, sg_b = subgroup_id)
+  left %>%
+    inner_join(right, by = "orig_grp", relationship = "many-to-many") %>%
+    filter(sg_a != sg_b, name_a < name_b) %>% 
+    transmute(name_a = name_a, name_b = name_b,
+              entity_type = entity_type_label, reviewed_date = as.character(Sys.Date())) %>%
+    distinct()
+}
+
+new_no_link_org_pairs <- bind_rows(lapply(NEW_ORG_FEEDBACK_FILES, function(f) { # apply to each feedback file individually. 
+  extract_no_link_pairs(load_feedback(f, org_req_cols), "review_group_id", "org")
+}))
+new_no_link_indiv_pairs <- bind_rows(lapply(NEW_INDIV_FEEDBACK_FILES, function(f) {
+  extract_no_link_pairs(load_feedback(f, indiv_req_cols), "entity_group_id", "indiv")
+}))
+new_no_link_pairs <- bind_rows(new_no_link_org_pairs, new_no_link_indiv_pairs)
+
+pair_key <- function(df) paste(df$name_a, df$name_b, df$entity_type, sep = "|||") # key to distinguish pairs
+no_link_registry <- bind_rows(
+  new_no_link_pairs,
+  no_link_registry %>% filter(!pair_key(.) %in% pair_key(new_no_link_pairs))
 )
 
-# Build confirmed mapping rows from 
+# build confirmed mapping rows from 2026 Names + entity registry
 names_from_b <- names_2026 %>%
   distinct(raw_name, canonical_name) %>%
   left_join(canonical_uuid_map %>% select(canonical_name, entity_uuid), by = "canonical_name") %>%
-  mutate(confirmed = TRUE, added_date = as.character(Sys.Date()), source = "2026_names") %>%
+  mutate(confirmed = TRUE, added_date = as.character(Sys.Date()), source = "2026_names") %>% 
   select(raw_name, entity_uuid, canonical_name, confirmed, added_date, source)
 
-extra_from_c <- name_entity_mapping_existing %>%
-  filter(!raw_name %in% names_from_b$raw_name)
+extra_from_c <- name_entity_mapping_existing %>% # anything not yet added to Names 2026 (typically, it should have been added already)
+  filter(!((raw_name) %in% (names_from_b$raw_name)))
 
 name_entity_mapping <- bind_rows(names_from_b, extra_from_c)
 
@@ -392,19 +648,45 @@ entity_registry <- name_entity_mapping %>%
   distinct(canonical_name, entity_uuid) %>%
   arrange(canonical_name)
 
-# fast lookup
-nem_lookup <- name_entity_mapping %>%
-  arrange(desc(confirmed)) %>%
+# check for raw_name associated w/ multiple canonical names. 
+# duplicate rows with the SAME canonical are harmless - will be collapsed below
+raw_name_conflicts <- name_entity_mapping %>%
+  filter(!is.na(canonical_name)) %>%
   group_by(raw_name) %>%
-  slice(1) %>%
-  ungroup()
+  summarise(n_canonical    = n_distinct(canonical_name),
+            canonical_names = paste(sort(unique(canonical_name)), collapse = " | "),
+            .groups = "drop") %>%
+  filter(n_canonical > 1)
 
-# Also match contributor names against canonical names in the map.
+if (nrow(raw_name_conflicts) > 0) {
+  warning(sprintf("%d raw name(s) map to more than one canonical name — first occurrence used. Review:",
+                  nrow(raw_name_conflicts)))
+  print(raw_name_conflicts)
+}
+
+# check for one uuid per canonical name
+uuid_canonical_conflicts <- name_entity_mapping %>%
+  filter(!is.na(canonical_name), !is.na(entity_uuid)) %>%
+  group_by(entity_uuid) %>%
+  summarise(n_canonical    = n_distinct(canonical_name),
+            canonical_names = paste(sort(unique(canonical_name)), collapse = " | "),
+            .groups = "drop") %>%
+  filter(n_canonical > 1)
+
+if (nrow(uuid_canonical_conflicts) > 0) {
+  warning(sprintf("%d entity_uuid(s) map to more than one canonical name — first occurrence used. Review:",
+                  nrow(uuid_canonical_conflicts)))
+  print(uuid_canonical_conflicts)
+}
+
+# de-duplicate
+nem_lookup <- name_entity_mapping %>%
+  distinct(raw_name, .keep_all = TRUE)
+
+# in map, add rows where the raw_name = canonical_name so name variants can be compared against canonical names as well. 
 canonical_as_raw <- name_entity_mapping %>%
   filter(!is.na(canonical_name), confirmed == TRUE) %>%
-  group_by(canonical_name) %>%
-  slice(1) %>%
-  ungroup() %>%
+  distinct(canonical_name, .keep_all = TRUE) %>%
   transmute(
     raw_name       = canonical_name,
     entity_uuid    = entity_uuid,
@@ -419,82 +701,41 @@ nem_lookup <- bind_rows(nem_lookup, canonical_as_raw)
 ```
 
 
-entity_registry: build from name_entity_mapping (combined existing + names 2026 input)
-nem_lookup: raw_name, entity_uuid and canonical_name
-name_entity_mapping: combined existing name entity map and any other entries in name_entity_mapping_existing (all of these should be in 2026)
-reviewed_from_feedback: source for all reviewed names / decisions
+Manually flag instances of one name being associated with multiple canonical names in the `2026 Names` 
+Google Sheet: https://docs.google.com/spreadsheets/d/1THwQtvw5s9ZO9n7QHncekl4kRMc1Nf3MJHViSYALDps/edit?gid=897118445#gid=897118445
+(or manually resolve if error came from name variant review queue)
+
+
+
+# ENTITY RESOLUTION / NAME VARIANT MATCHING
+
+Apply name variant matching, fuzzy matching and custom record linkage algorithm to identify contributors that are likely the same, but associated with different name variants. 
+Name variants will be manually reviewed and if confirmed, they will be added to the Names 2026 mapping. 
+After all name variants are added to the map, contributors will then be aggregated by their `Normalized` name. 
+
+## Organizations
+
+1. Name variant linkage: name variants of an org name are compared for exact matches. Name variants include removing business ending, removing parentheses, etc.
+2. Fuzzy matching performed on org name to id additional potential pairs.
+3. DD org concept maps used to surface potential links between org names. 
 
 ```{r}
-# data checks
-reviewed_names %>% filter(grepl("UAW",raw_name)) # these now have different uuids
-reviewed_names %>% filter(grepl("IBEW LOCAL",raw_name)) 
-reviewed_names %>% filter(grepl("LONGSHORE",raw_name)) 
-```
-
-```{r}
-# shouldnt be any after i transfered mappings over to main tracker
-extra_from_c #%>% filter(raw_name == canonical_name)
-```
-
-The extra from c are all ones that didn't end up getting added because name = canonical name -> don't need to add
-
-```{r}
-# these need to be addressed in names 2026
-name_entity_mapping %>% group_by(raw_name) %>% filter(n() > 1) 
-```
-
-
-```{r}
-# Write updated files
-#write.csv(entity_registry,  ENTITY_REGISTRY_PATH,     row.names = FALSE)
-#write.csv(name_entity_mapping, NAME_ENTITY_MAPPING_PATH, row.names = FALSE)
-#write.csv(reviewed_names,   REVIEWED_NAMES_PATH,      row.names = FALSE)
-
-cat("Entity registry:", nrow(entity_registry), "canonical entities\n")
-cat("Name mapping:", nrow(name_entity_mapping), "raw names",
-    "(", nrow(names_from_b), "from 2026 Names CSV +", nrow(extra_from_c), "other)\n")
-cat("Reviewed names registry:", nrow(reviewed_names), "settled names\n")
-```
-
-
-
-```{r}
-nrow(entity_registry)
-length(unique(map2$canonical_name))
-nrow(map2)
-```
-
-
-```{r}
-map2 %>% filter(!(canonical_name %in% entity_registry$canonical_name)) %>% pull(canonical_name)
-names_2026 %>% filter(!(canonical_name %in% entity_registry$canonical_name)) %>% pull(canonical_name)
-```
-
-
-```{r}
-head(entity_registry)
-head(name_entity_mapping)
-```
-
-
-# Organizations
-
-```{r}
+# make variants of each contributor name
 make_name_variants <- function(df, col) {
   df %>% mutate(
-    name_v1 = standardize_names(.data[[col]]) %>% fix_typos(),
+    name_v1 = standardize_names(.data[[col]]) %>% fix_typos(), # simple standardization and known typos corrected
     name_v2 = remove_pac_info(name_v1)        %>% str_squish(), # removing FEC ID, FED PAC ID, MAJOR DONOR ID
-    #name_v3 = remove_unit_info(name_v2)        %>% str_squish(),
-    name_v4 = str_remove_all(name_v1, "\\s*\\(.*?\\)") %>% str_squish(),
-    name_v5 = replace_business_text(name_v4)   %>% str_squish()
-    #name_v6 = str_remove_all(name_v5, "\\s*\\(.*?\\)") %>% str_squish()
+    # remove name_v3 -> need to rename
+    name_v4 = str_remove_all(name_v1, "\\s*\\(.*?\\)") %>% str_squish(), # remove parentheses
+    name_v5 = replace_business_text(name_v4)   %>% str_squish() # remove business ending e.g. inc, corporation, etc. 
   )
 }
 
+# look for exact matches between name variants. 
 find_exact_variant_pairs <- function(pool, variant_col) {
   candidates <- pool %>%
     filter(!is.na(.data[[variant_col]]), .data[[variant_col]] != "") %>%
-    group_by(across(all_of(c(variant_col, "has_pac_language")))) %>%
+    group_by(across(all_of(variant_col))) %>%
     filter(n() > 1) %>%
     ungroup()
 
@@ -502,7 +743,7 @@ find_exact_variant_pairs <- function(pool, variant_col) {
     return(tibble(.x = integer(), .y = integer(), match_source = character()))
 
   candidates %>%
-    group_by(across(all_of(c(variant_col, "has_pac_language")))) %>%
+    group_by(across(all_of(variant_col))) %>%
     group_modify(~ as_tibble(t(combn(.x$row_id, 2)), .name_repair = ~ c(".x", ".y"))) %>%
     ungroup() %>%
     select(.x, .y) %>%
@@ -510,37 +751,143 @@ find_exact_variant_pairs <- function(pool, variant_col) {
 }
 ```
 
-
 ```{r}
 orgs <- contributions %>%
   filter(entity_type == "organization") %>%
   mutate(cont_row_id = row_id) %>%          # preserve row_id before overwriting
-  mutate(has_contributor_id = !is.na(Contributor.ID) & str_trim(as.character(Contributor.ID)) != "") %>%
+  mutate(has_contributor_id = !is.na(effective_Contributor.ID) & str_trim(as.character(effective_Contributor.ID)) != "") %>%
   make_name_variants("Contributor.Name") %>%
   filter(!is.na(name_v1), name_v1 != "") %>%
   mutate(row_id = row_number())
 ```
 
-## Step 1: ID-based aliases (same Contributor.ID, different names)
 
+## No-link registry data checks (can skip)
+
+Surface any entities added to the no-link registry that SHOULDN'T be
+there. 
 
 ```{r}
+if (nrow(no_link_registry) > 0) {
+
+  # (1) No exact pairs (name_a == name_b)
+  self_pairs <- no_link_registry %>% filter(name_a == name_b)
+  if (nrow(self_pairs) > 0) {
+    cat(sprintf("WARNING (1): %d self-pair(s) where name_a == name_b:\n", nrow(self_pairs)))
+    print(self_pairs)
+  } else cat("Check 1 passed: no self-pairs.\n")
+
+  # (2) No shared name variants across a no-link pair
+  registry_name_variants <- tibble(name = union(no_link_registry$name_a, no_link_registry$name_b)) %>%
+    make_name_variants("name")
+
+  get_variants <- function(nm) {
+    registry_name_variants %>%
+      filter(name == nm) %>%
+      select(name_v1, name_v2, name_v4, name_v5) %>%
+      unlist() %>% na.omit() %>% unique() %>% as.character()
+  }
+
+  variant_conflicts <- no_link_registry %>%
+    rowwise() %>%
+    mutate(
+      .vars_a     = list(get_variants(name_a)),
+      .vars_b     = list(get_variants(name_b)),
+      .shared     = list(intersect(.vars_a, .vars_b)),
+      .has_shared = length(.shared) > 0
+    ) %>%
+    filter(.has_shared) %>%
+    mutate(shared_variants = paste(.shared, collapse = " | ")) %>%
+    select(name_a, name_b, entity_type, shared_variants) %>%
+    ungroup()
+
+  if (nrow(variant_conflicts) > 0) {
+    cat(sprintf("WARNING (2): %d no-link pair(s) share a name variant:\n", nrow(variant_conflicts)))
+    print(variant_conflicts)
+  } else cat("Check 2 passed: no shared name variants.\n")
+
+  # (3) No shared Contributor.ID across a no-link pair (org pairs only)
+  org_id_lookup <- orgs %>%
+    filter(!is.na(effective_Contributor.ID),
+           str_trim(as.character(effective_Contributor.ID)) != "") %>%
+    mutate(.name_key = toupper(name_v1)) %>%
+    select(.name_key, effective_Contributor.ID) %>%
+    distinct()
+
+  get_ids <- function(nm) {
+    org_id_lookup %>%
+      filter(.name_key == nm) %>%
+      pull(effective_Contributor.ID) %>%
+      as.character() %>% unique()
+  }
+
+  id_conflicts <- no_link_registry %>%
+    filter(entity_type == "org") %>%
+    rowwise() %>%
+    mutate(
+      .ids_a      = list(get_ids(name_a)),
+      .ids_b      = list(get_ids(name_b)),
+      .shared     = list(intersect(.ids_a, .ids_b)),
+      .has_shared = length(.shared) > 0
+    ) %>%
+    filter(.has_shared) %>%
+    mutate(shared_ids = paste(.shared, collapse = " | ")) %>%
+    select(name_a, name_b, entity_type, shared_ids) %>%
+    ungroup()
+
+  if (nrow(id_conflicts) > 0) {
+    cat(sprintf("WARNING (3): %d no-link pair(s) share a Contributor.ID:\n", nrow(id_conflicts)))
+    print(id_conflicts)
+  } else cat("Check 3 passed: no shared Contributor.IDs.\n")
+
+  # (4) No shared chapter/unit numbers (digit sequences) across a no-link pair
+  chapter_conflicts <- no_link_registry %>%
+    rowwise() %>%
+    mutate(
+      .digits_a   = list(str_extract_all(name_a, "\\d+")[[1]]),
+      .digits_b   = list(str_extract_all(name_b, "\\d+")[[1]]),
+      .shared     = list(intersect(.digits_a, .digits_b)),
+      .has_shared = length(.digits_a) > 0 & length(.digits_b) > 0 & length(.shared) > 0
+    ) %>%
+    filter(.has_shared) %>%
+    mutate(shared_numbers = paste(.shared, collapse = " | ")) %>%
+    select(name_a, name_b, entity_type, shared_numbers) %>%
+    ungroup()
+
+  if (nrow(chapter_conflicts) > 0) {
+    cat(sprintf("NOTE (4): %d no-link pair(s) share digit sequences (check chapter numbers):\n",
+                nrow(chapter_conflicts)))
+    print(chapter_conflicts)
+  } else cat("Check 4 passed: no shared chapter/unit numbers.\n")
+
+} else {
+  cat("No-link registry is empty — skipping checks.\n")
+}
+```
+
+
+
+## Step 1: ID-based aliases (same Contributor.ID, different names)
+
+```{r}
+# all orgs with more than one name variant per contributor.id
 id_based_aliases <- orgs %>%
   filter(has_contributor_id) %>%
-  group_by(Contributor.ID) %>%
+  group_by(effective_Contributor.ID) %>%
   filter(n_distinct(Contributor.Name) > 1) %>%
   ungroup()
 
+# list of all name pairs that share the same id
 id_auto_pairs <- id_based_aliases %>%
-  group_by(Contributor.ID) %>%
-  group_modify(~ as_tibble(t(combn(.x$row_id, 2)), .name_repair = ~ c(".x", ".y"))) %>%
+  group_by(effective_Contributor.ID) %>%
+  group_modify(~ as_tibble(t(combn(.x$row_id, 2)), .name_repair = ~ c(".x", ".y"))) %>% # combn() generates all pairs of the ids
   ungroup() %>%
   mutate(link_tier = "auto_link", match_source = "same_contributor_id")
 
 cat("ID-based alias pairs:", nrow(id_auto_pairs), "\n")
 
 id_based_aliases %>%
-  group_by(Contributor.ID) %>%
+  group_by(effective_Contributor.ID) %>%
   summarise(names = paste(unique(Contributor.Name), collapse = " | "), n = n(), .groups = "drop") %>%
   arrange(desc(n))
 ```
@@ -549,90 +896,280 @@ id_based_aliases %>%
 ## Step 2: Exact variant cascade
 
 ```{r}
-id_resolved_rows <- unique(c(id_auto_pairs$.x, id_auto_pairs$.y))
-remaining_orgs   <- orgs %>% filter(!row_id %in% id_resolved_rows)
+# look for exact matches between name variants. 
+find_exact_variant_pairs <- function(pool, variant_col) {
+  candidates <- pool %>%
+    filter(!is.na(.data[[variant_col]]), .data[[variant_col]] != "") %>%
+    group_by(across(all_of(variant_col))) %>%
+    filter(n() > 1) %>% # more than one record shares an exact match of the name variant
+    ungroup()
 
-#variant_cols     <- c("name_v1", "name_v2", "name_v3", "name_v4", "name_v5", "name_v6")
-variant_cols     <- c("name_v1", "name_v2", "name_v4", "name_v5") # don't do variants where we remove unit info or words attributed with PACs
+  if (nrow(candidates) == 0)
+    return(tibble(.x = integer(), .y = integer(), match_source = character()))
+
+  candidates %>%
+    group_by(across(all_of(variant_col))) %>%
+    group_modify(~ as_tibble(t(combn(.x$row_id, 2)), .name_repair = ~ c(".x", ".y"))) %>% # create pairs
+    ungroup() %>%
+    select(.x, .y) %>%
+    mutate(match_source = paste0("exact_", variant_col))
+}
+```
+
+
+```{r}
+id_resolved_rows <- unique(c(id_auto_pairs$.x, id_auto_pairs$.y)) # contribution records already linked through contributor.id
+#remaining_orgs   <- orgs %>% filter(!row_id %in% id_resolved_rows) # filter out records that were already grouped through a contributor.id match
+remaining_orgs <- orgs # include ALL orgs so we can link PACs and non-PACs
+
+variant_cols     <- c("name_v1", "name_v2", "name_v4", "name_v5") # skips name_v3 which removes unit info
+seen_pairs       <- tibble(.x = integer(), .y = integer())
 exact_pairs_list <- list()
 
 for (v in variant_cols) {
-  new_pairs <- find_exact_variant_pairs(remaining_orgs, v)
+  new_pairs <- find_exact_variant_pairs(orgs, v) %>%
+    anti_join(seen_pairs, by = c(".x", ".y"))
   if (nrow(new_pairs) > 0) {
     exact_pairs_list[[v]] <- new_pairs
-    remaining_orgs <- remaining_orgs %>%
-      filter(!row_id %in% unique(c(new_pairs$.x, new_pairs$.y)))
+    seen_pairs <- bind_rows(seen_pairs, new_pairs %>% select(.x, .y))
   }
-  cat("variant", v, "- new pairs:", nrow(new_pairs), "| remaining:", nrow(remaining_orgs), "\n")
+  cat("variant", v, "- new pairs:", nrow(new_pairs), "\n")
 }
 
-exact_pairs <- bind_rows(exact_pairs_list) %>%
-  left_join(orgs %>% select(row_id, id_x = Contributor.ID, has_id_x = has_contributor_id), by = c(".x" = "row_id")) %>%
-  left_join(orgs %>% select(row_id, id_y = Contributor.ID, has_id_y = has_contributor_id), by = c(".y" = "row_id")) %>%
-  filter(!(coalesce(has_id_x, FALSE) & coalesce(has_id_y, FALSE) & coalesce(id_x != id_y, FALSE))) %>%
-  mutate(link_tier = "auto_link") %>%
+exact_pairs <- bind_rows(exact_pairs_list) %>%  # no dedup needed; each pair has its most-specific source
+  left_join(orgs %>% select(row_id, id_x = effective_Contributor.ID, has_id_x = has_contributor_id), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, id_y = effective_Contributor.ID, has_id_y = has_contributor_id), by = c(".y" = "row_id")) %>%
+  mutate(link_tier = if_else(
+    coalesce(has_id_x, FALSE) & coalesce(has_id_y, FALSE) & coalesce(id_x != id_y, FALSE),
+    "review", "auto_link"
+  )) %>%
   select(.x, .y, link_tier, match_source)
 
-cat("Exact cascade auto-links:", nrow(exact_pairs), "| remaining for fuzzy:", nrow(remaining_orgs), "\n")
+cat(sprintf("Exact cascade: %d auto-links, %d conflicting-ID review pairs\n",
+            sum(exact_pairs$link_tier == "auto_link"),
+            sum(exact_pairs$link_tier == "review")))
+
+exact_pairs %>%
+  filter(link_tier == "review") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name, id_x = effective_Contributor.ID), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name, id_y = effective_Contributor.ID), by = c(".y" = "row_id")) %>%
+  select(name_x, id_x, name_y, id_y, match_source) %>%
+  distinct() %>% print(n = 50)
+```
+
+
+```{r}
+exact_pairs %>%
+  filter(link_tier == "review") %>%
+  left_join(orgs %>% select(row_id, name_x = Contributor.Name, id_x = effective_Contributor.ID), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = Contributor.Name, id_y = effective_Contributor.ID), by = c(".y" = "row_id")) %>%
+  select(name_x, name_y,id_x,  id_y, match_source) %>%
+  distinct() 
 ```
 
 
 ### Step 3: internal fuzzy match
 
+The fuzzy match is the most expensive, so it doesn't run on all orgs like the other matching processes do.
+
+1. Group orgs by links that were already estblished through contributor.id matches and name variant matches.
+   The most common name per group is chosen as the `name_rep` for the group and used to fuzzy match against.
+   The goal is to identify other possible name variants belonging to already-established groups that weren't
+   already found during the id alias and name variant step.
+2. Perform fuzzy matching on all unresolved org names + the name reps from each org group.
+   This step keeps constraint that conflicting-id matches are paired since fuzzy matching is much looser, 
+   but could consider removing this constraint. 
 
 ```{r}
-remaining <- orgs %>%
-  filter(
-    !row_id %in% id_resolved_rows,
-    !row_id %in% unique(c(exact_pairs$.x, exact_pairs$.y))
-  )
+# id and exact pairs to get one rep per already-established cluster
+all_early_pairs <- bind_rows(
+  id_auto_pairs %>% select(.x, .y),
+  exact_pairs   %>% filter(link_tier == "auto_link") %>% select(.x, .y) # doesn't include contributor.id conflicts
+)
 
-ids <- remaining$row_id
-pairs_idx <- combn(length(ids), 2)
+if (nrow(all_early_pairs) > 0) {
+  g_early       <- graph_from_data_frame(all_early_pairs, directed = FALSE,
+                                          vertices = data.frame(name = orgs$row_id))
+  early_members <- components(g_early)$membership
+  cluster_reps  <- tibble(row_id = as.integer(names(early_members)), cluster = early_members) %>%
+    left_join(orgs %>% select(row_id, name_v5), by = "row_id") %>%
+    add_count(cluster, name_v5, name = "n_v5") %>%
+    group_by(cluster) %>%
+    slice_max(n_v5, n = 1, with_ties = TRUE) %>%   # most common name_v5 in cluster
+    slice_min(row_id, n = 1, with_ties = FALSE) %>% # tiebreak: lowest row_id
+    pull(row_id)
+} else {
+  cluster_reps <- integer(0)
+}
 
-org_pairs <- tibble(
-  .x = ids[pairs_idx[1, ]],
-  .y = ids[pairs_idx[2, ]]
-) %>%
-  left_join(orgs %>% select(row_id, name_x = name_v5, id_x = Contributor.ID,
-                             has_id_x = has_contributor_id, pac_x = has_pac_language),
-            by = c(".x" = "row_id")) %>%
-  left_join(orgs %>% select(row_id, name_y = name_v5, id_y = Contributor.ID,
-                             has_id_y = has_contributor_id, pac_y = has_pac_language),
-            by = c(".y" = "row_id")) %>%
-  filter(
-    !(coalesce(has_id_x, FALSE) & coalesce(has_id_y, FALSE) & coalesce(id_x != id_y, FALSE)),
-    pac_x == pac_y
+linked_row_ids <- unique(c(all_early_pairs$.x, all_early_pairs$.y))
+
+# name_reps: one rep per name_v5, covering:
+#   - cluster reps (most-common name_v5 per linked group — represents whole cluster for fuzzy)
+#   - unlinked singletons (not in any early pair)
+name_reps <- orgs %>%
+  filter(row_id %in% cluster_reps | !row_id %in% linked_row_ids) %>%
+  group_by(name_v5) %>% 
+  slice_min(row_id, n = 1, with_ties = FALSE) %>% # those with more than one name_v5, not already-linked are those with diff ids i think 
+  ungroup()
+
+cat(sprintf("Fuzzy matching input: %d name reps\n", nrow(name_reps)))
+```
+
+
+```{r}
+# token Jaccard: exact token-overlap ratio between two name strings
+token_jaccard <- function(a, b) {
+  tok_a <- str_split(str_squish(a), "\\s+")[[1]]
+  tok_b <- str_split(str_squish(b), "\\s+")[[1]]
+  n_int <- length(intersect(tok_a, tok_b))
+  n_uni <- length(union(tok_a, tok_b))
+  if (n_uni == 0) return(0)
+  n_int / n_uni
+}
+
+cat(sprintf("name_reps: %d rows\n", nrow(name_reps)))
+
+# add chunks to help with memory issues
+# candidate pairs via stringdist_inner_join 
+# chunks splits the left side into batches of CHUNK_SIZE
+# each batch joins against the full right side, so every
+# pair is evaluated exactly once (when the lower row_id is on the left).
+CHUNK_SIZE <- 500L
+name_reps_right <- name_reps %>%
+  rename(row_id_y = row_id, name_v5_y = name_v5) %>%
+  select(row_id_y, name_v5_y)
+
+chunks <- split(
+  name_reps %>% select(row_id, name_v5),
+  ceiling(seq_len(nrow(name_reps)) / CHUNK_SIZE)
+)
+
+fuzzy_candidates <- bind_rows(lapply(chunks, function(chunk) {
+  stringdist_inner_join(
+    chunk,
+    name_reps_right,
+    by           = c("name_v5" = "name_v5_y"),
+    method       = "jw", p = 0.1, max_dist = 0.12,
+    distance_col = "jw_dist"
   ) %>%
+    filter(row_id < row_id_y)
+})) %>%
+  rename(.x = row_id, .y = row_id_y, name_x = name_v5, name_y = name_v5_y)
+
+rm(chunks, name_reps_right)
+gc(verbose = FALSE)
+
+cat(sprintf("Fuzzy candidates (JW dist <= 0.12): %d pairs (from %d reps)\n",
+            nrow(fuzzy_candidates), nrow(name_reps)))
+
+# score all candidate pairs and flag conflicting-ID pairs before splitting
+org_pairs_scored <- fuzzy_candidates %>%
+  left_join(orgs %>% select(row_id, id_x = effective_Contributor.ID, has_id_x = has_contributor_id),
+            by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, id_y = effective_Contributor.ID, has_id_y = has_contributor_id),
+            by = c(".y" = "row_id")) %>%
   mutate(
-    name_jw     = stringsim(name_x, name_y, method = "jw", p = 0.1),
+    has_id_conflict = coalesce(has_id_x, FALSE) & coalesce(has_id_y, FALSE) & coalesce(id_x != id_y, FALSE),
+    jaccard     = mapply(token_jaccard, name_x, name_y),
+    name_jw     = 1 - jw_dist,
     name_cosine = bigram_cosine(name_x, name_y)
   ) %>%
-  filter(name_jw >= 0.70, name_cosine >= 0.50) %>%
-  select(-name_x, -name_y) %>%
+  filter(jaccard >= 0.40) %>%   # more lenient threshold 
   mutate(
-    name_sim     = (name_jw + name_cosine) / 2,
-    link_tier    = case_when(
-      name_jw >= 0.999 ~ "auto_link",
-      name_sim >= 0.90 ~ "auto_link", # reviewd this manually
-      name_sim >= 0.85 ~ "review", # was 0.75, but no of those were really close..
-      TRUE             ~ "no_link"
+    name_sim  = (name_jw + name_cosine) / 2,
+    link_tier = case_when(
+      name_jw  >= 0.999 ~ "auto_link",
+      name_sim >= 0.90  ~ "auto_link",
+      name_sim >= 0.85  ~ "review",
+      TRUE              ~ "no_link"
     ),
     match_source = "internal_fuzzy"
   )
 
+# conflicting-ID pairs that pass scoring thresholds (currently excluded from org_pairs)
+#cat("\nFuzzy pairs with conflicting contributor IDs that would be linked:\n")
+conflicting_id_links <- org_pairs_scored %>%
+  filter(has_id_conflict, link_tier != "no_link") %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".y" = "row_id"), suffix = c("_x", "_y")) %>%
+  select(Contributor.Name_x, id_x, Contributor.Name_y, id_y, name_sim, link_tier) 
 
+# org_pairs: conflicting IDs still excluded
+org_pairs <- org_pairs_scored %>%
+  filter(!has_id_conflict) %>%
+  select(.x, .y, id_x, id_y, has_id_x, has_id_y, name_x, name_y,
+         jaccard, name_sim, name_jw, name_cosine, link_tier, match_source)
+
+# flag different-chapter pairs: names identical after stripping digits AND the name
+# contains a chapter indicator 
+CHAPTER_RE <- regex("\\b(LOCAL|LODGE|CHAPTER|COUNCIL|DISTRICT|UNIT|UNION|MEMBER DUES)\\b|\\b[A-Za-z]{2,4}\\s+\\d{3,4}\\b", ignore_case = TRUE)
+
+org_pairs <- org_pairs %>%
+  mutate(
+    nx_no_digits = str_remove_all(name_x, "\\d+") %>% str_squish(),
+    ny_no_digits = str_remove_all(name_y, "\\d+") %>% str_squish(),
+    diff_chapter = str_detect(name_x, "\\d") & str_detect(name_y, "\\d") &
+                   nx_no_digits == ny_no_digits &
+                   (str_detect(name_x, CHAPTER_RE) | str_detect(name_y, CHAPTER_RE))
+  ) %>%
+  select(-nx_no_digits, -ny_no_digits)
+
+# review before removing — check that nothing legitimate is being caught
+diff_chapter_pairs <- org_pairs %>%
+  filter(diff_chapter, link_tier != "no_link") %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".y" = "row_id"), suffix = c("_x", "_y")) %>%
+  select(Contributor.Name_x, Contributor.Name_y, name_sim, link_tier) 
+
+org_pairs <- org_pairs %>%
+  filter(!diff_chapter) %>%
+  select(-diff_chapter)
+
+cat(sprintf("\nFuzzy: %d auto-links, %d review pairs, %d no-link (Jaccard >= 0.40)\n",
+            sum(org_pairs$link_tier == "auto_link"),
+            sum(org_pairs$link_tier == "review"),
+            sum(org_pairs$link_tier == "no_link")))
 ```
 
-```{r}
-nrow(org_pairs)
+
+#### data checks (can skip)
+
+```{r, eval=FALSE}
+# review different chapter pairs that were removed
+diff_chapters
 ```
 
+```{r,eval=FALSE}
+org_pairs_scored %>%
+  filter(has_id_conflict, link_tier != "no_link") %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".y" = "row_id"), suffix = c("_x", "_y")) %>%
+  select(Contributor.Name_x, Contributor.Name_y, id_x,  id_y, name_sim, link_tier)
+```
 
-## Step 5: External bridge (map1 / map2)
+```{r, eval=FALSE}
+# review all linkable fuzzy pairs - see if changes need to be made to matching algorithm 
+org_pairs %>%
+  filter(link_tier != "no_link") %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".y" = "row_id"), suffix = c("_x", "_y")) %>%
+  select(Contributor.Name_x, Contributor.Name_y, jaccard, name_sim, name_jw, link_tier) %>%
+  arrange(desc(name_sim))
+``` 
 
-- update to only use the one map
-- but check the other map at the end to make sure the name variant doesn't already exist
+
+## Step 5: External bridge map
+
+Use Digital Democracy's org concept mapping to surface additional links. 
+This helps identify organizations with very different names that may not 
+be caught by fuzzy matching. 
+
+DD org concepts are looser than our links (e.g. all chapters of a union are linked under one 
+org concept), so we don't want to automatically treat these as links.
+
+This originally also used the equivalent of Names 2026 as a bridge; but that's no longer needed
+since we are now using that directly in the entity resolution process. 
 
 ```{r}
 # standardize external names to name_v5 format for matching
@@ -650,15 +1187,12 @@ build_bridge_lookup <- function(mapping) {
 }
 
 map1_lookup <- build_bridge_lookup(map1)
-```
 
-
-```{r}
 find_bridge_pairs <- function(orgs_df, lookup, source_label) {
   matched <- orgs_df %>%
     inner_join(lookup, by = c("name_v5" = "name_std")) %>%
     select(row_id, name_v5, canonical_name) %>%
-    distinct(name_v5, canonical_name, .keep_all = TRUE)  # one row per unique name × canonical (used to be row_id instead of name_v5 here)
+    distinct(name_v5, canonical_name, .keep_all = TRUE) 
 
   if (nrow(matched) < 2) return(tibble(.x = integer(), .y = integer(),
                                         match_source = character(), canonical_name = character()))
@@ -680,6 +1214,7 @@ find_bridge_pairs <- function(orgs_df, lookup, source_label) {
 ```
 
 ```{r}
+# appply bridge map to ALL orgs
 bridge_map1 <- find_bridge_pairs(orgs, map1_lookup, "map1_bridge")
 cat("Bridge pairs — map1:", nrow(bridge_map1), "\n")
 
@@ -690,13 +1225,13 @@ bridge_map1 %>%
   left_join(orgs %>% select(row_id, name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
   select(name_x, name_y, canonical_name, n_canonicals) %>%
   arrange(name_x, name_y)
-
 ```
-- get many-to-many warnings here
+
 
 ### combine bridge pairs
 
-- think i can remove part where bridge pairs upgrade fuzzy match
+Note: upgrading fuzzy matches can be removed; this is mostly an artifact of 
+the old entity-resolution process.
 
 ```{r}
 # bridge pairs from map1 only
@@ -710,29 +1245,44 @@ bridge_pairs <- bridge_map1 %>%
 
 # canonical ID per name_v5: if ANY contribution row for that name has an ID, record it
 # used detect conflicting-ID pairs regardless of which row_id find_bridge_pairs picked.
+# there are cases where name_v5 could have multiple contributor.ids
 org_name_canonical_id <- orgs %>%
   filter(has_contributor_id) %>%
   group_by(name_v5) %>%
-  summarise(canonical_id = names(sort(table(Contributor.ID), decreasing = TRUE))[1],
+  summarise(canonical_id = names(sort(table(effective_Contributor.ID), decreasing = TRUE))[1],
             .groups = "drop")
 
-# score bridge pairs on internal similarity 
+# score bridge pairs on internal similarity
 bridge_scored <- bridge_pairs %>%
-  left_join(orgs %>% select(row_id, name_x = name_v5, pac_x = has_pac_language),
+  left_join(orgs %>% select(row_id, name_x = name_v5),
             by = c(".x" = "row_id")) %>%
-  left_join(orgs %>% select(row_id, name_y = name_v5, pac_y = has_pac_language),
+  left_join(orgs %>% select(row_id, name_y = name_v5),
             by = c(".y" = "row_id")) %>%
   # join on name, not row_id in case a row was picked that didn't have a contributor.id
   left_join(org_name_canonical_id %>% rename(name_x = name_v5, id_x = canonical_id), by = "name_x") %>%
-  left_join(org_name_canonical_id %>% rename(name_y = name_v5, id_y = canonical_id), by = "name_y") %>% # drop any pair where both orgs have IDs and those IDs differ — they are distinct entities
-  filter(!(coalesce(!is.na(id_x), FALSE) & coalesce(!is.na(id_y), FALSE) & coalesce(id_x != id_y, FALSE))) %>%
+  left_join(org_name_canonical_id %>% rename(name_y = name_v5, id_y = canonical_id), by = "name_y") %>%
+  mutate(
+    has_id_conflict = coalesce(!is.na(id_x), FALSE) & coalesce(!is.na(id_y), FALSE) & coalesce(id_x != id_y, FALSE)
+  )
 
+# show conflicting-ID bridge pairs before filtering them out
+#cat("\nBridge pairs with conflicting contributor IDs (currently excluded):\n")
+# maybe change this so i can look at which are filtered out AFTER local units conflicts removed
+bridge_id_conflicts <- bridge_scored %>%
+  filter(has_id_conflict) %>%
+  left_join(orgs %>% select(row_id, raw_name_x = Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, raw_name_y = Contributor.Name), by = c(".y" = "row_id")) %>%
+  select(raw_name_x, id_x, raw_name_y, id_y, canonical_name) %>%
+  arrange(canonical_name) 
+
+bridge_scored <- bridge_scored %>%
+  filter(!has_id_conflict) %>% # filters out id-conflicts
   mutate(
     name_jw     = stringsim(name_x, name_y, method = "jw", p = 0.1),
     name_cosine = bigram_cosine(name_x, name_y),
     name_sim    = (name_jw + name_cosine) / 2
   ) %>%
-  select(-name_x, -name_y, -id_x, -id_y)
+  select(-name_x, -name_y, -id_x, -id_y, -has_id_conflict)
 
 # tag internal fuzzy paris thr bridge found— for match_source logging
 internal_pair_keys <- org_pairs %>%
@@ -765,31 +1315,60 @@ bridge_only <- bridge_scored %>%
   mutate(pair_key = paste(pmin(.x, .y), pmax(.x, .y))) %>%
   filter(!pair_key %in% internal_pair_keys$pair_key) %>%
   select(-pair_key) %>%
+  mutate(link_tier = "review")  # bridge alone never auto-links
+
+# flag different-chapter pairs in bridge (same logic as fuzzy, with CHAPTER_RE guard)
+#CHAPTER_RE <- "\\b(LOCAL|LODGE|CHAPTER|COUNCIL|DISTRICT|UNIT)\\b|^[A-Z]{2,5}\\s+\\d"
+CHAPTER_RE <- regex("\\b(LOCAL|LODGE|CHAPTER|COUNCIL|DISTRICT|UNIT|UNION|MEMBER DUES)\\b|\\b[A-Za-z]{2,4}\\s+\\d{3,4}\\b", ignore_case = TRUE)
+
+bridge_only <- bridge_only %>%
+  left_join(orgs %>% select(row_id, name_x = name_v5), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, name_y = name_v5), by = c(".y" = "row_id")) %>%
   mutate(
-    link_tier = "review"  # bridge alone never auto-links
+    nx_no_digits = str_remove_all(name_x, "\\d+") %>% str_squish(),
+    ny_no_digits = str_remove_all(name_y, "\\d+") %>% str_squish(),
+    diff_chapter = str_detect(name_x, "\\d") & str_detect(name_y, "\\d") &
+                   nx_no_digits == ny_no_digits &
+                   (str_detect(name_x, CHAPTER_RE) | str_detect(name_y, CHAPTER_RE))
   )
+
+#cat("\nDifferent-chapter pairs flagged for removal (bridge):\n")
+diff_chapter_bridge <- bridge_only %>%
+  filter(diff_chapter) %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".x" = "row_id")) %>%
+  left_join(orgs %>% select(row_id, Contributor.Name), by = c(".y" = "row_id"), suffix = c("_x", "_y")) %>%
+  select(Contributor.Name_x, Contributor.Name_y, canonical_name) 
+
+bridge_only <- bridge_only %>%
+  filter(!diff_chapter) %>%
+  select(-name_x, -name_y, -nx_no_digits, -ny_no_digits, -diff_chapter)
 
 cat("Bridge-corroborated internal pairs:", sum(!is.na(bridge_pair_keys$bridge_source[match(internal_pair_keys$pair_key, bridge_pair_keys$pair_key)])), "\n")
 cat("Bridge-only new pairs for review:", nrow(bridge_only), "\n")
 ```
 
 
-## Combine + cluster - definitive links for classification input
+#### data check (can skip)
 
-Combine all links, including those that need to be reviewed into a single entity
-- not including fuzzy pairs and bridge pairs for now
 
 ```{r}
-# pairs computed through different linkage methods
+# review different chapter conflicts that were removed
+diff_chapter_bridge
+```
+
+
+
+## Combine + cluster - definitive links
+
+```{r}
+# pairs joined through definitive links (not fuzzy matchin)
 all_org_pairs <- bind_rows(
   id_auto_pairs %>% select(.x, .y, link_tier, match_source),
   exact_pairs,
-  #org_pairs    %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim),
-  #bridge_only  %>% select(.x, .y, link_tier, match_source, name_jw, name_cosine, name_sim, canonical_name)
 )
 
 # build one graph from all non-rejected pairs, treating review links as true
-linkable_pairs <- all_org_pairs %>% filter(link_tier %in% c("auto_link", "review"))
+linkable_pairs <- all_org_pairs %>% filter(link_tier %in% c("auto_link", "review")) 
 
 if (nrow(linkable_pairs) > 0) {
   g_orgs       <- graph_from_data_frame(linkable_pairs %>% select(.x, .y), directed = FALSE)
@@ -822,7 +1401,7 @@ if (nrow(linkable_pairs) > 0) {
 orgs_singleton_lookup <- orgs %>%
   filter(!row_id %in% org_cluster_map$row_id) %>%
   distinct(Contributor.Name) %>%
-  mutate(raw_name_key = str_squish(toupper(Contributor.Name))) %>%
+  mutate(raw_name_key = toupper(Contributor.Name)) %>%
   left_join(nem_lookup %>% select(raw_name, entity_uuid), by = c("raw_name_key" = "raw_name")) %>%
   mutate(
     is_new    = is.na(entity_uuid),
@@ -836,29 +1415,20 @@ orgs_singletons <- orgs %>%
   mutate(is_conflict = FALSE) %>%
   select(row_id, entity_id, is_new, is_conflict)
 
-review_org_entity_ids <- all_org_pairs %>%
-  filter(link_tier == "review") %>%
-  left_join(bind_rows(org_cluster_map, orgs_singletons), by = c(".x" = "row_id"),
-            relationship = "many-to-one") %>%
-  filter(!is.na(entity_id)) %>%
-  pull(entity_id) %>%
-  unique()
-
 orgs_resolved <- orgs %>%
-  left_join(bind_rows(org_cluster_map, orgs_singletons), by = "row_id") %>%
-  mutate(needs_review = entity_id %in% review_org_entity_ids)
+  left_join(bind_rows(org_cluster_map, orgs_singletons), by = "row_id")
 
 ```
+
 
 ## Org name variant review queue
 
 For each entity with more than one distinct name, output the names that are not already
-in map2 so they can be added to the name variant list. `entity_status` indicates whether
-the entity already has some presence in map2 ("adding_to_existing") or is brand new ("new_entity").
+tracked so they can be added to the name variant list. `entity_status` indicates whether
+this is a new name variant of a known entity or a new entity group entirely. 
 
 ```{r}
-# Review-only grouping: includes fuzzy + bridge in addition to id/exact.
-# Separate from all_org_pairs so classification aggregation is unaffected.
+# grouping for name variant review queue: includes fuzzy + bridge in addition to id and exact
 all_org_pairs_review <- bind_rows(
   id_auto_pairs %>% select(.x, .y, link_tier, match_source),
   exact_pairs   %>% select(.x, .y, link_tier, match_source),
@@ -866,6 +1436,25 @@ all_org_pairs_review <- bind_rows(
   bridge_only   %>% select(.x, .y, link_tier, match_source)
 )
 
+# drop pairs where both names are confirmed as DIFFERENT entities in name_entity_mapping
+# uses nem_lookup so UUIDs are stable; names w/out a canonical name stay NA 
+# the all_confirmed mechanism handles those groups separately
+confirmed_nem <- nem_lookup %>% filter(confirmed == TRUE) %>% select(raw_name, entity_uuid) # all of these should have confirmed = TRUE, but just in case
+orgs_known_uuid <- orgs %>%
+  transmute(row_id,
+            known_uuid = confirmed_nem$entity_uuid[match(toupper(Contributor.Name), confirmed_nem$raw_name)])
+
+n_before_split_filter <- nrow(all_org_pairs_review)
+# remove pairs that matched to different uuids (if name is already in map, it means it was verified manually)
+all_org_pairs_review <- all_org_pairs_review %>%
+  left_join(orgs_known_uuid %>% rename(uuid_x = known_uuid), by = c(".x" = "row_id")) %>%
+  left_join(orgs_known_uuid %>% rename(uuid_y = known_uuid), by = c(".y" = "row_id")) %>%
+  filter(is.na(uuid_x) | is.na(uuid_y) | uuid_x == uuid_y) %>% # only include pairs where at least one uuid is known OR they have the same uuid 
+  select(.x, .y, link_tier, match_source)
+cat(sprintf("Split-entity filter: removed %d pairs where both names had confirmed different UUIDs\n",
+            n_before_split_filter - nrow(all_org_pairs_review)))
+
+# create graph now that false matches are removed
 if (nrow(all_org_pairs_review) > 0) {
   g_org_review     <- graph_from_data_frame(all_org_pairs_review %>% select(.x, .y), directed = FALSE)
   org_review_comps <- components(g_org_review)$membership
@@ -877,9 +1466,34 @@ if (nrow(all_org_pairs_review) > 0) {
   org_review_group_map <- tibble(row_id = integer(), review_group_id = character())
 }
 
-# Flagreview groups that contain names with conflicting non-NA Contributor.IDs.
+# pair filter above removes direct edges between confirmed-different-entity
+# names, but transitive paths through unconfirmed names can still group different entities together
+# for any component that contains multiple distinct confirmed UUIDs, re-assign confirmed names to
+# UUID-based subgroups - unconfirmed names keep the original review_group_id and remain in the queue
+orgs_confirmed_uuid <- orgs %>%
+  transmute(row_id, raw_name = toupper(Contributor.Name)) %>%
+  left_join(confirmed_nem, by = "raw_name") %>%
+  select(row_id, confirmed_uuid = entity_uuid)
+
+org_review_group_map <- org_review_group_map %>%
+  left_join(orgs_confirmed_uuid, by = "row_id") %>%
+  group_by(review_group_id) %>%
+  mutate(n_distinct_uuid = n_distinct(confirmed_uuid[!is.na(confirmed_uuid)])) %>%
+  ungroup() %>%
+  mutate(
+    review_group_id = case_when(
+      n_distinct_uuid > 1 & !is.na(confirmed_uuid) ~ paste0("org_rg_confirmed_", confirmed_uuid),
+      TRUE                                           ~ review_group_id 
+    )
+  ) %>%
+  select(row_id, review_group_id)
+
+cat(sprintf("Post-hoc UUID split: %d groups contain confirmed names re-assigned to UUID-based subgroups\n",
+            sum(grepl("^org_rg_confirmed_", org_review_group_map$review_group_id))))
+
+# flag review groups that contain names with conflicting non-NA Contributor.IDs (just a flag for reference in review queue)
 org_cid <- orgs %>%
-  select(row_id, cid = Contributor.ID) %>%
+  select(row_id, cid = effective_Contributor.ID) %>%
   mutate(cid = na_if(str_trim(as.character(cid)), ""))
 
 conflicting_rg <- org_review_group_map %>%
@@ -896,7 +1510,190 @@ org_review_singletons <- orgs %>%
 
 org_review_groups <- bind_rows(org_review_group_map, org_review_singletons)
 
-# per-row_id lookup of which linkage methods connect it to others in its group
+```
+
+### Apply qualifying PAC fitler
+
+For each review group, sum contributions to relevant recipients treating all links as true.
+Only keep orgs that contributed to a qualifying PAC (a PAC whose tentative group gave $5k+
+to a tracked race/prop or a traversed PAC)
+
+```{r}
+# candidate committees and ballot measure committees
+tracked_race_committee_ids <- contributions %>%
+  filter(!coalesce(is_pac_contribution, FALSE)) %>%
+  pull(Recipient.Committee.ID) %>%
+  as.character() %>%
+  unique()
+
+# committees that came up in the 0802b PAC graph (no threshold considered);
+# exclude candidate and federal PACs — their contributors don't require individual classification
+all_universe_pac_ids <- pac_universe %>%
+  mutate(
+    is_candidate_pac = if ("is_candidate_pac" %in% names(pac_universe)) as.logical(is_candidate_pac) else FALSE,
+    is_federal_pac   = if ("is_federal_pac"   %in% names(pac_universe)) as.logical(is_federal_pac)   else FALSE
+  ) %>%
+  filter(!coalesce(is_candidate_pac, FALSE), !coalesce(is_federal_pac, FALSE)) %>%
+  pull(pac_id) %>%
+  as.character()
+
+# combine 'direct' committees and PAC graph committees
+relevant_recipient_ids <- unique(c(tracked_race_committee_ids, all_universe_pac_ids))
+length(relevant_recipient_ids)
+
+# id_map maps XREF_FILER_ID (Contributor.ID) -> FILER_ID (Recipinet.Committee.ID)
+id_map_early <- read_tsv("08_inputs/FILERNAME_CD.tsv", col_types = cols(.default = "c")) %>%
+  mutate(FILER_ID = as.character(FILER_ID), XREF_FILER_ID = as.character(XREF_FILER_ID)) %>%
+  filter(!is.na(FILER_ID), !is.na(XREF_FILER_ID)) %>%
+  distinct(XREF_FILER_ID, FILER_ID)
+
+```
+
+```{r}
+# data check for id map
+unique_rcids <- contributions %>%
+  pull(Recipient.Committee.ID) %>%
+  as.character() %>%
+  unique()
+
+all_filer_ids <- unique(id_map_early$FILER_ID)
+
+# (a) Recipient.Committee.IDs that don't appear as any FILER_ID in FILERNAME_CD
+not_a_filer_id <- unique_rcids[!unique_rcids %in% all_filer_ids]
+cat(sprintf("(a) %d Recipient.Committee.IDs not found as any FILER_ID in FILERNAME_CD\n",
+            length(not_a_filer_id)))
+if (length(not_a_filer_id) > 0) print(head(not_a_filer_id, 20))
+
+# (b) Recipient.Committee.IDs that appear as an XREF_FILER_ID where XREF != FILER
+non_canonical_rcids <- id_map_early %>%
+  filter(XREF_FILER_ID %in% unique_rcids, XREF_FILER_ID != FILER_ID) %>%
+  distinct(XREF_FILER_ID, FILER_ID)
+cat(sprintf("(b) %d Recipient.Committee.IDs are XREF_FILER_IDs with a different canonical FILER_ID\n",
+            nrow(non_canonical_rcids)))
+if (nrow(non_canonical_rcids) > 0) print(non_canonical_rcids)
+```
+
+
+```{r}
+orgs_grouped <- orgs %>%
+  left_join(org_review_groups %>% select(row_id, review_group_id), by = "row_id") %>%
+  select(-any_of(c("FILER_ID", "FILER_TYPE"))) %>%
+  left_join(id_map_early, by = c("effective_Contributor.ID" = "XREF_FILER_ID")) %>%
+  mutate(FILER_ID = as.character(FILER_ID))
+
+not_qualifying_review_groups <- orgs_grouped %>%
+  mutate(rc_id = as.character(Recipient.Committee.ID)) %>%
+  filter(rc_id %in% relevant_recipient_ids) %>% 
+  group_by(review_group_id, rc_id) %>% # is this grouping right??? b/c what about entities w/ MISSING id -> that's okay, recipient should never be missing
+  summarise(total = sum(Amount, na.rm = TRUE), .groups = "drop") %>%
+  filter(total < 5000) %>%
+  pull(review_group_id) %>% # pull all orgs that are part of a tentatively-linked entity that gave $5k+ to a single recipient. 
+  unique()
+```
+
+```{r}
+length(not_qualifying_review_groups)
+below <- orgs_grouped %>% # orgs w/ review_group_ids 
+  filter(review_group_id %in% not_qualifying_review_groups)
+```
+
+```{r}
+below %>% group_by(review_group_id,Recipient.Committee.ID) %>% summarise(total = sum(Amount)) %>% arrange(desc(total))
+```
+reverse doesn't work -> expected? 
+
+```{r}
+orgs_grouped %>% filter(review_group_id == "org_rg_383") %>% group_by(Recipient.Committee.ID) %>% summarise(total = sum(Amount) )
+```
+
+why many-to-many for join in paired_qualifying? 
+
+```{r}
+# map review_group_id -> all raw contributor names in that group; expands beyond the
+# single representative row_id chosen during fuzzy/bridge matching so that all
+# contribution rows for each name are included in the $5k threshold check.
+org_group_name_index <- org_review_group_map %>%
+  left_join(
+    orgs %>%
+      mutate(raw_name_key = str_squish(toupper(Contributor.Name))) %>%
+      select(row_id, raw_name_key),
+    by = "row_id"
+  ) %>%
+  distinct(review_group_id, raw_name_key) # all names associated w/ each review group 
+
+# paired groups: expand ALL contribution rows for names in the group via raw name
+paired_qualifying <- orgs %>%
+  mutate(
+    raw_name_key = str_squish(toupper(Contributor.Name)),
+    rc_id        = as.character(Recipient.Committee.ID)
+  ) %>%
+  inner_join(org_group_name_index, by = "raw_name_key", relationship = "many-to-one") %>%
+  filter(rc_id %in% relevant_recipient_ids)
+
+# singletons: orgs not in any paired group, kept under their own solo review_group_id
+solo_qualifying <- orgs %>%
+  mutate(
+    raw_name_key = str_squish(toupper(Contributor.Name)),
+    rc_id        = as.character(Recipient.Committee.ID)
+  ) %>%
+  filter(!raw_name_key %in% org_group_name_index$raw_name_key) %>%
+  left_join(org_review_singletons %>% select(row_id, review_group_id), by = "row_id") %>%
+  filter(rc_id %in% relevant_recipient_ids)
+
+qualifying_expanded <- bind_rows(paired_qualifying, solo_qualifying)
+
+qualifying_review_groups <- qualifying_expanded %>%
+  mutate(
+    race_recipient_key = case_when(
+      coalesce(is_pac_contribution, FALSE)          ~ rc_id,
+      !is.na(Ballot.Measure) & Ballot.Measure != "" ~ Ballot.Measure,
+      !is.na(Office) & Office != ""                 ~ paste(Recipient.Name, Office, sep = " | "),
+      TRUE                                          ~ Recipient.Name
+    )
+  ) %>%
+  group_by(review_group_id, race_recipient_key) %>%
+  summarise(total = sum(Amount, na.rm = TRUE), .groups = "drop") %>%
+  filter(total >= 5000) %>%
+  pull(review_group_id) %>%
+  unique()
+
+qualifying_pac_filer_ids <- qualifying_expanded %>%
+  select(-any_of(c("FILER_ID", "FILER_TYPE"))) %>% # in case it was added earlier
+  filter(review_group_id %in% qualifying_review_groups) %>%
+  left_join(id_map_early, by = c("effective_Contributor.ID" = "XREF_FILER_ID")) %>%
+  mutate(FILER_ID = as.character(FILER_ID)) %>%
+  filter(!is.na(FILER_ID), FILER_ID != "", FILER_ID %in% all_universe_pac_ids) %>% # pac traversal ids
+  pull(FILER_ID) %>%
+  unique()
+
+cat(sprintf(
+  "%d of %d traversed PAC(s) qualify (tentatively gave $5k+ to a relevant recipient)\n",
+  length(qualifying_pac_filer_ids), length(unique(known_pacs$pac_id))
+))
+```
+
+- 777 / 1068 traversed PACs marked as qualifying; didn't change after i moved the expansion up here I don't think 
+DOES NOT INCLUDE the ballot measure and candidate PACS. 
+
+```{r}
+# data checks
+qualifying_expanded %>% group_by(row_id) %>% filter(n() > 1)
+orgs %>% filter(!(row_id %in% qualifying_expanded$row_id))
+```
+
+
+NOTE: the entire review group will qualify even if only some of its name variants were the ones that contributed $5k+ to a race.
+In other words, an org may be part of a review group even if that specific name variant didn't contribute $5k+ to a race, but other name variants did. 
+
+WAIT! are tracked_race_committee_ids counted??? 
+
+where does orgs_resolved come from? why is this included? only definitive links, but not relevant here
+do entity_id, canonical_name etc ever vary in the summarise step? 
+
+
+
+```{r}
+# flag which linkage methods connect it to others in its group
 org_row_sources <- bind_rows(
   all_org_pairs_review %>% select(row_id = .x, match_source),
   all_org_pairs_review %>% select(row_id = .y, match_source)
@@ -904,29 +1701,40 @@ org_row_sources <- bind_rows(
   group_by(row_id) %>%
   summarise(link_methods = paste(sort(unique(match_source)), collapse = " | "), .groups = "drop")
 
-org_review_names <- orgs %>%
+org_review_names_raw <- orgs %>%
   left_join(org_review_groups, by = "row_id") %>%
-  left_join(orgs_resolved %>% select(row_id, entity_id, is_conflict), by = "row_id") %>%
+  left_join(orgs_resolved %>% select(row_id, entity_id), by = "row_id") %>%
   left_join(org_row_sources, by = "row_id") %>%
   mutate(
     exported_name  = toupper(Contributor.Name),
-    raw_name_key   = str_squish(exported_name),
-    contributor_id = na_if(str_trim(as.character(Contributor.ID)), "")
+    raw_name_key   = exported_name,
+    contributor_id = na_if(str_trim(as.character(effective_Contributor.ID)), "")
   ) %>%
   left_join(nem_lookup %>% select(raw_name, confirmed, canonical_name),
             by = c("raw_name_key" = "raw_name")) %>%
-  # a name is confirmed if it's in name_entity_mapping (variant confirmed) OR reviewed_names
-  # (any review decision made — covers canonical names and singletons that don't need normalization)
-  mutate(confirmed = coalesce(confirmed, FALSE) | raw_name_key %in% reviewed_names$raw_name) %>%
+  mutate(confirmed = coalesce(confirmed, FALSE)) %>%
   group_by(review_group_id) %>%
   filter(n_distinct(exported_name) > 1) %>%
-  ungroup() %>%
+  ungroup()
+
+# entity_id should not vary within (review_group_id, exported_name, contributor_id)
+entity_id_check <- org_review_names_raw %>%
+  group_by(review_group_id, exported_name, contributor_id) %>%
+  summarise(n_entity_ids = n_distinct(entity_id[!is.na(entity_id)]), .groups = "drop") %>%
+  filter(n_entity_ids > 1)
+if (nrow(entity_id_check) > 0) {
+  stop(sprintf(
+    "entity_id varies within %d (review_group_id, exported_name, contributor_id) group(s) — check orgs_resolved",
+    nrow(entity_id_check)
+  ))
+}
+
+org_review_names <- org_review_names_raw %>%
   group_by(review_group_id, exported_name, contributor_id) %>%
   summarise(
-    entity_id       = first(entity_id),
-    canonical_name  = first(canonical_name),
-    confirmed       = first(confirmed),
-    is_conflict     = coalesce(first(is_conflict), FALSE),
+    entity_id       = first(na.omit(entity_id)),
+    canonical_name  = first(na.omit(canonical_name)),
+    confirmed       = all(confirmed),
     link_methods    = paste(sort(unique(link_methods[!is.na(link_methods)])), collapse = " | "),
     n_contributions = n(),
     total_amount    = sum(Amount, na.rm = TRUE),
@@ -936,178 +1744,282 @@ org_review_names <- orgs %>%
     .groups = "drop"
   )
 
+rm(org_review_names_raw)
+
+# look at review group as a whole
+# merge_conflict: group contains confirmed names mapping to different canonical entities
 org_review_group_status <- org_review_names %>%
   group_by(review_group_id) %>%
   summarise(
-    # all_confirmed takes priority: both same-entity confirmations (same UUID) and
-    # not-same-entity confirmations (different UUIDs) suppress a group from review.
     entity_status = case_when(
-      all(confirmed)   ~ "all_confirmed",
-      any(is_conflict) ~ "merge_conflict",
-      any(confirmed)   ~ "adding_to_existing",
-      TRUE             ~ "new_entity"
+      all(confirmed)                                                        ~ "all_confirmed",
+      n_distinct(canonical_name[confirmed & !is.na(canonical_name)]) > 1   ~ "merge_conflict",
+      any(confirmed)                                                        ~ "adding_to_existing",
+      TRUE                                                                  ~ "new_entity"
     ),
     conflicting_contributor_ids = any(review_group_id %in% conflicting_rg),
     .groups = "drop"
   )
 
-
-# Recipients: Recipient.Committee.ID (PACs), Ballot.Measure (props), Recipient.Name (candidates).
-# A group qualifies for review only if it crossed $5k to at least one singular recipient.
-org_review_group_threshold <- orgs %>%
-  left_join(org_review_groups %>% select(row_id, review_group_id), by = "row_id") %>%
-  mutate(
-    recipient_key = case_when(
-      !is.na(Recipient.Committee.ID) & as.character(Recipient.Committee.ID) != "" ~ as.character(Recipient.Committee.ID),
-      !is.na(Ballot.Measure) & Ballot.Measure != ""                               ~ Ballot.Measure,
-      TRUE                                                                         ~ Recipient.Name
-    )
+# A group qualifies for review only if more than one distinct name variant donated to
+# the same single recipient AND their combined total is >= $5k.
+org_threshold_expanded <- orgs %>%
+  filter(
+    !coalesce(is_pac_contribution, FALSE) | # direct contributor
+    as.character(Recipient.Committee.ID) %in% qualifying_pac_filer_ids # OR a contributor to a $5k+ PAC
   ) %>%
-  group_by(review_group_id, recipient_key) %>%
-  summarise(recipient_total = sum(Amount, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    raw_name_key  = str_squish(toupper(Contributor.Name)),
+    exported_name = toupper(Contributor.Name)
+  ) %>%
+  add_recipient_key() %>%
+  inner_join(org_group_name_index, by = "raw_name_key", relationship = "many-to-one") # apply review_group_ids to ALL orgs with name in the review group
+
+
+# does this work as intended? 
+org_review_group_threshold <- org_threshold_expanded %>%
+  group_by(review_group_id, recipient_key) %>% # recipient.committee.id
+  summarise(
+    recipient_total = sum(Amount, na.rm = TRUE),
+    n_name_variants = n_distinct(exported_name),
+    .groups = "drop"
+  ) %>%
+  filter(n_name_variants > 1) %>% # more than one name variant contributed to single committee
   group_by(review_group_id) %>%
   summarise(max_single_recipient = max(recipient_total, na.rm = TRUE), .groups = "drop")
+
+# Per-name flag: TRUE if this exported_name donated to any recipient that ALSO
+# received from another name variant in the same group. FALSE means the name is
+# in the group but its contributions went to different recipients than the others.
+same_recipient_name_flag <- org_threshold_expanded %>%
+  group_by(review_group_id, recipient_key) %>%
+  mutate(n_names_to_recipient = n_distinct(exported_name)) %>%
+  filter(n_names_to_recipient > 1) %>%
+  ungroup() %>%
+  distinct(review_group_id, exported_name) %>%
+  mutate(same_recipient_variant = TRUE)
+
+# suppress groups where every within-group name pair already exists in the no-link registry.
+# if theres one new name variant in the group, names will be paired again which is annoying but want to compare new names against all possible variants
+org_registry_pair_keys <- no_link_registry %>%
+  filter(entity_type == "org") %>%
+  mutate(pair_key = paste(name_a, name_b, sep = "|||")) %>%
+  pull(pair_key)
+
+org_group_name_pairs <- org_review_names %>%
+  distinct(review_group_id, name = toupper(exported_name))
+
+org_fully_reviewed_groups <- org_group_name_pairs %>%
+  inner_join(org_group_name_pairs, by = "review_group_id", relationship = "many-to-many") %>%
+  filter(name.x < name.y) %>%
+  mutate(pair_key = paste(name.x, name.y, sep = "|||"),
+         reviewed = pair_key %in% org_registry_pair_keys) %>%
+  group_by(review_group_id) %>%
+  summarise(all_reviewed = all(reviewed), .groups = "drop") %>%
+  filter(all_reviewed) %>%
+  pull(review_group_id)
 
 org_name_variant_queue <- org_review_names %>%
   left_join(org_review_group_status, by = "review_group_id") %>%
   left_join(org_review_group_threshold, by = "review_group_id") %>%
+  left_join(same_recipient_name_flag, by = c("review_group_id", "exported_name")) %>%
+  mutate(same_recipient_variant = coalesce(same_recipient_variant, FALSE)) %>%
   filter(
     entity_status != "all_confirmed",
+    !review_group_id %in% org_fully_reviewed_groups,
     max_single_recipient >= 5000
   ) %>%
-  select(entity_name = exported_name, review_group_id, entity_id, canonical_name, entity_status,
-         conflicting_contributor_ids, confirmed, is_conflict, link_methods, Contributor.ID = contributor_id,
-         n_contributions, total_amount, max_single_recipient, city, state, zip) %>%
+  mutate(original_group_id = review_group_id) %>% # create a copy of review_group_id that will be preserved
+  select(entity_name = exported_name, review_group_id, original_group_id,
+         entity_id, canonical_name, entity_status,
+         conflicting_contributor_ids, confirmed, link_methods, Contributor.ID = contributor_id,
+         n_contributions, total_amount, max_single_recipient, same_recipient_variant, city, state, zip) %>%
   arrange(desc(conflicting_contributor_ids), review_group_id)
 
 ```
 
 ```{r}
-nrow(org_name_variant_queue)
-length(unique(org_name_variant_queue$entity_name))
-length(unique(org_name_variant_queue$entity_id))
-```
-
-
-```{r}
-write.csv(org_name_variant_queue, "08_outputs/org_name_variant_review_queue_08-19-26.csv", row.names = FALSE)
+today <- format(Sys.Date(), "%m-%d-%y")
+ORG_REVIEW_OUTPUT_PATH <- paste0("08_outputs/org_name_variant_review_queue_", today, ".csv")
+write_csv(org_name_variant_queue, ORG_REVIEW_OUTPUT_PATH)
 cat("Org name variant review queue:", nrow(org_name_variant_queue), "names across",
     n_distinct(org_name_variant_queue$review_group_id), "groups\n")
 ```
 
 
-
 # INDIVIDUALS:
 
+Entity resolution for individuals.Entity resolution (in the context of categorizations) is used to 
+determine who meets the $5k threshold to be categorized. For mapping name variants, we want to surface name variants WITHIN
+recipient committees, since aggregation won't happen across recipient committees.
+
+Process: 
+1. Filter the individuals data to only include contributors to PACs that meet the $5k threshold. 
+2. Parse names into first, last and if applicable, middle, prefix and suffix
+3. Build record linkage algorithm that scores how similar individuals are based on their name,
+   employer, occupation, city, etc. 
+4. Create name variant review queue for individuals - contributors that are likely the same person,
+   but contributed under slightly different names.
+5. Create a "disambiguation" review queue that flags contributors with the exact same name (meaning
+   they would normally be aggregated) who were flagged as different people by the record linkage
+   algorithm.
+
+
+**update name of file that's read in here**
+
 ```{r}
-# ── Constants ─────────────────────────────────────────────────────────────────
-UNINFORMATIVE_VALS        <- c("UNKNOWN", "RETIRED", "NONE", "SELF EMPLOYED") 
-FIRST_NAME_MIN            <- 0.85
+#  read in latest version of the data w/ individuals names parsed
+full_names_parsed <- read.csv("08_outputs/individuals_name_parsed_all_contributors_09-08-26.csv") 
+```
+
+```{r}
+# filter so we're only doing entity resolution for individuals who contributed directly to one 
+# of our candidate committees / props OR contributed to a PAC/entity that meets the $5k threshold
+individuals <- contributions %>%
+  filter(entity_type == "individual",
+         !coalesce(is_pac_contribution, FALSE) |
+         as.character(Recipient.Committee.ID) %in% qualifying_pac_filer_ids) %>%
+  left_join(full_names_parsed %>% select(standardized_name, last_name = last, first_name = first),
+            by = "standardized_name") %>%
+  mutate(
+    original_row_id = row_id,
+    row_id          = row_number(),
+    first_initial   = substr(first_name, 1, 1),
+    last_meta       = safe_metaphone(last_name)
+  )
+```
+
+```{r}
+# parse new names in the data 
+missing_names <- individuals %>%
+  filter(is.na(last_name)) %>%
+  distinct(standardized_name)
+if (nrow(missing_names) > 0) {
+  cat(sprintf("Parsing %d name(s) not found in pre-built CSV\n", nrow(missing_names)))
+  patched <- parse_names_df(missing_names$standardized_name) %>%
+    mutate(standardized_name = missing_names$standardized_name,
+           last_name = last, first_name = first) %>%
+    select(standardized_name, last_name, first_name)
+  individuals <- individuals %>%
+    left_join(patched, by = "standardized_name", suffix = c("", "_patch")) %>%
+    mutate(
+      last_name     = coalesce(last_name,  last_name_patch),
+      first_name    = coalesce(first_name, first_name_patch),
+      first_initial = substr(coalesce(first_name, ""), 1, 1),
+      last_meta     = safe_metaphone(last_name)
+    ) %>%
+    select(-last_name_patch, -first_name_patch)
+
+  new_rows <- patched %>% rename(last = last_name, first = first_name)
+  full_names_parsed <- bind_rows(full_names_parsed, new_rows)
+  write.csv(full_names_parsed,
+            "08_outputs/individuals_name_parsed_all_contributors.csv",
+            row.names = FALSE)
+  cat(sprintf("Updated full_names_parsed with %d new name(s)\n", nrow(missing_names)))
+}
+
+last_name_freq  <- full_names_parsed %>% count(last,  name = "last_name_freq")
+first_name_freq <- full_names_parsed %>% count(first, name = "first_name_freq")
+```
+
+
+```{r}
+# assign entity id — one UUID per Normalized name, looked up from registry if known
+# adds entity_id to existing individuals (which already has last_meta, original_row_id, etc.)
+# NOTE: this early entity_id is used only for the disambiguation queue;
+# it is dropped at individuals_resolved where the cluster-based id wins.
+indiv_name_lookup <- individuals %>%
+  distinct(Contributor.Name, Normalized) %>%
+  mutate(raw_name_key = toupper(Contributor.Name)) %>%
+  left_join(nem_lookup %>% select(raw_name, entity_uuid), by = c("raw_name_key" = "raw_name"))
+
+indiv_entity_key <- indiv_name_lookup %>%
+  group_by(Normalized) %>%
+  summarise(entity_id = coalesce(first(na.omit(entity_uuid)), UUIDgenerate()), .groups = "drop")
+
+individuals <- individuals %>%
+  left_join(indiv_entity_key, by = "Normalized")
+```
+
+
+### record linkage algorithm
+
+Block on Recipient.Committee.ID so we only compare pairs within recipient committees.
+Pairs are compared if:
+- they have the same last_meta and zip code (within the same recipient committee)
+- they have the same last_meta and first initial (within the same recipient committee)
+
+Note: 
+- Doing this record linkage algorithm across the entire dataset was too expensive 
+- Limitation is that this will limit our ability to link name variants of individuals across committees
+  to make sure they are being categorized consistently. But won't be an issue for contributions that used
+  the exact same name across contributions to different committees. 
+
+Threshold logic: 
+- Pairs are not linked if the first names are too different: this was added because many linked pairs were husband/wife
+or family members where the two people had the same last name, same city/zip, and first name that started with
+the same letter (but were clearly different people).
+- A stricter threshold is used for people with names that are more common in the data. e.g. Michael Brown should
+only be linked to another Michael Brown if info is very similar. Lower threshold used for people with less common names. 
+- A stricter threshold is also used for pairs where the employer/occupation are uninformative. E.g. so many people have
+'retired' or 'not employed' as their employer, which is not very strong evidence to link people. 
+
+Thresholds were adjusted and additional requirements were added after doing several rounds of review of linked pairs.
+The original goal was to have stricter matching requirements in order to err on the side of not linking contributors
+if there was uncertainty, but this means it may not link people like Bill Bloomfield who has very little info that
+ties his records together apart from his name (uninformative employer/occupation, different zip codes across contributions).
+
+### Scoring function summary
+
+Each candidate pair is scored using a weighted combination of similarities between their fields, 
+normalized by the sum of active weights so the scale is preserved when fields drop out:
+
+| Field | Comparator | Base weight |
+|---|---|---|
+| Last name | Jaro-Winkler | 0.30 |
+| First name | Jaro-Winkler | 0.25 |
+| Employer | Cosine bigram similarity | 0.25 (drops to 0 if both sides uninformative) |
+| Occupation | Exact match | 0.10 (drops to 0 if both sides uninformative) |
+| Zip code | Exact match | 0.07 |
+| City | Jaro-Winkler | 0.03 |
+
+**Uninformative values**: blank, NA, UNKNOWN, RETIRED, NONE, SELF EMPLOYED. 
+When one side of a pair has an uninformative employer/occupation and the other does not, the similarity for that field is set to 0 (penalizing the pair for asymmetry). 
+When both sides are uninformative, the field weight drops to 0 and the field is excluded from scoring entirely. 
+`any_context_dropped` is TRUE when either field (employer or occupation) is excluded — this triggers a stricter match threshold.
+
+**Threshold tiers** (applied after scoring):
+
+| Condition | Threshold |
+|---|---|
+| Common name + any context dropped | `COMMON_NAME_STRICT` (0.97) |
+| Common name | `COMMON_NAME_THRESHOLD` (0.93) |
+| Any context dropped | `STRICT_THRESHOLD` (0.94) |
+| Default | `MATCH_THRESHOLD` (0.90) |
+
+Common name = last name appears ≥ 3 times AND first name appears ≥ 3 times in the data. 
+Pairs are always `no_link` if first name similarity < 0.85, or if there is a city conflict combined with any dropped context field.
+
+```{r}
+# Constants
+UNINFORMATIVE_VALS        <- c("UNKNOWN", "RETIRED", "NONE", "SELF EMPLOYED") # uninformative values of employer/occupation (after these variables are processed to standardize N/A types of values)
+FIRST_NAME_MIN            <- 0.85 
 MATCH_THRESHOLD           <- 0.90
 STRICT_THRESHOLD          <- 0.94  # both employer & occupation uninformative
 COMMON_NAME_THRESHOLD     <- 0.93  # common name, employer informative
 COMMON_NAME_STRICT        <- 0.97  # common name + both uninformative
 UNCERTAIN_LOW             <- 0.75
-EMPLOYER_CONFLICT_SIM     <- 0.70  # employer sim below this = conflict
-#COMMON_NAME_MIN_COUNT     <- 3     # names appearing >= N times treated as common
-RARE_NAME_UNCERTAIN_LOW <- 0.65  # tune based on what you see in the review queue
+EMPLOYER_CONFLICT_SIM     <- 0.70  # employer similarity below this = conflict
+RARE_NAME_UNCERTAIN_LOW <- 0.65 
 COMMON_LAST_MIN           <- 3
 COMMON_FIRST_MIN          <- 3
 RARE_NAME_UNCERTAIN_LOW   <- 0.65
-
-
 ```
-
-```{r}
-# compute name frequency
-
-# parse distinct name strings from full dataset
-full_names_parsed <- contributions_full %>%
-  mutate(
-    standardized_name = standardize_names(Contributor.Name),
-    entity_type = if_else(sapply(standardized_name, is_individual), "individual", "organization")
-  ) %>%
-  filter(entity_type == "individual") %>%
-  distinct(standardized_name) %>%
-  bind_cols(parse_names_df(.$standardized_name)) %>%
-  filter(!is.na(last), !is.na(first))
-
-last_name_freq  <- full_names_parsed %>% count(last,  name = "last_name_freq")
-first_name_freq <- full_names_parsed %>% count(first, name = "first_name_freq")
-
-
-# parse names 
-parsed_cols <- parse_names_df(
-  contributions %>% filter(entity_type == "individual") %>% pull(standardized_name) # use standardized name here because it has the commas still in it
-)
-```
-
-```{r}
-#write_csv(full_names_parsed, "08_outputs/individuals_name_parsed_all_contributors.csv")
-```
-
-
-
-```{r}
-individuals <- contributions %>%
-  filter(entity_type == "individual") %>%
-  bind_cols(parsed_cols %>% rename(last_name = last, first_name = first)) %>%
-  mutate(
-    original_row_id = row_id,       # preserve for final join back to x
-    row_id          = row_number(), # sequential for pair_blocking compatibility
-    first_initial   = substr(first_name, 1, 1),
-    last_meta       = safe_metaphone(last_name)
-  ) #%>%
-  #filter(!is.na(last_meta), last_meta != "")
-
-which(is.na(individuals$last_meta))
-
-```
-
-### group by name
-
-- Group individuals if they have the same name
-
-```{r}
-# assign entity id — one UUID per standardized_name, looked up from registry if known
-# adds entity_id to existing individuals (which already has last_meta, original_row_id, etc.)
-indiv_name_lookup <- individuals %>%
-  distinct(Contributor.Name, standardized_name) %>%
-  mutate(raw_name_key = str_squish(toupper(Contributor.Name))) %>%
-  left_join(nem_lookup %>% select(raw_name, entity_uuid), by = c("raw_name_key" = "raw_name"))
-
-indiv_entity_key <- indiv_name_lookup %>%
-  group_by(standardized_name) %>%
-  summarise(entity_id = coalesce(first(na.omit(entity_uuid)), UUIDgenerate()), .groups = "drop")
-
-individuals <- individuals %>%
-  left_join(indiv_entity_key, by = "standardized_name")
-
-individuals <- individuals %>%
-  group_by(entity_id, race_prop) %>%
-  mutate(
-    race_total_amount = sum(Amount, na.rm = TRUE),
-    crosses_threshold = race_total_amount >= 5000
-  ) %>%
-  ungroup()
-
-
-```
-
-```{r}
-contributions %>% filter(toupper(Contributor.Name) != standardized_name & entity_type == "individual") %>% select(Contributor.Name,standardized_name)
-```
-
-- periods do make a difference in a lot of the names
-Orgs that are individuals: 
-- Rolls, Anderson & Rolls: labeled as an individual not an org
-- DRS HOLDEN, KNAPP AND LANGSFORD AKA FAMILY OPTOMETRY
-
-### record linkage algorithm
 
 ```{r}
 # scoring function
 compare_and_score_indiv <- function(pairs_obj, df) {
+  if (nrow(pairs_obj) == 0) return(tibble())
   pairs_obj %>%
     compare_pairs(
       on = c("last_name", "first_name", "zip_code_processed",
@@ -1120,6 +2032,7 @@ compare_and_score_indiv <- function(pairs_obj, df) {
       )
     ) %>%
     as_tibble() %>%
+    
     # join raw employer/occupation values
     left_join(df %>% select(row_id, emp_a = processed_employer_name, occ_a = processed_occupation,
                              city_a = standardized_city),
@@ -1132,6 +2045,7 @@ compare_and_score_indiv <- function(pairs_obj, df) {
       emp_b_uninf = emp_b %in% UNINFORMATIVE_VALS | is.na(emp_b) | emp_b == "",
       occ_a_uninf = occ_a %in% UNINFORMATIVE_VALS | is.na(occ_a) | occ_a == "",
       occ_b_uninf = occ_b %in% UNINFORMATIVE_VALS | is.na(occ_b) | occ_b == "",
+      
       w_emp  = if_else(emp_a_uninf & emp_b_uninf, 0,    0.25),
       w_occ  = if_else(occ_a_uninf & occ_b_uninf, 0,    0.10),
       w_tot  = 0.30 + 0.25 + w_emp + w_occ + 0.07 + 0.03,
@@ -1143,8 +2057,15 @@ compare_and_score_indiv <- function(pairs_obj, df) {
                 w_occ * occ_sim +
                 0.07 * coalesce(zip_code_processed, 0) +
                 0.03 * coalesce(standardized_city, 0)) / w_tot,
-      both_uninformative = (emp_a_uninf & emp_b_uninf) & (occ_a_uninf & occ_b_uninf),
+      
+      # flag cases where employer and occupation are uninformative (e.g. not employed)
+      # don't want uninformative values to increase similarity between pairs
+      both_uninformative  = (emp_a_uninf & emp_b_uninf) & (occ_a_uninf & occ_b_uninf),
+      # TRUE when either contextual field drops from scoring (both emp uninf OR both occ uninf)
+      any_context_dropped = (emp_a_uninf & emp_b_uninf) | (occ_a_uninf & occ_b_uninf),
     
+      
+      # flag cases where one employer is the substring of the other employer in the pair 
       employer_substring = !emp_a_uninf & !emp_b_uninf & mapply(
         function(a, b) {
           if (is.na(a) || is.na(b) || a == "" || b == "") return(FALSE)
@@ -1171,49 +2092,146 @@ compare_and_score_indiv <- function(pairs_obj, df) {
 }
 ```
 
-```{r}
-# blocking + scoring
-pairs_zip  <- pair_blocking(individuals, on = c("last_meta", "zip_code_processed"), deduplication = TRUE)
-pairs_init <- pair_blocking(individuals, on = c("last_meta", "first_initial"),       deduplication = TRUE)
+### blocking and scoring
 
-indiv_pairs <- bind_rows(
-  compare_and_score_indiv(pairs_zip,  individuals),
-  compare_and_score_indiv(pairs_init, individuals)
-) %>%
+```{r}
+# pair_blocking by Recipient.Committee.ID × last_meta
+
+INDIV_PAIRS_TMP <- "08_outputs/indiv_pairs_tmp.csv"
+if (file.exists(INDIV_PAIRS_TMP)) file.remove(INDIV_PAIRS_TMP)
+first_written <- FALSE
+
+# split into a named list of dataframes — one per (committee × last_meta) group.
+indiv_filtered <- individuals %>%
+  filter(!is.na(last_meta), last_meta != "", !is.na(Recipient.Committee.ID))
+
+# for hyphenated last names (e.g. "SMITH-JONES"), add extra rows with each component's
+# metaphone
+hyphen_rows <- indiv_filtered %>%
+  filter(str_detect(coalesce(last_name, ""), "-")) %>%
+  rowwise() %>%
+  mutate(component_metas = list({
+    parts <- str_split(last_name, "-")[[1]]
+    metas <- unique(sapply(parts, safe_metaphone))
+    setdiff(metas[metas != "" & !is.na(metas)], last_meta)
+  })) %>%
+  ungroup() %>%
+  filter(map_lgl(component_metas, ~ length(.x) > 0)) %>%
+  unnest(component_metas) %>%
+  mutate(last_meta = component_metas) %>%
+  select(-component_metas)
+
+indiv_filtered <- bind_rows(indiv_filtered, hyphen_rows) %>%
+  mutate(.group_key = paste0(Recipient.Committee.ID, "||", last_meta))
+
+individual_chunks <- split(indiv_filtered, indiv_filtered$.group_key)
+rm(indiv_filtered, hyphen_rows)
+
+n_chunks <- length(individual_chunks)
+cat(sprintf("Processing %d (committee × last_meta) chunks...\n", n_chunks))
+
+# flush to disk every BATCH_FLUSH chunks with results
+# instead of opening the file on every iteration.
+BATCH_FLUSH  <- 500L
+batch_buf    <- vector("list", BATCH_FLUSH)
+batch_i      <- 0L
+
+for (i in seq_along(individual_chunks)) {
+  chunk <- individual_chunks[[i]]
+  if (nrow(chunk) < 2) next
+
+  global_ids <- chunk$row_id
+  chunk <- chunk %>% mutate(row_id = row_number())
+
+  # pairs based on zip code and last name
+  pairs_zip <- tryCatch(
+    pair_blocking(chunk, on = c("last_meta", "zip_code_processed"), deduplication = TRUE),
+    error = function(e) NULL
+  )
+  
+  # pairs based on first initial and last name
+  pairs_init <- tryCatch(
+    pair_blocking(chunk, on = c("last_meta", "first_initial"), deduplication = TRUE),
+    error = function(e) NULL
+  )
+
+  # score the pairs that were identified
+  chunk_pairs <- bind_rows(
+    if (!is.null(pairs_zip))  compare_and_score_indiv(pairs_zip,  chunk) else tibble(),
+    if (!is.null(pairs_init)) compare_and_score_indiv(pairs_init, chunk) else tibble()
+  )
+
+  if (nrow(chunk_pairs) > 0) {
+    chunk_pairs <- chunk_pairs %>% mutate(.x = global_ids[.x], .y = global_ids[.y])
+    batch_i <- batch_i + 1L
+    batch_buf[[batch_i]] <- chunk_pairs
+
+    if (batch_i >= BATCH_FLUSH) {
+      write_csv(bind_rows(batch_buf[seq_len(batch_i)]), INDIV_PAIRS_TMP, append = first_written)
+      first_written <- TRUE
+      batch_buf <- vector("list", BATCH_FLUSH)
+      batch_i   <- 0L
+    }
+  }
+
+  if (i %% 5000L == 0L) {
+    cat(sprintf("  %d / %d chunks\n", i, n_chunks))
+    gc(verbose = FALSE)
+  }
+}
+
+# flush remaining buffer
+if (batch_i > 0L) {
+  write_csv(bind_rows(batch_buf[seq_len(batch_i)]), INDIV_PAIRS_TMP, append = first_written)
+}
+rm(individual_chunks, batch_buf)
+gc(verbose = FALSE)
+cat("Done. Reading pairs from disk...\n")
+
+indiv_pairs <- if (file.exists(INDIV_PAIRS_TMP) && file.size(INDIV_PAIRS_TMP) > 0) {
+  read_csv(INDIV_PAIRS_TMP, show_col_types = FALSE)
+} else {
+  cat("No within-committee matches found.\n")
+  tibble(.x = integer(), .y = integer())
+}
+
+indiv_pairs <- indiv_pairs %>%
   group_by(.x, .y) %>%
   slice_max(score, n = 1, with_ties = FALSE) %>%
   ungroup()
 
 
 # name frequency adjustment
+# use stricter matching thresholds when names are common
+# or when employers/orgs are uninformative
 indiv_pairs <- indiv_pairs %>%
   left_join(individuals %>% select(row_id, last_name_str = last_name, first_name_str = first_name),
             by = c(".x" = "row_id")) %>%
   left_join(last_name_freq,  by = c("last_name_str"  = "last")) %>%
   left_join(first_name_freq, by = c("first_name_str" = "first")) %>%
   mutate(
+    # flag whether first and last names are relatively common in the data
     common_last  = coalesce(last_name_freq,  1L) >= COMMON_LAST_MIN,
     common_first = coalesce(first_name_freq, 1L) >= COMMON_FIRST_MIN,
     common_name  = common_last & common_first,
     rare_name    = !common_last & !common_first,
     match_threshold = case_when(
-      common_name & both_uninformative ~ COMMON_NAME_STRICT,
-      common_name                      ~ COMMON_NAME_THRESHOLD,
-      both_uninformative               ~ STRICT_THRESHOLD,
-      TRUE                             ~ MATCH_THRESHOLD
+      common_name & any_context_dropped ~ COMMON_NAME_STRICT,
+      common_name                       ~ COMMON_NAME_THRESHOLD,
+      any_context_dropped               ~ STRICT_THRESHOLD,
+      TRUE                              ~ MATCH_THRESHOLD
     ),
-    # unusual names flagged for review at a lower score bar
+    # unusual names flagged for review at a lower threshold 
     review_threshold = if_else(rare_name, RARE_NAME_UNCERTAIN_LOW, UNCERTAIN_LOW)
   ) %>%
   select(-last_name_str, -first_name_str, -last_name_freq, -first_name_freq)
 
-# link tiers
+# link tiers: auto-link vs no-link vs review
 indiv_pairs <- indiv_pairs %>%
   mutate(
     link_tier = case_when(
-      coalesce(first_name, 0) < FIRST_NAME_MIN ~ "no_link",
-      common_name & both_uninformative ~ "no_link",
-      city_conflict & both_uninformative ~ "no_link",
+      coalesce(first_name, 0) < FIRST_NAME_MIN ~ "no_link", # first names have to be relatively similar
+      city_conflict & any_context_dropped ~ "no_link",
       common_name & city_conflict ~ "no_link",       # city disagreement is enough to reject common names
       common_name & employer_conflict ~ "no_link",   # clearly different employers also enough for common names
       score < review_threshold ~ "no_link",
@@ -1232,8 +2250,13 @@ cat("Individual pairs — auto_link:", sum(indiv_pairs$link_tier == "auto_link")
 
 ### Cluster individuals
 
+Form entity clusters based on suspected matches.
+Auto-links and review links are treated as true when forming clusters. 
+The clusters are then used to flag which individual contributors are likely 
+the same person, but used a different `Contributor.Name`.
+
 ```{r}
-# treat all links as true, review after classifications
+# treat all links as true -> name variants we be reviewed to see if they are real matches
 linkable_indiv_pairs <- indiv_pairs %>% filter(link_tier %in% c("auto_link", "review"))
 
 if (nrow(linkable_indiv_pairs) > 0) {
@@ -1257,6 +2280,15 @@ if (nrow(linkable_indiv_pairs) > 0) {
     ungroup() %>%
     select(cluster_num, entity_id, is_conflict, is_new)
 
+  if (any(indiv_cluster_uuid_map$is_conflict, na.rm = TRUE)) {
+    cat(sprintf("WARNING: %d cluster(s) have conflicting entity registry UUIDs — check indiv_conflict_review\n",
+                sum(indiv_cluster_uuid_map$is_conflict, na.rm = TRUE)))
+    indiv_conflict_review <- indiv_cluster_raw %>%
+      filter(cluster_num %in% indiv_cluster_uuid_map$cluster_num[indiv_cluster_uuid_map$is_conflict]) %>%
+      left_join(indiv_cluster_uuid_map %>% select(cluster_num, entity_id), by = "cluster_num") %>%
+      select(cluster_num, entity_id, Contributor.Name, Contributor.ID)
+  }
+
   indiv_cluster_map <- indiv_cluster_raw %>%
     left_join(indiv_cluster_uuid_map, by = "cluster_num") %>%
     select(row_id = original_row_id, entity_id, is_conflict, is_new)
@@ -1265,10 +2297,11 @@ if (nrow(linkable_indiv_pairs) > 0) {
                                is_conflict = logical(), is_new = logical())
 }
 
+# look up entity_id for unique Contributor.Name
 indiv_singleton_lookup <- individuals %>%
   filter(!original_row_id %in% indiv_cluster_map$row_id) %>%
   distinct(Contributor.Name) %>%
-  mutate(raw_name_key = str_squish(toupper(Contributor.Name))) %>%
+  mutate(raw_name_key = toupper(Contributor.Name)) %>%
   left_join(nem_lookup %>% select(raw_name, entity_uuid), by = c("raw_name_key" = "raw_name")) %>%
   mutate(
     is_new    = is.na(entity_uuid),
@@ -1277,103 +2310,111 @@ indiv_singleton_lookup <- individuals %>%
   select(Contributor.Name, entity_id, is_new)
 
 indiv_singletons <- individuals %>%
-  filter(!original_row_id %in% indiv_cluster_map$row_id) %>%
+  filter(!original_row_id %in% indiv_cluster_map$row_id) %>% # not a part of an entity group
   select(-entity_id) %>%
-  left_join(indiv_singleton_lookup, by = "Contributor.Name") %>%
+  left_join(indiv_singleton_lookup, by = "Contributor.Name") %>% # join entity_id that corresponds to this name
   mutate(is_conflict = FALSE) %>%
   select(row_id = original_row_id, entity_id, is_new, is_conflict)
 
-# within-individuals row_id to entity_id map (needed for needs_review flag)
-# indiv_pairs uses within-individuals row_id; cluster_map was renamed to original_row_id
+# auto-link only clustering: used for comparison with the method of aggregating by `Normalized` name
+# NA auto_cluster means singleton or review link
+auto_only_pairs <- indiv_pairs %>% filter(link_tier == "auto_link")
+
+if (nrow(auto_only_pairs) > 0) {
+  g_auto        <- graph_from_data_frame(auto_only_pairs %>% select(.x, .y), directed = FALSE)
+  auto_clusters <- components(g_auto)$membership
+
+  auto_cluster_map <- tibble(
+    row_id       = as.integer(names(auto_clusters)),
+    auto_cluster = auto_clusters
+  ) %>%
+    left_join(individuals %>% select(row_id, original_row_id), by = "row_id") %>%
+    select(original_row_id, auto_cluster)
+} else {
+  auto_cluster_map <- tibble(original_row_id = integer(), auto_cluster = integer())
+}
+
+# within-individuals row_id to entity_id map (used by name variant queue to attach entity_id)
+# indiv_pairs use within-individuals row_id; cluster_map was renamed to original_row_id
 indiv_internal_to_entity <- individuals %>%
   select(row_id, original_row_id) %>%
   left_join(bind_rows(indiv_cluster_map, indiv_singletons), by = c("original_row_id" = "row_id"))
 
-review_indiv_entity_ids <- indiv_pairs %>%
-  filter(link_tier == "review") %>%
-  left_join(indiv_internal_to_entity %>% select(row_id, entity_id), by = c(".x" = "row_id"),
-            relationship = "many-to-one") %>%
-  filter(!is.na(entity_id)) %>%
-  pull(entity_id) %>%
-  unique()
-
-# use longer employer name for pairs when one employer is the exact substring of another
-employer_normalization <- indiv_pairs %>%
-  filter(employer_substring) %>%
-  mutate(longer = if_else(nchar(coalesce(emp_a, "")) >= nchar(coalesce(emp_b, "")), emp_a, emp_b)) %>%
-  select(.x, .y, longer) %>%
-  pivot_longer(c(.x, .y), names_to = "side", values_to = "row_id") %>%
-  group_by(row_id) %>%
-  slice_max(nchar(coalesce(longer, "")), n = 1, with_ties = FALSE) %>%
-  ungroup() %>%
-  select(row_id, normalized_employer = longer)
-
-
 individuals_resolved <- individuals %>%
-  select(-entity_id) %>%   # drop initial name-based entity_id; cluster-based wins
+  select(-entity_id) %>%   # drop initial Normalized name-based entity_id; cluster-based wins
   left_join(bind_rows(indiv_cluster_map, indiv_singletons), by = c("original_row_id" = "row_id")) %>%
-  mutate(needs_review = entity_id %in% review_indiv_entity_ids)
+  left_join(auto_cluster_map, by = "original_row_id")
 
-individuals_resolved <- individuals_resolved %>%
-  left_join(employer_normalization, by = "row_id") %>%
-  mutate(classification_employer = coalesce(normalized_employer, processed_employer_name))
-
-
-```
+``` 
 
 ## Individual name variant review queue
 
 For each pair surfaced by the record linkage algorithm where the two names differ, output
 one row per name.
 
-```{r}
-# Build connected components from all suspected links (A↔B, B↔C → all three in one group)
-linkable_indiv_review <- indiv_pairs %>% filter(link_tier %in% c("auto_link", "review"))
+To narrow down the scope, we're only reviewing name variants of tentatively-linked entity groups
+that meet the $5k threshold. Since we are not classifying entities that contributed less than 
+$5k to a race, prop or PAC, tracking the name variants of these entities doesn't matter.
 
-if (nrow(linkable_indiv_review) > 0) {
-  g_review     <- graph_from_data_frame(linkable_indiv_review %>% select(.x, .y), directed = FALSE)
-  review_comps <- components(g_review)$membership
+```{r}
+# use indiv_clusters from the clustering step - includes auto-links and review links
+if (exists("indiv_clusters") && length(indiv_clusters) > 0) {
   review_group_map <- tibble(
-    row_id          = as.integer(names(review_comps)),
-    entity_group_id = paste0("igroup_", review_comps)
+    row_id          = as.integer(names(indiv_clusters)),
+    entity_group_id = paste0("igroup_", indiv_clusters)
   )
 } else {
   review_group_map <- tibble(row_id = integer(), entity_group_id = character())
 }
 
-# Attach fields including recipient/amount for threshold filtering
+# join directly by row_id — only rows that were actually in a linked pair are included.
 indiv_review_data <- review_group_map %>%
   left_join(
-    individuals %>% select(row_id, Contributor.Name, Contributor.Employer,
-                           Contributor.Occupation, Contributor.City,
-                           Contributor.State, Contributor.Zip.Code,
-                           Amount, Recipient.Name, Recipient.Committee.ID, Ballot.Measure),
+    individuals %>%
+      select(row_id, standardized_name, Normalized, Contributor.Name, Contributor.Employer,
+             Contributor.Occupation, Contributor.City,
+             Contributor.State, Contributor.Zip.Code,
+             Amount, Recipient.Name, Recipient.Committee.ID, Ballot.Measure,
+             Office, is_pac_contribution, race_prop),
     by = "row_id"
   ) %>%
   left_join(indiv_internal_to_entity %>% select(row_id, entity_id), by = "row_id") %>%
   mutate(
-    exported_name = toupper(Contributor.Name),
-    raw_name_key  = str_squish(exported_name),
-    recipient_key = case_when(
-      !is.na(Recipient.Committee.ID) & as.character(Recipient.Committee.ID) != "" ~ as.character(Recipient.Committee.ID),
-      !is.na(Ballot.Measure) & Ballot.Measure != ""                               ~ Ballot.Measure,
-      TRUE                                                                         ~ Recipient.Name
-    )
+    exported_name = toupper(Contributor.Name), # match the format of the names in the 2026 name map
+    raw_name_key  = exported_name
   ) %>%
+  add_recipient_key() %>%
   left_join(nem_lookup %>% select(raw_name, confirmed, canonical_name),
             by = c("raw_name_key" = "raw_name")) %>%
   mutate(confirmed = coalesce(confirmed, FALSE)) %>%
   group_by(entity_group_id) %>%
-  filter(n_distinct(exported_name) > 1) %>%
+  filter(n_distinct(exported_name) > 1) %>% # groups with distinct Contributor.Names (multiple name variants)
   ungroup()
 
-# $5k threshold: keep groups where any single recipient received >= $5k
-indiv_review_group_threshold <- indiv_review_data %>%
+# all individuals contributions by Normalized × recipient — used for both queue thresholds
+all_norm_recip_totals <- individuals %>%
+  mutate(norm_key = coalesce(Normalized, toupper(Contributor.Name))) %>%
+  add_recipient_key() %>%
+  group_by(norm_key, recipient_key) %>%
+  summarise(norm_total = sum(Amount, na.rm = TRUE), .groups = "drop")
+
+# for each entity_group, identify the (`Normalized` × recipient) combos of its members,
+# then pull ALL contributions sharing those `Normalized` values for those same recipients 
+# (just in case one wasn't included in one of the matching pairs)
+
+entity_group_norms_recips <- indiv_review_data %>%
+  mutate(norm_key = coalesce(Normalized, toupper(Contributor.Name))) %>%
+  distinct(entity_group_id, norm_key, recipient_key) # may be more than one normalized name per entity group
+
+
+indiv_review_group_threshold <- entity_group_norms_recips %>%
+  left_join(all_norm_recip_totals, by = c("norm_key", "recipient_key")) %>%
   group_by(entity_group_id, recipient_key) %>%
-  summarise(recipient_total = sum(Amount, na.rm = TRUE), .groups = "drop") %>%
+  summarise(recipient_total = sum(coalesce(norm_total, 0), na.rm = TRUE), .groups = "drop") %>%
   group_by(entity_group_id) %>%
   summarise(max_single_recipient = max(recipient_total, na.rm = TRUE), .groups = "drop")
 
+# flagging whether names are already in the name map or not
 indiv_group_status <- indiv_review_data %>%
   group_by(entity_group_id) %>%
   summarise(
@@ -1385,10 +2426,60 @@ indiv_group_status <- indiv_review_data %>%
     .groups = "drop"
   )
 
-indiv_name_variant_queue <- indiv_review_data %>%
+# take out groups where every name pair already exists in the no-link registry (they were all reviewed already)
+indiv_registry_pair_keys <- no_link_registry %>%
+  filter(entity_type == "indiv") %>%
+  mutate(pair_key = paste(name_a, name_b, sep = "|||")) %>%
+  pull(pair_key)
+
+indiv_group_name_pairs <- indiv_review_data %>%
+  distinct(entity_group_id, name = toupper(exported_name))
+
+indiv_fully_reviewed_groups <- indiv_group_name_pairs %>%
+  inner_join(indiv_group_name_pairs, by = "entity_group_id", relationship = "many-to-many") %>%
+  filter(name.x < name.y) %>%
+  mutate(pair_key = paste(name.x, name.y, sep = "|||"),
+         reviewed = pair_key %in% indiv_registry_pair_keys) %>%
+  group_by(entity_group_id) %>%
+  summarise(all_reviewed = all(reviewed), .groups = "drop") %>%
+  filter(all_reviewed) %>%
+  pull(entity_group_id)
+
+# First determine which entity_groups qualify based on cluster-member analysis
+qualifying_groups <- indiv_review_data %>%
+  distinct(entity_group_id) %>%
+  left_join(indiv_group_status, by = "entity_group_id") %>%
+  left_join(indiv_review_group_threshold, by = "entity_group_id") %>%
+  filter(
+    entity_status != "all_confirmed",
+    !entity_group_id %in% indiv_fully_reviewed_groups,
+    max_single_recipient >= 5000
+  )
+
+# expand to ALL individuals sharing the same (Normalized × recipient) as any group member —
+# not just cluster members - the reviewer needs every row associated with the flagged Normalized
+# value in that committee, including rows that never directly matched a cluster member
+indiv_queue_expanded <- entity_group_norms_recips %>%
+  filter(entity_group_id %in% qualifying_groups$entity_group_id) %>%
+  left_join(
+    individuals %>%
+      mutate(
+        norm_key      = coalesce(Normalized, toupper(Contributor.Name)),
+        exported_name = toupper(Contributor.Name),
+        raw_name_key  = exported_name
+      ) %>%
+      add_recipient_key(),
+    by = c("norm_key", "recipient_key")
+  ) %>%
+  left_join(nem_lookup %>% select(raw_name, confirmed, canonical_name),
+            by = c("raw_name_key" = "raw_name")) %>%
+  left_join(indiv_internal_to_entity %>% select(row_id, cluster_uuid = entity_id), by = "row_id") %>%
+  mutate(confirmed = coalesce(confirmed, FALSE))
+
+indiv_name_variant_queue <- indiv_queue_expanded %>%
   group_by(entity_group_id, exported_name, Contributor.Employer, Contributor.Occupation) %>%
   summarise(
-    entity_id       = first(entity_id),
+    cluster_uuid    = first(cluster_uuid),
     canonical_name  = first(canonical_name),
     confirmed       = first(confirmed),
     n_contributions = n(),
@@ -1399,347 +2490,164 @@ indiv_name_variant_queue <- indiv_review_data %>%
     recipient = paste(sort(unique(recipient_key[!is.na(recipient_key) & recipient_key != ""])), collapse = " | "),
     .groups = "drop"
   ) %>%
-  left_join(indiv_group_status, by = "entity_group_id") %>%
-  left_join(indiv_review_group_threshold, by = "entity_group_id") %>%
-  filter(
-    entity_status != "all_confirmed",
-    max_single_recipient >= 5000
-  ) %>%
-  select(entity_group_id, entity_name = exported_name, entity_id, canonical_name,
+  left_join(qualifying_groups %>% select(entity_group_id, entity_status, max_single_recipient),
+            by = "entity_group_id") %>%
+  select(entity_group_id,
+         entity_name = exported_name, cluster_uuid, canonical_name,
          entity_status, confirmed, Contributor.Employer, Contributor.Occupation,
-         n_contributions, total_amount, max_single_recipient, city, state, zip, recipient) %>%
-  arrange(entity_group_id)
-```
-
-```{r}
-indiv_name_variant_queue
+         n_contributions, total_amount, city, state, zip, recipient, max_single_recipient)
 ```
 
 
 ```{r}
-write.csv(indiv_name_variant_queue, "08_outputs/indiv_name_variant_review_queue.csv", row.names = FALSE)
+today <- format(Sys.Date(), "%m-%d-%y")
+INDIV_REVIEW_OUTPUT_PATH <- paste0("08_outputs/indiv_name_variant_review_queue", today, ".csv")
+write_csv(indiv_name_variant_queue, INDIV_REVIEW_OUTPUT_PATH)
 cat("Individual name variant review queue:", n_distinct(indiv_name_variant_queue$entity_group_id),
-    "groups across", n_distinct(indiv_name_variant_queue$entity_id), "entities\n")
+    "groups,", nrow(indiv_name_variant_queue), "distinct records\n")
 ```
 
 
 
-# Provisional registry write-back
+## Record linkage disambiguation queue
 
-Append new names from this run to `name_entity_mapping.csv` with `confirmed = FALSE`.
-On the next run they will be loaded and their UUIDs reused, keeping entity_id stable
-Confirmed entries are never overwritten.
+Surfaces cases where two records share the same `Normalized` value but are scored as
+`no_link` (confirmed different people) or `review` (uncertain link). Both cases require
+disambiguation: `no_link` pairs identify that records grouped together under `Normalized`
+may actually be different people; `review` pairs with the same `Normalized` can't be
+surfaced by the name variant queue (which requires distinct names) and need a human
+decision. Applies the same $5k per-recipient threshold as the individual name variant queue.
 
 ```{r}
-all_resolved <- bind_rows(
-  orgs_resolved %>%
-    select(Contributor.Name, entity_id, is_new) %>%
-    mutate(is_new = coalesce(is_new, FALSE)),
-  individuals_resolved %>%
-    select(Contributor.Name, entity_id, is_new) %>%
-    mutate(is_new = coalesce(is_new, FALSE))
+# no_link and review pairs where both sides share the same Normalized value
+same_name_no_link <- indiv_pairs %>%
+  filter(link_tier %in% c("no_link", "review")) %>%
+  left_join(individuals %>% select(row_id, nm_x = Normalized), by = c(".x" = "row_id")) %>%
+  left_join(individuals %>% select(row_id, nm_y = Normalized), by = c(".y" = "row_id")) %>%
+  filter(!is.na(nm_x), nm_x == nm_y)
+
+# restrict to the specific (Normalized × committee) combinations from the flagged pairs;
+# pulling all committees for a flagged Normalized value incorrectly includes records that
+# contributed to different recipients and were never part of any no_link pair
+flagged_combos <- individuals %>%
+  filter(row_id %in% unique(c(same_name_no_link$.x, same_name_no_link$.y))) %>%
+  add_recipient_key() %>%
+  distinct(Normalized, recipient_key)
+
+rla_disambig_data <- individuals %>%
+  add_recipient_key() %>%
+  inner_join(flagged_combos, by = c("Normalized", "recipient_key")) %>%
+  mutate(entity_name = toupper(Contributor.Name))
+
+# threshold uses Normalized-level totals from all individuals (reuses all_norm_recip_totals)
+rla_disambig_threshold <- rla_disambig_data %>%
+  mutate(norm_key = coalesce(Normalized, toupper(Contributor.Name))) %>%
+  distinct(Normalized, norm_key) %>%
+  left_join(
+    all_norm_recip_totals %>%
+      group_by(norm_key) %>%
+      summarise(max_single_recipient = max(norm_total, na.rm = TRUE), .groups = "drop"),
+    by = "norm_key"
+  ) %>%
+  group_by(Normalized) %>%
+  summarise(max_single_recipient = max(coalesce(max_single_recipient, 0), na.rm = TRUE), .groups = "drop") %>%
+  filter(max_single_recipient >= 5000)
+
+rla_disambig_queue <- rla_disambig_data %>%
+  filter(Normalized %in% rla_disambig_threshold$Normalized) %>%
+  select(
+    Normalized,
+    entity_name,
+    entity_id,
+    Contributor.Employer,
+    Contributor.Occupation,
+    Contributor.City,
+    Contributor.State,
+    Contributor.Zip.Code,
+    Recipient.Committee.ID
+  ) %>%
+  distinct() %>%
+  group_by(Normalized) %>%
+  filter(n() >= 2) %>%          # remove single-profile groups — same person flagged no_link due to
+  ungroup() %>%                 # common name / uninformative fields; already grouped by singleton path
+  left_join(rla_disambig_threshold %>% select(Normalized, max_single_recipient),
+            by = "Normalized") %>%
+  mutate(in_names_map = entity_name %in% names_2026$raw_name)
+
+# flag Normalized × committee combinations where multiple raw names are present —
+# indicates name variants contributing under the same Normalized entity
+committee_name_variant_flags <- rla_disambig_queue %>%
+  group_by(Normalized, Recipient.Committee.ID) %>%
+  summarise(has_name_variants = n_distinct(entity_name) > 1, .groups = "drop")
+
+name_committee_totals <- rla_disambig_data %>%
+  mutate(entity_name = toupper(Contributor.Name)) %>%
+  group_by(entity_name, Contributor.Employer, Contributor.Occupation,
+           Contributor.City, Contributor.State, Contributor.Zip.Code,
+           Recipient.Committee.ID) %>%
+  summarise(
+    amount_to_committee = sum(Amount, na.rm = TRUE),
+    n_contributions     = n(),
+    .groups = "drop"
+  )
+
+rla_disambig_queue <- rla_disambig_queue %>%
+  left_join(committee_name_variant_flags, by = c("Normalized", "Recipient.Committee.ID")) %>%
+  left_join(name_committee_totals,
+            by = c("entity_name", "Contributor.Employer", "Contributor.Occupation",
+                   "Contributor.City", "Contributor.State", "Contributor.Zip.Code",
+                   "Recipient.Committee.ID")) %>%
+  arrange(Normalized, entity_name, Contributor.Employer, Contributor.Occupation, Contributor.City)
+
+cat("Record linkage disambiguation queue:", n_distinct(rla_disambig_queue$Normalized),
+    "Normalized groups,", nrow(rla_disambig_queue), "distinct records\n")
+``` 
+
+
+```{r}
+today <- format(Sys.Date(), "%m-%d-%y")
+DISAMBIG_REVIEW_OUTPUT_PATH <- paste0("08_outputs/individual_disambiguation_queue", today, ".csv")
+write_csv(rla_disambig_queue, DISAMBIG_REVIEW_OUTPUT_PATH)
+```
+
+
+## Manual disambiguation review queue
+
+Used for names I noticed while looking at the data. 
+
+Each name in `name_list` is matched as a substring of the uppercased contributor name,
+so "SMITH, STEVE" captures "SMITH, STEVE R." and "SMITH, STEVE ROBERT".
+
+```{r}
+name_list <- c(
+  "SMITH, STEVE", "DAVIS, JOHN", "KING, JUSTIN", "SPENCER, RICHARD",
+  "FISHER, ROBERT", "ROBERTSTON, CARL", "ROBERTSON, CHIP", "W ROBERTSON, CARL"
 )
 
-new_provisional <- all_resolved %>%
-  filter(is_new) %>%
-  distinct(Contributor.Name, entity_id) %>%
-  mutate(
-    raw_name   = str_squish(toupper(Contributor.Name)),
-    entity_uuid = entity_id,
-    canonical_name = NA_character_,
-    confirmed  = FALSE,
-    added_date = as.character(Sys.Date()),
-    source     = "run_provisional"
+combined_pattern <- paste(toupper(name_list), collapse = "|")
+
+manual_disambig_queue <- individuals %>%
+  mutate(entity_name = toupper(Contributor.Name)) %>%
+  filter(grepl(combined_pattern, entity_name)) %>%
+  select(
+    entity_name,
+    Contributor.Employer,
+    Contributor.Occupation,
+    Contributor.City,
+    Contributor.State,
+    Contributor.Zip.Code,
+    Recipient.Committee.ID,
+    Recipient.Committee,
+    Amount
   ) %>%
-  filter(!raw_name %in% name_entity_mapping$raw_name) %>%   # don't overwrite existing entries
-  select(raw_name, entity_uuid, canonical_name, confirmed, added_date, source)
+  distinct() %>%
+  arrange(entity_name, Contributor.Employer, Contributor.Occupation, Contributor.City)
 
-if (nrow(new_provisional) > 0) {
-  updated_mapping <- bind_rows(name_entity_mapping, new_provisional)
-  write.csv(updated_mapping, NAME_ENTITY_MAPPING_PATH, row.names = FALSE)
-  cat("Appended", nrow(new_provisional), "provisional name mappings to registry\n")
-} else {
-  cat("No new names to append to registry\n")
-}
-```
-
-# Classification input
-
-```{r}
-orgs_resolved <- orgs_resolved %>%
-  group_by(entity_id, race_prop) %>%
-  mutate(
-    race_total_amount = sum(Amount, na.rm = TRUE),
-    crosses_threshold = race_total_amount >= 5000
-  ) %>%
-  ungroup()
-
-individuals_classification_input <- individuals %>%
-  filter(crosses_threshold)
-
-nrow(individuals_classification_input)
-n_distinct(individuals_classification_input$entity_id)
-
-```
-
-
-```{r}
-classification_input <- bind_rows(
-  individuals    %>% filter(crosses_threshold),
-  orgs_resolved  %>% filter(crosses_threshold)
-)
-
-nrow(classification_input)
-n_distinct(classification_input$entity_id)
-
-```
-
-
-
-### match back uuid from previous classifications
-
-```{r}
-pad_zip <- function(z) {
-  z <- trimws(as.character(z))
-  needs_pad <- !is.na(z) & z != "" & str_detect(z, "^[0-9]+$") & nchar(z) < 5
-  z[needs_pad] <- paste0(strrep("0", 5 - nchar(z[needs_pad])), z[needs_pad])
-  substr(z, 1, 5)
-}
-
-normalize_missing <- function(x) {
-  x <- trimws(as.character(x))
-  if_else(x %in% c("", "N/A", "NA", "None","n/a") | is.na(x), "N/A", x)
-}
+cat("Manual disambiguation queue:", nrow(manual_disambig_queue), "distinct records across",
+    n_distinct(manual_disambig_queue$entity_name), "name variants\n")
 ```
 
 ```{r}
-categorized <- categorized %>%
-  mutate(
-    race_prop = "Governor",
-    legacy_match_id = make_row_hash(
-      Contributor.Name, Contributor.ID, as.numeric(Amount), race_prop,
-      Contributor.City, normalize_missing(Contributor.Employer),
-      normalize_missing(Contributor.Occupation), pad_zip(Contributor.Zip.Code),
-      Start.Date
-    )
-  ) %>%
-  group_by(legacy_match_id) %>%
-  mutate(dup_rank = row_number()) %>%
-  ungroup()
-
-classification_input <- classification_input %>%
-  mutate(
-    legacy_match_id = make_row_hash(
-      Contributor.Name, Contributor.ID, as.numeric(Amount), race_prop,
-      Contributor.City, normalize_missing(Contributor.Employer),
-      normalize_missing(Contributor.Occupation), pad_zip(Contributor.Zip.Code),
-      Start.Date
-    )
-  ) %>%
-  group_by(legacy_match_id) %>%
-  mutate(dup_rank = row_number()) %>%
-  ungroup() %>%
-  left_join(
-    categorized %>% select(legacy_match_id, dup_rank, uuid),
-    by = c("legacy_match_id", "dup_rank")
-  ) %>%
-  select(-dup_rank)
-
+write_csv(bind_rows(manual_disambig_queue,rla_disambig_queue),"08_outputs/individual_disambiguation.csv")
 ```
-
-
-
-```{r}
-# data checks
-nrow(classification_input)
-n_distinct(classification_input$uuid) == nrow(classification_input)
-
-classification_input %>% count(uuid) %>% filter(n > 1) # should only be NAs
-
-# make sure match id is unique
-categorized %>% count(legacy_match_id, dup_rank) %>% filter(n > 1)
-
-nrow(categorized)
-length(which(!is.na(classification_input$uuid)))
-```
-
-- Middleteon, Geraldine: ended up not aggregating to $5k because of negative contributions that lowered her aggregated spending
-
-Seems like some don't match - likely because amendments were filed or because 460 trumps 497. 
-Re-classify those that didn't match back.
-
-```{r}
-categorized %>% filter(!(uuid %in% classification_input$uuid))
-categorized %>% filter(Contributor.Name == "Thomas, Drake")
-classification_input %>% filter(Contributor.Name == "Thomas, Drake")
-contributions_full %>% filter(Contributor.Name == "Thomas, Drake")
-```
-
-```{r}
-ambiguous <- categorized %>%
-  group_by(legacy_match_id) %>%
-  filter(n() > 1) %>%
-  ungroup()
-
-nrow(ambiguous)                     
-n_distinct(ambiguous$legacy_match_id)   
-
-```
-
-
-```{r}
-# add remaining uuids
-namespace <- "887a6583-910c-47b0-b373-d5b2863e8c8a"
-classification_input[which(is.na(classification_input$uuid)),]$uuid <-
-  uuid::UUIDgenerate(n = nrow(classification_input[which(is.na(classification_input$uuid)),]))
-```
-
-Okay to reassign these uuids? stuff downstream impacted by reassigned uuids? esp matching contribs to LLM search results
-
-# Output PAC list
-
-(1) Look for anything with a missing contributor.id
-(2) output list of all rows with a contributor.id
-  
-### look for any names that match a recipient committee - deal with major donors/IE later on
-
-
-```{r}
-# data to map contributor ids
-id_map_full <- read_tsv("08_inputs/FILERNAME_CD.tsv")
-id_map <- unique(id_map_full[,c("XREF_FILER_ID","FILER_ID","FILER_TYPE")]) # get unique xref id / filer ids combos
-
-# convert all ids to character strings
-id_map$FILER_ID         <- as.character(id_map$FILER_ID)   
-id_map$XREF_FILER_ID <- as.character(id_map$XREF_FILER_ID)
-classification_input$Contributor.ID <- as.character(classification_input$Contributor.ID)
-
-# map filer id to contributor id (different ids may be used internally vs externally)
-classification_input<- left_join(classification_input, id_map, by = c("Contributor.ID" = "XREF_FILER_ID"))
-
-# check that each has a corresponding filer id
-nrow(classification_input[which(is.na(classification_input$FILER_ID) & !is.na(classification_input$Contributor.ID)),])
-```
-
-
-
-
-
-```{r}
-# Build name/ID lookup from full dataset
-full_id_lookup <- id_map_full %>%
-  filter(!is.na(FILER_ID), FILER_ID != "",FILER_TYPE == "RECIPIENT COMMITTEE") %>% # , (FILER_TYPE == "MAJOR DONOR/INDEPENDENT EXPENDITURE COMMITTEE" | FILER_TYPE == "RECIPIENT COMMITTEE")
-  mutate(name_v5 = standardize_names(NAML) %>% 
-           str_remove_all("\\s*\\(.*?\\)") %>%
-          str_squish()) %>%
-  distinct(name_v5, FILER_ID) %>%
-  filter(name_v5 != "") %>%
-  group_by(name_v5) %>%
-  mutate(n_ids = n_distinct(FILER_ID)) %>%
-  ungroup()
-
-
-```
-
-Different filer types should have different ids
-
-```{r}
-temp <- classification_input
-```
-
-
-```{r}
-# Propagate IDs to orgs that are missing them
-full_id_propagation <- classification_input %>%
-  filter(is.na(Contributor.ID)) %>%
-  select(row_id, Contributor.Name, name_v5) %>%
-  inner_join(full_id_lookup, by = "name_v5") %>%
-  mutate(needs_review = n_ids > 1,
-         FILER_ID = as.character(FILER_ID)) %>%
-  select(row_id, Contributor.Name, propagated_id = FILER_ID, n_ids, needs_review)
-full_id_propagation
-```
-
-```{r}
-classification_input$FILER_TYPE
-```
-
-```{r}
-classification_input$Contributor.ID <- as.character(classification_input$Contributor.ID)
-full_id_propagation$propagated_id <- as.character(full_id_propagation$propagated_id)
-```
-
-
-
-```{r}
-# apply ids back; Contributor.ID stays raw — effective_Contributor.ID includes propagated ids
-classification_input <- classification_input %>%
-  left_join(
-    full_id_propagation %>% distinct(row_id, propagated_id),
-    by = "row_id"
-  ) %>%
-  mutate(
-    effective_Contributor.ID = coalesce(Contributor.ID, propagated_id),
-    has_contributor_id       = !is.na(effective_Contributor.ID) & str_trim(as.character(effective_Contributor.ID)) != ""
-  ) %>%
-  select(-propagated_id)
-```
-
-
-```{r}
-classification_input <- classification_input %>% 
-  mutate(FILER_TYPE = ifelse(is.na(Contributor.ID) & !is.na(effective_Contributor.ID), "RECIPIENT COMMITTEE", FILER_TYPE))
-```
-
-
-```{r}
-nrow(classification_input[which(!is.na(classification_input$effective_Contributor.ID)),])
-nrow(classification_input[which(is.na(classification_input$effective_Contributor.ID)),])
-```
-
-
-# WRITE OUTPUTS
-
-- Update this so major donors don't go to pac processing unless they have pac language
-
-Make sure to send major donors to be classified directly.
-
-```{r}
-classification_input %>% filter(FILER_TYPE == "MAJOR DONOR/INDEPENDENT EXPENDITURE COMMITTEE") %>% select(Contributor.Name, has_pac_language,effective_Contributor.ID)
-```
-
-- PAC input: 
-  - all recipient pacs 
-  - major donors with PAC language -> will go to review queue
-  
-```{r}
-pacs <- classification_input %>% filter((!is.na(effective_Contributor.ID) & FILER_TYPE != "MAJOR DONOR/INDEPENDENT EXPENDITURE COMMITTEE" ) | (FILER_TYPE == "MAJOR DONOR/INDEPENDENT EXPENDITURE COMMITTEE" & has_pac_language == TRUE))
-
-direct <- classification_input %>% filter(is.na(effective_Contributor.ID) | (FILER_TYPE == "MAJOR DONOR/INDEPENDENT EXPENDITURE COMMITTEE" & has_pac_language == FALSE))
-
-nrow(classification_input[which(!is.na(classification_input$effective_Contributor.ID)),])
-nrow(pacs)
-nrow(direct)
-nrow(classification_input) == sum(nrow(pacs) + nrow(direct))
-```
-```{r}
-nrow(pacs)
-nrow(direct)
-```
-
-
-```{r}
-write.csv(direct,"08_outputs/classification_input.csv",row.names = FALSE)
-write.csv(pacs,"08_outputs/pac_input.csv",row.names = FALSE)
-```
-
-```{r}
-direct <- read.csv("08_outputs/classification_input.csv")
-pacs <- read.csv("08_outputs/pac_input.csv")
-```
-
-
-
-
-
-
+ 

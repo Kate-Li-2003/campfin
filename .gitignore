@@ -49,6 +49,9 @@ env/
 *.Rhistory
 *.RData
 
+# ── Claude Code ──────────────────────────────────────────────────────────────
+.claude/
+**/.claude/
 
 # ── Large data files in 08_alternative_pipeline ─────────────────────────────
 code/08_alternative_pipeline/08_inputs/FILERNAME_CD.TSV
@@ -60,6 +63,9 @@ code/08_alternative_pipeline/08_inputs/contributions_raw.csv
 code/08_alternative_pipeline/08_inputs/power_search_contributions_normalized.csv
 code/08_alternative_pipeline/08_inputs/all_contributors_processed_081625.csv
 code/08_alternative_pipeline/08_inputs/power_search_contributions_raw.csv
+code/08_alternative_pipeline/08_inputs/power_search_contributions_raw_08-20-26.csv
+code/08_alternative_pipeline/08_inputs/power_search_contributions_normalized_08-20-26_updated_entity.csv
+code/08_alternative_pipeline/08_inputs/power_search_contributions_normalized_updated_entity_08-20-26.csv
 code/08_alternative_pipeline/08_inputs/power_search_ie_raw.csv
 
 

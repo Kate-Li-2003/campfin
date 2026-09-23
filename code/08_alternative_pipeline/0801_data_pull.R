@@ -72,7 +72,13 @@ contributions_full <- contributions_full %>%
     zip_code_processed      = substr(`Contributor Zip Code`, 1, 5),
 
     has_pac_language = has_pac_language(`Contributor Name`),
-    entity_type      = if_else(sapply(standardized_name, is_individual), "individual", "organization"),
+    entity_type      = if_else(
+      mapply(is_individual, standardized_name, `Contributor Employer`, `Contributor Occupation`),
+      "individual", "organization"
+    ),
+    # flags rows where entity_type conflicts with the raw Employer/Occupation fields
+    # (an org with real info, or an individual with both fields empty) - for optional manual review
+    entity_type_ambiguous = entity_type_looks_ambiguous(entity_type, `Contributor Employer`, `Contributor Occupation`),
     race_prop = case_when(
       `Ballot Measure Contribution` == "Y" ~ `Ballot Measure(s)`,
       !is.na(Office) & Office != ""        ~ Office,
